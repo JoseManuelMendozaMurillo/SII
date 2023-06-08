@@ -1,0 +1,24 @@
+FROM phpmyadmin:5.2.1
+
+RUN apt-get update && \
+    apt-get install -y openssl && \
+    rm -rf /var/lib/apt/lists/*
+
+# Creamos un certificado SSL 
+RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+   -keyout /etc/ssl/private/apache-selfsigned.key \
+   -out /etc/ssl/certs/apache-selfsigned.crt \
+   -subj "/C=MX/ST=Jalisco/L=Ocotlan/O=Instituto Tecnologico de Ocotlan/OU=SII/CN=localhost"
+
+# Edita la configuración de Apache para habilitar SSL
+RUN sed -i 's/ssl-cert-snakeoil.pem/apache-selfsigned.crt/' /etc/apache2/sites-available/default-ssl.conf \
+    && sed -i 's/ssl-cert-snakeoil.key/apache-selfsigned.key/' /etc/apache2/sites-available/default-ssl.conf \
+    && a2ensite default-ssl.conf
+
+# Habilita el módulo SSL
+RUN a2enmod ssl
+
+# Reinicia Apache para aplicar los cambios
+RUN apache2ctl restart
+
+EXPOSE 443

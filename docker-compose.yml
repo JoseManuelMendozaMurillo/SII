@@ -1,0 +1,37 @@
+version: '3.9'
+
+services:
+  correcaminos:
+    build: 
+      context: .
+      dockerfile: dockerfile
+    ports:
+      - "443:443"
+    links:
+      - db_correcaminos
+    volumes:
+      - ./config/php-production/php:/usr/local/etc/php
+  db_correcaminos:
+    build:
+      context: .
+      dockerfile: dockerfile.mysql
+    ports:
+      - "3309:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=19630306
+      - MYSQL_SSL_MODE=REQUIRED
+    volumes:
+      - data-db-correcaminos:/var/lib/mysql
+  phpmyadmin:
+    build: 
+      context: .
+      dockerfile: dockerfile.phpmyadmin
+    ports:
+      - "8443:443"
+    links:
+      - db_correcaminos
+    environment:
+      - PMA_HOST=db_correcaminos
+
+volumes:
+  data-db-correcaminos:

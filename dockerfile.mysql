@@ -1,0 +1,24 @@
+FROM mysql:8.0.33
+
+# Crea el directorio para los certificados SSL
+RUN mkdir -p /etc/mysql/ssl
+
+# Generamos la clave privada
+RUN openssl genrsa -out /etc/mysql/ssl/server-key.pem 2048
+
+# Generamos el certificado autofirmado
+RUN openssl req -new -x509 -nodes -key /etc/mysql/ssl/server-key.pem \
+    -out /etc/mysql/ssl/server-cert.pem -days 3650 \
+    -subj "/C=MX/ST=Jalisco/L=Ocotlan/O=Instituto Tecnologico de Ocotlan/OU=SII/CN=localhost"
+
+# Habilita el soporte SSL
+RUN echo "[mysqld]\n\
+    ssl-ca=/etc/mysql/ssl/server-cert.pem\n\
+    ssl-cert=/etc/mysql/ssl/server-cert.pem\n\
+    ssl-key=/etc/mysql/ssl/server-key.pem" >> /etc/mysql/conf.d/ssl.cnf
+
+# Exponer puerto 3306
+EXPOSE 3306
+
+# Reinicia el servidor MySQL para aplicar los cambios
+CMD ["mysqld"]
