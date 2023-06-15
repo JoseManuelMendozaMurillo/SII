@@ -9,6 +9,9 @@ use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
 
+// Libraries
+use App\Libraries\Twig;
+
 /**
  * Class BaseController
  *
@@ -27,6 +30,10 @@ abstract class BaseController extends Controller
      * @var CLIRequest|IncomingRequest
      */
     protected $request;
+
+    protected $twig;
+    protected $session;
+    protected $validation;
 
     /**
      * An array of helpers to be loaded automatically upon
@@ -54,5 +61,12 @@ abstract class BaseController extends Controller
         // Preload any models, libraries, etc, here.
 
         // E.g.: $this->session = \Config\Services::session();
+
+        // Cargamos Twig
+        $this->twig = new Twig();
+
+        // Instanciamos servicios
+        $this->session = service("session");
+        $this->validation = service("validation");
     }
 }

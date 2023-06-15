@@ -11,7 +11,7 @@ $routes = Services::routes();
  * --------------------------------------------------------------------
  */
 $routes->setDefaultNamespace('App\Controllers');
-$routes->setDefaultController('Home');
+$routes->setDefaultController('Alumno');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
@@ -29,7 +29,33 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
+$routes->get('/', 'Alumno::index');
+
+
+// Rutas para el crud de alumnos
+$routes->group('alumno', ['namespace' => 'App\Controllers'], function($routes){
+    $routes->get('form', 'Alumno::form');
+    $routes->get('form/(:any)', 'Alumno::form/$1');
+    $routes->post('add', 'Alumno::add');
+    $routes->post('update/(:any)', 'Alumno::update/$1');
+    $routes->get('delete/(:any)', 'Alumno::delete/$1');
+    $routes->post('grupos', 'Alumno::grupos');
+});
+
+// Rutas de información
+$routes->group('informacion', ['namespace' => 'App\Controllers'], function($routes){
+    $routes->get('php', 'Informacion::index');
+});
+
+// Rutas de prueba
+$routes->group('pruebas', ['namespace' => 'App\Controllers\Test'], function($routes){
+    $routes->get('correos', 'Pruebas::correo');
+    $routes->post('sendEmail', 'Pruebas::sendEmail');
+    $routes->get('imagenes', 'Pruebas::img');
+    $routes->post('thumb', 'Pruebas::thumb');
+    $routes->get('curl', 'Pruebas::curl');
+    $routes->post('getPokemon', 'Pruebas::getDataPokemon');
+});
 
 /*
  * --------------------------------------------------------------------

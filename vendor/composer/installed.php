@@ -227,9 +227,9 @@
             'dev_requirement' => true,
         ),
         'phpunit/phpunit' => array(
-            'pretty_version' => '9.6.8',
-            'version' => '9.6.8.0',
-            'reference' => '17d621b3aff84d0c8b62539e269e87d8d5baa76e',
+            'pretty_version' => '9.6.9',
+            'version' => '9.6.9.0',
+            'reference' => 'a9aceaf20a682aeacf28d582654a1670d8826778',
             'type' => 'library',
             'install_path' => __DIR__ . '/../phpunit/phpunit',
             'aliases' => array(),
@@ -512,7 +512,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/polyfill-ctype',
             'aliases' => array(),
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'symfony/polyfill-intl-grapheme' => array(
             'pretty_version' => 'v1.27.0',
@@ -539,7 +539,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/polyfill-mbstring',
             'aliases' => array(),
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'symfony/polyfill-php80' => array(
             'pretty_version' => 'v1.27.0',
@@ -603,6 +603,15 @@
             'install_path' => __DIR__ . '/../theseer/tokenizer',
             'aliases' => array(),
             'dev_requirement' => true,
+        ),
+        'twig/twig' => array(
+            'pretty_version' => 'v3.6.1',
+            'version' => '3.6.1.0',
+            'reference' => '7e7d5839d4bec168dfeef0ac66d5c5a2edbabffd',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../twig/twig',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
     ),
 );

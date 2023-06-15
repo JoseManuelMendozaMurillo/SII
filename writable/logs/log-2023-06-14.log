@@ -1,0 +1,1224 @@
+CRITICAL - 2023-06-14 19:26:34 --> Declaration of App\Models\AlumnoModel::insert($data) must be compatible with CodeIgniter\Model::insert($data = null, bool $returnID = true)
+in APPPATH/Models/AlumnoModel.php on line 21.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+INFO - 2023-06-14 19:29:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2023-06-14 19:29:58 --> Error connecting to the database: mysqli_sql_exception: No such file or directory in /var/www/html/system/Database/MySQLi/Connection.php:173
+Stack trace:
+#0 /var/www/html/system/Database/MySQLi/Connection.php(173): mysqli->real_connect('localhost', '', Object(SensitiveParameterValue), '', 3306, '', 0)
+#1 /var/www/html/system/Database/BaseConnection.php(391): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 /var/www/html/system/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+#3 /var/www/html/system/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 /var/www/html/system/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+#5 /var/www/html/system/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+#6 /var/www/html/app/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+#7 /var/www/html/app/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+#8 /var/www/html/system/CodeIgniter.php(934): App\Controllers\Alumno->index()
+#9 /var/www/html/system/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+#10 /var/www/html/system/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 /var/www/html/public/index.php(67): CodeIgniter\CodeIgniter->run()
+#12 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: No such file or directory in /var/www/html/system/Database/MySQLi/Connection.php:218
+Stack trace:
+#0 /var/www/html/system/Database/BaseConnection.php(391): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 /var/www/html/system/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+#2 /var/www/html/system/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 /var/www/html/system/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+#4 /var/www/html/system/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+#5 /var/www/html/app/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+#6 /var/www/html/app/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+#7 /var/www/html/system/CodeIgniter.php(934): App\Controllers\Alumno->index()
+#8 /var/www/html/system/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+#9 /var/www/html/system/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 /var/www/html/public/index.php(67): CodeIgniter\CodeIgniter->run()
+#11 {main}
+CRITICAL - 2023-06-14 19:29:58 --> Unable to connect to the database.
+Main connection [MySQLi]: No such file or directory
+in SYSTEMPATH/Database/BaseConnection.php on line 427.
+ 1 SYSTEMPATH/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `Alumnos`', [], false)
+ 3 SYSTEMPATH/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+ 6 APPPATH/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+ 7 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->index()
+ 8 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+ 9 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 19:31:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2023-06-14 19:31:52 --> Error connecting to the database: mysqli_sql_exception: No such file or directory in /var/www/html/system/Database/MySQLi/Connection.php:173
+Stack trace:
+#0 /var/www/html/system/Database/MySQLi/Connection.php(173): mysqli->real_connect('localhost', '', Object(SensitiveParameterValue), '', 3306, '', 0)
+#1 /var/www/html/system/Database/BaseConnection.php(391): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 /var/www/html/system/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+#3 /var/www/html/system/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 /var/www/html/system/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+#5 /var/www/html/system/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+#6 /var/www/html/app/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+#7 /var/www/html/app/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+#8 /var/www/html/system/CodeIgniter.php(934): App\Controllers\Alumno->index()
+#9 /var/www/html/system/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+#10 /var/www/html/system/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 /var/www/html/public/index.php(67): CodeIgniter\CodeIgniter->run()
+#12 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: No such file or directory in /var/www/html/system/Database/MySQLi/Connection.php:218
+Stack trace:
+#0 /var/www/html/system/Database/BaseConnection.php(391): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 /var/www/html/system/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+#2 /var/www/html/system/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 /var/www/html/system/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+#4 /var/www/html/system/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+#5 /var/www/html/app/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+#6 /var/www/html/app/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+#7 /var/www/html/system/CodeIgniter.php(934): App\Controllers\Alumno->index()
+#8 /var/www/html/system/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+#9 /var/www/html/system/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 /var/www/html/public/index.php(67): CodeIgniter\CodeIgniter->run()
+#11 {main}
+CRITICAL - 2023-06-14 19:31:52 --> Unable to connect to the database.
+Main connection [MySQLi]: No such file or directory
+in SYSTEMPATH/Database/BaseConnection.php on line 427.
+ 1 SYSTEMPATH/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `Alumnos`', [], false)
+ 3 SYSTEMPATH/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+ 6 APPPATH/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+ 7 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->index()
+ 8 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+ 9 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 19:32:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2023-06-14 19:32:49 --> Error connecting to the database: mysqli_sql_exception: Connection refused in /var/www/html/system/Database/MySQLi/Connection.php:173
+Stack trace:
+#0 /var/www/html/system/Database/MySQLi/Connection.php(173): mysqli->real_connect('127.0.0.1', 'root', Object(SensitiveParameterValue), 'control_escolar', 3306, '', 0)
+#1 /var/www/html/system/Database/BaseConnection.php(391): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 /var/www/html/system/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+#3 /var/www/html/system/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 /var/www/html/system/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+#5 /var/www/html/system/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+#6 /var/www/html/app/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+#7 /var/www/html/app/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+#8 /var/www/html/system/CodeIgniter.php(934): App\Controllers\Alumno->index()
+#9 /var/www/html/system/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+#10 /var/www/html/system/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 /var/www/html/public/index.php(67): CodeIgniter\CodeIgniter->run()
+#12 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: Connection refused in /var/www/html/system/Database/MySQLi/Connection.php:218
+Stack trace:
+#0 /var/www/html/system/Database/BaseConnection.php(391): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 /var/www/html/system/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+#2 /var/www/html/system/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 /var/www/html/system/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+#4 /var/www/html/system/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+#5 /var/www/html/app/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+#6 /var/www/html/app/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+#7 /var/www/html/system/CodeIgniter.php(934): App\Controllers\Alumno->index()
+#8 /var/www/html/system/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+#9 /var/www/html/system/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 /var/www/html/public/index.php(67): CodeIgniter\CodeIgniter->run()
+#11 {main}
+CRITICAL - 2023-06-14 19:32:49 --> Unable to connect to the database.
+Main connection [MySQLi]: Connection refused
+in SYSTEMPATH/Database/BaseConnection.php on line 427.
+ 1 SYSTEMPATH/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `Alumnos`', [], false)
+ 3 SYSTEMPATH/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+ 6 APPPATH/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+ 7 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->index()
+ 8 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+ 9 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 19:33:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2023-06-14 19:33:17 --> Error connecting to the database: mysqli_sql_exception: No such file or directory in /var/www/html/system/Database/MySQLi/Connection.php:173
+Stack trace:
+#0 /var/www/html/system/Database/MySQLi/Connection.php(173): mysqli->real_connect('localhost', 'root', Object(SensitiveParameterValue), 'control_escolar', 3306, '', 0)
+#1 /var/www/html/system/Database/BaseConnection.php(391): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 /var/www/html/system/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+#3 /var/www/html/system/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 /var/www/html/system/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+#5 /var/www/html/system/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+#6 /var/www/html/app/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+#7 /var/www/html/app/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+#8 /var/www/html/system/CodeIgniter.php(934): App\Controllers\Alumno->index()
+#9 /var/www/html/system/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+#10 /var/www/html/system/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 /var/www/html/public/index.php(67): CodeIgniter\CodeIgniter->run()
+#12 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: No such file or directory in /var/www/html/system/Database/MySQLi/Connection.php:218
+Stack trace:
+#0 /var/www/html/system/Database/BaseConnection.php(391): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 /var/www/html/system/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+#2 /var/www/html/system/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 /var/www/html/system/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+#4 /var/www/html/system/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+#5 /var/www/html/app/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+#6 /var/www/html/app/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+#7 /var/www/html/system/CodeIgniter.php(934): App\Controllers\Alumno->index()
+#8 /var/www/html/system/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+#9 /var/www/html/system/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 /var/www/html/public/index.php(67): CodeIgniter\CodeIgniter->run()
+#11 {main}
+CRITICAL - 2023-06-14 19:33:17 --> Unable to connect to the database.
+Main connection [MySQLi]: No such file or directory
+in SYSTEMPATH/Database/BaseConnection.php on line 427.
+ 1 SYSTEMPATH/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `Alumnos`', [], false)
+ 3 SYSTEMPATH/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+ 6 APPPATH/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+ 7 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->index()
+ 8 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+ 9 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 19:38:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2023-06-14 19:38:05 --> Error connecting to the database: mysqli_sql_exception: Connection refused in /var/www/html/system/Database/MySQLi/Connection.php:173
+Stack trace:
+#0 /var/www/html/system/Database/MySQLi/Connection.php(173): mysqli->real_connect('db_correcaminos', 'root', Object(SensitiveParameterValue), 'control_escolar', 3309, '', 0)
+#1 /var/www/html/system/Database/BaseConnection.php(391): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 /var/www/html/system/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+#3 /var/www/html/system/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 /var/www/html/system/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+#5 /var/www/html/system/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+#6 /var/www/html/app/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+#7 /var/www/html/app/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+#8 /var/www/html/system/CodeIgniter.php(934): App\Controllers\Alumno->index()
+#9 /var/www/html/system/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+#10 /var/www/html/system/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 /var/www/html/public/index.php(67): CodeIgniter\CodeIgniter->run()
+#12 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: Connection refused in /var/www/html/system/Database/MySQLi/Connection.php:218
+Stack trace:
+#0 /var/www/html/system/Database/BaseConnection.php(391): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 /var/www/html/system/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+#2 /var/www/html/system/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 /var/www/html/system/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+#4 /var/www/html/system/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+#5 /var/www/html/app/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+#6 /var/www/html/app/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+#7 /var/www/html/system/CodeIgniter.php(934): App\Controllers\Alumno->index()
+#8 /var/www/html/system/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+#9 /var/www/html/system/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 /var/www/html/public/index.php(67): CodeIgniter\CodeIgniter->run()
+#11 {main}
+CRITICAL - 2023-06-14 19:38:05 --> Unable to connect to the database.
+Main connection [MySQLi]: Connection refused
+in SYSTEMPATH/Database/BaseConnection.php on line 427.
+ 1 SYSTEMPATH/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `Alumnos`', [], false)
+ 3 SYSTEMPATH/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+ 6 APPPATH/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+ 7 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->index()
+ 8 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+ 9 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 19:38:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2023-06-14 19:38:09 --> Error connecting to the database: mysqli_sql_exception: Connection refused in /var/www/html/system/Database/MySQLi/Connection.php:173
+Stack trace:
+#0 /var/www/html/system/Database/MySQLi/Connection.php(173): mysqli->real_connect('db_correcaminos', 'root', Object(SensitiveParameterValue), 'control_escolar', 3309, '', 0)
+#1 /var/www/html/system/Database/BaseConnection.php(391): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 /var/www/html/system/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+#3 /var/www/html/system/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 /var/www/html/system/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+#5 /var/www/html/system/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+#6 /var/www/html/app/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+#7 /var/www/html/app/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+#8 /var/www/html/system/CodeIgniter.php(934): App\Controllers\Alumno->index()
+#9 /var/www/html/system/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+#10 /var/www/html/system/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 /var/www/html/public/index.php(67): CodeIgniter\CodeIgniter->run()
+#12 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: Connection refused in /var/www/html/system/Database/MySQLi/Connection.php:218
+Stack trace:
+#0 /var/www/html/system/Database/BaseConnection.php(391): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 /var/www/html/system/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+#2 /var/www/html/system/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 /var/www/html/system/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+#4 /var/www/html/system/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+#5 /var/www/html/app/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+#6 /var/www/html/app/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+#7 /var/www/html/system/CodeIgniter.php(934): App\Controllers\Alumno->index()
+#8 /var/www/html/system/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+#9 /var/www/html/system/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 /var/www/html/public/index.php(67): CodeIgniter\CodeIgniter->run()
+#11 {main}
+CRITICAL - 2023-06-14 19:38:09 --> Unable to connect to the database.
+Main connection [MySQLi]: Connection refused
+in SYSTEMPATH/Database/BaseConnection.php on line 427.
+ 1 SYSTEMPATH/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `Alumnos`', [], false)
+ 3 SYSTEMPATH/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+ 6 APPPATH/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+ 7 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->index()
+ 8 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+ 9 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 19:38:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2023-06-14 19:38:18 --> Error connecting to the database: mysqli_sql_exception: Connection refused in /var/www/html/system/Database/MySQLi/Connection.php:173
+Stack trace:
+#0 /var/www/html/system/Database/MySQLi/Connection.php(173): mysqli->real_connect('db_correcaminos', 'root', Object(SensitiveParameterValue), 'control_escolar', 3309, '', 0)
+#1 /var/www/html/system/Database/BaseConnection.php(391): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 /var/www/html/system/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+#3 /var/www/html/system/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 /var/www/html/system/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+#5 /var/www/html/system/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+#6 /var/www/html/app/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+#7 /var/www/html/app/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+#8 /var/www/html/system/CodeIgniter.php(934): App\Controllers\Alumno->index()
+#9 /var/www/html/system/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+#10 /var/www/html/system/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 /var/www/html/public/index.php(67): CodeIgniter\CodeIgniter->run()
+#12 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: Connection refused in /var/www/html/system/Database/MySQLi/Connection.php:218
+Stack trace:
+#0 /var/www/html/system/Database/BaseConnection.php(391): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 /var/www/html/system/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+#2 /var/www/html/system/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 /var/www/html/system/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+#4 /var/www/html/system/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+#5 /var/www/html/app/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+#6 /var/www/html/app/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+#7 /var/www/html/system/CodeIgniter.php(934): App\Controllers\Alumno->index()
+#8 /var/www/html/system/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+#9 /var/www/html/system/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 /var/www/html/public/index.php(67): CodeIgniter\CodeIgniter->run()
+#11 {main}
+CRITICAL - 2023-06-14 19:38:18 --> Unable to connect to the database.
+Main connection [MySQLi]: Connection refused
+in SYSTEMPATH/Database/BaseConnection.php on line 427.
+ 1 SYSTEMPATH/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `Alumnos`', [], false)
+ 3 SYSTEMPATH/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+ 6 APPPATH/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+ 7 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->index()
+ 8 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+ 9 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 19:39:17 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2023-06-14 19:39:17 --> Error connecting to the database: mysqli_sql_exception: Connection refused in /var/www/html/system/Database/MySQLi/Connection.php:173
+Stack trace:
+#0 /var/www/html/system/Database/MySQLi/Connection.php(173): mysqli->real_connect('db_correcaminos', 'root', Object(SensitiveParameterValue), 'control_escolar', 3309, '', 0)
+#1 /var/www/html/system/Database/BaseConnection.php(391): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 /var/www/html/system/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+#3 /var/www/html/system/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 /var/www/html/system/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+#5 /var/www/html/system/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+#6 /var/www/html/app/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+#7 /var/www/html/app/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+#8 /var/www/html/system/CodeIgniter.php(934): App\Controllers\Alumno->index()
+#9 /var/www/html/system/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+#10 /var/www/html/system/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 /var/www/html/public/index.php(67): CodeIgniter\CodeIgniter->run()
+#12 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: Connection refused in /var/www/html/system/Database/MySQLi/Connection.php:218
+Stack trace:
+#0 /var/www/html/system/Database/BaseConnection.php(391): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 /var/www/html/system/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+#2 /var/www/html/system/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 /var/www/html/system/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+#4 /var/www/html/system/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+#5 /var/www/html/app/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+#6 /var/www/html/app/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+#7 /var/www/html/system/CodeIgniter.php(934): App\Controllers\Alumno->index()
+#8 /var/www/html/system/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+#9 /var/www/html/system/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 /var/www/html/public/index.php(67): CodeIgniter\CodeIgniter->run()
+#11 {main}
+CRITICAL - 2023-06-14 19:39:17 --> Unable to connect to the database.
+Main connection [MySQLi]: Connection refused
+in SYSTEMPATH/Database/BaseConnection.php on line 427.
+ 1 SYSTEMPATH/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `Alumnos`', [], false)
+ 3 SYSTEMPATH/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+ 6 APPPATH/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+ 7 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->index()
+ 8 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+ 9 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 19:39:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2023-06-14 19:39:37 --> Error connecting to the database: mysqli_sql_exception: No such file or directory in /var/www/html/system/Database/MySQLi/Connection.php:173
+Stack trace:
+#0 /var/www/html/system/Database/MySQLi/Connection.php(173): mysqli->real_connect('localhost', 'root', Object(SensitiveParameterValue), 'control_escolar', 3309, '', 0)
+#1 /var/www/html/system/Database/BaseConnection.php(391): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 /var/www/html/system/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+#3 /var/www/html/system/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 /var/www/html/system/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+#5 /var/www/html/system/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+#6 /var/www/html/app/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+#7 /var/www/html/app/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+#8 /var/www/html/system/CodeIgniter.php(934): App\Controllers\Alumno->index()
+#9 /var/www/html/system/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+#10 /var/www/html/system/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 /var/www/html/public/index.php(67): CodeIgniter\CodeIgniter->run()
+#12 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: No such file or directory in /var/www/html/system/Database/MySQLi/Connection.php:218
+Stack trace:
+#0 /var/www/html/system/Database/BaseConnection.php(391): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 /var/www/html/system/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+#2 /var/www/html/system/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 /var/www/html/system/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+#4 /var/www/html/system/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+#5 /var/www/html/app/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+#6 /var/www/html/app/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+#7 /var/www/html/system/CodeIgniter.php(934): App\Controllers\Alumno->index()
+#8 /var/www/html/system/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+#9 /var/www/html/system/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 /var/www/html/public/index.php(67): CodeIgniter\CodeIgniter->run()
+#11 {main}
+CRITICAL - 2023-06-14 19:39:37 --> Unable to connect to the database.
+Main connection [MySQLi]: No such file or directory
+in SYSTEMPATH/Database/BaseConnection.php on line 427.
+ 1 SYSTEMPATH/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `Alumnos`', [], false)
+ 3 SYSTEMPATH/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+ 6 APPPATH/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+ 7 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->index()
+ 8 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+ 9 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 19:40:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2023-06-14 19:40:04 --> Error connecting to the database: mysqli_sql_exception: Connection refused in /var/www/html/system/Database/MySQLi/Connection.php:173
+Stack trace:
+#0 /var/www/html/system/Database/MySQLi/Connection.php(173): mysqli->real_connect('127.0.0.1', 'root', Object(SensitiveParameterValue), 'control_escolar', 3309, '', 0)
+#1 /var/www/html/system/Database/BaseConnection.php(391): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 /var/www/html/system/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+#3 /var/www/html/system/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 /var/www/html/system/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+#5 /var/www/html/system/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+#6 /var/www/html/app/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+#7 /var/www/html/app/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+#8 /var/www/html/system/CodeIgniter.php(934): App\Controllers\Alumno->index()
+#9 /var/www/html/system/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+#10 /var/www/html/system/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 /var/www/html/public/index.php(67): CodeIgniter\CodeIgniter->run()
+#12 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: Connection refused in /var/www/html/system/Database/MySQLi/Connection.php:218
+Stack trace:
+#0 /var/www/html/system/Database/BaseConnection.php(391): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 /var/www/html/system/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+#2 /var/www/html/system/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 /var/www/html/system/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+#4 /var/www/html/system/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+#5 /var/www/html/app/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+#6 /var/www/html/app/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+#7 /var/www/html/system/CodeIgniter.php(934): App\Controllers\Alumno->index()
+#8 /var/www/html/system/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+#9 /var/www/html/system/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 /var/www/html/public/index.php(67): CodeIgniter\CodeIgniter->run()
+#11 {main}
+CRITICAL - 2023-06-14 19:40:04 --> Unable to connect to the database.
+Main connection [MySQLi]: Connection refused
+in SYSTEMPATH/Database/BaseConnection.php on line 427.
+ 1 SYSTEMPATH/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `Alumnos`', [], false)
+ 3 SYSTEMPATH/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+ 6 APPPATH/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+ 7 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->index()
+ 8 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+ 9 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 19:40:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2023-06-14 19:40:26 --> Error connecting to the database: mysqli_sql_exception: Connection refused in /var/www/html/system/Database/MySQLi/Connection.php:173
+Stack trace:
+#0 /var/www/html/system/Database/MySQLi/Connection.php(173): mysqli->real_connect('127.0.0.1:3309', 'root', Object(SensitiveParameterValue), 'control_escolar', 3309, '', 0)
+#1 /var/www/html/system/Database/BaseConnection.php(391): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 /var/www/html/system/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+#3 /var/www/html/system/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 /var/www/html/system/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+#5 /var/www/html/system/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+#6 /var/www/html/app/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+#7 /var/www/html/app/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+#8 /var/www/html/system/CodeIgniter.php(934): App\Controllers\Alumno->index()
+#9 /var/www/html/system/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+#10 /var/www/html/system/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 /var/www/html/public/index.php(67): CodeIgniter\CodeIgniter->run()
+#12 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: Connection refused in /var/www/html/system/Database/MySQLi/Connection.php:218
+Stack trace:
+#0 /var/www/html/system/Database/BaseConnection.php(391): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 /var/www/html/system/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+#2 /var/www/html/system/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 /var/www/html/system/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+#4 /var/www/html/system/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+#5 /var/www/html/app/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+#6 /var/www/html/app/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+#7 /var/www/html/system/CodeIgniter.php(934): App\Controllers\Alumno->index()
+#8 /var/www/html/system/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+#9 /var/www/html/system/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 /var/www/html/public/index.php(67): CodeIgniter\CodeIgniter->run()
+#11 {main}
+CRITICAL - 2023-06-14 19:40:26 --> Unable to connect to the database.
+Main connection [MySQLi]: Connection refused
+in SYSTEMPATH/Database/BaseConnection.php on line 427.
+ 1 SYSTEMPATH/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `Alumnos`', [], false)
+ 3 SYSTEMPATH/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+ 6 APPPATH/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+ 7 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->index()
+ 8 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+ 9 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 19:40:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2023-06-14 19:40:28 --> Error connecting to the database: mysqli_sql_exception: Connection refused in /var/www/html/system/Database/MySQLi/Connection.php:173
+Stack trace:
+#0 /var/www/html/system/Database/MySQLi/Connection.php(173): mysqli->real_connect('127.0.0.1:3309', 'root', Object(SensitiveParameterValue), 'control_escolar', 3309, '', 0)
+#1 /var/www/html/system/Database/BaseConnection.php(391): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 /var/www/html/system/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+#3 /var/www/html/system/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 /var/www/html/system/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+#5 /var/www/html/system/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+#6 /var/www/html/app/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+#7 /var/www/html/app/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+#8 /var/www/html/system/CodeIgniter.php(934): App\Controllers\Alumno->index()
+#9 /var/www/html/system/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+#10 /var/www/html/system/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 /var/www/html/public/index.php(67): CodeIgniter\CodeIgniter->run()
+#12 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: Connection refused in /var/www/html/system/Database/MySQLi/Connection.php:218
+Stack trace:
+#0 /var/www/html/system/Database/BaseConnection.php(391): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 /var/www/html/system/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+#2 /var/www/html/system/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 /var/www/html/system/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+#4 /var/www/html/system/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+#5 /var/www/html/app/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+#6 /var/www/html/app/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+#7 /var/www/html/system/CodeIgniter.php(934): App\Controllers\Alumno->index()
+#8 /var/www/html/system/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+#9 /var/www/html/system/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 /var/www/html/public/index.php(67): CodeIgniter\CodeIgniter->run()
+#11 {main}
+CRITICAL - 2023-06-14 19:40:28 --> Unable to connect to the database.
+Main connection [MySQLi]: Connection refused
+in SYSTEMPATH/Database/BaseConnection.php on line 427.
+ 1 SYSTEMPATH/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `Alumnos`', [], false)
+ 3 SYSTEMPATH/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+ 6 APPPATH/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+ 7 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->index()
+ 8 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+ 9 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 19:41:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2023-06-14 19:41:27 --> Error connecting to the database: mysqli_sql_exception: Connection refused in /var/www/html/system/Database/MySQLi/Connection.php:173
+Stack trace:
+#0 /var/www/html/system/Database/MySQLi/Connection.php(173): mysqli->real_connect('db_correcaminos', 'root', Object(SensitiveParameterValue), 'control_escolar', 3309, '', 0)
+#1 /var/www/html/system/Database/BaseConnection.php(391): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 /var/www/html/system/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+#3 /var/www/html/system/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 /var/www/html/system/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+#5 /var/www/html/system/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+#6 /var/www/html/app/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+#7 /var/www/html/app/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+#8 /var/www/html/system/CodeIgniter.php(934): App\Controllers\Alumno->index()
+#9 /var/www/html/system/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+#10 /var/www/html/system/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 /var/www/html/public/index.php(67): CodeIgniter\CodeIgniter->run()
+#12 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: Connection refused in /var/www/html/system/Database/MySQLi/Connection.php:218
+Stack trace:
+#0 /var/www/html/system/Database/BaseConnection.php(391): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 /var/www/html/system/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+#2 /var/www/html/system/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 /var/www/html/system/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+#4 /var/www/html/system/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+#5 /var/www/html/app/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+#6 /var/www/html/app/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+#7 /var/www/html/system/CodeIgniter.php(934): App\Controllers\Alumno->index()
+#8 /var/www/html/system/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+#9 /var/www/html/system/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 /var/www/html/public/index.php(67): CodeIgniter\CodeIgniter->run()
+#11 {main}
+CRITICAL - 2023-06-14 19:41:27 --> Unable to connect to the database.
+Main connection [MySQLi]: Connection refused
+in SYSTEMPATH/Database/BaseConnection.php on line 427.
+ 1 SYSTEMPATH/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `Alumnos`', [], false)
+ 3 SYSTEMPATH/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+ 6 APPPATH/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+ 7 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->index()
+ 8 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+ 9 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 19:42:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2023-06-14 19:42:33 --> Error connecting to the database: ErrorException: mysqli::real_connect(): php_network_getaddresses: getaddrinfo for sii-ci4-db_correcaminos failed: Temporary failure in name resolution in /var/www/html/system/Database/MySQLi/Connection.php:173
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'mysqli::real_co...', '/var/www/html/s...', 173)
+#1 /var/www/html/system/Database/MySQLi/Connection.php(173): mysqli->real_connect('sii-ci4-db_corr...', 'root', Object(SensitiveParameterValue), 'control_escolar', 3309, '', 0)
+#2 /var/www/html/system/Database/BaseConnection.php(391): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#3 /var/www/html/system/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+#4 /var/www/html/system/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#5 /var/www/html/system/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+#6 /var/www/html/system/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+#7 /var/www/html/app/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+#8 /var/www/html/app/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+#9 /var/www/html/system/CodeIgniter.php(934): App\Controllers\Alumno->index()
+#10 /var/www/html/system/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+#11 /var/www/html/system/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#12 /var/www/html/public/index.php(67): CodeIgniter\CodeIgniter->run()
+#13 {main}
+
+Next mysqli_sql_exception: php_network_getaddresses: getaddrinfo for sii-ci4-db_correcaminos failed: Temporary failure in name resolution in /var/www/html/system/Database/MySQLi/Connection.php:173
+Stack trace:
+#0 /var/www/html/system/Database/MySQLi/Connection.php(173): mysqli->real_connect('sii-ci4-db_corr...', 'root', Object(SensitiveParameterValue), 'control_escolar', 3309, '', 0)
+#1 /var/www/html/system/Database/BaseConnection.php(391): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 /var/www/html/system/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+#3 /var/www/html/system/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 /var/www/html/system/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+#5 /var/www/html/system/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+#6 /var/www/html/app/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+#7 /var/www/html/app/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+#8 /var/www/html/system/CodeIgniter.php(934): App\Controllers\Alumno->index()
+#9 /var/www/html/system/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+#10 /var/www/html/system/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 /var/www/html/public/index.php(67): CodeIgniter\CodeIgniter->run()
+#12 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: php_network_getaddresses: getaddrinfo for sii-ci4-db_correcaminos failed: Temporary failure in name resolution in /var/www/html/system/Database/MySQLi/Connection.php:218
+Stack trace:
+#0 /var/www/html/system/Database/BaseConnection.php(391): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 /var/www/html/system/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+#2 /var/www/html/system/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 /var/www/html/system/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+#4 /var/www/html/system/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+#5 /var/www/html/app/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+#6 /var/www/html/app/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+#7 /var/www/html/system/CodeIgniter.php(934): App\Controllers\Alumno->index()
+#8 /var/www/html/system/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+#9 /var/www/html/system/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 /var/www/html/public/index.php(67): CodeIgniter\CodeIgniter->run()
+#11 {main}
+CRITICAL - 2023-06-14 19:42:33 --> Unable to connect to the database.
+Main connection [MySQLi]: php_network_getaddresses: getaddrinfo for sii-ci4-db_correcaminos failed: Temporary failure in name resolution
+in SYSTEMPATH/Database/BaseConnection.php on line 427.
+ 1 SYSTEMPATH/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `Alumnos`', [], false)
+ 3 SYSTEMPATH/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+ 6 APPPATH/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+ 7 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->index()
+ 8 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+ 9 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 19:46:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2023-06-14 19:46:14 --> Undefined property: App\Controllers\Alumno::$load
+in APPPATH/Controllers/Alumno.php on line 34.
+ 1 APPPATH/Controllers/Alumno.php(34): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: App\\Controllers\\Alumno::$load', '/var/www/html/app/Controllers/Alumno.php', 34)
+ 2 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->index()
+ 3 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+ 4 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 19:49:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 19:49:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 19:50:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 19:58:48 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 19:59:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 20:01:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 20:02:17 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 20:02:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2023-06-14 20:04:35 --> New expressions are not supported in this context
+in APPPATH/Controllers/Alumno.php on line 11.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+INFO - 2023-06-14 20:05:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 20:08:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 20:10:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2023-06-14 20:10:26 --> Error connecting to the database: mysqli_sql_exception: Connection refused in /var/www/html/system/Database/MySQLi/Connection.php:173
+Stack trace:
+#0 /var/www/html/system/Database/MySQLi/Connection.php(173): mysqli->real_connect('db_correcaminos', 'root', Object(SensitiveParameterValue), 'control_escolar', 3309, '', 0)
+#1 /var/www/html/system/Database/BaseConnection.php(391): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 /var/www/html/system/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+#3 /var/www/html/system/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 /var/www/html/system/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+#5 /var/www/html/system/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+#6 /var/www/html/app/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+#7 /var/www/html/app/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+#8 /var/www/html/system/CodeIgniter.php(934): App\Controllers\Alumno->index()
+#9 /var/www/html/system/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+#10 /var/www/html/system/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 /var/www/html/public/index.php(67): CodeIgniter\CodeIgniter->run()
+#12 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: Connection refused in /var/www/html/system/Database/MySQLi/Connection.php:218
+Stack trace:
+#0 /var/www/html/system/Database/BaseConnection.php(391): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 /var/www/html/system/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+#2 /var/www/html/system/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#3 /var/www/html/system/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+#4 /var/www/html/system/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+#5 /var/www/html/app/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+#6 /var/www/html/app/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+#7 /var/www/html/system/CodeIgniter.php(934): App\Controllers\Alumno->index()
+#8 /var/www/html/system/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+#9 /var/www/html/system/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 /var/www/html/public/index.php(67): CodeIgniter\CodeIgniter->run()
+#11 {main}
+CRITICAL - 2023-06-14 20:10:26 --> Unable to connect to the database.
+Main connection [MySQLi]: Connection refused
+in SYSTEMPATH/Database/BaseConnection.php on line 427.
+ 1 SYSTEMPATH/Database/BaseConnection.php(574): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH/Database/BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `Alumnos`', [], false)
+ 3 SYSTEMPATH/Model.php(241): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH/BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH/Models/AlumnoModel.php(14): CodeIgniter\BaseModel->findAll()
+ 6 APPPATH/Controllers/Alumno.php(32): App\Models\AlumnoModel->getAll()
+ 7 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->index()
+ 8 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+ 9 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 20:10:48 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2023-06-14 20:11:42 --> Namespace declaration statement has to be the very first statement or after any declare call in the script
+in APPPATH/Config/Database.php on line 4.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+INFO - 2023-06-14 20:15:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2023-06-14 20:15:00 --> Undefined property: stdClass::$id
+in APPPATH/Views/Alumnos/listado.php on line 52.
+ 1 APPPATH/Views/Alumnos/listado.php(52): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$id', '/var/www/html/app/Views/Alumnos/listado.php', 52)
+ 2 SYSTEMPATH/View/View.php(213): include('/var/www/html/app/Views/Alumnos/listado.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1184): CodeIgniter\View\View->render('Alumnos/listado', [], true)
+ 5 APPPATH/Controllers/Alumno.php(34): view('Alumnos/listado', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->index()
+ 7 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+ 8 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 20:17:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2023-06-14 20:17:10 --> Undefined property: stdClass::$id
+in APPPATH/Views/Alumnos/listado.php on line 52.
+ 1 APPPATH/Views/Alumnos/listado.php(52): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$id', '/var/www/html/app/Views/Alumnos/listado.php', 52)
+ 2 SYSTEMPATH/View/View.php(213): include('/var/www/html/app/Views/Alumnos/listado.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1184): CodeIgniter\View\View->render('Alumnos/listado', [], true)
+ 5 APPPATH/Controllers/Alumno.php(35): view('Alumnos/listado', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->index()
+ 7 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+ 8 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-06-14 20:23:37 --> Access level to App\Models\AlumnoModel::$db must be protected (as in class CodeIgniter\BaseModel) or weaker
+in APPPATH/Models/AlumnoModel.php on line 7.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+INFO - 2023-06-14 20:24:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 20:24:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 20:27:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 20:27:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 20:30:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 20:30:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 20:30:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2023-06-14 20:36:34 --> syntax error, unexpected token ")", expecting "{"
+in APPPATH/Config/Routes.php on line 36.
+ 1 SYSTEMPATH/CodeIgniter.php(802): CodeIgniter\Router\RouteCollection->loadRoutes()
+ 2 SYSTEMPATH/CodeIgniter.php(449): CodeIgniter\CodeIgniter->tryToRouteIt(null)
+ 3 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 20:37:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 20:37:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2023-06-14 20:37:06 --> Undefined variable $error
+in APPPATH/Views/Alumnos/form.php on line 32.
+ 1 APPPATH/Views/Alumnos/form.php(32): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $error', '/var/www/html/app/Views/Alumnos/form.php', 32)
+ 2 SYSTEMPATH/View/View.php(213): include('/var/www/html/app/Views/Alumnos/form.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1184): CodeIgniter\View\View->render('Alumnos/form', [], true)
+ 5 APPPATH/Controllers/Alumno.php(50): view('Alumnos/form', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->form()
+ 7 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+ 8 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 20:37:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2023-06-14 20:37:29 --> Undefined variable $error
+in APPPATH/Views/Alumnos/form.php on line 32.
+ 1 APPPATH/Views/Alumnos/form.php(32): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $error', '/var/www/html/app/Views/Alumnos/form.php', 32)
+ 2 SYSTEMPATH/View/View.php(213): include('/var/www/html/app/Views/Alumnos/form.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1184): CodeIgniter\View\View->render('Alumnos/form', [], true)
+ 5 APPPATH/Controllers/Alumno.php(50): view('Alumnos/form', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->form()
+ 7 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+ 8 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 20:37:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 20:37:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2023-06-14 20:37:32 --> Undefined variable $error
+in APPPATH/Views/Alumnos/form.php on line 32.
+ 1 APPPATH/Views/Alumnos/form.php(32): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $error', '/var/www/html/app/Views/Alumnos/form.php', 32)
+ 2 SYSTEMPATH/View/View.php(213): include('/var/www/html/app/Views/Alumnos/form.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1184): CodeIgniter\View\View->render('Alumnos/form', [], true)
+ 5 APPPATH/Controllers/Alumno.php(50): view('Alumnos/form', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->form()
+ 7 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+ 8 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 20:38:17 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2023-06-14 20:38:17 --> Undefined variable $error
+in APPPATH/Views/Alumnos/form.php on line 32.
+ 1 APPPATH/Views/Alumnos/form.php(32): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $error', '/var/www/html/app/Views/Alumnos/form.php', 32)
+ 2 SYSTEMPATH/View/View.php(213): include('/var/www/html/app/Views/Alumnos/form.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1184): CodeIgniter\View\View->render('Alumnos/form', [], true)
+ 5 APPPATH/Controllers/Alumno.php(51): view('Alumnos/form', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->form()
+ 7 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+ 8 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 20:39:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2023-06-14 20:39:43 --> Undefined variable $error
+in APPPATH/Views/Alumnos/form.php on line 32.
+ 1 APPPATH/Views/Alumnos/form.php(32): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $error', '/var/www/html/app/Views/Alumnos/form.php', 32)
+ 2 SYSTEMPATH/View/View.php(213): include('/var/www/html/app/Views/Alumnos/form.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1184): CodeIgniter\View\View->render('Alumnos/form', [], true)
+ 5 APPPATH/Controllers/Alumno.php(50): view('Alumnos/form', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->form()
+ 7 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+ 8 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 20:39:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 20:39:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 20:40:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2023-06-14 20:40:14 --> Undefined variable $error
+in APPPATH/Views/Alumnos/form.php on line 32.
+ 1 APPPATH/Views/Alumnos/form.php(32): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $error', '/var/www/html/app/Views/Alumnos/form.php', 32)
+ 2 SYSTEMPATH/View/View.php(213): include('/var/www/html/app/Views/Alumnos/form.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1184): CodeIgniter\View\View->render('Alumnos/form', [], true)
+ 5 APPPATH/Controllers/Alumno.php(50): view('Alumnos/form', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->form()
+ 7 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+ 8 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 20:42:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 20:42:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 20:42:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2023-06-14 20:42:16 --> Undefined variable $error
+in APPPATH/Views/Alumnos/form.php on line 32.
+ 1 APPPATH/Views/Alumnos/form.php(32): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $error', '/var/www/html/app/Views/Alumnos/form.php', 32)
+ 2 SYSTEMPATH/View/View.php(213): include('/var/www/html/app/Views/Alumnos/form.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1184): CodeIgniter\View\View->render('Alumnos/form', [], true)
+ 5 APPPATH/Controllers/Alumno.php(50): view('Alumnos/form', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->form()
+ 7 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+ 8 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 20:43:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2023-06-14 20:43:23 --> Call to undefined function set_value()
+in APPPATH/Views/Alumnos/form.php on line 41.
+ 1 SYSTEMPATH/View/View.php(213): include()
+ 2 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 3 SYSTEMPATH/Common.php(1184): CodeIgniter\View\View->render('Alumnos/form', [], true)
+ 4 APPPATH/Controllers/Alumno.php(50): view('Alumnos/form', [...])
+ 5 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->form()
+ 6 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+ 7 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 20:45:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 20:45:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 20:46:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 20:46:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 20:46:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 20:46:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 20:46:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 20:48:08 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 20:49:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 20:49:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 20:50:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 20:50:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 20:50:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2023-06-14 20:50:42 --> "callback_check_unique_num_control" is not a valid rule.
+in SYSTEMPATH/Validation/Validation.php on line 329.
+ 1 SYSTEMPATH/Validation/Validation.php(329): CodeIgniter\Validation\Exceptions\ValidationException::forRuleNotFound('callback_check_unique_num_control')
+ 2 SYSTEMPATH/Validation/Validation.php(179): CodeIgniter\Validation\Validation->processRules('numControl', 'Número de control', '19630306', [...], [...])
+ 3 APPPATH/Controllers/Alumno.php(158): CodeIgniter\Validation\Validation->run()
+ 4 APPPATH/Controllers/Alumno.php(55): App\Controllers\Alumno->_validateData()
+ 5 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->add()
+ 6 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+ 7 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 20:52:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 20:52:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 20:53:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2023-06-14 20:53:00 --> "check_unique_num_control" is not a valid rule.
+in SYSTEMPATH/Validation/Validation.php on line 329.
+ 1 SYSTEMPATH/Validation/Validation.php(329): CodeIgniter\Validation\Exceptions\ValidationException::forRuleNotFound('check_unique_num_control')
+ 2 SYSTEMPATH/Validation/Validation.php(179): CodeIgniter\Validation\Validation->processRules('numControl', 'Número de control', '19630306', [...], [...])
+ 3 APPPATH/Controllers/Alumno.php(158): CodeIgniter\Validation\Validation->run()
+ 4 APPPATH/Controllers/Alumno.php(55): App\Controllers\Alumno->_validateData()
+ 5 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->add()
+ 6 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+ 7 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-06-14 21:05:25 --> syntax error, unexpected variable "$this"
+in APPPATH/Controllers/Alumno.php on line 38.
+ 1 SYSTEMPATH/Autoloader/Autoloader.php(289): CodeIgniter\Autoloader\Autoloader->includeFile('/var/www/html/app/Controllers/Alumno.php')
+ 2 SYSTEMPATH/Autoloader/Autoloader.php(267): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers\\Alumno')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers\\Alumno')
+ 4 SYSTEMPATH/CodeIgniter.php(892): class_exists('\\App\\Controllers\\Alumno', true)
+ 5 SYSTEMPATH/CodeIgniter.php(486): CodeIgniter\CodeIgniter->startController()
+ 6 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-06-14 21:05:26 --> syntax error, unexpected variable "$this"
+in APPPATH/Controllers/Alumno.php on line 38.
+ 1 SYSTEMPATH/Autoloader/Autoloader.php(289): CodeIgniter\Autoloader\Autoloader->includeFile('/var/www/html/app/Controllers/Alumno.php')
+ 2 SYSTEMPATH/Autoloader/Autoloader.php(267): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers\\Alumno')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers\\Alumno')
+ 4 SYSTEMPATH/CodeIgniter.php(892): class_exists('\\App\\Controllers\\Alumno', true)
+ 5 SYSTEMPATH/CodeIgniter.php(486): CodeIgniter\CodeIgniter->startController()
+ 6 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-06-14 21:05:27 --> syntax error, unexpected variable "$this"
+in APPPATH/Controllers/Alumno.php on line 38.
+ 1 SYSTEMPATH/Autoloader/Autoloader.php(289): CodeIgniter\Autoloader\Autoloader->includeFile('/var/www/html/app/Controllers/Alumno.php')
+ 2 SYSTEMPATH/Autoloader/Autoloader.php(267): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers\\Alumno')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers\\Alumno')
+ 4 SYSTEMPATH/CodeIgniter.php(892): class_exists('\\App\\Controllers\\Alumno', true)
+ 5 SYSTEMPATH/CodeIgniter.php(486): CodeIgniter\CodeIgniter->startController()
+ 6 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-06-14 21:05:40 --> syntax error, unexpected variable "$this"
+in APPPATH/Controllers/Alumno.php on line 38.
+ 1 SYSTEMPATH/Autoloader/Autoloader.php(289): CodeIgniter\Autoloader\Autoloader->includeFile('/var/www/html/app/Controllers/Alumno.php')
+ 2 SYSTEMPATH/Autoloader/Autoloader.php(267): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers\\Alumno')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers\\Alumno')
+ 4 SYSTEMPATH/CodeIgniter.php(892): class_exists('\\App\\Controllers\\Alumno', true)
+ 5 SYSTEMPATH/CodeIgniter.php(486): CodeIgniter\CodeIgniter->startController()
+ 6 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-06-14 21:05:42 --> syntax error, unexpected variable "$this"
+in APPPATH/Controllers/Alumno.php on line 38.
+ 1 SYSTEMPATH/Autoloader/Autoloader.php(289): CodeIgniter\Autoloader\Autoloader->includeFile('/var/www/html/app/Controllers/Alumno.php')
+ 2 SYSTEMPATH/Autoloader/Autoloader.php(267): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers\\Alumno')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers\\Alumno')
+ 4 SYSTEMPATH/CodeIgniter.php(892): class_exists('\\App\\Controllers\\Alumno', true)
+ 5 SYSTEMPATH/CodeIgniter.php(486): CodeIgniter\CodeIgniter->startController()
+ 6 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-06-14 21:05:43 --> syntax error, unexpected variable "$this"
+in APPPATH/Controllers/Alumno.php on line 38.
+ 1 SYSTEMPATH/Autoloader/Autoloader.php(289): CodeIgniter\Autoloader\Autoloader->includeFile('/var/www/html/app/Controllers/Alumno.php')
+ 2 SYSTEMPATH/Autoloader/Autoloader.php(267): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers\\Alumno')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers\\Alumno')
+ 4 SYSTEMPATH/CodeIgniter.php(892): class_exists('\\App\\Controllers\\Alumno', true)
+ 5 SYSTEMPATH/CodeIgniter.php(486): CodeIgniter\CodeIgniter->startController()
+ 6 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-06-14 21:08:00 --> syntax error, unexpected variable "$this"
+in APPPATH/Controllers/Alumno.php on line 38.
+ 1 SYSTEMPATH/Autoloader/Autoloader.php(289): CodeIgniter\Autoloader\Autoloader->includeFile('/var/www/html/app/Controllers/Alumno.php')
+ 2 SYSTEMPATH/Autoloader/Autoloader.php(267): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers\\Alumno')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers\\Alumno')
+ 4 SYSTEMPATH/CodeIgniter.php(892): class_exists('\\App\\Controllers\\Alumno', true)
+ 5 SYSTEMPATH/CodeIgniter.php(486): CodeIgniter\CodeIgniter->startController()
+ 6 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-06-14 21:08:19 --> syntax error, unexpected variable "$this"
+in APPPATH/Controllers/Alumno.php on line 38.
+ 1 SYSTEMPATH/Autoloader/Autoloader.php(289): CodeIgniter\Autoloader\Autoloader->includeFile('/var/www/html/app/Controllers/Alumno.php')
+ 2 SYSTEMPATH/Autoloader/Autoloader.php(267): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers\\Alumno')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers\\Alumno')
+ 4 SYSTEMPATH/CodeIgniter.php(892): class_exists('\\App\\Controllers\\Alumno', true)
+ 5 SYSTEMPATH/CodeIgniter.php(486): CodeIgniter\CodeIgniter->startController()
+ 6 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-06-14 21:08:20 --> syntax error, unexpected variable "$this"
+in APPPATH/Controllers/Alumno.php on line 38.
+ 1 SYSTEMPATH/Autoloader/Autoloader.php(289): CodeIgniter\Autoloader\Autoloader->includeFile('/var/www/html/app/Controllers/Alumno.php')
+ 2 SYSTEMPATH/Autoloader/Autoloader.php(267): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers\\Alumno')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers\\Alumno')
+ 4 SYSTEMPATH/CodeIgniter.php(892): class_exists('\\App\\Controllers\\Alumno', true)
+ 5 SYSTEMPATH/CodeIgniter.php(486): CodeIgniter\CodeIgniter->startController()
+ 6 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-06-14 21:08:38 --> Cannot call constructor
+in APPPATH/Controllers/Alumno.php on line 14.
+ 1 SYSTEMPATH/CodeIgniter.php(906): App\Controllers\Alumno->__construct()
+ 2 SYSTEMPATH/CodeIgniter.php(490): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-06-14 21:11:54 --> syntax error, unexpected token ")", expecting variable
+in APPPATH/Controllers/Alumno.php on line 13.
+ 1 SYSTEMPATH/Autoloader/Autoloader.php(289): CodeIgniter\Autoloader\Autoloader->includeFile('/var/www/html/app/Controllers/Alumno.php')
+ 2 SYSTEMPATH/Autoloader/Autoloader.php(267): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers\\Alumno')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers\\Alumno')
+ 4 SYSTEMPATH/CodeIgniter.php(892): class_exists('\\App\\Controllers\\Alumno', true)
+ 5 SYSTEMPATH/CodeIgniter.php(486): CodeIgniter\CodeIgniter->startController()
+ 6 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 21:13:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2023-06-14 21:13:21 --> CodeIgniter\Validation\Validation::setRuleGroup(): Argument #1 ($group) must be of type string, array given, called in /var/www/html/app/Controllers/Alumno.php on line 41
+in SYSTEMPATH/Validation/Validation.php on line 555.
+ 1 APPPATH/Controllers/Alumno.php(41): CodeIgniter\Validation\Validation->setRuleGroup([...])
+ 2 SYSTEMPATH/CodeIgniter.php(907): App\Controllers\Alumno->initController(Object(CodeIgniter\HTTP\IncomingRequest), Object(CodeIgniter\HTTP\Response), Object(CodeIgniter\Log\Logger))
+ 3 SYSTEMPATH/CodeIgniter.php(490): CodeIgniter\CodeIgniter->createController()
+ 4 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-06-14 21:18:50 --> syntax error, unexpected identifier "check_unique_num_control", expecting "("
+in APPPATH/Controllers/Alumno.php on line 153.
+ 1 SYSTEMPATH/Autoloader/Autoloader.php(289): CodeIgniter\Autoloader\Autoloader->includeFile('/var/www/html/app/Controllers/Alumno.php')
+ 2 SYSTEMPATH/Autoloader/Autoloader.php(267): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers\\Alumno')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers\\Alumno')
+ 4 SYSTEMPATH/CodeIgniter.php(892): class_exists('\\App\\Controllers\\Alumno', true)
+ 5 SYSTEMPATH/CodeIgniter.php(486): CodeIgniter\CodeIgniter->startController()
+ 6 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-06-14 21:19:06 --> syntax error, unexpected identifier "check_unique_num_control", expecting "("
+in APPPATH/Controllers/Alumno.php on line 153.
+ 1 SYSTEMPATH/Autoloader/Autoloader.php(289): CodeIgniter\Autoloader\Autoloader->includeFile('/var/www/html/app/Controllers/Alumno.php')
+ 2 SYSTEMPATH/Autoloader/Autoloader.php(267): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers\\Alumno')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers\\Alumno')
+ 4 SYSTEMPATH/CodeIgniter.php(892): class_exists('\\App\\Controllers\\Alumno', true)
+ 5 SYSTEMPATH/CodeIgniter.php(486): CodeIgniter\CodeIgniter->startController()
+ 6 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 21:19:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:19:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:19:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:19:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:19:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2023-06-14 21:19:33 --> App\Controllers\Alumno::App\Controllers\{closure}(): Argument #2 ($fields) must be of type string, array given, called in /var/www/html/system/Validation/Validation.php on line 306
+in APPPATH/Controllers/Alumno.php on line 153.
+ 1 SYSTEMPATH/Validation/Validation.php(306): App\Controllers\Alumno->App\Controllers\{closure}('19630306', [...], null, 'numControl')
+ 2 SYSTEMPATH/Validation/Validation.php(179): CodeIgniter\Validation\Validation->processRules('numControl', 'Número de control', '19630306', [...], [...])
+ 3 APPPATH/Controllers/Alumno.php(180): CodeIgniter\Validation\Validation->run()
+ 4 APPPATH/Controllers/Alumno.php(55): App\Controllers\Alumno->_validateData()
+ 5 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->add()
+ 6 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+ 7 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 21:27:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:27:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:27:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:27:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:27:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:27:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2023-06-14 21:27:21 --> Allowed fields must be specified for model: "App\Models\AlumnoModel"
+in SYSTEMPATH/BaseModel.php on line 1242.
+ 1 SYSTEMPATH/BaseModel.php(1242): CodeIgniter\Database\Exceptions\DataException::forInvalidAllowedFields('App\\Models\\AlumnoModel')
+ 2 SYSTEMPATH/BaseModel.php(757): CodeIgniter\BaseModel->doProtectFields([...])
+ 3 SYSTEMPATH/Model.php(730): CodeIgniter\BaseModel->insert([...], true)
+ 4 APPPATH/Models/AlumnoModel.php(25): CodeIgniter\Model->insert([...])
+ 5 APPPATH/Controllers/Alumno.php(68): App\Models\AlumnoModel->insertData([...])
+ 6 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->add()
+ 7 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+ 8 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 21:28:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:28:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:28:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:29:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:29:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:29:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:29:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:29:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2023-06-14 21:29:30 --> Allowed fields must be specified for model: "App\Models\AlumnoModel"
+in SYSTEMPATH/BaseModel.php on line 1242.
+ 1 SYSTEMPATH/BaseModel.php(1242): CodeIgniter\Database\Exceptions\DataException::forInvalidAllowedFields('App\\Models\\AlumnoModel')
+ 2 SYSTEMPATH/BaseModel.php(757): CodeIgniter\BaseModel->doProtectFields([...])
+ 3 SYSTEMPATH/Model.php(730): CodeIgniter\BaseModel->insert([...], true)
+ 4 APPPATH/Models/AlumnoModel.php(25): CodeIgniter\Model->insert([...])
+ 5 APPPATH/Controllers/Alumno.php(68): App\Models\AlumnoModel->insertData([...])
+ 6 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->add()
+ 7 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+ 8 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 21:31:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:31:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:31:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:31:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:31:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:31:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:32:08 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:32:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:33:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:33:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2023-06-14 21:33:10 --> The route for "alumno" cannot be found.
+in SYSTEMPATH/HTTP/RedirectResponse.php on line 60.
+ 1 SYSTEMPATH/HTTP/RedirectResponse.php(60): CodeIgniter\HTTP\Exceptions\HTTPException::forInvalidRedirectRoute('alumno')
+ 2 SYSTEMPATH/Common.php(880): CodeIgniter\HTTP\RedirectResponse->route(false)
+ 3 APPPATH/Controllers/Alumno.php(82): redirect('alumno')
+ 4 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->add()
+ 5 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+ 6 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 21:34:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:34:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:34:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:35:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:35:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:35:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:35:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:35:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:36:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:36:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:36:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:36:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:36:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2023-06-14 21:39:29 --> Undefined variable $route
+in APPPATH/Config/Routes.php on line 39.
+ 1 APPPATH/Config/Routes.php(39): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $route', '/var/www/html/app/Config/Routes.php', 39)
+ 2 SYSTEMPATH/Router/RouteCollection.php(676): CodeIgniter\Router\RouteCollection->Config\{closure}(Object(CodeIgniter\Router\RouteCollection))
+ 3 APPPATH/Config/Routes.php(36): CodeIgniter\Router\RouteCollection->group('alumno', [...], Object(Closure))
+ 4 SYSTEMPATH/Router/RouteCollection.php(267): require('/var/www/html/app/Config/Routes.php')
+ 5 SYSTEMPATH/CodeIgniter.php(802): CodeIgniter\Router\RouteCollection->loadRoutes()
+ 6 SYSTEMPATH/CodeIgniter.php(449): CodeIgniter\CodeIgniter->tryToRouteIt(null)
+ 7 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 21:39:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:39:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2023-06-14 21:39:44 --> The route for "alumno" cannot be found.
+in SYSTEMPATH/HTTP/RedirectResponse.php on line 60.
+ 1 SYSTEMPATH/HTTP/RedirectResponse.php(60): CodeIgniter\HTTP\Exceptions\HTTPException::forInvalidRedirectRoute('alumno')
+ 2 SYSTEMPATH/Common.php(880): CodeIgniter\HTTP\RedirectResponse->route(false)
+ 3 APPPATH/Controllers/Alumno.php(132): redirect('alumno')
+ 4 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->delete('6')
+ 5 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+ 6 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 21:40:03 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:40:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:40:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:40:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:40:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:40:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:40:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:40:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:40:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:40:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:40:34 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:40:34 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:41:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:42:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:42:17 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:42:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:42:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2023-06-14 21:42:20 --> Attempt to read property "id_grupo" on array
+in APPPATH/Views/Alumnos/form.php on line 102.
+ 1 APPPATH/Views/Alumnos/form.php(102): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Attempt to read property "id_grupo" on array', '/var/www/html/app/Views/Alumnos/form.php', 102)
+ 2 SYSTEMPATH/View/View.php(213): include('/var/www/html/app/Views/Alumnos/form.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1184): CodeIgniter\View\View->render('Alumnos/form', [], true)
+ 5 APPPATH/Controllers/Alumno.php(50): view('Alumnos/form', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->form('1')
+ 7 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+ 8 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 21:44:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:44:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:44:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:44:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:44:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:44:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:44:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:44:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:44:50 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:44:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:44:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:44:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:44:57 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:45:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:45:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:45:03 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:45:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:46:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:46:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:46:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:46:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:47:17 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:47:20 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:47:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2023-06-14 21:47:24 --> whereNotIn() expects $values to be of type array or closure
+in SYSTEMPATH/Database/BaseBuilder.php on line 940.
+ 1 SYSTEMPATH/Database/BaseBuilder.php(853): CodeIgniter\Database\BaseBuilder->_whereIn('id_alumno', '8', true, 'AND ', null)
+ 2 SYSTEMPATH/Model.php(840): CodeIgniter\Database\BaseBuilder->whereNotIn('id_alumno', '8')
+ 3 APPPATH/Controllers/Alumno.php(164): CodeIgniter\Model->__call('whereNotIn', [...])
+ 4 SYSTEMPATH/Validation/Validation.php(306): App\Controllers\Alumno->App\Controllers\{closure}('12345678', [...], null, 'numControl')
+ 5 SYSTEMPATH/Validation/Validation.php(179): CodeIgniter\Validation\Validation->processRules('numControl', 'Número de control', '12345678', [...], [...])
+ 6 APPPATH/Controllers/Alumno.php(184): CodeIgniter\Validation\Validation->run()
+ 7 APPPATH/Controllers/Alumno.php(87): App\Controllers\Alumno->_validateData()
+ 8 SYSTEMPATH/CodeIgniter.php(934): App\Controllers\Alumno->update('8')
+ 9 SYSTEMPATH/CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Alumno))
+10 SYSTEMPATH/CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+INFO - 2023-06-14 21:51:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:51:03 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:51:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:51:08 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:51:08 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:51:13 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:51:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:51:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:51:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:51:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:51:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:51:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:51:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:51:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:51:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:51:48 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:51:48 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:52:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:52:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:52:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:52:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:52:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:53:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:53:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:53:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:53:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:53:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:53:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:53:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:53:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:53:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:53:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:54:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:54:08 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:54:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2023-06-14 21:54:17 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.

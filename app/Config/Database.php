@@ -26,10 +26,10 @@ class Database extends Config
      */
     public array $default = [
         'DSN'      => '',
-        'hostname' => 'localhost',
-        'username' => '',
-        'password' => '',
-        'database' => '',
+        'hostname' => 'db_correcaminos',
+        'username' => 'root',
+        'password' => '19630306',
+        'database' => 'control_escolar',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
         'pConnect' => false,
@@ -41,7 +41,7 @@ class Database extends Config
         'compress' => false,
         'strictOn' => false,
         'failover' => [],
-        'port'     => 3306,
+        //'port'     => 3309,
     ];
 
     /**
@@ -50,12 +50,12 @@ class Database extends Config
      */
     public array $tests = [
         'DSN'         => '',
-        'hostname'    => '127.0.0.1',
-        'username'    => '',
-        'password'    => '',
-        'database'    => ':memory:',
-        'DBDriver'    => 'SQLite3',
-        'DBPrefix'    => 'db_',  // Needed to ensure we're working correctly with prefixes live. DO NOT REMOVE FOR CI DEVS
+        'hostname'    => 'db_correcaminos',
+        'username'    => 'root',
+        'password'    => '19630306',
+        'database'    => 'control_escolar',
+        'DBDriver'    => 'MySQLi',
+        'DBPrefix'    => '',  // Needed to ensure we're working correctly with prefixes live. DO NOT REMOVE FOR CI DEVS
         'pConnect'    => false,
         'DBDebug'     => true,
         'charset'     => 'utf8',
@@ -65,7 +65,7 @@ class Database extends Config
         'compress'    => false,
         'strictOn'    => false,
         'failover'    => [],
-        'port'        => 3306,
+        //'port'        => 3309,
         'foreignKeys' => true,
         'busyTimeout' => 1000,
     ];
