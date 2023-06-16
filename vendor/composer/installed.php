@@ -19,6 +19,12 @@
             'aliases' => array(),
             'dev_requirement' => true,
         ),
+        'codeigniter4/authentication-implementation' => array(
+            'dev_requirement' => false,
+            'provided' => array(
+                0 => '1.0',
+            ),
+        ),
         'codeigniter4/framework' => array(
             'pretty_version' => '1.0.0+no-version-set',
             'version' => '1.0.0.0',
@@ -26,6 +32,26 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'codeigniter4/settings' => array(
+            'pretty_version' => 'v2.1.2',
+            'version' => '2.1.2.0',
+            'reference' => '854224baa190723f5f22d9dcc32cdb37aeaf79cd',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../codeigniter4/settings',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'codeigniter4/shield' => array(
+            'pretty_version' => 'dev-develop',
+            'version' => 'dev-develop',
+            'reference' => '7c073266cf3c59a2b62ad946773e85dd0f89447f',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../codeigniter4/shield',
+            'aliases' => array(
+                0 => '9999999-dev',
+            ),
             'dev_requirement' => false,
         ),
         'composer/pcre' => array(
@@ -92,9 +118,9 @@
             'dev_requirement' => true,
         ),
         'fakerphp/faker' => array(
-            'pretty_version' => 'v1.22.0',
-            'version' => '1.22.0.0',
-            'reference' => 'f85772abd508bd04e20bb4b1bbe260a68d0066d2',
+            'pretty_version' => 'v1.23.0',
+            'version' => '1.23.0.0',
+            'reference' => 'e3daa170d00fde61ea7719ef47bb09bb8f1d9b01',
             'type' => 'library',
             'install_path' => __DIR__ . '/../fakerphp/faker',
             'aliases' => array(),
@@ -236,9 +262,9 @@
             'dev_requirement' => true,
         ),
         'predis/predis' => array(
-            'pretty_version' => 'v2.1.2',
-            'version' => '2.1.2.0',
-            'reference' => 'a77a43913a74f9331f637bb12867eb8e274814e5',
+            'pretty_version' => 'v2.2.0',
+            'version' => '2.2.0.0',
+            'reference' => '33b70b971a32b0d28b4f748b0547593dce316e0d',
             'type' => 'library',
             'install_path' => __DIR__ . '/../predis/predis',
             'aliases' => array(),

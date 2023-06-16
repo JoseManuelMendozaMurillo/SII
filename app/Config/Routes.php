@@ -31,6 +31,8 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 $routes->get('/', 'Alumno::index');
 
+service('auth')->routes($routes);
+
 
 // Rutas para el crud de alumnos
 $routes->group('alumno', ['namespace' => 'App\Controllers'], function($routes){
