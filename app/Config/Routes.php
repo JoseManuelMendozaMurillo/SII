@@ -10,9 +10,9 @@ $routes = Services::routes();
  * Router Setup
  * --------------------------------------------------------------------
  */
-$routes->setDefaultNamespace('App\Controllers');
-$routes->setDefaultController('Alumno');
-$routes->setDefaultMethod('index');
+$routes->setDefaultNamespace('App\Controllers\Auth');
+$routes->setDefaultController('Login');
+$routes->setDefaultMethod('loginView');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
 // The Auto Routing (Legacy) is very dangerous. It is easy to create vulnerable apps
@@ -29,13 +29,26 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Alumno::index');
+$routes->get('auth/login', 'Login::loginView');
 
-service('auth')->routes($routes);
+service('auth')->routes($routes, ['except' => ['login']]);
 
+// Rutas auth
+$routes->group('auth', ['namespace' => 'App\Controllers\Auth'], function($routes){
+    $routes->get('login', 'Login::loginView');
+    $routes->post('sing-in', 'Login::loginAction');
+    $routes->get('logout', 'Login::logoutAction');
+
+    $routes->get('register', 'Register::registerView');
+    $routes->post('sing-up', 'Register::registerAction');
+});
 
 // Rutas para el crud de alumnos
-$routes->group('alumno', ['namespace' => 'App\Controllers'], function($routes){
+$routes->group('alumno', 
+                ['namespace' => 'App\Controllers', 
+                'filter' => 'group:superadmin,master,student,bossdepartment, permission:admin.*,master.*,student.*,bossdepartment.*'], 
+                function($routes){
+    $routes->get('listado', 'Alumno::index');
     $routes->get('form', 'Alumno::form');
     $routes->get('form/(:any)', 'Alumno::form/$1');
     $routes->post('add', 'Alumno::add');
@@ -45,12 +58,18 @@ $routes->group('alumno', ['namespace' => 'App\Controllers'], function($routes){
 });
 
 // Rutas de información
-$routes->group('informacion', ['namespace' => 'App\Controllers'], function($routes){
+$routes->group('informacion', 
+              ['namespace' => 'App\Controllers', 
+               'filter' => 'group:superadmin, permission:admin.setting'], 
+              function($routes){
     $routes->get('php', 'Informacion::index');
 });
 
 // Rutas de prueba
-$routes->group('pruebas', ['namespace' => 'App\Controllers\Test'], function($routes){
+$routes->group('pruebas', 
+                ['namespace' => 'App\Controllers\Test', 
+                 'filter' => 'group:superadmin, permission:admin.setting'], 
+                 function($routes){
     $routes->get('correos', 'Pruebas::correo');
     $routes->post('sendEmail', 'Pruebas::sendEmail');
     $routes->get('imagenes', 'Pruebas::img');

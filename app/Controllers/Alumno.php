@@ -29,7 +29,7 @@ class Alumno extends BaseController {
             ];
         }
         $data += [
-            "alumnos" => $this->AlumnoModel->getAll()
+            "alumnos" => $this->AlumnoModel->getAll(),
         ];
         echo view("Alumnos/listado", $data);
     }

@@ -14,7 +14,7 @@ class AuthGroups extends ShieldAuthGroups
      * --------------------------------------------------------------------
      * The group that a newly registered user is added to.
      */
-    public string $defaultGroup = 'user';
+    public string $defaultGroup = 'student';
 
     /**
      * --------------------------------------------------------------------
@@ -36,21 +36,17 @@ class AuthGroups extends ShieldAuthGroups
             'title'       => 'Super Admin',
             'description' => 'Complete control of the site.',
         ],
-        'admin' => [
-            'title'       => 'Admin',
-            'description' => 'Day to day administrators of the site.',
+        'bossdepartment' => [
+            'title' => 'Boss of Department',
+            'description' => 'Gestionar maestros y alumnos'
         ],
-        'developer' => [
-            'title'       => 'Developer',
-            'description' => 'Site programmers.',
+        'master' => [
+            'title' => 'Master',
+            'description' => 'Actualizar alumnos'
         ],
-        'user' => [
-            'title'       => 'User',
-            'description' => 'General users of the site. Often customers.',
-        ],
-        'beta' => [
-            'title'       => 'Beta User',
-            'description' => 'Has access to beta-level features.',
+        'student' => [
+            'title' => 'Student',
+            'description' => 'Ver listado de alumnos'
         ],
     ];
 
@@ -63,13 +59,20 @@ class AuthGroups extends ShieldAuthGroups
      * If a permission is not listed here it cannot be used.
      */
     public array $permissions = [
-        'admin.access'        => 'Can access the sites admin area',
-        'admin.settings'      => 'Can access the main site settings',
-        'users.manage-admins' => 'Can manage other admins',
-        'users.create'        => 'Can create new non-admin users',
-        'users.edit'          => 'Can edit existing non-admin users',
-        'users.delete'        => 'Can delete existing non-admin users',
-        'beta.access'         => 'Can access beta-level features',
+        'admin.access'            =>   'Can access the sites admin area',
+        'admin.settings'          =>   'Can access the main site settings',
+        'bossdepartment.list'     =>   'Can see the list of bosses of department',
+        'bossdepartment.create'   =>   'Can create new boss of department',
+        'bossdepartment.update'   =>   'Can edit existing boss of department',
+        'bossdepartment.delete'   =>   'Can delete existing boss of department',
+        'master.list'             =>   'Can see the list of masters',
+        'master.create'           =>   'Can create new master',
+        'master.update'           =>   'Can edit existing master',
+        'master.delete'           =>   'Can delete existing master',
+        'student.list'            =>   'Can see the list of students',
+        'student.create'          =>   'Can create new student',
+        'student.update'          =>   'Can edit existing student',
+        'student.delete'          =>   'Can delete existing student',
     ];
 
     /**
@@ -83,26 +86,24 @@ class AuthGroups extends ShieldAuthGroups
     public array $matrix = [
         'superadmin' => [
             'admin.*',
-            'users.*',
-            'beta.*',
+            'bossdepartment.*',
+            'master.*',
+            'student.*',
         ],
-        'admin' => [
+        'bossdepartment' => [
             'admin.access',
-            'users.create',
-            'users.edit',
-            'users.delete',
-            'beta.access',
+            'bossdepartment.list',
+            'master.*',
+            'student.*',
         ],
-        'developer' => [
-            'admin.access',
-            'admin.settings',
-            'users.create',
-            'users.edit',
-            'beta.access',
+        'master' => [
+            'master.list',
+            'student.list',
+            'student.update',
         ],
-        'user' => [],
-        'beta' => [
-            'beta.access',
+        'student' => [
+            'student.list',
         ],
+       
     ];
 }

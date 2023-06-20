@@ -83,23 +83,25 @@ class RegisterController extends BaseController
      * Attempts to register the user.
      */
     public function registerAction(): RedirectResponse
-    {
+    {   
+
+        
         if (auth()->loggedIn()) {
             return redirect()->to(config(Auth::class)->registerRedirect());
         }
-
+        
         // Check if registration is allowed
         if (! setting('Auth.allowRegistration')) {
             return redirect()->back()->withInput()
-                ->with('error', lang('Auth.registerDisabled'));
+            ->with('error', lang('Auth.registerDisabled'));
         }
-
+        
         $users = $this->getUserProvider();
-
+        
         // Validate here first, since some things,
         // like the password, can only be validated properly here.
         $rules = $this->getValidationRules();
-
+        
         if (! $this->validateData($this->request->getPost(), $rules, [], config('Auth')->DBGroup)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }

@@ -18,12 +18,13 @@ class Twig
     private $functions_added = false;
 
     private $functions_asis = [
-        'base_url',
+        'base_url'
     ];
     private $functions_safe = [
         'form_open', 'form_close', 'form_error', 'form_hidden', 'set_value', 'validation_errors', 'config_item',
         'form_open_multipart', 'form_upload', 'form_submit', 'form_dropdown',
-        'set_radio', 'field_has_been_validated', 'report_detail_activity',
+        'set_radio', 'field_has_been_validated', 'report_detail_activity', 
+        'session', 'd', 'dd', 'auth'
     ];
 
     public function __construct($params = [])

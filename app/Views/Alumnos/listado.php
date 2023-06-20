@@ -9,6 +9,7 @@
     <title>Listado de alumnos</title>
 </head>
 <body class="vh-100 bg-dark">
+
     <div class="container-fluid text-white">
         <div class="container d-flex flex-column align-items-center gap-3">
             <h1 class="mt-3">Listado de alumnos</h1>
@@ -24,7 +25,15 @@
               </div>
             </div>
 
-            <div class="w-100 d-flex justify-content-end">
+            <div class="w-100 d-flex justify-content-between">
+                <a href="<?= base_url('auth/logout'); ?>"
+                  class="btn btn-primary d-flex justify-content-center align-items-center gap-1 p-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-arrow-bar-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5ZM10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5Z"/>
+                  </svg>
+                  <span class="fs-5">Salir</span>
+                </a>
+
                 <a href="<?= base_url("alumno/form" ); ?>"
                   class="btn btn-primary rounded-circle d-flex justify-content-center align-items-center p-3 me-4">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
@@ -119,6 +128,8 @@
       </div>
     </div>
   </div>
+  <!-- Modal para eliminar -->
+
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
   <script type="text/javascript">
