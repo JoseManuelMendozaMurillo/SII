@@ -85,7 +85,6 @@ class RegisterController extends BaseController
     public function registerAction(): RedirectResponse
     {   
 
-        
         if (auth()->loggedIn()) {
             return redirect()->to(config(Auth::class)->registerRedirect());
         }

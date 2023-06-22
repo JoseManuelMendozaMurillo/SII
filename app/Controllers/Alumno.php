@@ -80,7 +80,7 @@ class Alumno extends BaseController {
                 "typeAlert" => "danger",
                 "textAlert" => "Hubo un error al agregar al alumno",
             ]);
-            return redirect("/");
+            return redirect("alumno/listado");
         }
 
         // Sí todo salio bien
@@ -88,7 +88,7 @@ class Alumno extends BaseController {
             "typeAlert" => "success",
             "textAlert" => "El alumno se registro correctamente",
         ]);
-        return redirect("/");
+        return redirect("alumno/listado");
     }
 
     public function update($id){
@@ -112,7 +112,7 @@ class Alumno extends BaseController {
                 "typeAlert" => "danger",
                 "textAlert" => "Hubo un error al actualizar la informacion del alumno",
             ]);
-            return redirect("/");
+            return redirect("alumno/listado");
         }
 
         // Sí todo salio bien
@@ -120,7 +120,7 @@ class Alumno extends BaseController {
             "typeAlert" => "success",
             "textAlert" => "El alumno se actualizo correctamente",
         ]);
-        return redirect("/");
+        return redirect("alumno/listado");
     }
 
     public function delete($id){
@@ -130,7 +130,7 @@ class Alumno extends BaseController {
                 "typeAlert" => "danger",
                 "textAlert" => "Hubo un error al eliminar el alumno",
             ]);
-            return redirect("alumno");
+            return redirect("alumno/listado");
         }
 
         // Sí todo salio bien
@@ -138,7 +138,7 @@ class Alumno extends BaseController {
             "typeAlert" => "success",
             "textAlert" => "El alumno se elimino correctamente",
         ]);
-        return redirect("/");
+        return redirect("alumno/listado");
     }
 
     public function grupos(){
