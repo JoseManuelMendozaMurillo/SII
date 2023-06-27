@@ -1,5 +1,5 @@
-/writable/session/
-/writable/cache/
-/writable/debugbar/
-/writable/logs/
-/app/cache/
+/writable/session/**
+/writable/cache/**
+/writable/debugbar/**
+/writable/logs/**
+/app/cache/**
