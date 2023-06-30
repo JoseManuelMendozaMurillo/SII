@@ -44,17 +44,36 @@ $routes->group('auth', ['namespace' => 'App\Controllers\Auth'], function($routes
 });
 
 // Rutas para el crud de alumnos
-$routes->group('alumno', 
+$routes->group(
+                'alumno', 
                 ['namespace' => 'App\Controllers', 
                 'filter' => 'group:superadmin,master,student,bossdepartment, permission:admin.*,master.*,student.*,bossdepartment.*'], 
                 function($routes){
+    
     $routes->get('listado', 'Alumno::index');
-    $routes->get('form', 'Alumno::form');
-    $routes->get('form/(:any)', 'Alumno::form/$1');
-    $routes->post('add', 'Alumno::add');
-    $routes->post('update/(:any)', 'Alumno::update/$1');
-    $routes->get('delete/(:any)', 'Alumno::delete/$1');
-    $routes->post('grupos', 'Alumno::grupos');
+    
+    $routes->group(
+        "",
+        ['namespace' => 'App\Controllers',
+         'filter' => 'group:superadmin,bossdepartment, permission:student.create,student.delete'],
+        function($routes){
+            $routes->get('form', 'Alumno::form');
+            $routes->post('add', 'Alumno::add');
+            $routes->get('delete/(:any)', 'Alumno::delete/$1');
+        }
+    );
+    
+    $routes->group(
+        "",
+        ['namespace' => 'App\Controllers',
+         'filter' => 'group:superadmin,bossdepartment,master, permission:student.update'],
+        function($routes){
+            $routes->get('form/(:any)', 'Alumno::form/$1');
+            $routes->post('update/(:any)', 'Alumno::update/$1');
+            $routes->post('grupos', 'Alumno::grupos');
+        }
+    );
+    
 });
 
 // Rutas de información
