@@ -1,0 +1,21 @@
+{% extends "Layout/base.twig.html" %}
+
+
+{% block body %}
+
+{% block menuslider %}{% endblock %}
+
+<main class="main-content">
+    <div class="position-relative iq-banner">
+
+        {% include 'Include/_nav.twig.html' %}
+
+        {% block content %}{% endblock %}
+
+    </div>
+
+    {% include 'Include/_footer.twig.html' %}
+    
+</main>
+
+{% endblock %}

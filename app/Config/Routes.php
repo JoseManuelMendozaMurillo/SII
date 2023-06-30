@@ -78,6 +78,13 @@ $routes->group('pruebas',
     $routes->post('getPokemon', 'Pruebas::getDataPokemon');
 });
 
+// Rutas de información
+$routes->group('servicios', 
+              ['namespace' => 'App\Controllers\ServiciosEscolares'], 
+              function($routes){
+    $routes->get('crear', 'ServiciosEscolares::crearReticula');
+});
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing
