@@ -35,16 +35,6 @@ CREATE TABLE especialidades (
     PRIMARY KEY (id_especialidad)
 ) ENGINE = InnoDB;
 
-CREATE TABLE alumnos (
-    id_alumno INT UNSIGNED AUTO_INCREMENT,
-    no_control VARCHAR(9) UNIQUE NOT NULL,
-    nombre VARCHAR(255),
-    apellido_materno VARCHAR(255),
-    apellido_paterno VARCHAR(255),
-    id_reticula INT UNSIGNED,
-    PRIMARY KEY (id_alumno)
-) ENGINE = InnoDB;
-
 CREATE TABLE materias_reticula (
     id_reticula INT UNSIGNED,
     id_materia INT UNSIGNED
@@ -70,6 +60,16 @@ CREATE TABLE tipos_materia(
     id_tipo_materia int unsigned AUTO_INCREMENT,
     Descripcion VARCHAR(50),
     PRIMARY KEY (id_tipo_materia)
+) ENGINE = InnoDB;
+
+CREATE TABLE alumnos (
+    id_alumno INT UNSIGNED AUTO_INCREMENT,
+    no_control VARCHAR(9) UNIQUE NOT NULL,
+    nombre VARCHAR(255),
+    apellido_materno VARCHAR(255),
+    apellido_paterno VARCHAR(255),
+    id_reticula INT UNSIGNED,
+    PRIMARY KEY (id_alumno)
 ) ENGINE = InnoDB;
 
 /*
