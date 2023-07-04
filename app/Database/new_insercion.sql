@@ -97,47 +97,60 @@ values
 (0,'Herramientas Emergentes para la Web','HEW',3,null,1),
 
 -- Otras materias
-(0,'Investigacion de Operaciones Induatrial','IO Indus',2,5,null),
+(0,'Investigacion de Operaciones Induatrial','IO Indus',2,5,null);
 /**/
 
 insert into reticulas 
 values
-(0,'Sistemas DWADM',1,null),
-(0,'Sistemas AD',1,null);
+(0,'Sistemas DWADM',1,2),
+(0,'Sistemas AD',1,1);
 /**/
 
 insert into materias_reticula 
 values
-(1,3),
-(1,4),
-(4,5);
-/**/
+/* Reticula de sistemas (Especialidad en Analisis de Datos) */
+-- Semestre 1
+(1,1),(1,2),(1,3),(1,4),(1,5),(1,6),
+-- Semestre 2
+(1,7),(1,8),(1,9),(1,10),(1,11),(1,12),
+-- Semestre 3
+(1,13),(1,14),(1,15),(1,16),(1,17),(1,18),
+-- Semestre 4
+(1,19),(1,20),(1,21),(1,22),(1,23),(1,24),(1,25),
+-- Semestre 5
+(1,26),(1,27),(1,28),(1,29),(1,30),(1,31),(1,32),
+-- Semestre 6
+(1,33),(1,34),(1,35),(1,36),(1,37),(1,38),(1,39),
+-- Semestre 7
+(1,40),(1,41),(1,42),(1,43),(1,44),(1,45),(1,46),
+-- Semestre 8
+(1,47),(1,48),(1,49),(1,50),(1,51),
+-- Semestre 9
+(1,52),(1,53),(1,54),
 
+/* Reticula de sistemas (Especialidad en Desarrollo para la Web y Aplicaciones para Dispositivos Móviles) */
+-- Semestre 1
+(2,1),(2,2),(2,3),(2,4),(2,5),(2,6),
+-- Semestre 2
+(2,7),(2,8),(2,9),(2,10),(2,11),(2,12),
+-- Semestre 3
+(2,13),(2,14),(2,15),(2,16),(2,17),(2,18),
+-- Semestre 4
+(2,19),(2,20),(2,21),(2,22),(2,23),(2,24),(2,25),
+-- Semestre 5
+(2,26),(2,27),(2,28),(2,29),(2,30),(2,31),(2,32),
+-- Semestre 6
+(2,55),(2,34),(2,35),(2,36),(2,37),(2,38),(2,39),(2,54)
+-- Semestre 7
+(2,56),(2,41),(2,42),(2,43),(2,44),(2,45),(2,46),
+-- Semestre 8
+(2,57),(2,59),(2,58),(2,50),(2,51),(2,53)
+-- Semestre 9
+(2,52);
+
+
+/**/
 insert into combalidaciones 
 values
-(2,1,65.8);
+(47,57,90.5);
 /**/
-
-select * 
-from reticulas
-where id_carrera =1;
-select * from carreras; 
-/**/
-
-select * 
-from materias_reticula 
-where id_reticula =(select id_reticula 
-		from reticulas
-		where id_c);
-/**/
-	
-select * 
-from materias_reticula 
-where (select id_reticula 
-		from reticulas
-		where nombre_reticula='Sistemas PWYDM');
-
-
-/* PREGUNTAS IMPORTANTES */
--- 1. ¿Una materia de especialidad puede pertenecer a mas de una especialidad?
--- 2. 
