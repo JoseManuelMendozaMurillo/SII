@@ -2,9 +2,12 @@ drop database control_escolar;
 
 CREATE DATABASE IF NOT EXISTS control_escolar;
 
-USE control_escolar;
-
 CREATE TABLE carreras (
+    id_carrera INT UNSIGNED AUTO_INCREMENT,
+    nombre_carrera VARCHAR(255) NOT NULL,
+    clave_oficial CHAR(8) UNIQUE NOT NULL,
+    clave VARCHAR(8) UNIQUE,
+    siglas VARCHAR(3) UNIQUE,
     id_carrera INT UNSIGNED AUTO_INCREMENT,
     nombre_carrera VARCHAR(255) NOT NULL,
     clave_oficial CHAR(8) UNIQUE NOT NULL,
@@ -15,6 +18,13 @@ CREATE TABLE carreras (
     creditos_totales INT NOT NULL,
     id_nivel_escolar int unsigned,
     PRIMARY KEY (id_carrera)
+) ENGINE = InnoDB;
+
+CREATE TABLE reticulas (
+    id_reticula INT UNSIGNED AUTO_INCREMENT,
+    nombre_reticula VARCHAR(255),
+    id_carrera INT UNSIGNED,
+    id_especialidad INT UNSIGNED,
 ) ENGINE = InnoDB;
 
 CREATE TABLE reticulas (
@@ -43,10 +53,17 @@ CREATE TABLE materias_reticula (
     id_materia INT UNSIGNED
 ) ENGINE = InnoDB;
 
+id_reticula INT UNSIGNED,
+id_materia INT UNSIGNED
+) ENGINE = InnoDB;
+
 CREATE TABLE materias (
     id_materia INT UNSIGNED AUTO_INCREMENT,
     nombre_materia VARCHAR(255) NOT NULL,
     nombre_abreviado_materia VARCHAR(255),
+    id_tipo_materia INT UNSIGNED NOT NULL,
+    asociada_carrera INT UNSIGNED,
+    asociada_especialidad INT UNSIGNED,
     id_tipo_materia INT UNSIGNED NOT NULL,
     asociada_carrera INT UNSIGNED,
     asociada_especialidad INT UNSIGNED,
@@ -128,8 +145,7 @@ CREATE table alumno_inf_academica (
     tipo_ingreso INT,
     tipo_servicio_medico CHAR,
     ultimo_periodo_inscrito VARCHAR(255),
-    usuario CHAR
-    indice_reprobacion_acumulado DECIMAL,
+    usuario CHAR indice_reprobacion_acumulado DECIMAL,
 ) ENGINE = InnoDB;
 
 /*
