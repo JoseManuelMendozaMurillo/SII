@@ -1,4 +1,4 @@
-#drop database control_escolar;
+drop database control_escolar;
 
 CREATE DATABASE IF NOT EXISTS control_escolar;
 
@@ -14,6 +14,12 @@ CREATE TABLE carreras (
     carga_minima INT,
     creditos_totales INT NOT NULL,
     id_nivel_escolar int unsigned,
+    created_at DATETIME,
+    updated_at DATETIME,
+    deleted_at DATETIME,
+    created_by VARCHAR(255),
+    updated_by  VARCHAR(255),
+    deleted_by  VARCHAR(255),
     PRIMARY KEY (id_carrera)
 ) ENGINE = InnoDB;
 
@@ -38,18 +44,12 @@ CREATE TABLE especialidades (
     PRIMARY KEY (id_especialidad)
 ) ENGINE = InnoDB;
 
-CREATE TABLE materias_reticula (
-    id_reticula INT UNSIGNED,
-    id_materia INT UNSIGNED
-) ENGINE = InnoDB;
-
 CREATE TABLE materias (
     id_materia INT UNSIGNED AUTO_INCREMENT,
     nombre_materia VARCHAR(255) NOT NULL,
     nombre_abreviado_materia VARCHAR(255),
     id_tipo_materia INT UNSIGNED NOT NULL,
-    asociada_carrera INT UNSIGNED,
-    asociada_especialidad INT UNSIGNED,
+    id_nivel_escolar int unsigned,
     PRIMARY KEY (id_materia)
 ) ENGINE = InnoDB;
 
@@ -130,6 +130,16 @@ CREATE table alumno_inf_academica (
     ultimo_periodo_inscrito VARCHAR(255),
     usuario CHAR, 
     indice_reprobacion_acumulado DECIMAL
+) ENGINE = InnoDB;
+
+CREATE table materias_carrera (
+    id_carrera int unsigned,
+    id_materia int unsigned
+) ENGINE = InnoDB;
+
+CREATE table materias_especialidad (
+    id_especialidad int unsigned,
+    id_materia int unsigned
 ) ENGINE = InnoDB;
 
 /*

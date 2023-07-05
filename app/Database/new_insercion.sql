@@ -1,3 +1,6 @@
+use control_escolar;
+
+show TABLES;
 /*Insertar valores en tabla carreras*/
 insert into carreras
 values
