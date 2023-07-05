@@ -41,12 +41,12 @@ add constraint fk_mats_asoesp_esps_idesp
 foreign key (asociada_especialidad)
 references especialidades(id_especialidad);
 /*combalidaciones-->materias*/
-alter table combalidaciones
+alter table convalidaciones
 add constraint fk_comb_idmat_mats_idmat
 foreign key (id_materia)
 references materias(id_materia);
 /*combalidaciones-->materias*/
-alter table combalidaciones
+alter table convalidaciones
 add constraint fk_comb_idmatcom_mats_idmat
 foreign key (id_materia_combalidada)
 references materias(id_materia);
