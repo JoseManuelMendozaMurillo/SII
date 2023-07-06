@@ -47,6 +47,18 @@ Where asociada_especialidad = (Select id_especialidad
 
 
 -- Obtener el listado de todas las materias sin especialidad de la carrera de sistemas
+-- No se podude hacer con el modelo actual hasta no contestar la pregunta 2
+
+
+-- Obtener un listado de todas las especialidades de una carrera
+Select nombre_especialidad
+From especialidades
+Where id_especialidad = any (Select id_especialidad
+                             From reticulas
+                             Where id_carrera = (Select id_carrera
+                                                 From carreras
+                                                 Where nombre_carrera = "Ingeniería en Sistemas Computacionales")
+                            ); 
 
 
 /* PREGUNTAS IMPORTANTES */
