@@ -4,22 +4,32 @@ CREATE DATABASE IF NOT EXISTS control_escolar;
 
 use control_escolar;
 
+Create TABLE constantes(
+    carga_minima int,
+    carga_maxima int
+) ENGINE= InnoDB;
+
 CREATE TABLE carreras (
     id_carrera INT UNSIGNED AUTO_INCREMENT,
     nombre_carrera VARCHAR(255) NOT NULL,
     clave_oficial CHAR(8) UNIQUE NOT NULL,
     clave VARCHAR(8) UNIQUE,
     siglas VARCHAR(3) UNIQUE,
-    carga_maxima INT,
-    carga_minima INT,
-    creditos_totales INT NOT NULL,
+    creditos_totales INT,
     id_nivel_escolar int unsigned,
+    fecha_inicio DATETIME,
+    fecha_termino DATETIME,
+    id_area_carr VARCHAR(255),
+    id_nivel_carr VARCHAR(255),
+    id_sub_area_carr VARCHAR(255),
+    modalidad CHAR,
+    nivel VARCHAR(255),
     created_at DATETIME,
     updated_at DATETIME,
     deleted_at DATETIME,
     created_by VARCHAR(255),
-    updated_by  VARCHAR(255),
-    deleted_by  VARCHAR(255),
+    updated_by VARCHAR(255),
+    deleted_by VARCHAR(255),
     PRIMARY KEY (id_carrera)
 ) ENGINE = InnoDB;
 
@@ -28,6 +38,12 @@ CREATE TABLE reticulas (
     nombre_reticula VARCHAR(255),
     id_carrera INT UNSIGNED,
     id_especialidad INT UNSIGNED,
+    created_at DATETIME,
+    updated_at DATETIME,
+    deleted_at DATETIME,
+    created_by VARCHAR(255),
+    updated_by VARCHAR(255),
+    deleted_by VARCHAR(255),
     PRIMARY KEY (id_reticula)
 ) ENGINE = InnoDB;
 
@@ -37,32 +53,51 @@ CREATE TABLE especialidades (
     nombre_especialidad VARCHAR(255),
     clave VARCHAR(15),
     clave_oficial VARCHAR(8),
-    creditos_totales INT,
+    creditos_especialidad INT,
+    creditos_optativos INT,
     nombre_reducido VARCHAR(8),
     siglas CHAR(3),
+    periodo_inicio VARCHAR(255),
+    periodo_termino VARCHAR(255),
     id_nivel_escolar int unsigned,
+    created_at DATETIME,
+    updated_at DATETIME,
+    deleted_at DATETIME,
+    created_by VARCHAR(255),
+    updated_by VARCHAR(255),
+    deleted_by VARCHAR(255),
     PRIMARY KEY (id_especialidad)
 ) ENGINE = InnoDB;
 
-CREATE TABLE materias (
-    id_materia INT UNSIGNED AUTO_INCREMENT,
-    nombre_materia VARCHAR(255) NOT NULL,
-    nombre_abreviado_materia VARCHAR(255),
-    id_tipo_materia INT UNSIGNED NOT NULL,
+CREATE TABLE asignaturas (
+    id_asignatura INT UNSIGNED AUTO_INCREMENT,
+    nombre_asignatura VARCHAR(255) NOT NULL,
+    nombre_abreviado_asignatura VARCHAR(255),
+    id_tipo_asignatura INT UNSIGNED NOT NULL,
     id_nivel_escolar int unsigned,
-    PRIMARY KEY (id_materia)
+    id_asignatura_previa int unsigned,
+    clave_area VARCHAR(255),
+    horas_teoricas int,
+    horas_practicas int,
+    created_at DATETIME,
+    updated_at DATETIME,
+    deleted_at DATETIME,
+    created_by VARCHAR(255),
+    updated_by VARCHAR(255),
+    deleted_by VARCHAR(255),
+    PRIMARY KEY (id_asignatura)
 ) ENGINE = InnoDB;
 
 CREATE TABLE convalidaciones(
-    id_materia INT UNSIGNED,
-    id_materia_combalidada INT UNSIGNED,
-    porcentaje decimal
-) ENGINE = InnoDB;
-
-CREATE TABLE tipos_materia(
-    id_tipo_materia int unsigned AUTO_INCREMENT,
-    Descripcion VARCHAR(50),
-    PRIMARY KEY (id_tipo_materia)
+    id_asignatura INT UNSIGNED,
+    id_asignatura_convalidada INT UNSIGNED,
+    porcentaje decimal,
+    created_at DATETIME,
+    updated_at DATETIME,
+    deleted_at DATETIME,
+    created_by VARCHAR(255),
+    updated_by VARCHAR(255),
+    deleted_by VARCHAR(255)
 ) ENGINE = InnoDB;
 
 CREATE TABLE nivel_escolar(
@@ -85,6 +120,12 @@ CREATE TABLE alumnos (
     estatus_alumno CHAR,
     estatus_alumno_anterior CHAR,
     opcion_titulacion NVARCHAR(255),
+    created_at DATETIME,
+    updated_at DATETIME,
+    deleted_at DATETIME,
+    created_by VARCHAR(255),
+    updated_by VARCHAR(255),
+    deleted_by VARCHAR(255),
     PRIMARY KEY (id_alumno)
 ) ENGINE = InnoDB;
 
@@ -128,20 +169,23 @@ CREATE table alumno_inf_academica (
     tipo_ingreso INT,
     tipo_servicio_medico CHAR,
     ultimo_periodo_inscrito VARCHAR(255),
-    usuario CHAR, 
     indice_reprobacion_acumulado DECIMAL
 ) ENGINE = InnoDB;
 
-CREATE table materias_carrera (
+CREATE table asignaturas_carrera (
     id_carrera int unsigned,
-    id_materia int unsigned
+    id_asignatura int unsigned
 ) ENGINE = InnoDB;
 
-CREATE table materias_especialidad (
+CREATE table asignaturas_especialidad (
     id_especialidad int unsigned,
-    id_materia int unsigned
+    id_asignatura int unsigned
 ) ENGINE = InnoDB;
 
+CREATE TABLE dependencia_asignatura (
+    id_asignatura int UNSIGNED,
+    id_depende_de int UNSIGNED
+) ENGINE = InnoDB;
 /*
  SELECT
  TABLE_NAME,

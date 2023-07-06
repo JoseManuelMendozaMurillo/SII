@@ -20,26 +20,31 @@ alter table alumnos
 add constraint fk_alum_idnivesc_nivesc_idnivesc
 foreign key (id_nivel_escolar)
 references nivel_escolar(id_nivel_escolar);
-/*materias-->tipo_materia*/
-alter table materias
-add constraint fk_mats_idtipmat_tipsmat_idtipmat
-foreign key (id_tipo_materia)
-references tipos_materia(id_tipo_materia);
-/*materias-->nivel_escolar*/
-alter table materias
-add constraint fk_mats_idnivesc_nivesc_idnivesc
+/*asignatura-->nivel_escolar*/
+alter table asignaturas
+add constraint fk_asig_idnivesc_nivesc_idnivesc
 foreign key (id_nivel_escolar)
 references nivel_escolar(id_nivel_escolar);
-/*combalidaciones-->materias*/
+/*dependencia_asignaturas-->asignaturas*/
+alter table dependencia_asignatura
+add constraint fk_depasig_idasi_asig_idasi
+foreign key (id_asignatura)
+references asignaturas(id_asignatura);
+/*dependencia_asignaturas-->asignaturas*/
+alter table dependencia_asignatura
+add constraint fk_depasig_idasidep_asig_idasi
+foreign key (id_asignatura)
+references asignaturas(id_asignatura);
+/*convalidaciones-->asignaturas*/
 alter table convalidaciones
-add constraint fk_comb_idmat_mats_idmat
-foreign key (id_materia)
-references materias(id_materia);
-/*combalidaciones-->materias*/
+add constraint fk_conv_idasicon_asi_idasi
+foreign key (id_asignatura_convalidada)
+references asignaturas(id_asignatura);
+/*convalidaciones-->asignaturas*/
 alter table convalidaciones
-add constraint fk_comb_idmatcom_mats_idmat
-foreign key (id_materia_combalidada)
-references materias(id_materia);
+add constraint fk_conv_idasi_asi_idasi
+foreign key (id_asignatura)
+references asignaturas(id_asignatura);
 /*Especilidad-->Carreras*/
 alter table especialidades
 add constraint fk_espe_idcarr_carrs_idcarr
@@ -50,26 +55,26 @@ alter table especialidades
 add constraint fk_espe_idnivesc_nivesc_idnivesc
 foreign key (id_nivel_escolar)
 references nivel_escolar(id_nivel_escolar);
-/*Materias_carrera-->carrera*/
-ALTER TABLE materias_carrera
-ADD constraint fk_matscarr_idcarr_carrs_idcarr
+/*asignaturas_carrera-->carrera*/
+ALTER TABLE asignaturas_carrera
+ADD constraint fk_asicarr_idcarr_carr_idcarr
 foreign key (id_carrera)
 references carreras(id_carrera);
-/*Materias_carrera-->materias*/
-ALTER TABLE materias_carrera
-ADD constraint fk_matscarr_idmat_mats_idmat
-foreign key (id_materia)
-references materias(id_materia);
-/*Materias_especialidad-->especialidad*/
-ALTER TABLE materias_especialidad
-ADD constraint fk_mtsesp_idesp_esp_idesp
+/*asignaturas_carrera-->asignaturas*/
+ALTER TABLE asignaturas_carrera
+ADD constraint fk_asicarr_idasi_asi_idasi
+foreign key (id_asignatura)
+references asignaturas(id_asignatura);
+/*asignaturas_especialidad-->especialidad*/
+ALTER TABLE asignaturas_especialidad
+ADD constraint fk_asiesp_idesp_esp_idesp
 foreign key (id_especialidad)
 references especialidades(id_especialidad);
-/*Materias_especialidad-->materias*/
-ALTER TABLE materias_especialidad
+/*asignaturas_especialidad-->asignaturas*/
+ALTER TABLE asignaturas_especialidad
 ADD constraint fk_matsesp_idmat_mats_idmat
-foreign key (id_materia)
-references materias(id_materia);
+foreign key (id_asignatura)
+references asignaturas(id_asignatura);
 /*carreras-->nivel_escolar*/
 alter table carreras
 add constraint fk_carrs_idnivesc_nivesc_idnivesc
