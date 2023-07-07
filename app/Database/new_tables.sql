@@ -22,7 +22,6 @@ CREATE TABLE carreras (
     id_area_carr VARCHAR(255),
     id_nivel_carr VARCHAR(255),
     id_sub_area_carr VARCHAR(255),
-    modalidad CHAR,
     nivel VARCHAR(255),
     created_at DATETIME,
     updated_at DATETIME,
@@ -79,6 +78,7 @@ CREATE TABLE asignaturas (
     clave_area VARCHAR(255),
     horas_teoricas int,
     horas_practicas int,
+    semestre_recomendado int,
     created_at DATETIME,
     updated_at DATETIME,
     deleted_at DATETIME,
@@ -117,9 +117,10 @@ CREATE TABLE alumnos (
     becado_por VARCHAR(255),
     creditos_aprobados DECIMAL,
     creditos_cursados DECIMAL,
-    estatus_alumno CHAR,
-    estatus_alumno_anterior CHAR,
-    opcion_titulacion NVARCHAR(255),
+    estatus_alumno VARCHAR(255),
+    estatus_alumno_anterior VARCHAR(255),
+    opcion_titulacion VARCHAR(255),
+    modalidad VARCHAR(255),
     created_at DATETIME,
     updated_at DATETIME,
     deleted_at DATETIME,
@@ -142,9 +143,9 @@ CREATE table alumno_inf_personal (
     estatus_alumno_usuario VARCHAR(255),
     fecha_actualizacion DATETIME,
     fecha_nacimiento DATE,
-    hijo_trabajador CHAR,
-    nacionalidad CHAR,
-    sexo CHAR
+    hijo_trabajador VARCHAR(255),
+    nacionalidad VARCHAR(255),
+    genero VARCHAR(255)
 ) ENGINE = InnoDB;
 
 CREATE table alumno_inf_academica (
@@ -159,15 +160,15 @@ CREATE table alumno_inf_academica (
     periodo_ingreso_it VARCHAR(255),
     periodo_titulacion VARCHAR(255),
     periodos_revalidacion INT,
-    plan_de_estudios CHAR,
+    plan_de_estudios VARCHAR(255),
     promedio_aritmetico_acumulado DECIMAL,
     promedio_final_alcanzado DECIMAL,
     promedio_periodo_anterior DECIMAL,
     semestre INT,
-    tipo_alumno CHAR,
+    tipo_alumno VARCHAR(255),
     tipo_escuela INT,
     tipo_ingreso INT,
-    tipo_servicio_medico CHAR,
+    tipo_servicio_medico VARCHAR(255),
     ultimo_periodo_inscrito VARCHAR(255),
     indice_reprobacion_acumulado DECIMAL
 ) ENGINE = InnoDB;
