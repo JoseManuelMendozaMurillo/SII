@@ -10,6 +10,12 @@ insert into nivel_escolar
 values
 (0,'Licenciatura'),
 (0,'Maestria');
+/*valores tipo_asignatura*/
+insert into tipo_asignatura
+values
+(0,'basica'),
+(0,'generica'),
+(0,'especifica');
 /*Valores en carreras*/
 insert into carreras
 values

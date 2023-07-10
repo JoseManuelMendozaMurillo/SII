@@ -74,7 +74,7 @@ CREATE TABLE asignaturas (
     nombre_abreviado_asignatura VARCHAR(255),
     id_tipo_asignatura INT UNSIGNED NOT NULL,
     id_nivel_escolar int unsigned,
-    clave_area VARCHAR(255),
+    clave_asignatura VARCHAR(255),
     horas_teoricas int,
     horas_practicas int,
     semestre_recomendado int,
