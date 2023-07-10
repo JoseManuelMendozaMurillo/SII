@@ -13,9 +13,9 @@ values
 /*valores tipo_asignatura*/
 insert into tipo_asignatura
 values
-(0,'basica'),
-(0,'generica'),
-(0,'especifica');
+(0,'Basica'),
+(0,'Generica'),
+(0,'Especifica');
 /*Valores en carreras*/
 insert into carreras
 values

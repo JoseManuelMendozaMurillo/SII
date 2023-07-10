@@ -77,7 +77,6 @@ CREATE TABLE asignaturas (
     clave_asignatura VARCHAR(255),
     horas_teoricas int,
     horas_practicas int,
-    semestre_recomendado int,
     created_at DATETIME,
     updated_at DATETIME,
     deleted_at DATETIME,
@@ -174,12 +173,14 @@ CREATE table alumno_inf_academica (
 
 CREATE table asignaturas_carrera (
     id_carrera int unsigned,
-    id_asignatura int unsigned
+    id_asignatura int unsigned,
+    semestre_recomendado int
 ) ENGINE = InnoDB;
 
 CREATE table asignaturas_especialidad (
     id_especialidad int unsigned,
-    id_asignatura int unsigned
+    id_asignatura int ,
+    semestre_recomendado int
 ) ENGINE = InnoDB;
 
 CREATE TABLE dependencia_asignatura (
