@@ -13,8 +13,8 @@ Create TABLE constantes(
 CREATE TABLE carreras (
     id_carrera INT UNSIGNED AUTO_INCREMENT,
     nombre_carrera VARCHAR(255) NOT NULL,
-    clave_oficial CHAR(12) UNIQUE NOT NULL,
-    clave VARCHAR(12) UNIQUE,
+    clave_oficial CHAR(13) UNIQUE NOT NULL,
+    clave VARCHAR(13) UNIQUE,
     siglas VARCHAR(5) UNIQUE,
     creditos_totales INT,
     id_nivel_escolar int unsigned,
