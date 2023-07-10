@@ -179,7 +179,7 @@ CREATE table asignaturas_carrera (
 
 CREATE table asignaturas_especialidad (
     id_especialidad int unsigned,
-    id_asignatura int ,
+    id_asignatura int unsigned,
     semestre_recomendado int
 ) ENGINE = InnoDB;
 
