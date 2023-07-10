@@ -6,15 +6,16 @@ use control_escolar;
 
 Create TABLE constantes(
     carga_minima int,
-    carga_maxima int
+    carga_maxima int,
+    creditos_optativos INT
 ) ENGINE= InnoDB;
 
 CREATE TABLE carreras (
     id_carrera INT UNSIGNED AUTO_INCREMENT,
     nombre_carrera VARCHAR(255) NOT NULL,
-    clave_oficial CHAR(8) UNIQUE NOT NULL,
-    clave VARCHAR(8) UNIQUE,
-    siglas VARCHAR(3) UNIQUE,
+    clave_oficial CHAR(12) UNIQUE NOT NULL,
+    clave VARCHAR(12) UNIQUE,
+    siglas VARCHAR(5) UNIQUE,
     creditos_totales INT,
     id_nivel_escolar int unsigned,
     fecha_inicio DATETIME,
@@ -53,11 +54,10 @@ CREATE TABLE especialidades (
     clave VARCHAR(15),
     clave_oficial VARCHAR(8),
     creditos_especialidad INT,
-    creditos_optativos INT,
     nombre_reducido VARCHAR(8),
-    siglas CHAR(3),
-    periodo_inicio VARCHAR(255),
-    periodo_termino VARCHAR(255),
+    siglas CHAR(5),
+    fecha_inicio DATETIME,
+    fecha_termino DATETIME,
     id_nivel_escolar int unsigned,
     created_at DATETIME,
     updated_at DATETIME,
