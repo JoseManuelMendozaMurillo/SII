@@ -25,6 +25,11 @@ alter table asignaturas
 add constraint fk_asig_idnivesc_nivesc_idnivesc
 foreign key (id_nivel_escolar)
 references nivel_escolar(id_nivel_escolar);
+/*asignatura-->tipo_asignatura*/
+alter table asignaturas
+add constraint fk_asig_idtipasi_tipasi_idtipasi
+foreign key (id_tipo_asignatura)
+references tipo_asignatura(id_tipo_asignatura);
 /*dependencia_asignaturas-->asignaturas*/
 alter table dependencia_asignatura
 add constraint fk_depasig_idasi_asig_idasi

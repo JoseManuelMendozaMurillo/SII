@@ -74,7 +74,6 @@ CREATE TABLE asignaturas (
     nombre_abreviado_asignatura VARCHAR(255),
     id_tipo_asignatura INT UNSIGNED NOT NULL,
     id_nivel_escolar int unsigned,
-    id_asignatura_previa int unsigned,
     clave_area VARCHAR(255),
     horas_teoricas int,
     horas_practicas int,
@@ -186,6 +185,12 @@ CREATE table asignaturas_especialidad (
 CREATE TABLE dependencia_asignatura (
     id_asignatura int UNSIGNED,
     id_depende_de int UNSIGNED
+) ENGINE = InnoDB;
+
+create table tipo_asignatura(
+    id_tipo_asignatura int unsigned AUTO_INCREMENT,
+    tipo_asignatura VARCHAR(255),
+    PRIMARY KEY(id_tipo_asignatura)
 ) ENGINE = InnoDB;
 /*
  SELECT
