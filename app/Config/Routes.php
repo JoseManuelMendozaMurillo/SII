@@ -104,6 +104,13 @@ $routes->group('servicios',
     $routes->get('crear', 'ServiciosEscolares::crearReticula');
 });
 
+// Rutas de información
+$routes->group('aspirantes', 
+              ['namespace' => 'App\Controllers\Aspirantes'], 
+              function($routes){
+    $routes->get('loginup', 'Aspirantes::apirantes');
+});
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing
