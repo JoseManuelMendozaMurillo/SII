@@ -3,6 +3,12 @@
 
 {% block title %}Login{% endblock %}
 
+{% block styles %}<link
+      href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet"/>
+      <link rel="stylesheet" href="{{base_url('Vendor/Template/assets/css/button.css')}}"/>
+      <link rel="stylesheet" href="{{base_url('Vendor/Template/assets/css/switches.css')}}"/>
+{% endblock %}
+
 {% block body %}
   <body class=" " data-bs-spy="scroll" data-bs-target="#elements-section" data-bs-offset="0" tabindex="0">    
       <div class="wrapper">
@@ -13,6 +19,22 @@
                   <div class="col-md-10">
                      <div class="card card-transparent shadow-none d-flex justify-content-center mb-0 auth-card">
                         <div class="card-body">
+                           <div class="row">
+                              <div class="d-flex align-items-center justify-content-end ">
+                                 <a class="" data-value="theme-color-yellow" data-info="#6410F1" data-setting="color-mode1" data-name="color" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tema amarrillo">
+                                    <svg  class="customizer-btn icon-32" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" > <circle cx="12" cy="12" r="10" fill="#FAC601" /> <path d="M2,12 a1,1 1 1,0 20,0" fill="#6410F1" /></svg>
+                                 </a>
+                                 <a class="" data-value="theme-color-default" data-info="#025196" data-setting="color-mode1" data-name="color" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Tema azul">
+                                    <svg  class="customizer-btn icon-32" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" > <circle cx="12" cy="12" r="10" fill="#025196" /> <path d="M2,12 a1,1 1 1,0 20,0" fill="#6410F1" /></svg>
+                                 </a>
+                                 <label role="button" for="checkbox" class="switch">
+                                    <input type="checkbox" id="checkbox" />
+                                    <span class="switch__ball bg-primary"></span>
+                                    <i class="ri-sun-line switch__sun" data-setting="color-mode" data-name="color" data-value="light"></i>
+                                    <i class="ri-moon-line switch__moon" data-setting="color-mode" data-name="color" data-value="dark"></i>
+                                 </label>
+                              </div>
+                           </div>
                            <a href="#" class="navbar-brand d-flex align-items-center mb-3">
                               <!--Logo start-->
                               <!--logo End-->
@@ -30,34 +52,33 @@
                              
                              <h4 class="logo-title ms-3">Tec Ocotlán</h4>
                            </a>
-                           <h2 class="mb-2 text-center">Sign In</h2>
-                           <p class="text-center">Login to stay connected.</p>
+                           <h2 class="mb-2 text-center">Iniciar Sesión</h2>
                            <form action="{{base_url('auth/sing-in')}}" enctype="multipart/form-data" method="post">
                               <div class="row">
                                  <div class="col-lg-12">
                                     <div class="form-group">
-                                       <label for="email" class="form-label">Email</label>
+                                       <label for="email" class="form-label">Correo electronico</label>
                                        <input type="email" name="email" class="form-control" id="email" aria-describedby="email" placeholder=" ">
                                     </div>
                                  </div>
                                  <div class="col-lg-12">
                                     <div class="form-group">
-                                       <label for="password" class="form-label">Password</label>
+                                       <label for="password" class="form-label">Contraseña</label>
                                        <input type="password" name="password" class="form-control" id="password" aria-describedby="password" placeholder=" ">
                                     </div>
                                  </div>
                                  <div class="col-lg-12 d-flex justify-content-between">
                                     <div class="form-check mb-3">
                                        <input type="checkbox" class="form-check-input" id="customCheck1">
-                                       <label class="form-check-label" for="customCheck1">Remember Me</label>
+                                       <label class="form-check-label" for="customCheck1">Recuerdame</label>
                                     </div>
-                                    <a href="#">Forgot Password?</a>
+                                    <a href="#">¿Olvidaste tu contraseña?</a>
                                  </div>
                               </div>
                               <div class="d-flex justify-content-center">
-                                 <button type="submit" class="btn btn-primary">Sign In</button>
+                                 <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
                               </div>
-                              <p class="text-center my-3">Follow us on our social media</p>
+                              <p class="text-center my-3">Síguenos en nuestras redes sociales</p>
                               <div class="d-flex justify-content-center">
                                  <ul class="list-group list-group-horizontal list-group-flush">
                                     <li class="list-group-item border-0 pb-0">
@@ -68,25 +89,17 @@
                                     </li>
                                  </ul>
                               </div>
-                              <p class="mt-3 text-center">
-                                 Don’t have an account? <a href="{{base_url('auth/register')}}" class="text-underline">Click here to sign up.</a>
-                              </p>
+                              <div class="d-flex justify-content-center">
+                                 <a href="{{ route_to('aspirantes/loginup')}}" class="btn buttonanimate justify-content-center btn-primary">Inscríbete a la Institución   <i class="ri-arrow-right-line"></i></a>
+                              </div>
                            </form>
                         </div>
                      </div>
                   </div>
                </div>
-               <div class="sign-bg">
-                  <svg width="280" height="230" viewBox="0 0 431 398" fill="none" xmlns="http://www.w3.org/2000/svg">
-                     <g opacity="0.05">
-                        <rect x="0" y="20" width="200" height="60" rx="38.7857" transform="rotate(0 61.9355 138.545)" fill="#3B8AFF"/>
-                        <rect x="270" y="-256" width="180" height="60" rx="38.7857" transform="rotate(90 62.3154 -190.173)" fill="#3B8AFF"/>
-                     </g>
-                  </svg>
-               </div>
             </div>
             <div class="col-md-6 d-md-block d-none bg-primary p-0 mt-n1 vh-100 overflow-hidden">
-               <img src="{{base_url('Vendor/Template/assets/images/imagenescorrecaminos/logolineastec.svg')}}" class="img-fluid gradient-main animated-scaleX p-5" alt="images">
+               <img src="{{base_url('Vendor/Template/assets/images/imagenescorrecaminos/logolineastec.svg')}}" class="img-fluid gradient-main animated-scaleX p-5 " alt="images">
          </div>
       </section>
       </div>
@@ -96,4 +109,25 @@
     </div>
     
   </body>
+  {% endblock %}
+
+  {% block script %} 
+  <script>
+   const switchInput = document.getElementById('checkbox');
+   const bodyElement = document.body;
+
+   switchInput.addEventListener('change', function() {
+   if (this.checked) {
+      // Modo oscuro activado
+      bodyElement.classList.remove('light');
+      bodyElement.classList.add('dark');
+      console.log('Switch activado');
+   } else {
+      // Modo claro activado
+      bodyElement.classList.remove('dark');
+      bodyElement.classList.add('light');
+      console.log('Switch desactivado');
+   }
+   });
+  </script> 
   {% endblock %}
