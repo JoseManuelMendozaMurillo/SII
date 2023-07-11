@@ -3,14 +3,18 @@
 
 {% block title %}Login{% endblock %}
 
+<<<<<<< HEAD
 {% block styles %}<link
       href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet"/>
       <link rel="stylesheet" href="{{base_url('Vendor/Template/assets/css/button.css')}}"/>
       <link rel="stylesheet" href="{{base_url('Vendor/Template/assets/css/switches.css')}}"/>
 {% endblock %}
+=======
+{% block styles %}<link rel="stylesheet" href="{{base_url('Vendor/Parsley/parsley.css')}}">{% endblock %}
+>>>>>>> 9d613532e695cb19b269248ee4a36d4dd4034ff9
 
 {% block body %}
-  <body class=" " data-bs-spy="scroll" data-bs-target="#elements-section" data-bs-offset="0" tabindex="0">    
+  <div class=" " data-bs-spy="scroll" data-bs-target="#elements-section" data-bs-offset="0" tabindex="0">    
       <div class="wrapper">
       <section class="login-content">
          <div class="row m-0 align-items-center bg-white vh-100">            
@@ -52,6 +56,7 @@
                              
                              <h4 class="logo-title ms-3">Tec Ocotlán</h4>
                            </a>
+<<<<<<< HEAD
                            <h2 class="mb-2 text-center">Iniciar Sesión</h2>
                            <form action="{{base_url('auth/sing-in')}}" enctype="multipart/form-data" method="post">
                               <div class="row">
@@ -59,12 +64,29 @@
                                     <div class="form-group">
                                        <label for="email" class="form-label">Correo electronico</label>
                                        <input type="email" name="email" class="form-control" id="email" aria-describedby="email" placeholder=" ">
+=======
+                           <h2 class="mb-2 text-center">Sign In</h2>
+                           <p class="text-center">Login to stay connected.</p>
+                           <form id ="form-login" action="{{base_url('auth/sing-in')}}" enctype="multipart/form-data" method="post">
+                              <div class="row">
+                                 <div class="col-lg-12">
+                                    <div class="form-group">
+                                       <label for="email" class="form-label">Email</label>
+                                       <input type="email" name="email" class="form-control" id="email" aria-describedby="email" placeholder=" "
+                                       data-validation="email">
+>>>>>>> 9d613532e695cb19b269248ee4a36d4dd4034ff9
                                     </div>
                                  </div>
                                  <div class="col-lg-12">
                                     <div class="form-group">
+<<<<<<< HEAD
                                        <label for="password" class="form-label">Contraseña</label>
                                        <input type="password" name="password" class="form-control" id="password" aria-describedby="password" placeholder=" ">
+=======
+                                       <label for="password" class="form-label">Password</label>
+                                       <input type="password" name="password" class="form-control" id="password" aria-describedby="password" placeholder=" "
+                                       data-validation="password">
+>>>>>>> 9d613532e695cb19b269248ee4a36d4dd4034ff9
                                     </div>
                                  </div>
                                  <div class="col-lg-12 d-flex justify-content-between">
@@ -107,7 +129,22 @@
         </div>
       </div>
     </div>
+  </div>
+  {% endblock %}
+
+  {% block script %} 
+
+    <!-- JQuery -->
+    <script src="{{base_url('Vendor/Parsley/jquery-3.7.0.min.js')}}"></script>
+
+    <!-- Parsley.js -->
+    <script src="{{base_url('Vendor/Parsley/parsley.min.js')}}"></script>
+  
+    <!-- Validaciones personalizadas -->
+    <script src="{{base_url('Vendor/Parsley/validations.js')}}"></script>
+
     
+<<<<<<< HEAD
   </body>
   {% endblock %}
 
@@ -131,3 +168,25 @@
    });
   </script> 
   {% endblock %}
+=======
+    <script>
+      $(document).ready(function () {
+        // Llamar a la función para aplicar las validaciones genéricas 
+        customValidation();
+
+        // Inicializar Parsley en el formulario
+        $('#form-login').parsley();
+
+         // Manejar el evento de envío del formulario
+         $('#form-login').on('submit', function (event) {
+            event.preventDefault(); // Evitar el envío del formulario si hay errores
+            if ($('#form-login').parsley().isValid()) {
+              alert('Formulario válido. Se puede enviar.');
+            } else {
+               alert('Formulario inválido. Por favor, revisa los campos.');
+            }
+         });
+      });
+   </script>
+    {% endblock %}
+>>>>>>> 9d613532e695cb19b269248ee4a36d4dd4034ff9
