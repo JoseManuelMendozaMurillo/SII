@@ -3,3 +3,4 @@
 /writable/debugbar/**
 /writable/logs/**
 /app/cache/**
+blackbox.config.json
