@@ -97,6 +97,13 @@ $routes->group('pruebas',
     $routes->post('getPokemon', 'Pruebas::getDataPokemon');
 });
 
+// Rutas de ejemplo de servicios escolares
+$routes->group('servicios', 
+              ['namespace' => 'App\Controllers\ServiciosEscolares'], 
+              function($routes){
+    $routes->get('crear', 'ServiciosEscolares::crearReticula');
+});
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing

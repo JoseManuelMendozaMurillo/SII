@@ -24,7 +24,7 @@ class Twig
         'form_open', 'form_close', 'form_error', 'form_hidden', 'set_value', 'validation_errors', 'config_item',
         'form_open_multipart', 'form_upload', 'form_submit', 'form_dropdown',
         'set_radio', 'field_has_been_validated', 'report_detail_activity', 
-        'session', 'd', 'dd', 'auth'
+        'session', 'd', 'dd', 'auth', 'route_to'
     ];
 
     public function __construct($params = [])
@@ -142,6 +142,7 @@ class Twig
 
         $this->addFunctions();
 
+        //Verifica la extensión del archivo de plantilla
         $view = $view . '.twig.html';
         return $this->twig->render($view, $params);
     }
