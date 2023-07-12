@@ -66,10 +66,6 @@ Where id_especialidad = any (Select id_especialidad
 -- No se podude hacer con el modelo actual
 
 
--- Con el modelo actual no se puede solventar esto
--- No se podude hacer con el modelo actual
-
-
 -- Obtener las materias de una reticula ordenada por semestres
 -- No se podude hacer con el modelo actual
 
@@ -97,8 +93,8 @@ Where id_especialidad = any (Select id_especialidad
 
 /* Segundo Modelo */
 
--- Obtener el listado de todas las materias de la reticula de Analisis de Datos
-Select nombre_asignaturas
+-- Obtener el listado de todas las materias de la reticula de DESARROLLO PARA LA WEB Y APLICACIONES PARA DISPOSITIVOS MOVILES
+Select nombre_asignatura
 From asignaturas
 Where id_asignaturas = any (Select id_asignatura
                             From asignaturas_especialidad
@@ -106,7 +102,7 @@ Where id_asignaturas = any (Select id_asignatura
                                                      From reticulas
                                                      Where id_especialidad = (Select id_especialidad 
                                                                               From especialidades
-                                                                              Where nombre_especialidad = "Analisis de datos"
+                                                                              Where nombre_especialidad = "DESARROLLO PARA LA WEB Y APLICACIONES PARA DISPOSITIVOS MOVILES"
                                                                              )
                                                      )
                             )
@@ -116,10 +112,96 @@ Where id_asignaturas = any (Select id_asignatura
                                                    From reticulas
                                                    Where id_especialidad = (Select id_especialidad 
                                                                             From especialidades
-                                                                            Where nombre_especialidad = "Analisis de datos"
+                                                                            Where nombre_especialidad = "DESARROLLO PARA LA WEB Y APLICACIONES PARA DISPOSITIVOS MOVILES"
                                                                            )
                                                   )
                              );            
 
 
+-- Obtener el listado de todas las materias de la especialidad de DESARROLLO PARA LA WEB Y APLICACIONES PARA DISPOSITIVOS MOVILES
+Select nombre_asignatura
+From asignaturas
+Where id_asignaturas = any (Select id_asignatura
+                            From asignaturas_especialidad
+                            Where id_especialidad = (Select id_especialidad 
+                                                     From especialidades
+                                                     Where nombre_especialidad = "DESARROLLO PARA LA WEB Y APLICACIONES PARA DISPOSITIVOS MOVILES"
+                                                    )
+                                                     
+                            );
 
+-- Obtener el listado de todas las materias sin especialidad de la carrera de sistemas
+Select nombre_asignatura
+From asignaturas
+Where id_asignaturas = any (Select id_asignatura
+                            From asignaturas_carrera
+                            Where id_carrera = (Select id_carrera
+                                                From carreras
+                                                Where nombre_carrera = "Ingenieria en Sistemas Computacionales")
+                           );  
+
+
+-- Obtener un listado de todas las especialidades de una carrera
+Select nombre_especialidad
+From especialidades
+Where id_carrera = (Select id_carrera
+                    From carreras
+                    Where nombre_carrera = "Ingenieria en Sistemas Computacionales");
+
+
+-- Obtener un listado de las especialidades activas
+Select nombre_especialidad
+From especialidades
+Where id_carrera = (Select id_carrera
+                    From carreras
+                    Where nombre_carrera = "Ingenieria en Sistemas Computacionales")
+      And deleted_at = null;
+
+
+-- Obtener las materias de una reticula ordenada por semestres
+Select a.nombre_asignatura, ac.semestre_recomendado
+From asignaturas as a
+Inner Join asignaturas_carrera as ac 
+On ac.id_carrera = (Select id_carrera 
+                    From carreras 
+                    Where nombre_carrera = "Ingenieria en Sistemas Computacionales")
+Where a.id_asignaturas = ac.id_asignatura
+
+UNION
+
+Select a.nombre_asignatura, ae.semestre_recomendado
+From asignaturas as a
+Inner Join asignaturas_especialidad as ae 
+On ae.id_especialidad = (Select id_especialidad 
+                         From especialidades 
+                         Where nombre_especialidad = "DESARROLLO PARA LA WEB Y APLICACIONES PARA DISPOSITIVOS MOVILES")
+Where a.id_asignaturas = ae.id_asignatura
+
+Order By semestre_recomendado asc;
+
+
+-- Obtener las materias de una carrera ordenadas por semestre
+Select a.nombre_asignatura, ac.semestre_recomendado
+From asignaturas as a
+Inner Join asignaturas_carrera as ac On ac.id_carrera = (Select id_carrera From carreras Where nombre_carrera = "Ingenieria en Sistemas Computacionales")
+Where a.id_asignaturas = ac.id_asignatura
+Order By ac.semestre_recomendado asc;
+
+
+-- Obtener las materias de una especialidad ordenadas por semestre
+Select a.nombre_asignatura, ae.semestre_recomendado
+From asignaturas as a
+Inner Join asignaturas_especialidad as ae On ae.id_especialidad = (Select id_especialidad From especialidades Where nombre_especialidad = "DESARROLLO PARA LA WEB Y APLICACIONES PARA DISPOSITIVOS MOVILES")
+Where a.id_asignaturas = ae.id_asignatura
+Order By ae.semestre_recomendado asc;
+
+
+-- Obtener la cadena completa de una materia
+Select nombre_asignatura
+From asignaturas 
+Where id_asignatura = any (Select id_depende_de
+                           From dependencia_asignatura
+                           Where id_asignatura = (Select id_asignatura
+                                                   From asignaturas
+                                                   Where nombre_asignatura = "CÁLCULO INTEGRAL")
+                           );
