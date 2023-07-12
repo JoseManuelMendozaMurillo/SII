@@ -6,9 +6,9 @@ use App\Controllers\BaseController;
 
 class Aspirantes extends BaseController {
 
-    public function apirantes()
+    public function aspirantes()
     {
-        $this->twig->display('Apirantes/aspirantes');
+        $this->twig->display('Aspirantes/aspirantes');
     }
 
 }
