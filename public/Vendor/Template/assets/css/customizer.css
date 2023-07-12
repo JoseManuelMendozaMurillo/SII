@@ -24,7 +24,7 @@ body {
 
 :root {
   --bs-heading-color: #0c112e;
-  --bs-primary: #3a57e8;
+  --bs-primary: #025196;
   --bs-primary-shade-80: #0c112e;
   --bs-primary-shade-60: #17235d;
   --bs-primary-shade-40: #23348b;
@@ -752,7 +752,7 @@ body {
   --bs-gray-dark-tint-20: #5d6166;
   --bs-gray-dark-rgb: 52, 58, 64;
   --bs-heading-color: #2f1504;
-  --bs-primary: #EA6A12;
+  --bs-primary: #FAC601;
   --bs-primary-shade-80: #2f1504;
   --bs-primary-shade-60: #5e2a07;
   --bs-primary-shade-40: #8c400b;

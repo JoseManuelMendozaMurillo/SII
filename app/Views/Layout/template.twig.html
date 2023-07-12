@@ -3,19 +3,19 @@
 
 {% block body %}
 
-{% block menuslider %}{% endblock %}
+    {% block menuslider %}{% endblock %}
 
-<main class="main-content">
-    <div class="position-relative iq-banner">
+    <main class="main-content">
+        <div class="position-relative iq-banner">
 
-        {% include 'Include/_nav.twig.html' %}
+            {% include 'Include/_nav.twig.html' %}
 
-        {% block content %}{% endblock %}
+            {% block content %}{% endblock %}
 
-    </div>
+        </div>
 
-    {% include 'Include/_footer.twig.html' %}
-    
-</main>
+        {% include 'Include/_footer.twig.html' %}
+        
+    </main>
 
 {% endblock %}

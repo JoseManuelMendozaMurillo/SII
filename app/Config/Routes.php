@@ -43,6 +43,13 @@ $routes->group('auth', ['namespace' => 'App\Controllers\Auth'], function($routes
     $routes->post('sing-up', 'Register::registerAction');
 });
 
+$routes->group('aspirantes', 
+              ['namespace' => 'App\Controllers\Aspirantes'], 
+              function($routes){
+    $routes->get('loginup', 'Aspirantes::aspirantes');
+});
+
+
 // Rutas para el crud de alumnos
 $routes->group(
                 'alumno', 
@@ -103,6 +110,7 @@ $routes->group('servicios',
               function($routes){
     $routes->get('crear', 'ServiciosEscolares::crearReticula');
 });
+
 
 /*
  * --------------------------------------------------------------------
