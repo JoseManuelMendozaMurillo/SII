@@ -9,7 +9,6 @@ use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\Response;
 use CodeIgniter\HTTP\ResponseInterface;
-use CodeIgniter\Exceptions\PageNotFoundException;
 
 /**
  * Group Authorization Filter.
@@ -31,7 +30,7 @@ abstract class AbstractAuthFilter implements FilterInterface
         }
 
         if (! auth()->loggedIn()) {
-            return redirect()->route('auth/login');
+            return redirect()->route('login');
         }
 
         if ($this->isAuthorized($arguments)) {
@@ -39,7 +38,7 @@ abstract class AbstractAuthFilter implements FilterInterface
         }
 
         // Otherwise, we'll just send them to the home page.
-        throw PageNotFoundException::forPageNotFound();
+        return redirect()->to('/')->with('error', lang('Auth.notEnoughPrivilege'));
     }
 
     /**

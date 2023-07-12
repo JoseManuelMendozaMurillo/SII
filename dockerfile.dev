@@ -99,6 +99,12 @@ RUN php -r "unlink('composer-setup.php');"
 # Añadimos /usr/local/bin a la variable de entorno PATH
 ENV PATH=$PATH:/usr/local/bin
 
+
+#Instalamos node
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash -
+RUN apt-get install -y nodejs
+
+
 # Limpiamos la cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
