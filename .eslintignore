@@ -1,0 +1,7 @@
+vendor
+writable
+public/Vendor
+app/Views/errors
+app/cache
+system
+tests
