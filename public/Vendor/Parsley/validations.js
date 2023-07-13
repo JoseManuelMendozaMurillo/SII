@@ -16,6 +16,11 @@ function customValidation() {
           $input.attr('data-parsley-minlength','8');
           $input.attr('data-parsley-minlength-message','La contrasenia debe tener al menos 8 caracteres');
           break;
+        case 'birthdate':
+          $input.attr('data-parsley-date');
+          $input.attr('data-parsley-max', moment().subtract(17, 'years').format('YYYY-MM-DD'));
+          $input.attr('data-parsley-error-message', 'Debes tener más de 17 años');
+          break;
         default:
           break;
       }
