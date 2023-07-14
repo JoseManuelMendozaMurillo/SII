@@ -3,4 +3,3 @@
 /writable/debugbar/**
 /writable/logs/**
 /app/cache/**
-node_modules
