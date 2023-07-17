@@ -221,28 +221,28 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="form-label">CURP: *</label>
-                                                        <input type="text" class="form-control" name="fname"
+                                                        <input type="text" class="form-control upper-case" name="fname"
                                                             placeholder="LOXA880921HMCLNR05" />
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="form-label">Nombre(s): *</label>
-                                                        <input type="text" class="form-control" name="lname"
+                                                        <input id="name" class="form-control upper-case" name="lname"
                                                             placeholder="JUAN" />
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="form-label">Apellido Paterno: *</label>
-                                                        <input type="text" class="form-control" name="phno"
+                                                        <input type="text" class="form-control upper-case" name="phno"
                                                             placeholder="PEREZ" />
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="form-label">Apellido materno.: *</label>
-                                                        <input type="text" class="form-control" name="phno_2"
+                                                        <input type="text" class="form-control upper-case" name="phno_2"
                                                             placeholder="LÓPEZ" />
                                                     </div>
                                                 </div>
@@ -258,9 +258,9 @@
                                                         <label class="form-label">Género: *</label>
                                                         <select class="form-select" id="exampleFormControlSelect1">
                                                             <option selected="" disabled=""></option>
-                                                            <option selected>Masculino</option>
-                                                            <option>Femenino</option>
-                                                            <option>Otro</option>
+                                                            <option selected>MASCULINO</option>
+                                                            <option>FEMENINO</option>
+                                                            <option>OTRO</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -269,18 +269,18 @@
                                                         <label class="form-label">Estado civil: *</label>
                                                         <select class="form-select" id="exampleFormControlSelect1">
                                                             <option selected="" disabled=""></option>
-                                                            <option selected>Soltero</option>
-                                                            <option>Casado</option>
-                                                            <option>Viudo</option>
-                                                            <option>Unión libre</option>
-                                                            <option>Otro</option>
+                                                            <option selected>SOLTERO</option>
+                                                            <option>CASADO</option>
+                                                            <option>VIUDO</option>
+                                                            <option>UNION LIBRE</option>
+                                                            <option>OTRO</option>
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="form-label">País de nacimiento: *</label>
-                                                        <select class="form-select" name="pais" id="countrySelect"></select>
+                                                        <select class="form-select upper-case" name="pais" id="countrySelect"></select>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -469,6 +469,17 @@
 {% endblock %}
 
 {% block script %}
+
+<script>
+    $(document).ready(function() {
+      $('.upper-case').on('input', function() {
+        var texto = $(this).val();
+        $(this).val(texto.toUpperCase());
+      });
+    });
+
+</script>
+
 <script>
     $(document).ready(function () {
 
