@@ -9,8 +9,15 @@
 			// Recomendaciones de extensiones para el proyecto dentro del entorno de desarrollo
             "extensions": [
                 "dbaeumer.vscode-eslint",
-				"esbenp.prettier-vscode"
-            ]
+				"esbenp.prettier-vscode",
+				"bmewburn.vscode-intelephense-client"
+            ],
+			// Configuraciones para vscode dentro del entorno de desarrollo
+			"settings": {
+				// Configuramos la ruta para validar php
+				"php.validate.executablePath": "/usr/local/bin/php",
+				"intelephense.environment.phpVersion": "/usr/local/bin/php"
+			}
         }
     },
 
