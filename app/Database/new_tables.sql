@@ -110,6 +110,7 @@ CREATE TABLE alumnos (
     nombre VARCHAR(255),
     apellido_materno VARCHAR(255),
     apellido_paterno VARCHAR(255),
+    curp VARCHAR(18) UNIQUE NOT NULL,
     id_reticula INT UNSIGNED,
     id_nivel_escolar int unsigned,
     becado_por VARCHAR(255),
@@ -133,7 +134,6 @@ CREATE table alumno_inf_personal (
     ciudad_procedencia VARCHAR(255),
     clave_servicio_medico VARCHAR(255),
     correo_electronico VARCHAR(255),
-    curp_alumno VARCHAR(255),
     domicilio_escuela VARCHAR(255),
     entidad_procedencia VARCHAR(255),
     estado_civil VARCHAR(255),
@@ -193,6 +193,43 @@ create table tipo_asignatura(
     tipo_asignatura VARCHAR(255),
     PRIMARY KEY(id_tipo_asignatura)
 ) ENGINE = InnoDB;
+
+create table periodos_escolares(
+    id_periodo INT UNSIGNED AUTO_INCREMENT,
+    clave_periodo VARCHAR(255), #ENE-JUN2020,JUL-DIC2020,2020A,2020B
+    inicio_periodo DATETIME,
+    fin_periodo DATETIME,
+    inscripciones BOOLEAN,
+    created_at DATETIME,
+    updated_at DATETIME,
+    deleted_at DATETIME,
+    created_by VARCHAR(255),
+    updated_by VARCHAR(255),
+    deleted_by VARCHAR(255),
+    PRIMARY KEY (periodo)
+) ENGINE = InnoDB;
+
+CREATE TABLE aspirantes (
+    id_aspirante int UNSIGNED AUTO_INCREMENT,
+    nombre varchar(255),
+    apellido_paterno VARCHAR(255),
+    apellido_materno VARCHAR(255),
+    domicilio VARCHAR(255),
+    curp VARCHAR(18),
+    discapacidad VARCHAR(255),
+    fecha_pago DATETIME,
+    no_ficha INT,
+    no_recibo INT,
+    no_solicitud INT,
+    id_periodo int unsigned,
+    created_at DATETIME,
+    updated_at DATETIME,
+    deleted_at DATETIME,
+    created_by VARCHAR(255),
+    updated_by VARCHAR(255),
+    deleted_by VARCHAR(255),
+    PRIMARY KEY (id_aspirante)
+);
 /*
  SELECT
  TABLE_NAME,
