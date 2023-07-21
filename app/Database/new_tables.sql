@@ -206,7 +206,7 @@ create table periodos_escolares(
     created_by VARCHAR(255),
     updated_by VARCHAR(255),
     deleted_by VARCHAR(255),
-    PRIMARY KEY (periodo)
+    PRIMARY KEY (id_periodo)
 ) ENGINE = InnoDB;
 
 CREATE TABLE aspirantes (
