@@ -1,25 +1,8 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/docker-existing-docker-compose
 {
-	"name": "Entorno de desarrollo",
+	"name": "Development environment",
 
-
-	"customizations": {
-        "vscode": {
-			// Recomendaciones de extensiones para el proyecto dentro del entorno de desarrollo
-            "extensions": [
-                "dbaeumer.vscode-eslint",
-				"esbenp.prettier-vscode",
-				"bmewburn.vscode-intelephense-client"
-            ],
-			// Configuraciones para vscode dentro del entorno de desarrollo
-			"settings": {
-				// Configuramos la ruta para validar php
-				"php.validate.executablePath": "/usr/local/bin/php",
-				"intelephense.environment.phpVersion": "/usr/local/bin/php"
-			}
-        }
-    },
 
 	// Update the 'dockerComposeFile' list if you have more compose files or use different names.
 	// The .devcontainer/docker-compose.yml file contains any overrides you need/want to make.
@@ -40,12 +23,10 @@
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// Apache: puerto 443
-	// Mysql: puerto 3309
-	// PhpMyAdmin: puerto 8443
-	"forwardPorts": [443, 8443, 3309],
+	"forwardPorts": [443],
 
 	// Uncomment the next line if you want start specific services in your Docker Compose config.
-	"runServices": ["db_correcaminos", "phpmyadmin"]
+	"runServices": ["db_correcaminos", "phpmyadmin"],
 
 	// Uncomment the next line if you want to keep your containers running after VS Code shuts down.
 	// "shutdownAction": "none",
@@ -54,7 +35,38 @@
 	// "postCreateCommand": "cat /etc/os-release",
 
 	// Configure tool-specific properties.
-	// "customizations": {},
+	"customizations": {
+        "vscode": {
+			// Recomendaciones de extensiones para el proyecto dentro del entorno de desarrollo
+            "extensions": [
+                "dbaeumer.vscode-eslint",
+				"esbenp.prettier-vscode",
+				"bmewburn.vscode-intelephense-client",
+				"mansoorkhan96.php-cs-fixer",
+				"shevaua.phpcs"
+            ],
+			// Configuraciones para vscode dentro del entorno de desarrollo
+			"settings": {
+				// Configuramos la ruta para validar php
+				"php.validate.executablePath": "/usr/local/bin/php",
+				"intelephense.environment.phpVersion": "/usr/local/bin/php",
+				// Configuramos la extension php-cs-fixer
+				"php-cs-fixer.toolPath": "${workspaceFolder}/vendor/bin/php-cs-fixer",
+				"php-cs-fixer.useCache": false,
+				"php-cs-fixer.allowRisky": false,
+				"php-cs-fixer.config": ".php-cs-fixer.php",
+				"php-cs-fixer.rules": "@PSR12",
+				"php-cs-fixer.fixOnSave": true,
+				// Configuramos la extension phpcs
+				"phpcs.executablePath": "/var/www/html/vendor/bin/phpcs",
+				"phpcs.enable": true,
+				"phpcs.standard": ".phpcs.xml",
+				"phpcs.errorSeverity": 5,
+				"phpcs.warningSeverity": 5,
+				"phpcs.showWarnings": true
+			}
+        }
+    }
 
 	// Uncomment to connect as an existing user other than the container default. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "devcontainer"

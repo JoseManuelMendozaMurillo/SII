@@ -3,6 +3,8 @@
         "esbenp.prettier-vscode",
         "dbaeumer.vscode-eslint",
         "bmewburn.vscode-intelephense-client",
+        "mansoorkhan96.php-cs-fixer",
+        "shevaua.phpcs",
         "ms-azuretools.vscode-docker",
         "ms-vscode-remote.remote-containers",
     ]
