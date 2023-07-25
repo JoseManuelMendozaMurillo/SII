@@ -5,6 +5,8 @@
 		"bmewburn.vscode-intelephense-client",
 		"mansoorkhan96.php-cs-fixer",
 		"shevaua.phpcs",
+		"donjayamanne.jquerysnippets",
+		"adpyke.vscode-sql-formatter",
 		"ms-azuretools.vscode-docker",
 		"ms-vscode-remote.remote-containers"
 	]

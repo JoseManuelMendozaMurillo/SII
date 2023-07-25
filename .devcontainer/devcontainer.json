@@ -40,7 +40,9 @@
 				"esbenp.prettier-vscode",
 				"bmewburn.vscode-intelephense-client",
 				"mansoorkhan96.php-cs-fixer",
-				"shevaua.phpcs"
+				"shevaua.phpcs",
+				"donjayamanne.jquerysnippets",
+				"adpyke.vscode-sql-formatter"
 			],
 			// Configuraciones para vscode dentro del entorno de desarrollo
 			"settings": {
@@ -60,7 +62,29 @@
 				"phpcs.standard": ".phpcs.xml",
 				"phpcs.errorSeverity": 5,
 				"phpcs.warningSeverity": 5,
-				"phpcs.showWarnings": true
+				"phpcs.showWarnings": true,
+				// Configuramos la extension SQL Formatter
+				"sql-formatter.dialect": "sql",
+				"sql-formatter.uppercase": true,
+				"sql-formatter.linesBetweenQueries": 2,
+				// Configuramos los formateadores por defecto
+				"[javascript]": {
+					"editor.defaultFormatter": "esbenp.prettier-vscode"
+				},
+				"[json]": {
+					"editor.defaultFormatter": "esbenp.prettier-vscode"
+				},
+				"[php]": {
+					"editor.defaultFormatter": "mansoorkhan96.php-cs-fixer"
+				},
+				"[html]": {
+					"editor.defaultFormatter": "vscode.html-language-features"
+				},
+				"[css]": {
+					"editor.defaultFormatter": "vscode.css-language-features"
+				},
+				// Configuraciones generales del editor
+				"editor.formatOnSave": true
 			}
 		}
 	}
