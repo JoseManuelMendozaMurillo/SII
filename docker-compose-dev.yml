@@ -24,6 +24,7 @@ services:
       - MYSQL_SSL_MODE=REQUIRED
     volumes:
       - data-db-correcaminos:/var/lib/mysql
+      - ./sql/:/docker-entrypoint-initdb.d/
   phpmyadmin:
     build: 
       context: .
