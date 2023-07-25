@@ -1,9 +1,6 @@
-<?php 
+<?php
 
 namespace App\Libraries;
-
-use Config\Email as ConfigEmail; // usamos 'as' para renombrar Config\Email a ConfigEmail
-use CodeIgniter\Email\Email;
 
 class Emails
 {
@@ -16,9 +13,11 @@ class Emails
 
     /**
      * @name sendHtmlEmail
+     *
      * @description Funcion para enviar un email con contenido html
-     * 
+     *
      * @param string $emailTo, $subject, $htmlMessage
+     *
      * @return bool
      */
     public function sendHtmlEmail($emailTo, $subject, $htmlMessage)
@@ -31,16 +30,10 @@ class Emails
         $this->email->setMessage($htmlMessage);
 
         // Enviamos el email y retornamos true si se envio o false si no se envio
-        if ($this->email->send())
-        {
+        if ($this->email->send()) {
             return true;
-        } 
-        else
-        {
+        } else {
             return false;
         }
     }
 }
-
-
-?>

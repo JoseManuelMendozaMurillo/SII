@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
+<!--Link a la documentación oficial: https://github.com/squizlabs/PHP_CodeSniffer/wiki/ -->
 <ruleset name="SII">
     <description>Estandares de codigo para el proyecto</description>
 

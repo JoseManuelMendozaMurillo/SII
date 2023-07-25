@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Models;
 
@@ -10,7 +10,8 @@ class GruposModel extends Model
     protected $primaryKey = 'id_grupo';
     protected $returnType = 'object';
 
-    public function get_by($id_carrera, $semestre){
+    public function getBy($id_carrera, $semestre)
+    {
         return $this->where('id_carrera', $id_carrera)
                     ->where('semestre', $semestre)
                     ->findAll();

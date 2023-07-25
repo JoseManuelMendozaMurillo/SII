@@ -33,20 +33,20 @@ class AuthGroups extends ShieldAuthGroups
      */
     public array $groups = [
         'superadmin' => [
-            'title'       => 'Super Admin',
+            'title' => 'Super Admin',
             'description' => 'Complete control of the site.',
         ],
         'bossdepartment' => [
             'title' => 'Boss of Department',
-            'description' => 'Gestionar maestros y alumnos'
+            'description' => 'Gestionar maestros y alumnos',
         ],
         'master' => [
             'title' => 'Master',
-            'description' => 'Actualizar alumnos'
+            'description' => 'Actualizar alumnos',
         ],
         'student' => [
             'title' => 'Student',
-            'description' => 'Ver listado de alumnos'
+            'description' => 'Ver listado de alumnos',
         ],
     ];
 
@@ -59,20 +59,20 @@ class AuthGroups extends ShieldAuthGroups
      * If a permission is not listed here it cannot be used.
      */
     public array $permissions = [
-        'admin.access'            =>   'Can access the sites admin area',
-        'admin.settings'          =>   'Can access the main site settings',
-        'bossdepartment.list'     =>   'Can see the list of bosses of department',
-        'bossdepartment.create'   =>   'Can create new boss of department',
-        'bossdepartment.update'   =>   'Can edit existing boss of department',
-        'bossdepartment.delete'   =>   'Can delete existing boss of department',
-        'master.list'             =>   'Can see the list of masters',
-        'master.create'           =>   'Can create new master',
-        'master.update'           =>   'Can edit existing master',
-        'master.delete'           =>   'Can delete existing master',
-        'student.list'            =>   'Can see the list of students',
-        'student.create'          =>   'Can create new student',
-        'student.update'          =>   'Can edit existing student',
-        'student.delete'          =>   'Can delete existing student',
+        'admin.access' => 'Can access the sites admin area',
+        'admin.settings' => 'Can access the main site settings',
+        'bossdepartment.list' => 'Can see the list of bosses of department',
+        'bossdepartment.create' => 'Can create new boss of department',
+        'bossdepartment.update' => 'Can edit existing boss of department',
+        'bossdepartment.delete' => 'Can delete existing boss of department',
+        'master.list' => 'Can see the list of masters',
+        'master.create' => 'Can create new master',
+        'master.update' => 'Can edit existing master',
+        'master.delete' => 'Can delete existing master',
+        'student.list' => 'Can see the list of students',
+        'student.create' => 'Can create new student',
+        'student.update' => 'Can edit existing student',
+        'student.delete' => 'Can delete existing student',
     ];
 
     /**
@@ -104,6 +104,6 @@ class AuthGroups extends ShieldAuthGroups
         'student' => [
             'student.list',
         ],
-       
+
     ];
 }

@@ -16,7 +16,7 @@
             
             <div class="
                     w-100 
-                    <?php echo $alert ? "d-block" : "d-none"; ?>
+                    <?php echo $alert ? 'd-block' : 'd-none'; ?>
                   " 
                   id="alertSuccess">
                 <div class="alert alert-<?= $typeAlert; ?> d-flex justify-content-between align-items-center" role="alert">
@@ -34,7 +34,7 @@
                   <span class="fs-5">Salir</span>
                 </a>
 
-                <a href="<?= base_url("alumno/form" ); ?>"
+                <a href="<?= base_url('alumno/form'); ?>"
                   class="btn btn-primary rounded-circle d-flex justify-content-center align-items-center p-3 me-4">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
                     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
@@ -56,16 +56,16 @@
                 </thead>
                 <tbody>
                 <?php
-                  foreach($alumnos as $alumno){
-                    echo "<tr class='text-center'>";
-                    echo  "<td class='align-middle' scope='row'>$alumno->id</td>";
-                    echo  "<td class='align-middle' id='nameAlumno".$alumno->id."'>$alumno->nombre</td>";
-                    echo  "<td class='align-middle'>$alumno->num_control</td>";
-                    echo  "<td class='align-middle'>$alumno->carrera</td>";
-                    echo  "<td class='align-middle'>$alumno->semestre</td>";
-                    echo  "<td class='align-middle'>$alumno->grupo</td>";
-                    $url_update = base_url('alumno/form/') . $alumno->id;
-                    echo <<<HTML
+                  foreach ($alumnos as $alumno) {
+                      echo "<tr class='text-center'>";
+                      echo "<td class='align-middle' scope='row'>$alumno->id</td>";
+                      echo "<td class='align-middle' id='nameAlumno" . $alumno->id . "'>$alumno->nombre</td>";
+                      echo "<td class='align-middle'>$alumno->num_control</td>";
+                      echo "<td class='align-middle'>$alumno->carrera</td>";
+                      echo "<td class='align-middle'>$alumno->semestre</td>";
+                      echo "<td class='align-middle'>$alumno->grupo</td>";
+                      $url_update = base_url('alumno/form/') . $alumno->id;
+                      echo <<<HTML
                       <td>
                         <div class="d-flex justify-content-center align-items-center gap-2">
                           <a class="btn btn-outline-info d-flex justify-content-center align-items-center rounded-circle p-3" 
@@ -82,9 +82,9 @@
                         </div>
                       </td>
                     HTML;
-                    echo "</tr>";
+                      echo '</tr>';
                   }
-                ?>
+                    ?>
                 </tbody>
             </table>
         </div>
@@ -135,6 +135,6 @@
   <script type="text/javascript">
     const url = "<?= base_url(); ?>";
   </script>
-  <script src="<?= base_url("Js/Alumno/listado.js");?>"></script>
+  <script src="<?= base_url('Js/Alumno/listado.js'); ?>"></script>
 </body>
 </html>
