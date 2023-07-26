@@ -4,4 +4,3 @@
 /writable/logs/**
 /app/cache/**
 .php-cs-fixer.cache
-.env
