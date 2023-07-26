@@ -1,5 +1,11 @@
+<!-- 
+    * .phpcs.xml
+    * PHP_CodeSniffer version 3.7.2
+    *
+    * Archivo de configuración de reglas para code sniffer (linter para php)
+    * Documentación oficial: https://github.com/squizlabs/PHP_CodeSniffer/wiki/ 
+ -->
 <?xml version="1.0"?>
-<!--Link a la documentación oficial: https://github.com/squizlabs/PHP_CodeSniffer/wiki/ -->
 <ruleset name="SII">
     <description>Estandares de codigo para el proyecto</description>
 

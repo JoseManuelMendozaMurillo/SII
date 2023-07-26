@@ -280,7 +280,8 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="form-label">País de nacimiento: *</label>
-                                                        <select class="form-select upper-case" name="pais" id="countrySelect"></select>
+                                                        <select class="form-select upper-case" name="pais"
+                                                            id="countrySelect"></select>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -471,11 +472,11 @@
 {% block script %}
 
 <script>
-    $(document).ready(function() {
-      $('.upper-case').on('input', function() {
-        var texto = $(this).val();
-        $(this).val(texto.toUpperCase());
-      });
+    $(document).ready(function () {
+        $('.upper-case').on('input', function () {
+            var texto = $(this).val();
+            $(this).val(texto.toUpperCase());
+        });
     });
 
 </script>

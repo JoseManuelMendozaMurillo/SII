@@ -3,6 +3,8 @@
 /**
  * .php-cs-fixer.php
  *
+ * php-cs-fixer V 3.22.0
+ *
  * Archivo de configuracion para php-cs-fixer (formateador de codigo para php)
  * Documentación oficial: https://github.com/PHP-CS-Fixer/PHP-CS-Fixer
  *
