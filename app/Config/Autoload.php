@@ -37,11 +37,12 @@ class Autoload extends AutoloadConfig
      *   ];
      *
      * @var array<string, array<int, string>|string>
+     *
      * @phpstan-var array<string, string|list<string>>
      */
     public $psr4 = [
         APP_NAMESPACE => APPPATH, // For custom app namespace
-        'Config'      => APPPATH . 'Config',
+        'Config' => APPPATH . 'Config',
     ];
 
     /**
@@ -77,6 +78,7 @@ class Autoload extends AutoloadConfig
      *   ];
      *
      * @var string[]
+     *
      * @phpstan-var list<string>
      */
     public $files = [];
@@ -91,6 +93,7 @@ class Autoload extends AutoloadConfig
      *   ];
      *
      * @var string[]
+     *
      * @phpstan-var list<string>
      */
     public $helpers = [];

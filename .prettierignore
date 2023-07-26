@@ -5,7 +5,10 @@ public/Vendor
 app/cache
 app/Views/errors
 package-lock.json
+package.json
 composer.json
 composer.lock
 README.md
 tests
+docker-compose-dev.yml
+docker-compose.yml

@@ -25,20 +25,21 @@ namespace PhpCsFixer;
 final class Preg
 {
     /**
-     * @param null|string[] $matches
+     * @param null|string[]         $matches
+     * @param int-mask<0, 256, 512> $flags
      *
      * @throws PregException
      */
-    public static function match(string $pattern, string $subject, ?array &$matches = null, int $flags = 0, int $offset = 0): int
+    public static function match(string $pattern, string $subject, ?array &$matches = null, int $flags = 0, int $offset = 0): bool
     {
         $result = @preg_match(self::addUtf8Modifier($pattern), $subject, $matches, $flags, $offset);
         if (false !== $result && PREG_NO_ERROR === preg_last_error()) {
-            return $result;
+            return 1 === $result;
         }
 
         $result = @preg_match(self::removeUtf8Modifier($pattern), $subject, $matches, $flags, $offset);
         if (false !== $result && PREG_NO_ERROR === preg_last_error()) {
-            return $result;
+            return 1 === $result;
         }
 
         throw self::newPregException(preg_last_error(), __METHOD__, (array) $pattern);

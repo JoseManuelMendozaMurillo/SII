@@ -31,9 +31,6 @@ final class SingleLineThrowFixer extends AbstractFixer
     private const REMOVE_WHITESPACE_AROUND_TOKENS = ['(', [T_DOUBLE_COLON]];
     private const REMOVE_WHITESPACE_BEFORE_TOKENS = [')', ']', ',', ';'];
 
-    /**
-     * {@inheritdoc}
-     */
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
@@ -44,9 +41,6 @@ final class SingleLineThrowFixer extends AbstractFixer
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isCandidate(Tokens $tokens): bool
     {
         return $tokens->isTokenKindFound(T_THROW);
@@ -62,9 +56,6 @@ final class SingleLineThrowFixer extends AbstractFixer
         return 36;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function applyFix(\SplFileInfo $file, Tokens $tokens): void
     {
         for ($index = 0, $count = $tokens->count(); $index < $count; ++$index) {
@@ -104,7 +95,7 @@ final class SingleLineThrowFixer extends AbstractFixer
                 } elseif (str_starts_with($content, '#')) {
                     $content = '/*'.substr($content, 1).' */';
                     $tokens->clearAt($index + 1);
-                } elseif (0 !== Preg::match('/\R/', $content)) {
+                } elseif (Preg::match('/\R/', $content)) {
                     $content = Preg::replace('/\R/', ' ', $content);
                 }
 
@@ -117,7 +108,7 @@ final class SingleLineThrowFixer extends AbstractFixer
                 continue;
             }
 
-            if (0 === Preg::match('/\R/', $content)) {
+            if (!Preg::match('/\R/', $content)) {
                 continue;
             }
 

@@ -36,9 +36,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'self-update')]
 final class SelfUpdateCommand extends Command
 {
-    /**
-     * @var string
-     */
     protected static $defaultName = 'self-update';
 
     private NewVersionCheckerInterface $versionChecker;
@@ -59,9 +56,6 @@ final class SelfUpdateCommand extends Command
         $this->pharChecker = $pharChecker;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure(): void
     {
         $this
@@ -85,9 +79,6 @@ EOT
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity() && $output instanceof ConsoleOutputInterface) {

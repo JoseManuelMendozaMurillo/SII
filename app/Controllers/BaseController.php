@@ -8,8 +8,6 @@ use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
-
-// Libraries
 use App\Libraries\Twig;
 
 /**
@@ -30,7 +28,6 @@ abstract class BaseController extends Controller
      * @var CLIRequest|IncomingRequest
      */
     protected $request;
-
     protected $twig;
     protected $session;
     protected $validation;
@@ -68,7 +65,7 @@ abstract class BaseController extends Controller
         $this->twig = new Twig();
 
         // Instanciamos servicios
-        $this->session = service("session");
-        $this->validation = service("validation");
+        $this->session = service('session');
+        $this->validation = service('validation');
     }
 }

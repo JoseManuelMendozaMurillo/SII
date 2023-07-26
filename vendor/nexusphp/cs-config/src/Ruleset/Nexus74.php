@@ -58,12 +58,9 @@ final class Nexus74 extends AbstractRuleset
                 ],
             ],
             'blank_line_between_import_groups' => true,
-            'braces' => [
-                'allow_single_line_anonymous_class_with_empty_body' => true,
-                'allow_single_line_closure' => true,
-                'position_after_anonymous_constructs' => 'same',
-                'position_after_control_structures' => 'same',
-                'position_after_functions_and_oop_constructs' => 'next',
+            'blank_lines_before_namespace' => [
+                'min_line_breaks' => 2,
+                'max_line_breaks' => 2,
             ],
             'cast_spaces' => ['space' => 'single'],
             'class_attributes_separation' => [
@@ -144,8 +141,8 @@ final class Nexus74 extends AbstractRuleset
             'explicit_string_variable' => true,
             'final_class' => false,
             'final_internal_class' => [
-                'annotation_exclude' => ['@final', '@no-final'],
-                'annotation_include' => ['@internal'],
+                'exclude' => ['final', 'no-final'],
+                'include' => ['internal'],
                 'consider_absent_docblock_as_internal_class' => false,
             ],
             'final_public_method_for_abstract_class' => false,
@@ -155,7 +152,7 @@ final class Nexus74 extends AbstractRuleset
             'fully_qualified_strict_types' => true,
             'function_declaration' => [
                 'closure_function_spacing' => 'one',
-                'closure_fn_spacing' => 'one',
+                'closure_fn_spacing' => 'none',
                 'trailing_comma_single_line' => false,
             ],
             'function_to_constant' => [
@@ -168,7 +165,6 @@ final class Nexus74 extends AbstractRuleset
                     'pi',
                 ],
             ],
-            'function_typehint_space' => true,
             'general_phpdoc_annotation_remove' => [
                 'annotations' => [
                     'package',
@@ -241,7 +237,7 @@ final class Nexus74 extends AbstractRuleset
             'native_function_type_declaration_casing' => true,
             'new_with_braces' => [
                 'named_class' => true,
-                'anonymous_class' => true,
+                'anonymous_class' => false,
             ],
             'no_alias_functions' => ['sets' => ['@all']],
             'no_alias_language_construct_call' => true,
@@ -249,7 +245,6 @@ final class Nexus74 extends AbstractRuleset
             'no_binary_string' => true,
             'no_blank_lines_after_class_opening' => true,
             'no_blank_lines_after_phpdoc' => true,
-            'no_blank_lines_before_namespace' => false,
             'no_break_comment' => ['comment_text' => 'no break'],
             'no_closing_tag' => true,
             'no_empty_comment' => true,
@@ -326,6 +321,7 @@ final class Nexus74 extends AbstractRuleset
             'normalize_index_brace' => true,
             'not_operator_with_space' => false,
             'not_operator_with_successor_space' => true,
+            'nullable_type_declaration' => false, // requires 8.0+
             'nullable_type_declaration_for_default_null_value' => ['use_nullable_type_declaration' => true],
             'object_operator_without_whitespace' => true,
             'octal_notation' => false, // requires 8.1+
@@ -333,6 +329,7 @@ final class Nexus74 extends AbstractRuleset
             'ordered_class_elements' => [
                 'order' => [
                     'use_trait',
+                    'case',
                     'constant_public',
                     'constant_protected',
                     'constant_private',
@@ -351,6 +348,7 @@ final class Nexus74 extends AbstractRuleset
                     'method_private',
                 ],
                 'sort_algorithm' => 'none',
+                'case_sensitive' => false,
             ],
             'ordered_imports' => [
                 'imports_order' => ['class', 'function', 'const'],
@@ -358,6 +356,7 @@ final class Nexus74 extends AbstractRuleset
             ],
             'ordered_interfaces' => false,
             'ordered_traits' => true,
+            'ordered_types' => false, // PHP 8.0+
             'php_unit_construct' => [
                 'assertions' => [
                     'assertEquals',
@@ -366,6 +365,12 @@ final class Nexus74 extends AbstractRuleset
                     'assertNotSame',
                 ],
             ],
+            'php_unit_data_provider_name' => [
+                'prefix' => 'provide',
+                'suffix' => 'Cases',
+            ],
+            'php_unit_data_provider_return_type' => true,
+            'php_unit_data_provider_static' => ['force' => true],
             'php_unit_dedicate_assert' => ['target' => 'newest'],
             'php_unit_dedicate_assert_internal_type' => ['target' => 'newest'],
             'php_unit_expectation' => ['target' => 'newest'],
@@ -459,6 +464,7 @@ final class Nexus74 extends AbstractRuleset
                     'uses',
                 ],
             ],
+            'phpdoc_param_order' => true,
             'phpdoc_return_self_reference' => [
                 'replacements' => [
                     'this' => '$this',
@@ -486,6 +492,7 @@ final class Nexus74 extends AbstractRuleset
                     ['category', 'package', 'subpackage'],
                     ['property', 'property-read', 'property-write'],
                 ],
+                'skip_unlisted_annotations' => false,
             ],
             'phpdoc_single_line_var_spacing' => true,
             'phpdoc_summary' => true,
@@ -529,16 +536,18 @@ final class Nexus74 extends AbstractRuleset
             'simplified_if_return' => true,
             'simplified_null_return' => false,
             'single_blank_line_at_eof' => true,
-            'single_blank_line_before_namespace' => true,
             'single_class_element_per_statement' => ['elements' => ['const', 'property']],
             'single_import_per_statement' => ['group_to_single_imports' => true],
             'single_line_after_imports' => true,
             'single_line_comment_spacing' => true,
             'single_line_comment_style' => ['comment_types' => ['asterisk', 'hash']],
+            'single_line_empty_body' => true,
             'single_line_throw' => false,
             'single_quote' => ['strings_containing_single_quote_chars' => false],
-            'single_space_after_construct' => [
-                'constructs' => [
+            'single_space_around_construct' => [
+                'constructs_contain_a_single_space' => ['yield_from'],
+                'constructs_preceded_by_a_single_space' => ['as', 'use_lambda'],
+                'constructs_followed_by_a_single_space' => [
                     'abstract',
                     'as',
                     'attribute',
@@ -555,6 +564,7 @@ final class Nexus74 extends AbstractRuleset
                     'echo',
                     'else',
                     'elseif',
+                    'enum',
                     'extends',
                     'final',
                     'finally',
@@ -573,6 +583,7 @@ final class Nexus74 extends AbstractRuleset
                     'interface',
                     'match',
                     'named_argument',
+                    'namespace',
                     'new',
                     'open_tag_with_echo',
                     'php_doc',
@@ -581,13 +592,16 @@ final class Nexus74 extends AbstractRuleset
                     'private',
                     'protected',
                     'public',
+                    'readonly',
                     'require',
                     'require_once',
                     'return',
                     'static',
+                    'switch',
                     'throw',
                     'trait',
                     'try',
+                    'type_colon',
                     'use',
                     'use_lambda',
                     'use_trait',
@@ -618,12 +632,14 @@ final class Nexus74 extends AbstractRuleset
                 'elements' => ['arrays', 'arguments'],
             ],
             'trim_array_spaces' => true,
+            'type_declaration_spaces' => ['elements' => ['function', 'property']],
             'types_spaces' => ['space' => 'none', 'space_multiple_catch' => null],
             'unary_operator_spaces' => true,
             'use_arrow_functions' => true,
             'visibility_required' => ['elements' => ['const', 'method', 'property']],
             'void_return' => false,
             'whitespace_after_comma_in_array' => ['ensure_single_space' => true],
+            'yield_from_array_to_yields' => true,
             'yoda_style' => [
                 'always_move_variable' => true,
                 'equal' => true,

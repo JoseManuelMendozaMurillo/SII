@@ -1,49 +1,45 @@
-<?php namespace App\Libraries;
+<?php
+
+namespace App\Libraries;
 
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
-use \Twig\Extension\DebugExtension;
-use \Twig\TwigFunction;
+use Twig\Extension\DebugExtension;
+use Twig\TwigFunction;
 
 class Twig
 {
     private $config = [];
-
     private $twig;
-
     private $paths;
-
     private $loader;
-
     private $functions_added = false;
-
     private $functions_asis = [
-        'base_url'
+        'base_url',
     ];
     private $functions_safe = [
         'form_open', 'form_close', 'form_error', 'form_hidden', 'set_value', 'validation_errors', 'config_item',
         'form_open_multipart', 'form_upload', 'form_submit', 'form_dropdown',
-        'set_radio', 'field_has_been_validated', 'report_detail_activity', 
-        'session', 'd', 'dd', 'auth', 'route_to'
+        'set_radio', 'field_has_been_validated', 'report_detail_activity',
+        'session', 'd', 'dd', 'auth', 'route_to',
     ];
 
     public function __construct($params = [])
     {
-
         $this->config = array_merge($this->config, $params);
 
         if (isset($params['functions'])) {
             $this->functions_asis =
                 array_unique(
-                array_merge($this->functions_asis, $params['functions'])
-            );
+                    array_merge($this->functions_asis, $params['functions'])
+                );
         }
 
         if (isset($params['functions_safe'])) {
             $this->functions_safe =
                 array_unique(
-                array_merge($this->functions_safe, $params['functions_safe'])
-            );
+                    array_merge($this->functions_safe, $params['functions_safe'])
+                );
         }
 
         if (isset($params['paths'])) {
@@ -134,6 +130,7 @@ class Twig
      *
      * @param string $view   Template filename without `.twig`
      * @param array  $params Array of parameters to pass to the template
+     *
      * @return string
      */
     public function render($view, $params = [])
@@ -144,6 +141,7 @@ class Twig
 
         //Verifica la extensión del archivo de plantilla
         $view = $view . '.twig.html';
+
         return $this->twig->render($view, $params);
     }
 
@@ -184,7 +182,7 @@ class Twig
             $this->twig->addFunction(
                 new TwigFunction(
                     'anchor',
-                    [$this, 'safe_anchor'],
+                    [$this, 'safeAnchor'],
                     ['is_safe' => ['html']]
                 )
             );
@@ -197,9 +195,10 @@ class Twig
      * @param string $uri
      * @param string $title
      * @param array  $attributes [changed] only array is acceptable
+     *
      * @return string
      */
-    public function safe_anchor($uri = '', $title = '', $attributes = [])
+    public function safeAnchor($uri = '', $title = '', $attributes = [])
     {
         helper('html');  // Carga el helper HTML
 
@@ -221,6 +220,7 @@ class Twig
     public function getTwig()
     {
         $this->createTwig();
+
         return $this->twig;
     }
 }

@@ -9,39 +9,40 @@ use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Exceptions\ValidationException;
 use CodeIgniter\HTTP\RedirectResponse;
 
-class Register extends ShieldRegister {
-
+class Register extends ShieldRegister
+{
     protected function view(string $view, array $data = [], array $options = []): string
     {
         $view = str_replace('\App\Views\\', '', $view);
+
         return $this->twig->render($view, $data, $options);
     }
 
-    public function registerAction(): RedirectResponse {
-        
+    public function registerAction(): RedirectResponse
+    {
         if (auth()->loggedIn()) {
             return redirect()->to(config(Auth::class)->registerRedirect());
         }
-        
+
         // Check if registration is allowed
-        if (! setting('Auth.allowRegistration')) {
+        if (!setting('Auth.allowRegistration')) {
             return redirect()->back()->withInput()
             ->with('error', lang('Auth.registerDisabled'));
         }
-        
+
         $users = $this->getUserProvider();
-        
+
         // Validate here first, since some things,
         // like the password, can only be validated properly here.
         $rules = $this->getValidationRules();
-        
-        if (! $this->validateData($this->request->getPost(), $rules, [], config('Auth')->DBGroup)) {
+
+        if (!$this->validateData($this->request->getPost(), $rules, [], config('Auth')->DBGroup)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
         // Save the user
         $allowedPostFields = array_keys($rules);
-        $user              = $this->getUserEntity();
+        $user = $this->getUserEntity();
         $user->fill($this->request->getPost($allowedPostFields));
 
         // Workaround for email only registration/login
@@ -85,24 +86,33 @@ class Register extends ShieldRegister {
             ->with('message', lang('Auth.registerSuccess'));
     }
 
-    protected function addGroup($role, $user, $users){
-        switch($role){
-            case "1":
+    protected function addGroup($role, $user, $users)
+    {
+        switch ($role) {
+            case '1':
                 $user->addGroup('superadmin');
+
                 break;
-            case "2":
+
+            case '2':
                 $user->addGroup('bossdepartment');
+
                 break;
-            case "3":
+
+            case '3':
                 $user->addGroup('master');
+
                 break;
-            case "4":
+
+            case '4':
                 $user->addGroup('student');
+
                 break;
+
             default:
                 $users->addToDefaultGroup($user);
+
                 break;
         }
     }
-
 }
