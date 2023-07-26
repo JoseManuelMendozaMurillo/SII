@@ -15242,7 +15242,7 @@ textarea.form-control-lg {
 .btn-setting {
   padding: 0.5rem;
   z-index: 1000;
-  top: 50%;
+  top: 90%;
 }
 
 .btn-sm .btn-inner svg, .btn-group-sm > .btn .btn-inner svg {

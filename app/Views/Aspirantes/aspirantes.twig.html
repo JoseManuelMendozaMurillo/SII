@@ -10,6 +10,12 @@
 <link rel="stylesheet" href="{{base_url('Vendor/Template/assets/css/switches.css')}}" />
 
 <style>
+
+    .file {
+    visibility: hidden;
+    position: absolute;
+    }
+
     .iq-navbar-header {
         height: 200px;
         /* Altura predeterminada para pantallas más grandes */
@@ -49,36 +55,14 @@
                                     recibirte en nuestra institución.
                                 </p>
                             </div>
-                            <div class="row justify-content-center align-items-center btn-soft-light p-1" style=" background-color: rgba(202, 202, 202, 0.733);
-                                                    border-radius: 10px;">
-                                <div class="d-flex align-items-center justify-content-end">
-                                    <a class="" data-value="theme-color-yellow" data-info="#6410F1"
-                                        data-setting="color-mode1" data-name="color" data-bs-toggle="tooltip"
-                                        data-bs-placement="top" title="" data-bs-original-title="Tema amarrillo">
-                                        <svg class="customizer-btn icon-40" xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 24 24" width="32">
-                                            <circle cx="12" cy="12" r="10" fill="#FAC601" />
-                                            <path d="M2,12 a1,1 1 1,0 20,0" fill="#6410F1" />
-                                        </svg>
-                                    </a>
-                                    <a class="" data-value="theme-color-default" data-info="#025196"
-                                        data-setting="color-mode1" data-name="color" data-bs-toggle="tooltip"
-                                        data-bs-placement="top" title="" data-bs-original-title="Tema azul">
-                                        <svg class="customizer-btn icon-40" xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 24 24" width="32">
-                                            <circle cx="12" cy="12" r="10" fill="#025196" />
-                                            <path d="M2,12 a1,1 1 1,0 20,0" fill="#6410F1" />
-                                        </svg>
-                                    </a>
-                                    <label role="button" for="checkbox" class="switch">
-                                        <input type="checkbox" id="checkbox" />
-                                        <span class="switch__ball bg-primary"></span>
-                                        <i class="ri-sun-line switch__sun" data-setting="color-mode" data-name="color"
-                                            data-value="light"></i>
-                                        <i class="ri-moon-line switch__moon" data-setting="color-mode" data-name="color"
-                                            data-value="dark"></i>
-                                    </label>
-                                </div>
+                            <div>
+                                <a href="" class="btn btn-link btn-soft-light">
+                                    <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M11.8251 15.2171H12.1748C14.0987 15.2171 15.731 13.985 16.3054 12.2764C16.3887 12.0276 16.1979 11.7713 15.9334 11.7713H14.8562C14.5133 11.7713 14.2362 11.4977 14.2362 11.16C14.2362 10.8213 14.5133 10.5467 14.8562 10.5467H15.9005C16.2463 10.5467 16.5263 10.2703 16.5263 9.92875C16.5263 9.58722 16.2463 9.31075 15.9005 9.31075H14.8562C14.5133 9.31075 14.2362 9.03619 14.2362 8.69849C14.2362 8.35984 14.5133 8.08528 14.8562 8.08528H15.9005C16.2463 8.08528 16.5263 7.8088 16.5263 7.46728C16.5263 7.12575 16.2463 6.84928 15.9005 6.84928H14.8562C14.5133 6.84928 14.2362 6.57472 14.2362 6.23606C14.2362 5.89837 14.5133 5.62381 14.8562 5.62381H15.9886C16.2483 5.62381 16.4343 5.3789 16.3645 5.13113C15.8501 3.32401 14.1694 2 12.1748 2H11.8251C9.42172 2 7.47363 3.92287 7.47363 6.29729V10.9198C7.47363 13.2933 9.42172 15.2171 11.8251 15.2171Z" fill="currentColor"></path>
+                                        <path opacity="0.4" d="M19.5313 9.82568C18.9966 9.82568 18.5626 10.2533 18.5626 10.7823C18.5626 14.3554 15.6186 17.2627 12.0005 17.2627C8.38136 17.2627 5.43743 14.3554 5.43743 10.7823C5.43743 10.2533 5.00345 9.82568 4.46872 9.82568C3.93398 9.82568 3.5 10.2533 3.5 10.7823C3.5 15.0873 6.79945 18.6413 11.0318 19.1186V21.0434C11.0318 21.5715 11.4648 22.0001 12.0005 22.0001C12.5352 22.0001 12.9692 21.5715 12.9692 21.0434V19.1186C17.2006 18.6413 20.5 15.0873 20.5 10.7823C20.5 10.2533 20.066 9.82568 19.5313 9.82568Z" fill="currentColor"></path>
+                                    </svg>
+                                    ¿Algún problema?
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -115,38 +99,36 @@
                                                         stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
                                                             stroke-width="2"
-                                                            d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
-                                                    </svg>
-                                                </div>
-                                                <span class="dark-wizard">Cuenta</span>
-                                            </a>
-                                        </li>
-                                        <li id="personal" class="mb-2 col-lg-3 col-md-6 text-start">
-                                            <a href="javascript:void();">
-                                                <div class="iq-icon me-3">
-                                                    <svg class="svg-icon icon-20" xmlns="http://www.w3.org/2000/svg"
-                                                        width="20" fill="none" viewBox="0 0 24 24"
-                                                        stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
                                                             d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                                     </svg>
                                                 </div>
                                                 <span class="dark-wizard">Personal</span>
                                             </a>
                                         </li>
+                                        <li id="personal" class="mb-2 col-lg-3 col-md-6 text-start">
+                                            <a href="javascript:void();">
+                                                <div class="iq-icon me-3">
+                                                    <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M15.7161 16.2234H8.49609" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    
+                                                    <path d="M15.7161 12.0369H8.49609" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    
+                                                    <path d="M11.2521 7.86011H8.49707" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    
+                                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M15.909 2.74976C15.909 2.74976 8.23198 2.75376 8.21998 2.75376C5.45998 2.77076 3.75098 4.58676 3.75098 7.35676V16.5528C3.75098 19.3368 5.47298 21.1598 8.25698 21.1598C8.25698 21.1598 15.933 21.1568 15.946 21.1568C18.706 21.1398 20.416 19.3228 20.416 16.5528V7.35676C20.416 4.57276 18.693 2.74976 15.909 2.74976Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                
+                                                </svg>                            
+                                                </div>
+                                                <span class="dark-wizard">Solicitud</span>
+                                            </a>
+                                        </li>
                                         <li id="payment" class="mb-2 col-lg-3 col-md-6 text-start">
                                             <a href="javascript:void();">
                                                 <div class="iq-icon me-3">
-                                                    <svg class="svg-icon icon-20" width="20" viewBox="0 0 24 24"
-                                                        fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            d="M9.15722 20.7714V17.7047C9.1572 16.9246 9.79312 16.2908 10.581 16.2856H13.4671C14.2587 16.2856 14.9005 16.9209 14.9005 17.7047V17.7047V20.7809C14.9003 21.4432 15.4343 21.9845 16.103 22H18.0271C19.9451 22 21.5 20.4607 21.5 18.5618V18.5618V9.83784C21.4898 9.09083 21.1355 8.38935 20.538 7.93303L13.9577 2.6853C12.8049 1.77157 11.1662 1.77157 10.0134 2.6853L3.46203 7.94256C2.86226 8.39702 2.50739 9.09967 2.5 9.84736V18.5618C2.5 20.4607 4.05488 22 5.97291 22H7.89696C8.58235 22 9.13797 21.4499 9.13797 20.7714V20.7714"
-                                                            stroke="currentColor" stroke-width="1.5"
-                                                            stroke-linecap="round" stroke-linejoin="round"></path>
-                                                    </svg>
+                                                    <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M13.8496 4.25024V6.67024" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    
+                                                        <path d="M13.8496 17.76V19.784" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    
+                                                        <path d="M13.8496 14.3247V9.50366" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    
+                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M18.7021 20C20.5242 20 22 18.5426 22 16.7431V14.1506C20.7943 14.1506 19.8233 13.1917 19.8233 12.001C19.8233 10.8104 20.7943 9.85039 22 9.85039L21.999 7.25686C21.999 5.45745 20.5221 4 18.7011 4H5.29892C3.47789 4 2.00104 5.45745 2.00104 7.25686L2 9.93485C3.20567 9.93485 4.17668 10.8104 4.17668 12.001C4.17668 13.1917 3.20567 14.1506 2 14.1506V16.7431C2 18.5426 3.4758 20 5.29787 20H18.7021Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                
+                                                    </svg>                            
                                                 </div>
-                                                <span class="dark-wizard">Domicilio</span>
+                                                <span class="dark-wizard">Socioeconómicos</span>
                                             </a>
                                         </li>
                                         <li id="confirm" class="mb-2 col-lg-3 col-md-6 text-start">
@@ -165,45 +147,269 @@
                                     </ul>
                                     <!-- fieldsets -->
                                     <fieldset>
-                                        <div class="form-card text-start">
-                                            <div class="row">
-                                                <div class="col-7">
-                                                    <h3 class="mb-4">INFORMACIÓN DE LA CUENTA:</h3>
-                                                </div>
-                                                <div class="col-5"></div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Correo electrónico: *</label>
-                                                        <input type="email" class="form-control" name="email"
-                                                            placeholder="19630305@itocotlan.com" />
+                                        <div class="card-body" style="border-radius: 10px; box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.2);">
+                                            <div class="form-card text-start">
+                                                <div class="row">
+                                                    <div class="col-7">
+                                                        <h3 class="mb-4">INFORMACIÓN DEL ASPIRANTE:</h3>
                                                     </div>
+                                                    <div class="col-5"></div>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Confirmar correo electrónico:
-                                                            *</label>
-                                                        <input type="text" class="form-control" name="uname"
-                                                            placeholder="19630305@itocotlan.com" />
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label class="form-label">Selecciona una imagen: </label>
+                                                        <br>
+                                                        <div class="form-group text-center">
+                                                            <img src="{{base_url('Vendor/Template/assets/images/avatars/avtar_4.png')}}" id="preview" class="img-thumbnail" style="height: 120px; width: 120px; border-radius: 70px;">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input type="file" name="file" class="file">
+                                                                <div class="input-group my-3">
+                                                                    <input type="text" class="form-control" disabled placeholder="Cargar imagen" id="file">
+                                                                    <div class="input-group-append">
+                                                                        <button type="button" class="browse btn btn-primary">Buscar</button>
+                                                                    </div>
+                                                                </div>
+                                                        </div>
+                                                        <h6 class="text-danger">Esta imagen sera utilizado para tu identificacion oficial del instituto.</h6>
+                                                        <br>
+                                                        <div class="form-group">
+                                                            <label class="form-label">CURP: *</label>
+                                                            <input type="email" class="form-control" name="email"
+                                                                placeholder="LOXA880921HMCLNR05" />
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Contraseña: *</label>
-                                                        <input type="password" class="form-control" name="pwd"
-                                                            placeholder="19630356" />
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Apellido Paterno: *</label>
+                                                            <input type="text" class="form-control upper-case" name="phno"
+                                                                placeholder="PEREZ" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-label">Apellido materno: *</label>
+                                                            <input type="text" class="form-control upper-case" name="phno_2"
+                                                                placeholder="LÓPEZ" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-label">Nombre(s): *</label>
+                                                            <input id="name" class="form-control upper-case" name="lname"
+                                                                placeholder="JUAN" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-label">Fecha de nacimiento: *</label>
+                                                            <input type="date" class="form-control" name="phno"
+                                                                placeholder="03/05/2005" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-label">Género: *</label>
+                                                            <select class="form-select" id="exampleFormControlSelect1">
+                                                                <option selected="" disabled=""></option>
+                                                                <option selected>MASCULINO</option>
+                                                                <option>FEMENINO</option>
+                                                                <option>OTRO</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Repetir contraseña: *</label>
-                                                        <input type="password" class="form-control" name="cpwd"
-                                                            placeholder="19630356" />
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Estado civil: *</label>
+                                                            <select class="form-select" id="exampleFormControlSelect1">
+                                                                <option selected="" disabled=""></option>
+                                                                <option selected>SOLTERO</option>
+                                                                <option>CASADO</option>
+                                                                <option>VIUDO</option>
+                                                                <option>UNION LIBRE</option>
+                                                                <option>OTRO</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-label">País de nacimiento: *</label>
+                                                            <input type="text" class="form-control" name="phno"
+                                                                placeholder="MEXICO" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-label">Teléfono: *</label>
+                                                            <input type="text" class="form-control" name="phno"
+                                                                placeholder="3923451289" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-label">Correo electrónico: *</label>
+                                                            <input type="text" class="form-control" name="phno"
+                                                                placeholder="EJEMPLO@GMAIL.COM" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-label">Confirmar correo: *</label>
+                                                            <input type="text" class="form-control" name="phno"
+                                                                placeholder="EJEMPLO@GMAIL.COM" />
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <br>
+                                        <br>
+                                        <div class="card-body" style="border-radius: 10px; box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.2);">
+                                            <div class="form-card text-start">
+                                                <div class="row">
+                                                    <div class="col-7">
+                                                        <h3 class="mb-4">DOMICILIO ACTUAL:</h3>
+                                                    </div>
+                                                    <div class="col-5"></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Colonia: *</label>
+                                                            <input type="text" class="form-control upper-case" name="phno_2"
+                                                                placeholder="LA PRIMAVERA" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-label">Calle: *</label>
+                                                            <input type="text" class="form-control upper-case" name="phno_2"
+                                                                placeholder="LÓPEZ MATEOS" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-label">Numero exterior: *</label>
+                                                            <input type="text" class="form-control upper-case" name="phno_2"
+                                                                placeholder="80" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-label">Numero interior: </label>
+                                                            <input type="text" class="form-control upper-case" name="phno_2"
+                                                                placeholder="80" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Estado: *</label>
+                                                            <input type="text" class="form-control upper-case" name="phno_2"
+                                                                placeholder="JALISCO" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-label">Municipio: *</label>
+                                                            <input type="text" class="form-control upper-case" name="phno"
+                                                                placeholder="OCOTLÁN" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Código postal: *</label>
+                                                            <input type="text" class="form-control upper-case" name="phno"
+                                                                placeholder="47829" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-label">Entre calles: *</label>
+                                                            <input type="text" class="form-control upper-case" name="phno"
+                                                                placeholder="LIMÓN Y TABACHIN" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <div class="card-body" style="border-radius: 10px; box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.2);">
+                                            <div class="form-card text-start">
+                                                <div class="row">
+                                                    <div class="col-7">
+                                                        <h3 class="mb-4">DATOS COMPLEMENTARIOS:</h3>
+                                                    </div>
+                                                    <div class="col-5"></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Padre o tutor: *</label>
+                                                            <input type="text" class="form-control upper-case" name="phno_2"
+                                                                placeholder="JUAN PABLO" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-label">Tipo de sangre: *</label>
+                                                            <input type="text" class="form-control upper-case" name="phno_2"
+                                                                placeholder="A+" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-label">Télefono de contacto: *</label>
+                                                            <input type="text" class="form-control upper-case" name="phno_2"
+                                                                placeholder="3921232143" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Estado de procedencia: *</label>
+                                                            <input type="text" class="form-control upper-case" name="phno_2"
+                                                                placeholder="JALISCO" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-label">¿Tienes una discapacidad?: </label>
+                                                            <input type="text" class="form-control upper-case" name="phno"
+                                                                placeholder="PARAPLEJIA" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">¿Pertenece a una comunidad indigena?:</label>
+                                                            <input type="text" class="form-control upper-case" name="phno"
+                                                                placeholder="47829" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-label">¿Habla alguna lengua indigena?:</label>
+                                                            <input type="text" class="form-control upper-case" name="phno"
+                                                                placeholder="LIMÓN Y TABACHIN" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <div class="card-body" style="border-radius: 10px; box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.2);">
+                                            <div class="form-card text-start">
+                                                <div class="row">
+                                                    <div class="col-7">
+                                                        <h3 class="mb-4">ESCUELA DE PROCEDENCIA:</h3>
+                                                    </div>
+                                                    <div class="col-5"></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Estado: *</label>
+                                                            <input type="text" class="form-control upper-case" name="phno_2"
+                                                                placeholder="JALISCO" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-label">Municipio: *</label>
+                                                            <input type="text" class="form-control upper-case" name="phno_2"
+                                                                placeholder="OCOTLÁN" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Nombre de la escuela: *</label>
+                                                            <input type="text" class="form-control upper-case" name="phno_2"
+                                                                placeholder="CBTIS 49" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Año de egreso: *</label>
+                                                            <input type="text" class="form-control upper-case" name="phno"
+                                                                placeholder="47829" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Promedio general: *</label>
+                                                            <input type="text" class="form-control upper-case" name="phno"
+                                                                placeholder="47829" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>    
+                                        <br>
+                                        <br>
                                         <button type="button" name="next"
                                             class="btn btn-primary next action-button float-end" value="Next">
                                             Siguiente
@@ -211,95 +417,72 @@
                                     </fieldset>
                                     <fieldset>
                                         <div class="form-card text-start">
-                                            <div class="row">
-                                                <div class="col-7">
-                                                    <h3 class="mb-4">INFORMACIÓN PERSONAL:</h3>
-                                                </div>
-                                                <div class="col-5"></div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">CURP: *</label>
-                                                        <input type="text" class="form-control upper-case" name="fname"
-                                                            placeholder="LOXA880921HMCLNR05" />
+                                            <div class="card-body" style="border-radius: 10px; box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.2);">
+                                                <div class="form-card text-start">
+                                                    <div class="row">
+                                                        <div class="col-7">
+                                                            <h3 class="mb-4">SOLICITUD DEL ASPIRANTE:</h3>
+                                                        </div>
+                                                        <div class="col-5"></div>
                                                     </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Nombre(s): *</label>
-                                                        <input id="name" class="form-control upper-case" name="lname"
-                                                            placeholder="JUAN" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Apellido Paterno: *</label>
-                                                        <input type="text" class="form-control upper-case" name="phno"
-                                                            placeholder="PEREZ" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Apellido materno.: *</label>
-                                                        <input type="text" class="form-control upper-case" name="phno_2"
-                                                            placeholder="LÓPEZ" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Fecha de nacimiento: *</label>
-                                                        <input type="date" class="form-control" name="phno"
-                                                            placeholder="03/05/2005" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Género: *</label>
-                                                        <select class="form-select" id="exampleFormControlSelect1">
-                                                            <option selected="" disabled=""></option>
-                                                            <option selected>MASCULINO</option>
-                                                            <option>FEMENINO</option>
-                                                            <option>OTRO</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Estado civil: *</label>
-                                                        <select class="form-select" id="exampleFormControlSelect1">
-                                                            <option selected="" disabled=""></option>
-                                                            <option selected>SOLTERO</option>
-                                                            <option>CASADO</option>
-                                                            <option>VIUDO</option>
-                                                            <option>UNION LIBRE</option>
-                                                            <option>OTRO</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">País de nacimiento: *</label>
-                                                        <select class="form-select upper-case" name="pais"
-                                                            id="countrySelect"></select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Número de celular:*</label>
-                                                        <input type="number" class="form-control" name="phno"
-                                                            placeholder="3921234321" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Número de teléfono:</label>
-                                                        <input type="number" class="form-control" name="phno_2"
-                                                            placeholder="3921299321" />
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label">¿A cual opción aspiras a ingresar?: *</label>
+                                                                <select class="form-select" id="exampleFormControlSelect1">
+                                                                    <option selected>Ingenieria Industrial</option>
+                                                                    <option>Ingenieria Electromecanica</option>
+                                                                    <option>Ingenieria Sistemas Computacionales</option>
+                                                                    <option>Ingenieria Gestión Empresarial</option>
+                                                                    <option>Ingenieria Logistica</option>
+                                                                    <option>Contador Público</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="form-label">¿A cual es tu segunda opción a ingresar?: *</label>
+                                                                <select class="form-select" id="exampleFormControlSelect1">
+                                                                    <option selected>Ingenieria Industrial</option>
+                                                                    <option>Ingenieria Electromecanica</option>
+                                                                    <option>Ingenieria Sistemas Computacionales</option>
+                                                                    <option>Ingenieria Gestión Empresarial</option>
+                                                                    <option>Ingenieria Logistica</option>
+                                                                    <option>Contador Público</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="form-label">¿Cual es el turno que deseas de preferencia?: *</label>
+                                                                <select class="form-select" id="exampleFormControlSelect1">
+                                                                    <option selected>Cualquiera</option>
+                                                                    <option>Matutino</option>
+                                                                    <option>Vespertino</option>
+                                                                </select>
+                                                                <br>
+                                                                <h6 class="text-danger">Nota: es posible que algunas carreras no se aperturen en todos los turnos.</h6>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label">¿Somos tu primera opción para cursar tus estudios?: *</label>
+                                                                <input type="text" class="form-control upper-case" name="phno_2"
+                                                                    placeholder="SI" />
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="form-label">¿Cual es tu motivo de seleccionar nuestra institución?: </label>
+                                                                <input type="text" class="form-control upper-case" name="phno"
+                                                                    placeholder="POR PRESTIGIO" />
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="form-label">¿Cual es tu motivo de seleccionar este plan de estudios?: </label>
+                                                                <textarea name="" id="" cols="5" rows="5" class="form-control upper-case"></textarea>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <br>
                                         </div>
+                                        <br>
+                                        <br>
                                         <button type="button" name="next"
                                             class="btn btn-primary next action-button float-end" value="Next">
                                             Siguiente
@@ -312,72 +495,104 @@
                                     </fieldset>
                                     <fieldset>
                                         <div class="form-card text-start">
-                                            <div class="row">
-                                                <div class="col-7">
-                                                    <h3 class="mb-4">INFORMACIÓN DEL DOMICILIO :</h3>
-                                                </div>
-                                                <div class="col-5"></div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Calle: *</label>
-                                                        <input type="text" class="form-control" name="fname"
-                                                            placeholder="Av. INSTITUTO TECNOLÓGICO" />
+                                            <div class="card-body" style="border-radius: 10px; box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.2);">
+                                                <div class="form-card text-start">
+                                                    <div class="row">
+                                                        <div class="col-7">
+                                                            <h3 class="mb-4">SOCIOECONÓMICOS DEL ASPIRANTE:</h3>
+                                                            <br>
+                                                            <h4>Datos familiares y del hogar</h4>
+                                                            <br>
+                                                        </div>
+                                                        <div class="col-5"></div>
                                                     </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Colonia: *</label>
-                                                        <input type="text" class="form-control" name="lname"
-                                                            placeholder="LA PRIMAVERA" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Numero exterior: *</label>
-                                                        <input type="text" class="form-control" name="phno"
-                                                            placeholder="90" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Numero interior:</label>
-                                                        <input type="text" class="form-control" name="phno_2"
-                                                            placeholder="12" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Código postal: *</label>
-                                                        <input type="text" class="form-control" name="phno"
-                                                            placeholder="47829" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Estado: *</label>
-                                                        <input type="text" class="form-control" name="phno"
-                                                            placeholder="JALISCO" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Municipio: *</label>
-                                                        <input type="text" class="form-control" name="phno_2"
-                                                            placeholder="OCOTLÁN" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Entre calles: *</label>
-                                                        <input type="text" class="form-control" name="phno_2"
-                                                            placeholder="LIMÓN Y TABACHIN" />
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label">Nivel maximo de estudios de tu padre: *</label>
+                                                                <input type="text" class="form-control upper-case" name="phno_2"
+                                                                    placeholder="NO LO SE" />
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="form-label">Nivel maximo de estudios de tu madre: *</label>
+                                                                <input type="text" class="form-control upper-case" name="phno_2"
+                                                                placeholder="NO LO SE" />
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="form-label">¿Con quien vives actualmente?: *</label>
+                                                                <input type="text" class="form-control upper-case" name="phno_2"
+                                                                placeholder="PADRE Y MADRE" />
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="form-label">Ocupación de trabajo de tu padre: *</label>
+                                                                <input type="text" class="form-control upper-case" name="phno_2"
+                                                                placeholder="NO LO SE" />
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="form-label">Ocupación de trabajo de tu madre: *</label>
+                                                                <input type="text" class="form-control upper-case" name="phno_2"
+                                                                placeholder="NO LO SE" />
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="form-label">La casa de donde vives es: *</label>
+                                                                <input type="text" class="form-control upper-case" name="phno_2"
+                                                                placeholder="PROPIA" />
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="form-label">¿Cuantos cuartos tiene tu casa?: *</label>
+                                                                <input type="text" class="form-control upper-case" name="phno_2"
+                                                                placeholder="PROPIA" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label">¿Cuantas personas viven en tu casa?: *</label>
+                                                                <input type="text" class="form-control upper-case" name="phno_2"
+                                                                    placeholder="UNO" />
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="form-label">¿Cuantos baños completos hay para uso exclusivo de los integrantes?: </label>
+                                                                <input type="text" class="form-control upper-case" name="phno"
+                                                                    placeholder="UNO" />
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="form-label">¿En tu hogar se cuenta con regadera funcionando en alguno de los baños?: </label>
+                                                                <input type="text" class="form-control upper-case" name="phno"
+                                                                placeholder="SI" />
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="form-label">¿Cuantos focos tiene su vivienda?: </label>
+                                                                <input type="text" class="form-control upper-case" name="phno"
+                                                                placeholder="0 A 5" />
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="form-label">¿Que tipo de piso predomina en su hogar?: </label>
+                                                                <input type="text" class="form-control upper-case" name="phno"
+                                                                placeholder="CEMENTO FIRME" />
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="form-label">¿Cuantos automoviles propios tienen en su hogar?: </label>
+                                                                <input type="text" class="form-control upper-case" name="phno"
+                                                                placeholder="NINGUNO" />
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="form-label">¿Cuantos automoviles propios tienen en su hogar?: </label>
+                                                                <input type="text" class="form-control upper-case" name="phno"
+                                                                placeholder="NINGUNO" />
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="form-label">¿En tu hogar cuentan con estufa de gas o electrica?: </label>
+                                                                <input type="text" class="form-control upper-case" name="phno"
+                                                                placeholder="SI" />
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <button type="button" name="next"
+                                        <br>
+                                        <br>
+                                        <button type="button" name="next" id="congrats" onclick="activateConfetti();"
                                             class="btn btn-primary next action-button float-end" value="Submit">
                                             Enviar
                                         </button>
@@ -389,22 +604,53 @@
                                     </fieldset>
                                     <fieldset>
                                         <div class="form-card">
-                                            <div class="row">
-                                                <div class="col-7">
-                                                    <h4 class="mb-4 text-left">Terminado</h4>
-                                                </div>
-                                                <div class="col-5">
-                                                    <h3 class="steps">Folio: 00123</h3>
-                                                </div>
+                                            <div class="text-center">
+                                                <h3 class="mb-4 text-left">¡Terminado con exito!</h3>
                                             </div>
-                                            <br />
-                                            <h3 class="text-center text-success">
+                                            <br>
+                                            <h4 class="text-center text-success">
                                                 <strong>¡Muchas felicidades por inscribirte como aspirante al
                                                     Instituto Tecnológico de Ocotlán! Nos llena de orgullo
-                                                    que hayas considerado nuestra institución. Te deseamos
-                                                    un gran éxito en tu camino.</strong>
-                                            </h3>
-                                            <br />
+                                                    que hayas considerado nuestra institución.</strong>
+                                            </h4>
+                                            <h4 class="text-center text-success">
+                                                <strong>Te deseamos un gran éxito en tu camino.</strong>
+                                            </h4>
+                                            <br>
+                                            <br>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="form-group text-center">
+                                                        <img src="{{base_url('Vendor/Template/assets/images/avatars/avtar_4.png')}}" id="preview" class="img-thumbnail" style="height: 120px; width: 120px; border-radius: 70px;">
+                                                    </div>
+                                                </div>
+                                                <div class="col text-center align-items-center justify-content-center">
+                                                    <div class="form-group text-center">
+                                                       <div class="d-flex">
+                                                        <span>Nombre del aspirante: </span>
+                                                        <br>
+                                                        <span class="text-success"> EJEMPLO MARIO VALENCIA </span>
+                                                       </div>
+                                                       <div class="d-flex">
+                                                        <span>N de solicitud: </span>
+                                                        <br>
+                                                        <span class="text-success"> 00001 </span>
+                                                       </div>
+                                                       <div class="d-flex">
+                                                        <span>NIP: </span>
+                                                        <br>
+                                                        <span class="text-success"> 0926 </span>
+                                                       </div>
+                                                       <div class="d-flex">
+                                                        <span>Opcion de carrera: </span>
+                                                        <br>
+                                                        <span class="text-success"> Ingenieria Sistemas Computacionales </span>
+                                                       </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <br>
                                             <div class="row">
                                                 <div class="col">
                                                     <div class="justify-content-center">
@@ -412,15 +658,29 @@
                                                             ¡Únete a nuestro grupo de WhatsApp para
                                                             aspirantes!
                                                         </h5>
-                                                        <br />
-                                                        <li class="list-group-item border-0 pb-0">
-                                                            <a href="#"><img
-                                                                    src="{{base_url('Vendor/Template/assets/images/brands/whatsapp.png')}}"
-                                                                    alt="li" style="width: 40px; height: 40px" /></a>
-                                                        </li>
+                                                        <br>
+                                                        <br>
+                                                        <div class="row align-items-center justify-content-center">
+                                                            <div class="col">
+                                                                <li class="list-group-item border-0 pb-0">
+                                                                    <a href="#"><img
+                                                                            src="{{base_url('Vendor/Template/assets/images/brands/whatsapp.png')}}"
+                                                                            alt="li" style="width: 140px; height: 140px" /></a>
+                                                                </li>
+                                                            </div>
+                                                            <div class="col">
+                                                                <li class="list-group-item border-0 pb-0">
+                                                                    <a href="#"><img
+                                                                            src="{{base_url('Vendor/Template/assets/images/brands/qr.png')}}"
+                                                                            alt="li" style="width: 140px; height: 140px" /></a>
+                                                                </li>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <br>
+                                            <h6 class="text-danger text-center">Guarde sus datos antes de finalizar</h6>
                                             <br />
                                             <div class="text-left col-7">
                                                 <h4 class="text-start purple-text">Pasos a seguir</h4>
@@ -428,8 +688,7 @@
                                             <br />
                                             <div class="text-left col-7">
                                                 <h6 class="text-start purple-text">
-                                                    1. Se te enviará un correo con el procedimiento
-                                                    siguiente y un resumen de tus datos.
+                                                    1. Inicie sesión para ver el comprobante de pago.
                                                 </h6>
                                             </div>
                                             <br />
@@ -442,16 +701,11 @@
                                             </div>
                                             <br /><br />
                                             <div class="row justify-content-center">
-                                                <div class="text-center col-7">
-                                                    <h5 class="text-center purple-text">
-                                                        Finalizado con exito
-                                                    </h5>
-                                                </div>
                                                 <br /><br />
                                                 <div class="">
-                                                    <button type="button" name="next"
+                                                    <button type="button" name="" id="congrats"
                                                         class="btn btn-primary next action-button float-center"
-                                                        value="Submit">
+                                                        value="">
                                                         Imprimir Ficha
                                                     </button>
                                                 </div>
@@ -471,6 +725,16 @@
 
 {% block script %}
 
+<script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
+
+<script>
+
+  function activateConfetti() {
+    const jsConfetti = new JSConfetti();
+    jsConfetti.addConfetti();
+  }
+</script>
+
 <script>
     $(document).ready(function () {
         $('.upper-case').on('input', function () {
@@ -479,6 +743,30 @@
         });
     });
 
+</script>
+
+<script>
+    $(document).on("click", ".browse", function() {
+    var file = $(this)
+    .parent()
+    .parent()
+    .parent()
+    .find(".file");
+    file.trigger("click");
+    });
+    $('input[type="file"]').change(function(e) {
+    var fileName = e.target.files[0].name;
+    $("#file").val(fileName);
+    
+    var reader = new FileReader();
+    reader.onload = function(e) {
+    // get loaded data and render thumbnail.
+    document.getElementById("preview").src = e.target.result;
+    };
+    // read the image file as a data URL.
+    reader.readAsDataURL(this.files[0]);
+    });
+    
 </script>
 
 <script>
