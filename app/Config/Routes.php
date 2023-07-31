@@ -38,9 +38,6 @@ $routes->group('auth', ['namespace' => 'App\Controllers\Auth'], function ($route
     $routes->get('login', 'Login::loginView');
     $routes->post('sing-in', 'Login::loginAction');
     $routes->get('logout', 'Login::logoutAction');
-
-    $routes->get('register', 'Register::registerView');
-    $routes->post('sing-up', 'Register::registerAction');
 });
 
 $routes->group(
@@ -48,38 +45,6 @@ $routes->group(
     ['namespace' => 'App\Controllers\Aspirantes'],
     function ($routes) {
         $routes->get('loginup', 'Aspirantes::aspirantes');
-    }
-);
-
-// Rutas para el crud de alumnos
-$routes->group(
-    'alumno',
-    ['namespace' => 'App\Controllers',
-        'filter' => 'group:superadmin,master,student,bossdepartment, permission:admin.*,master.*,student.*,bossdepartment.*'],
-    function ($routes) {
-        $routes->get('listado', 'Alumno::index');
-
-        $routes->group(
-            '',
-            ['namespace' => 'App\Controllers',
-                'filter' => 'group:superadmin,bossdepartment, permission:student.create,student.delete'],
-            function ($routes) {
-                $routes->get('form', 'Alumno::form');
-                $routes->post('add', 'Alumno::add');
-                $routes->get('delete/(:any)', 'Alumno::delete/$1');
-            }
-        );
-
-        $routes->group(
-            '',
-            ['namespace' => 'App\Controllers',
-                'filter' => 'group:superadmin,bossdepartment,master, permission:student.update'],
-            function ($routes) {
-                $routes->get('form/(:any)', 'Alumno::form/$1');
-                $routes->post('update/(:any)', 'Alumno::update/$1');
-                $routes->post('grupos', 'Alumno::grupos');
-            }
-        );
     }
 );
 
