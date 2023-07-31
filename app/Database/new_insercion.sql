@@ -1,4 +1,35 @@
 use control_escolar;
+/*Bloque auth*/
+
+
+INSERT INTO `users` 
+VALUES 
+(5,'Werin',NULL,NULL,1,NULL,'2023-06-19 20:51:58','2023-06-19 20:51:58',NULL),
+(6,'Jose',NULL,NULL,1,NULL,'2023-06-19 21:15:13','2023-06-19 21:15:13',NULL),
+(7,'Octavio',NULL,NULL,1,NULL,'2023-06-19 21:16:18','2023-06-19 21:16:18',NULL),
+(8,'Charraz',NULL,NULL,1,NULL,'2023-06-19 21:23:42','2023-06-19 21:23:42',NULL);
+
+INSERT INTO `auth_groups_users`
+VALUES 
+(3,5,'bossdepartment','2023-06-19 20:51:58'),
+(4,6,'superadmin','2023-06-19 21:15:13'),
+(5,7,'master','2023-06-19 21:16:18'),
+(6,8,'student','2023-06-19 21:23:42');
+
+INSERT INTO `auth_identities` 
+VALUES 
+(5,5,'email_password',NULL,'L19630306@ocotlan.tecnm.mx','$2y$10$CkjzkRwvl7cFmOP8/Ij7pO5fZ/wCLl.2WWg61zyTsLwhAuTl1QceS',NULL,NULL,0,'2023-06-20 17:33:27','2023-06-19 20:51:58','2023-06-20 17:33:27'),
+(6,6,'email_password',NULL,'trokillox.x@gmail.com','$2y$10$f8myOA4IbWu2pnGI0g3HheUZyi6aJXS1t46tlQQv1fQOoxIeF765i',NULL,NULL,0,'2023-06-20 17:34:00','2023-06-19 21:15:13','2023-06-20 17:34:00'),
+(7,7,'email_password',NULL,'19630306@itocotlan.com','$2y$10$0KpiYhFVnTNJctaHPwoGDeUNwSCDAukHiTnnKEqUq8DZSUY2tibPm',NULL,NULL,0,'2023-06-20 17:34:30','2023-06-19 21:16:18','2023-06-20 17:34:30'),
+(8,8,'email_password',NULL,'jose.manuel.mendoza.murillo@gmail.com','$2y$10$iyeWuy8EMq.xTRxMBFgttOBaB4T.yat1GGB1X0DFAJxh2QfWYvwGC',NULL,NULL,0,'2023-06-20 17:35:20','2023-06-19 21:23:42','2023-06-20 17:35:20');
+
+INSERT INTO `migrations` 
+VALUES 
+(1,'2020-12-28-223112','CodeIgniter\\Shield\\Database\\Migrations\\CreateAuthTables','default','CodeIgniter\\Shield',1686888187,1),
+(2,'2021-07-04-041948','CodeIgniter\\Settings\\Database\\Migrations\\CreateSettingsTable','default','CodeIgniter\\Settings',1686888187,1),
+(3,'2021-11-14-143905','CodeIgniter\\Settings\\Database\\Migrations\\AddContextColumn','default','CodeIgniter\\Settings',1686888187,1);
+
+/*termina bloque*/
 
 #show TABLES;
 /*Insertar valores en tabla constantes*/
@@ -629,3 +660,11 @@ values
 (2,216,7),
 (2,241,8),
 (2,243,8);
+/*Valores en reticulas*/
+insert into reticulas
+values
+(0,'ISIC-DESARROLLO PARA LA WEB Y APLICACIONES PARA DISPOSITIVOS MOVILES',1,5,SYSDATE(),SYSDATE(),NULL, 'mike', 'mike',NULL),
+(0,'ILOG-LOGÍSTICA INTEGRAL',2,4,SYSDATE(),SYSDATE(),NULL, 'mike', 'mike',NULL),
+(0,'IIND-GESTIÓN INTEGRAL DE LAS OPERACIONES',3,1,SYSDATE(),SYSDATE(),NULL, 'mike', 'mike',NULL),
+(0,'IEME-EFICIENCIA ENERGÉTICA SUSTENTABLE EN SISTEMAS ELECTROMECÁNICOS',4,2,SYSDATE(),SYSDATE(),NULL, 'mike', 'mike',NULL),
+(0,'IGEM-EMPRENDIMIENTO Y GESTIÓN EMPRESARIAL',5,6,SYSDATE(),SYSDATE(),NULL, 'mike', 'mike',NULL);

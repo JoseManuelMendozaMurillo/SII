@@ -15,14 +15,15 @@
         "twig/twig": "^3.0"
     },
     "require-dev": {
-        "kint-php/kint": "^5.0.4",
         "codeigniter/coding-standard": "^1.5",
         "fakerphp/faker": "^1.9",
-        "friendsofphp/php-cs-fixer": "3.13.0",
+        "friendsofphp/php-cs-fixer": "^3.13",
+        "kint-php/kint": "^5.0.4",
         "mikey179/vfsstream": "^1.6",
         "nexusphp/cs-config": "^3.6",
         "phpunit/phpunit": "^9.1",
-        "predis/predis": "^1.1 || ^2.0"
+        "predis/predis": "^1.1 || ^2.0",
+        "squizlabs/php_codesniffer": "^3.7"
     },
     "suggest": {
         "ext-curl": "If you use CURLRequest class",
@@ -58,7 +59,11 @@
         ]
     },
     "scripts": {
-        "test": "phpunit"
+        "test": "phpunit",
+        "check-format": "php-cs-fixer fix --dry-run --diff --verbose",
+        "format-all": "php-cs-fixer fix",
+        "check-lint": "phpcs .",
+        "lint": "phpcbf ."
     },
     "support": {
         "forum": "https://forum.codeigniter.com/",

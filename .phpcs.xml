@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!-- 
+    * .phpcs.xml
+    * PHP_CodeSniffer version 3.7.2
+    *
+    * Archivo de configuración de reglas para code sniffer (linter para php)
+    * Documentación oficial: https://github.com/squizlabs/PHP_CodeSniffer/wiki/ 
+ -->
+<ruleset name="SII">
+    <description>Estandares de codigo para el proyecto</description>
+
+    <!-- Incluimos el estandar PSR12 -->
+    <rule ref="PSR12"/>
+
+    <!-- Uso de comillas dobles como warning -->
+    <rule ref="Squiz.Strings.DoubleQuoteUsage">
+        <type>warning</type>    
+        <severity>6</severity>
+    </rule>
+
+    <!-- Añadir reglas para documentación -->
+    <!-- <rule ref="PEAR.Commenting.FileComment.Missing">
+        <type>warning</type>
+        <severity>6</severity>
+    </rule>
+    <rule ref="PEAR.Commenting.ClassComment.Missing">
+        <type>warning</type>
+        <severity>6</severity>
+    </rule>
+    <rule ref="PEAR.Commenting.FunctionComment.Missing">
+        <type>warning</type>
+        <severity>6</severity>
+    </rule> -->
+
+    <!-- Excluimos algunos directorios -->
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>*/tests/*</exclude-pattern>
+    <exclude-pattern>*/cache/*</exclude-pattern>
+    <exclude-pattern>*/node_modules/*</exclude-pattern>
+    <exclude-pattern>*/.devcontainer/*</exclude-pattern>
+    <exclude-pattern>*/.vscode/*</exclude-pattern>
+
+    <exclude-pattern>*/app/Language/*</exclude-pattern>
+    <exclude-pattern>*/app/ThirdParty/*</exclude-pattern>
+    <exclude-pattern>*/app/Common.php</exclude-pattern>
+    <exclude-pattern>*/config/*</exclude-pattern>
+    <exclude-pattern>*/public/*</exclude-pattern>
+    <exclude-pattern>*/scripts/*</exclude-pattern>
+    <exclude-pattern>*/system/*</exclude-pattern>
+    <exclude-pattern>*/writable/*</exclude-pattern>
+    <exclude-pattern>*/preload.php</exclude-pattern>
+
+</ruleset>

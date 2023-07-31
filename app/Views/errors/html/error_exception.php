@@ -73,7 +73,7 @@ $errorId = uniqid('error', true);
                                 } else {
                                     echo esc(clean_path($row['file']) . ' : ' . $row['line']);
                                 }
-                                ?>
+                    ?>
                             <?php else: ?>
                                 {PHP internal code}
                             <?php endif; ?>
@@ -81,21 +81,21 @@ $errorId = uniqid('error', true);
                             <!-- Class/Method -->
                             <?php if (isset($row['class'])) : ?>
                                 &nbsp;&nbsp;&mdash;&nbsp;&nbsp;<?= esc($row['class'] . $row['type'] . $row['function']) ?>
-                                <?php if (! empty($row['args'])) : ?>
+                                <?php if (!empty($row['args'])) : ?>
                                     <?php $argsId = $errorId . 'args' . $index ?>
                                     ( <a href="#" onclick="return toggle('<?= esc($argsId, 'attr') ?>');">arguments</a> )
                                     <div class="args" id="<?= esc($argsId, 'attr') ?>">
                                         <table cellspacing="0">
 
                                         <?php
-                                        $params = null;
-                                        // Reflection by name is not available for closure function
-                                        if (substr($row['function'], -1) !== '}') {
-                                            $mirror = isset($row['class']) ? new ReflectionMethod($row['class'], $row['function']) : new ReflectionFunction($row['function']);
-                                            $params = $mirror->getParameters();
-                                        }
+                            $params = null;
+                                    // Reflection by name is not available for closure function
+                                    if (substr($row['function'], -1) !== '}') {
+                                        $mirror = isset($row['class']) ? new ReflectionMethod($row['class'], $row['function']) : new ReflectionFunction($row['function']);
+                                        $params = $mirror->getParameters();
+                                    }
 
-                                        foreach ($row['args'] as $key => $value) : ?>
+                                    foreach ($row['args'] as $key => $value) : ?>
                                             <tr>
                                                 <td><code><?= esc(isset($params[$key]) ? '$' . $params[$key]->name : "#{$key}") ?></code></td>
                                                 <td><pre><?= esc(print_r($value, true)) ?></pre></td>
@@ -109,7 +109,7 @@ $errorId = uniqid('error', true);
                                 <?php endif; ?>
                             <?php endif; ?>
 
-                            <?php if (! isset($row['class']) && isset($row['function'])) : ?>
+                            <?php if (!isset($row['class']) && isset($row['function'])) : ?>
                                 &nbsp;&nbsp;&mdash;&nbsp;&nbsp;    <?= esc($row['function']) ?>()
                             <?php endif; ?>
                         </p>
@@ -131,7 +131,7 @@ $errorId = uniqid('error', true);
             <div class="content" id="server">
                 <?php foreach (['_SERVER', '_SESSION'] as $var) : ?>
                     <?php
-                    if (empty($GLOBALS[$var]) || ! is_array($GLOBALS[$var])) {
+                    if (empty($GLOBALS[$var]) || !is_array($GLOBALS[$var])) {
                         continue;
                     } ?>
 
@@ -164,7 +164,7 @@ $errorId = uniqid('error', true);
 
                 <!-- Constants -->
                 <?php $constants = get_defined_constants(true); ?>
-                <?php if (! empty($constants['user'])) : ?>
+                <?php if (!empty($constants['user'])) : ?>
                     <h3>Constants</h3>
 
                     <table>
@@ -234,7 +234,7 @@ $errorId = uniqid('error', true);
                 <?php $empty = true; ?>
                 <?php foreach (['_GET', '_POST', '_COOKIE'] as $var) : ?>
                     <?php
-                    if (empty($GLOBALS[$var]) || ! is_array($GLOBALS[$var])) {
+                    if (empty($GLOBALS[$var]) || !is_array($GLOBALS[$var])) {
                         continue;
                     } ?>
 
@@ -276,7 +276,7 @@ $errorId = uniqid('error', true);
                 <?php endif; ?>
 
                 <?php $headers = $request->headers(); ?>
-                <?php if (! empty($headers)) : ?>
+                <?php if (!empty($headers)) : ?>
 
                     <h3>Headers</h3>
 
@@ -303,8 +303,8 @@ $errorId = uniqid('error', true);
             <!-- Response -->
             <?php
                 $response = Services::response();
-                $response->setStatusCode(http_response_code());
-            ?>
+$response->setStatusCode(http_response_code());
+?>
             <div class="content" id="response">
                 <table>
                     <tr>
@@ -314,7 +314,7 @@ $errorId = uniqid('error', true);
                 </table>
 
                 <?php $headers = $response->headers(); ?>
-                <?php if (! empty($headers)) : ?>
+                <?php if (!empty($headers)) : ?>
                     <?php natsort($headers) ?>
 
                     <h3>Headers</h3>

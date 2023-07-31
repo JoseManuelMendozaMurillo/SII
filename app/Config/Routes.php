@@ -34,83 +34,53 @@ $routes->get('auth/login', 'Login::loginView');
 service('auth')->routes($routes, ['except' => ['login']]);
 
 // Rutas auth
-$routes->group('auth', ['namespace' => 'App\Controllers\Auth'], function($routes){
+$routes->group('auth', ['namespace' => 'App\Controllers\Auth'], function ($routes) {
     $routes->get('login', 'Login::loginView');
     $routes->post('sing-in', 'Login::loginAction');
     $routes->get('logout', 'Login::logoutAction');
-
-    $routes->get('register', 'Register::registerView');
-    $routes->post('sing-up', 'Register::registerAction');
 });
 
-$routes->group('aspirantes', 
-              ['namespace' => 'App\Controllers\Aspirantes'], 
-              function($routes){
-    $routes->get('loginup', 'Aspirantes::aspirantes');
-});
-
-
-// Rutas para el crud de alumnos
 $routes->group(
-                'alumno', 
-                ['namespace' => 'App\Controllers', 
-                'filter' => 'group:superadmin,master,student,bossdepartment, permission:admin.*,master.*,student.*,bossdepartment.*'], 
-                function($routes){
-    
-    $routes->get('listado', 'Alumno::index');
-    
-    $routes->group(
-        "",
-        ['namespace' => 'App\Controllers',
-         'filter' => 'group:superadmin,bossdepartment, permission:student.create,student.delete'],
-        function($routes){
-            $routes->get('form', 'Alumno::form');
-            $routes->post('add', 'Alumno::add');
-            $routes->get('delete/(:any)', 'Alumno::delete/$1');
-        }
-    );
-    
-    $routes->group(
-        "",
-        ['namespace' => 'App\Controllers',
-         'filter' => 'group:superadmin,bossdepartment,master, permission:student.update'],
-        function($routes){
-            $routes->get('form/(:any)', 'Alumno::form/$1');
-            $routes->post('update/(:any)', 'Alumno::update/$1');
-            $routes->post('grupos', 'Alumno::grupos');
-        }
-    );
-    
-});
+    'aspirantes',
+    ['namespace' => 'App\Controllers\Aspirantes'],
+    function ($routes) {
+        $routes->get('loginup', 'Aspirantes::aspirantes');
+    }
+);
 
 // Rutas de información
-$routes->group('informacion', 
-              ['namespace' => 'App\Controllers', 
-               'filter' => 'group:superadmin, permission:admin.setting'], 
-              function($routes){
-    $routes->get('php', 'Informacion::index');
-});
+$routes->group(
+    'informacion',
+    ['namespace' => 'App\Controllers',
+        'filter' => 'group:superadmin, permission:admin.setting'],
+    function ($routes) {
+        $routes->get('php', 'Informacion::index');
+    }
+);
 
 // Rutas de prueba
-$routes->group('pruebas', 
-                ['namespace' => 'App\Controllers\Test', 
-                 'filter' => 'group:superadmin, permission:admin.setting'], 
-                 function($routes){
-    $routes->get('correos', 'Pruebas::correo');
-    $routes->post('sendEmail', 'Pruebas::sendEmail');
-    $routes->get('imagenes', 'Pruebas::img');
-    $routes->post('thumb', 'Pruebas::thumb');
-    $routes->get('curl', 'Pruebas::curl');
-    $routes->post('getPokemon', 'Pruebas::getDataPokemon');
-});
+$routes->group(
+    'pruebas',
+    ['namespace' => 'App\Controllers\Test',
+        'filter' => 'group:superadmin, permission:admin.setting'],
+    function ($routes) {
+        $routes->get('correos', 'Pruebas::correo');
+        $routes->post('sendEmail', 'Pruebas::sendEmail');
+        $routes->get('imagenes', 'Pruebas::img');
+        $routes->post('thumb', 'Pruebas::thumb');
+        $routes->get('curl', 'Pruebas::curl');
+        $routes->post('getPokemon', 'Pruebas::getDataPokemon');
+    }
+);
 
 // Rutas de ejemplo de servicios escolares
-$routes->group('servicios', 
-              ['namespace' => 'App\Controllers\ServiciosEscolares'], 
-              function($routes){
-    $routes->get('crear', 'ServiciosEscolares::crearReticula');
-});
-
+$routes->group(
+    'servicios',
+    ['namespace' => 'App\Controllers\ServiciosEscolares'],
+    function ($routes) {
+        $routes->get('crear', 'ServiciosEscolares::crearReticula');
+    }
+);
 
 /*
  * --------------------------------------------------------------------

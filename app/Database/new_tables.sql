@@ -3,6 +3,131 @@ drop database control_escolar;
 CREATE DATABASE IF NOT EXISTS control_escolar;
 
 use control_escolar;
+/*tablas de permisos*/
+
+CREATE TABLE `users` (
+    `id` int unsigned NOT NULL AUTO_INCREMENT,
+    `username` varchar(30) DEFAULT NULL,
+    `status` varchar(255) DEFAULT NULL,
+    `status_message` varchar(255) DEFAULT NULL,
+    `active` tinyint(1) NOT NULL DEFAULT '0',
+    `last_active` datetime DEFAULT NULL,
+    `created_at` datetime DEFAULT NULL,
+    `updated_at` datetime DEFAULT NULL,
+    `deleted_at` datetime DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3;
+
+
+
+CREATE TABLE `auth_groups_users` (
+    `id` int unsigned NOT NULL AUTO_INCREMENT,
+    `user_id` int unsigned NOT NULL,
+    `group` varchar(255) NOT NULL,
+    `created_at` datetime NOT NULL,
+    PRIMARY KEY (`id`),
+    KEY `auth_groups_users_user_id_foreign` (`user_id`),
+    CONSTRAINT `auth_groups_users_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
+
+CREATE TABLE `auth_identities` (
+    `id` int unsigned NOT NULL AUTO_INCREMENT,
+    `user_id` int unsigned NOT NULL,
+    `type` varchar(255) NOT NULL,
+    `name` varchar(255) DEFAULT NULL,
+    `secret` varchar(255) NOT NULL,
+    `secret2` varchar(255) DEFAULT NULL,
+    `expires` datetime DEFAULT NULL,
+    `extra` text,
+    `force_reset` tinyint(1) NOT NULL DEFAULT '0',
+    `last_used_at` datetime DEFAULT NULL,
+    `created_at` datetime DEFAULT NULL,
+    `updated_at` datetime DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `type_secret` (`type`,`secret`),
+    KEY `user_id` (`user_id`),
+    CONSTRAINT `auth_identities_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3;
+
+CREATE TABLE `auth_logins` (
+    `id` int unsigned NOT NULL AUTO_INCREMENT,
+    `ip_address` varchar(255) NOT NULL,
+    `user_agent` varchar(255) DEFAULT NULL,
+    `id_type` varchar(255) NOT NULL,
+    `identifier` varchar(255) NOT NULL,
+    `user_id` int unsigned DEFAULT NULL,
+    `date` datetime NOT NULL,
+    `success` tinyint(1) NOT NULL,
+    PRIMARY KEY (`id`),
+    KEY `id_type_identifier` (`id_type`,`identifier`),
+    KEY `user_id` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb3;
+
+CREATE TABLE `auth_permissions_users` (
+    `id` int unsigned NOT NULL AUTO_INCREMENT,
+    `user_id` int unsigned NOT NULL,
+    `permission` varchar(255) NOT NULL,
+    `created_at` datetime NOT NULL,
+    PRIMARY KEY (`id`),
+    KEY `auth_permissions_users_user_id_foreign` (`user_id`),
+    CONSTRAINT `auth_permissions_users_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+
+CREATE TABLE `auth_remember_tokens` (
+    `id` int unsigned NOT NULL AUTO_INCREMENT,
+    `selector` varchar(255) NOT NULL,
+    `hashedValidator` varchar(255) NOT NULL,
+    `user_id` int unsigned NOT NULL,
+    `expires` datetime NOT NULL,
+    `created_at` datetime NOT NULL,
+    `updated_at` datetime NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `selector` (`selector`),
+    KEY `auth_remember_tokens_user_id_foreign` (`user_id`),
+    CONSTRAINT `auth_remember_tokens_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+
+CREATE TABLE `auth_token_logins` (
+    `id` int unsigned NOT NULL AUTO_INCREMENT,
+    `ip_address` varchar(255) NOT NULL,
+    `user_agent` varchar(255) DEFAULT NULL,
+    `id_type` varchar(255) NOT NULL,
+    `identifier` varchar(255) NOT NULL,
+    `user_id` int unsigned DEFAULT NULL,
+    `date` datetime NOT NULL,
+    `success` tinyint(1) NOT NULL,
+    PRIMARY KEY (`id`),
+    KEY `id_type_identifier` (`id_type`,`identifier`),
+    KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+CREATE TABLE `migrations` (
+    `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+    `version` varchar(255) NOT NULL,
+    `class` varchar(255) NOT NULL,
+    `group` varchar(255) NOT NULL,
+    `namespace` varchar(255) NOT NULL,
+    `time` int NOT NULL,
+    `batch` int unsigned NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
+
+CREATE TABLE `settings` (
+    `id` int NOT NULL AUTO_INCREMENT,
+    `class` varchar(255) NOT NULL,
+    `key` varchar(255) NOT NULL,
+    `value` text,
+    `type` varchar(31) NOT NULL DEFAULT 'string',
+    `context` varchar(255) DEFAULT NULL,
+    `created_at` datetime NOT NULL,
+    `updated_at` datetime NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+/*termina bloque*/
 
 Create TABLE constantes(
     carga_minima int,
@@ -110,6 +235,7 @@ CREATE TABLE alumnos (
     nombre VARCHAR(255),
     apellido_materno VARCHAR(255),
     apellido_paterno VARCHAR(255),
+    curp VARCHAR(18) UNIQUE NOT NULL,
     id_reticula INT UNSIGNED,
     id_nivel_escolar int unsigned,
     becado_por VARCHAR(255),
@@ -133,7 +259,6 @@ CREATE table alumno_inf_personal (
     ciudad_procedencia VARCHAR(255),
     clave_servicio_medico VARCHAR(255),
     correo_electronico VARCHAR(255),
-    curp_alumno VARCHAR(255),
     domicilio_escuela VARCHAR(255),
     entidad_procedencia VARCHAR(255),
     estado_civil VARCHAR(255),
@@ -193,6 +318,43 @@ create table tipo_asignatura(
     tipo_asignatura VARCHAR(255),
     PRIMARY KEY(id_tipo_asignatura)
 ) ENGINE = InnoDB;
+
+create table periodos_escolares(
+    id_periodo INT UNSIGNED AUTO_INCREMENT,
+    clave_periodo VARCHAR(255), #ENE-JUN2020,JUL-DIC2020,2020A,2020B
+    inicio_periodo DATETIME,
+    fin_periodo DATETIME,
+    inscripciones BOOLEAN,
+    created_at DATETIME,
+    updated_at DATETIME,
+    deleted_at DATETIME,
+    created_by VARCHAR(255),
+    updated_by VARCHAR(255),
+    deleted_by VARCHAR(255),
+    PRIMARY KEY (id_periodo)
+) ENGINE = InnoDB;
+
+CREATE TABLE aspirantes (
+    id_aspirante int UNSIGNED AUTO_INCREMENT,
+    nombre varchar(255),
+    apellido_paterno VARCHAR(255),
+    apellido_materno VARCHAR(255),
+    domicilio VARCHAR(255),
+    curp VARCHAR(18),
+    discapacidad VARCHAR(255),
+    fecha_pago DATETIME,
+    no_ficha INT,
+    no_recibo INT,
+    no_solicitud INT,
+    id_periodo int unsigned,
+    created_at DATETIME,
+    updated_at DATETIME,
+    deleted_at DATETIME,
+    created_by VARCHAR(255),
+    updated_by VARCHAR(255),
+    deleted_by VARCHAR(255),
+    PRIMARY KEY (id_aspirante)
+);
 /*
  SELECT
  TABLE_NAME,
