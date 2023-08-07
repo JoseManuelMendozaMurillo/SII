@@ -1,6 +1,12 @@
 <?php
 
-namespace CodeIgniter\Settings\Database\Migrations;
+/**
+ * Migracion de la tabla settings
+ * Esta migracion fue copiada de la siguiente direccion:
+ * vendor/codeigniter4/settings/src/Database/Migrations/2021-07-04-041948_CreateSettingsTable.php
+ */
+
+namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Forge;
 use CodeIgniter\Database\Migration;
