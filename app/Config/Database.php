@@ -29,7 +29,7 @@ class Database extends Config
         'hostname' => 'db_correcaminos',
         'username' => 'root',
         'password' => '19630306',
-        'database' => 'control_escolar',
+        'database' => 'sii_test',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
         'pConnect' => false,
@@ -53,7 +53,7 @@ class Database extends Config
         'hostname' => 'db_correcaminos',
         'username' => 'root',
         'password' => '19630306',
-        'database' => 'control_escolar',
+        'database' => 'sii_test',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',  // Needed to ensure we're working correctly with prefixes live. DO NOT REMOVE FOR CI DEVS
         'pConnect' => false,
