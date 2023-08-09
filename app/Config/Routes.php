@@ -95,8 +95,7 @@ $routes->group(
 // Rutas de prueba
 $routes->group(
     'pruebas',
-    ['namespace' => 'App\Controllers\Test',
-        'filter' => 'group:superadmin, permission:admin.setting'],
+    ['namespace' => 'App\Controllers\Test'],
     function ($routes) {
         $routes->get('correos', 'Pruebas::correo');
         $routes->post('sendEmail', 'Pruebas::sendEmail');
