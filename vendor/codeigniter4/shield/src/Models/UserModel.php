@@ -18,21 +18,25 @@ use Faker\Generator;
  */
 class UserModel extends BaseModel
 {
-    protected $primaryKey     = 'id';
-    protected $returnType     = User::class;
+    protected $primaryKey = 'id';
+    protected $returnType = User::class;
     protected $useSoftDeletes = true;
-    protected $allowedFields  = [
+    protected $allowedFields = [
         'username',
         'status',
         'status_message',
         'active',
         'last_active',
         'deleted_at',
+
+        // Added fields
+        'email',
+        'password',
     ];
     protected $useTimestamps = true;
-    protected $afterFind     = ['fetchIdentities'];
-    protected $afterInsert   = ['saveEmailIdentity'];
-    protected $afterUpdate   = ['saveEmailIdentity'];
+    protected $afterFind = ['fetchIdentities'];
+    protected $afterInsert = ['saveEmailIdentity'];
+    protected $afterUpdate = ['saveEmailIdentity'];
 
     /**
      * Whether identity records should be included
@@ -73,7 +77,7 @@ class UserModel extends BaseModel
      */
     protected function fetchIdentities(array $data): array
     {
-        if (! $this->fetchIdentities) {
+        if (!$this->fetchIdentities) {
             return $data;
         }
 
@@ -109,6 +113,7 @@ class UserModel extends BaseModel
      * @param UserIdentity[] $identities
      *
      * @return User[] UserId => User object
+     *
      * @phpstan-return array<int|string, User> UserId => User object
      */
     private function assignIdentities(array $data, array $identities): array
@@ -126,7 +131,7 @@ class UserModel extends BaseModel
         foreach ($identities as $identity) {
             $userId = $identity->user_id;
 
-            $newIdentities   = $mappedUsers[$userId]->identities;
+            $newIdentities = $mappedUsers[$userId]->identities;
             $newIdentities[] = $identity;
 
             $mappedUsers[$userId]->identities = $newIdentities;
@@ -141,10 +146,10 @@ class UserModel extends BaseModel
      */
     public function addToDefaultGroup(User $user): void
     {
-        $defaultGroup  = setting('AuthGroups.defaultGroup');
+        $defaultGroup = setting('AuthGroups.defaultGroup');
         $allowedGroups = array_keys(setting('AuthGroups.groups'));
 
-        if (empty($defaultGroup) || ! in_array($defaultGroup, $allowedGroups, true)) {
+        if (empty($defaultGroup) || !in_array($defaultGroup, $allowedGroups, true)) {
             throw new InvalidArgumentException(lang('Auth.unknownGroup', [$defaultGroup ?? '--not found--']));
         }
 
@@ -155,7 +160,7 @@ class UserModel extends BaseModel
     {
         return new User([
             'username' => $faker->unique()->userName(),
-            'active'   => true,
+            'active' => true,
         ]);
     }
 
@@ -214,8 +219,8 @@ class UserModel extends BaseModel
             $password_hash = $data['password_hash'];
             unset($data['password_hash']);
 
-            $user                = new User($data);
-            $user->email         = $email;
+            $user = new User($data);
+            $user->email = $email;
             $user->password_hash = $password_hash;
             $user->syncOriginal();
 
@@ -339,8 +344,8 @@ class UserModel extends BaseModel
             // If you get identity (email/password), the User object must have the id.
             $this->tempUser->id = $user->id;
 
-            $user->email         = $this->tempUser->email ?? '';
-            $user->password      = $this->tempUser->password ?? '';
+            $user->email = $this->tempUser->email ?? '';
+            $user->password = $this->tempUser->password ?? '';
             $user->password_hash = $this->tempUser->password_hash ?? '';
 
             $user->saveEmailIdentity();

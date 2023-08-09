@@ -34,17 +34,31 @@ $routes->get('auth/login', 'Login::loginView');
 service('auth')->routes($routes, ['except' => ['login']]);
 
 // Rutas auth
-$routes->group('auth', ['namespace' => 'App\Controllers\Auth'], function ($routes) {
-    $routes->get('login', 'Login::loginView');
-    $routes->post('sing-in', 'Login::loginAction');
-    $routes->get('logout', 'Login::logoutAction');
-});
+$routes->group(
+    'auth',
+    ['namespace' => 'App\Controllers\Auth'],
+    function ($routes) {
+        $routes->get('login', 'Login::loginView');
+        $routes->post('sing-in', 'Login::loginAction');
+        $routes->get('logout', 'Login::logoutAction');
+    }
+);
 
+// Rutas aspirantes
 $routes->group(
     'aspirantes',
     ['namespace' => 'App\Controllers\Aspirantes'],
     function ($routes) {
         $routes->get('loginup', 'Aspirantes::aspirantes');
+        $routes->get('new', 'Aspirantes::new');
+        $routes->group(
+            'info',
+            ['namespace' => 'App\Controllers\Aspirantes',
+                'filter' => 'group:aspirante'],
+            function ($routes) {
+                $routes->get('', 'Aspirantes::hello');
+            }
+        );
     }
 );
 

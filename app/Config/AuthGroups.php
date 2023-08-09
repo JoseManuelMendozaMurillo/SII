@@ -36,6 +36,10 @@ class AuthGroups extends ShieldAuthGroups
             'title' => 'Super Admin',
             'description' => 'Complete control of the site.',
         ],
+        'aspirante' => [
+            'title' => 'Aspirante',
+            'description' => 'Aspirante a estudiante del TecNM Campus Ocotlan',
+        ],
     ];
 
     /**
@@ -49,6 +53,8 @@ class AuthGroups extends ShieldAuthGroups
     public array $permissions = [
         'admin.access' => 'Can access the sites admin area',
         'admin.settings' => 'Can access the main site settings',
+        // Aspirante permissions
+        'aspirante.info' => 'Puede ver la informacion del aspirante',
     ];
 
     /**
