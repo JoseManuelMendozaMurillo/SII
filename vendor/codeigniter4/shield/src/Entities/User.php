@@ -36,14 +36,15 @@ class User extends Entity
      * @var UserIdentity[]|null
      */
     private ?array $identities = null;
-
-    private ?string $email         = null;
-    private ?string $password      = null;
+    private ?string $email = null;
+    private ?string $password = null;
     private ?string $password_hash = null;
 
     /**
      * @var string[]
+     *
      * @phpstan-var list<string>
+     *
      * @psalm-var list<string>
      */
     protected $dates = [
@@ -57,10 +58,10 @@ class User extends Entity
      * @var array<string, string>
      */
     protected $casts = [
-        'id'          => '?integer',
-        'active'      => 'int_bool',
+        'id' => '?integer',
+        'active' => 'int_bool',
         'permissions' => 'array',
-        'groups'      => 'array',
+        'groups' => 'array',
     ];
 
     /**
@@ -159,22 +160,22 @@ class User extends Entity
             $this->identities = null;
 
             $this->createEmailIdentity([
-                'email'    => $this->email,
+                'email' => $this->email,
                 'password' => '',
             ]);
 
             $identity = $this->getEmailIdentity();
         }
 
-        if (! empty($this->email)) {
+        if (!empty($this->email)) {
             $identity->secret = $this->email;
         }
 
-        if (! empty($this->password)) {
+        if (!empty($this->password)) {
             $identity->secret2 = service('passwords')->hash($this->password);
         }
 
-        if (! empty($this->password_hash) && empty($this->password)) {
+        if (!empty($this->password_hash) && empty($this->password)) {
             $identity->secret2 = $this->password_hash;
         }
 

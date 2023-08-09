@@ -51,6 +51,7 @@ $routes->group(
     function ($routes) {
         $routes->get('loginup', 'Aspirantes::aspirantes');
         $routes->get('new', 'Aspirantes::new');
+        $routes->get('delete/(:num)', 'Aspirantes::deleteAspirante/$1');
         $routes->group(
             'info',
             ['namespace' => 'App\Controllers\Aspirantes',
