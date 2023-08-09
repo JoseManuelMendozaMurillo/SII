@@ -54,7 +54,7 @@ class AuthGroups extends ShieldAuthGroups
         'admin.access' => 'Can access the sites admin area',
         'admin.settings' => 'Can access the main site settings',
         // Aspirante permissions
-        'aspirante.info' => 'Puede ver la informacion del aspirante',
+        'aspirante.access' => 'Puede acceder a los sitios del area de aspirantes',
     ];
 
     /**
