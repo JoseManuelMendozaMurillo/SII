@@ -382,15 +382,21 @@
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label class="form-label">¿Pertenece a una comunidad
-                                                                indigena?:</label>
-                                                            <input type="text" class="form-control upper-case"
-                                                                name="phno" placeholder="47829" />
+                                                                indìgena?:</label>
+                                                            <select class="form-select" id="exampleFormControlSelect1">
+                                                                <option selected>SÌ</option>
+                                                                <option>NO</option>
+                                                                <option>PREFIERO NO DECIRLO</option>
+                                                            </select>
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">¿Habla alguna lengua
-                                                                indigena?:</label>
-                                                            <input type="text" class="form-control upper-case"
-                                                                name="phno" placeholder="LIMÓN Y TABACHIN" />
+                                                                indìgena?:</label>
+                                                            <select class="form-select" id="exampleFormControlSelect1">
+                                                                <option selected>SÌ</option>
+                                                                <option>NO</option>
+                                                                <option>PREFIERO NO DECIRLO</option>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -430,15 +436,16 @@
                                                     <div class="col-md-3">
                                                         <div class="form-group">
                                                             <label class="form-label">Año de egreso: *</label>
-                                                            <input type="text" class="form-control upper-case"
-                                                                name="phno" placeholder="47829" />
+                                                            <input type="text" id="anioInput"
+                                                                class="form-control upper-case" name="phno"
+                                                                placeholder="" />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <div class="form-group">
                                                             <label class="form-label">Promedio general: *</label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="phno" placeholder="47829" />
+                                                                name="phno" placeholder="90" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -508,8 +515,12 @@
                                                             <div class="form-group">
                                                                 <label class="form-label">¿Somos tu primera opción para
                                                                     cursar tus estudios?: *</label>
-                                                                <input type="text" class="form-control upper-case"
-                                                                    name="phno_2" placeholder="SI" />
+                                                                <select class="form-select"
+                                                                    id="exampleFormControlSelect1">
+                                                                    <option selected>SÌ</option>
+                                                                    <option>NO</option>
+                                                                    <option>PREFIERO NO DECIRLO</option>
+                                                                </select>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">¿Cual es tu motivo de
@@ -624,19 +635,13 @@
                                                                 <label class="form-label">¿Cuantos focos tiene su
                                                                     vivienda?: </label>
                                                                 <input type="text" class="form-control upper-case"
-                                                                    name="phno" placeholder="0 A 5" />
+                                                                    name="phno" placeholder="5" />
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">¿Que tipo de piso predomina en
                                                                     su hogar?: </label>
                                                                 <input type="text" class="form-control upper-case"
                                                                     name="phno" placeholder="CEMENTO FIRME" />
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label class="form-label">¿Cuantos automoviles propios
-                                                                    tienen en su hogar?: </label>
-                                                                <input type="text" class="form-control upper-case"
-                                                                    name="phno" placeholder="NINGUNO" />
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">¿Cuantos automoviles propios
@@ -684,35 +689,42 @@
                                             <br>
                                             <br>
                                             <div class="row">
-                                                <div class="col">
+                                                <div class="col-md-4">
                                                     <div class="form-group text-center">
                                                         <img src="{{base_url('Vendor/Template/assets/images/avatars/avtar_4.png')}}"
                                                             id="preview" class="img-thumbnail"
                                                             style="height: 120px; width: 120px; border-radius: 70px;">
                                                     </div>
                                                 </div>
-                                                <div class="col text-center align-items-center justify-content-center">
-                                                    <div class="form-group text-center">
-                                                        <div class="d-flex">
-                                                            <span>Nombre del aspirante: </span>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <div class="row">
+                                                            <div class="col"><span> <strong>Nombre del aspirante:
+                                                                    </strong></span></div>
                                                             <br>
-                                                            <span class="text-success"> EJEMPLO MARIO VALENCIA </span>
+                                                            <div class="col"><span class="text-success">EJEMPLO
+                                                                    MARIOVALENCIA</span></div>
                                                         </div>
-                                                        <div class="d-flex">
-                                                            <span>N de solicitud: </span>
+                                                        <div class="row">
+                                                            <div class="col"><span><strong> de solicitud:
+                                                                    </strong></span></div>
                                                             <br>
-                                                            <span class="text-success"> 00001 </span>
+                                                            <div class="col"><span class="text-success"> 00001 </span>
+                                                            </div>
                                                         </div>
-                                                        <div class="d-flex">
-                                                            <span>NIP: </span>
+                                                        <div class="row">
+                                                            <div class="col"><span><strong>NIP: </strong></span></div>
                                                             <br>
-                                                            <span class="text-success"> 0926 </span>
+                                                            <div class="col"><span class="text-success"> 0926 </span>
+                                                            </div>
                                                         </div>
-                                                        <div class="d-flex">
-                                                            <span>Opcion de carrera: </span>
+                                                        <div class="row">
+                                                            <div class="col"><span><strong>Opcion de carrera:
+                                                                    </strong></span></div>
                                                             <br>
-                                                            <span class="text-success"> Ingenieria Sistemas
-                                                                Computacionales </span>
+                                                            <div class="col"><span class="text-success"> Ingenieria
+                                                                    Sistemas
+                                                                    Computacionales </span></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -770,14 +782,17 @@
                                                 </h6>
                                             </div>
                                             <br /><br />
-                                            <div class="row justify-content-center">
-                                                <br /><br />
-                                                <div class="">
-                                                    <button type="button" name="" id="congrats"
-                                                        class="btn btn-primary next action-button float-center"
-                                                        value="">
-                                                        Imprimir Ficha
-                                                    </button>
+                                            <br /><br />
+                                            <div class="d-flex align-items-center text-center justify-content-center">
+                                                <button type="button" name="" id="congrats"
+                                                    class="btn btn-primary next action-button float-center" value="">
+                                                    Imprimir Ficha
+                                                </button>
+                                                <div class="p-3"></div>
+                                                <div class="d-flex justify-content-center">
+                                                    <a href="{{ base_url('auth/login') }}"
+                                                        class="btn justify-content-center btn-primary">Vuelve
+                                                        al login </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -796,6 +811,12 @@
 {% block script %}
 
 <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
+
+<script>
+    const anioInput = document.getElementById("anioInput");
+    const anoActual = new Date().getFullYear();
+    anioInput.placeholder = `${anoActual}`;
+</script>
 
 <script>
 
