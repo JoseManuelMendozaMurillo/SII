@@ -40,6 +40,10 @@ class AuthGroups extends ShieldAuthGroups
             'title' => 'Aspirante',
             'description' => 'Aspirante a estudiante del TecNM Campus Ocotlan',
         ],
+        'financieros' => [
+            'title' => 'Servicios financieros',
+            'description' => 'Administrativo del area de servicios financieros',
+        ],
     ];
 
     /**
@@ -55,6 +59,8 @@ class AuthGroups extends ShieldAuthGroups
         'admin.settings' => 'Can access the main site settings',
         // Aspirante permissions
         'aspirante.access' => 'Puede acceder a los sitios del area de aspirantes',
+        // Financieros permissions
+        'financieros.access' => 'Puede acceder a los sotios del area de servicios financieros',
     ];
 
     /**
