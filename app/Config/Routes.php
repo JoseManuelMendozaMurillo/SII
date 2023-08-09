@@ -62,6 +62,16 @@ $routes->group(
     }
 );
 
+// Rutas de servicios financieros
+$routes->group(
+    'financieros',
+    ['namespace' => 'App\Controllers\Financieros'],
+    // 'filter' => 'group:financieros'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
+    function ($routes) {
+        $routes->get('', 'Financieros::hello');
+    }
+);
+
 // Rutas de información
 $routes->group(
     'informacion',
