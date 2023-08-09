@@ -72,6 +72,16 @@ $routes->group(
     }
 );
 
+// Desarrollo academico
+$routes->group(
+    'des-academico',
+    ['namespace' => 'App\Controllers\DesarrolloAcademico'],
+    // 'filter' => 'group:desarrollo_academico'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
+    function ($routes) {
+        $routes->get('', 'DesarrolloAcademico::hello');
+    }
+);
+
 // Rutas de información
 $routes->group(
     'informacion',
