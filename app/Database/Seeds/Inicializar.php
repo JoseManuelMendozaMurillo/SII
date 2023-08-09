@@ -9,6 +9,6 @@ class Inicializar extends Seeder
     public function run()
     {
         $this->call('LlenadoSelectorasAspirantes');
-        $this->call('ScriptsSQL');
+        $this->call('LlenadoReticulas');
     }
 }
