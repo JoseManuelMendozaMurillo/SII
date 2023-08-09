@@ -44,6 +44,10 @@ class AuthGroups extends ShieldAuthGroups
             'title' => 'Servicios financieros',
             'description' => 'Administrativo del area de servicios financieros',
         ],
+        'desarrollo_academico' => [
+            'title' => 'Desarrollo Academico',
+            'description' => 'Administrativo del area de desarrollo academico',
+        ],
     ];
 
     /**
@@ -60,7 +64,9 @@ class AuthGroups extends ShieldAuthGroups
         // Aspirante permissions
         'aspirante.access' => 'Puede acceder a los sitios del area de aspirantes',
         // Financieros permissions
-        'financieros.access' => 'Puede acceder a los sotios del area de servicios financieros',
+        'financieros.access' => 'Puede acceder a los sitios del area de servicios financieros',
+        // Desarrollo academico permissions
+        'desarrollo_academico.access' => 'Puede acceder a los sirios del area de desarrollo academico',
     ];
 
     /**
@@ -74,6 +80,15 @@ class AuthGroups extends ShieldAuthGroups
     public array $matrix = [
         'superadmin' => [
             'admin.*',
+        ],
+        'aspirante' => [
+            'aspirante.*',
+        ],
+        'financieros' => [
+            'financieros.*',
+        ],
+        'desarrollo_academico' => [
+            'desarrollo_academico.*',
         ],
     ];
 }
