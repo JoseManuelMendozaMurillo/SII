@@ -7,6 +7,8 @@ use CodeIgniter\Entity\Entity;
 class Aspirante extends Entity
 {
     // ...
+    // Entidad creada
+    // TODO: Agregar logica de negocio
     public function setCreatedAt(string $dateString)
     {
         $this->attributes['created_at'] = new Time($dateString, 'UTC');
