@@ -27,6 +27,7 @@ use Psr\Log\LoggerInterface;
 class RegisterController extends BaseController
 {
     use Viewable;
+
     protected $helpers = ['setting'];
 
     /**
@@ -46,7 +47,7 @@ class RegisterController extends BaseController
         );
 
         /** @var Auth $authConfig */
-        $authConfig = config('Auth');
+        $authConfig   = config('Auth');
         $this->tables = $authConfig->tables;
     }
 
@@ -62,7 +63,7 @@ class RegisterController extends BaseController
         }
 
         // Check if registration is allowed
-        if (!setting('Auth.allowRegistration')) {
+        if (! setting('Auth.allowRegistration')) {
             return redirect()->back()->withInput()
                 ->with('error', lang('Auth.registerDisabled'));
         }
@@ -88,7 +89,7 @@ class RegisterController extends BaseController
         }
 
         // Check if registration is allowed
-        if (!setting('Auth.allowRegistration')) {
+        if (! setting('Auth.allowRegistration')) {
             return redirect()->back()->withInput()
                 ->with('error', lang('Auth.registerDisabled'));
         }
@@ -99,13 +100,13 @@ class RegisterController extends BaseController
         // like the password, can only be validated properly here.
         $rules = $this->getValidationRules();
 
-        if (!$this->validateData($this->request->getPost(), $rules, [], config('Auth')->DBGroup)) {
+        if (! $this->validateData($this->request->getPost(), $rules, [], config('Auth')->DBGroup)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
         // Save the user
         $allowedPostFields = array_keys($rules);
-        $user = $this->getUserEntity();
+        $user              = $this->getUserEntity();
         $user->fill($this->request->getPost($allowedPostFields));
 
         // Workaround for email only registration/login
@@ -172,7 +173,6 @@ class RegisterController extends BaseController
      * Returns the rules that should be used for validation.
      *
      * @return array<string, array<string, array<string>|string>>
-     *
      * @phpstan-return array<string, array<string, string|list<string>>>
      */
     protected function getValidationRules(): array
@@ -196,8 +196,8 @@ class RegisterController extends BaseController
                 'rules' => $registrationEmailRules,
             ],
             'password' => [
-                'label' => 'Auth.password',
-                'rules' => 'required|' . Passwords::getMaxLengthRule() . '|strong_password[]',
+                'label'  => 'Auth.password',
+                'rules'  => 'required|' . Passwords::getMaxLengthRule() . '|strong_password[]',
                 'errors' => [
                     'max_byte' => 'Auth.errorPasswordTooLongBytes',
                 ],
