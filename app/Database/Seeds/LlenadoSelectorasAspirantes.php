@@ -70,5 +70,24 @@ class LlenadoSelectorasAspirantes extends Seeder
             ['ocupacion' => 'Funcionario público / Empleado gubernamental'],
         ];
         $this->db->table('ocupaciones')->insertBatch($ocupaciones);
+
+        $cohabitantes = [
+            ['cohabitantes' => 'Familiares (Abuelos, tios, etc.)'],
+            ['cohabitantes' => 'Padres'],
+            ['cohabitantes' => 'Padre'],
+            ['cohabitantes' => 'Madre'],
+            ['cohabitantes' => 'Hermanos / Hermanas'],
+            ['cohabitantes' => 'Primos'],
+            ['cohabitantes' => 'Roommates / Compañeros de cuarto'],
+            ['cohabitantes' => 'Pareja / Cónyuge'],
+            ['cohabitantes' => 'Amigos / Amigas'],
+            ['cohabitantes' => 'Solo yo'],
+            ['cohabitantes' => 'Mascotas'],
+            ['cohabitantes' => 'Parientes'],
+            ['cohabitantes' => 'Compañeros de trabajo'],
+            ['cohabitantes' => 'Vecinos'],
+            ['cohabitantes' => 'Otros cohabitantes'],
+        ];
+        $this->db->table('cohabitantes')->insertBatch($cohabitantes);
     }
 }
