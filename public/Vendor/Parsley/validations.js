@@ -1,5 +1,5 @@
 //Parsley.js v2.9.2
-function customValidation() {
+export function customValidation() {
     $('[data-validation]').each(function () {
       var $input = $(this);
       var $inputType = $input.data('validation');
