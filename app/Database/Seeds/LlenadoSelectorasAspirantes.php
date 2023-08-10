@@ -89,5 +89,19 @@ class LlenadoSelectorasAspirantes extends Seeder
             ['cohabitantes' => 'Otros cohabitantes'],
         ];
         $this->db->table('cohabitantes')->insertBatch($cohabitantes);
+
+        $nivel = [
+            ['nivel' => 'Kinder / Educación Infantil'],
+            ['nivel' => 'Primaria / Educación Primaria'],
+            ['nivel' => 'Secundaria / Educación Secundaria'],
+            ['nivel' => 'Preparatoria / Bachillerato'],
+            ['nivel' => 'Educación Técnica / Vocacional'],
+            ['nivel' => 'Universidad / Educación Superior'],
+            ['nivel' => 'Maestría / Posgrado'],
+            ['nivel' => 'Doctorado / Doctorado'],
+            ['nivel' => 'Educación Continua / Formación Profesional'],
+            ['nivel' => 'Sin educación formal'],
+        ];
+        $this->db->table('nivel_estudios')->insertBatch($nivel);
     }
 }
