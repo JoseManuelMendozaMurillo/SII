@@ -103,5 +103,26 @@ class LlenadoSelectorasAspirantes extends Seeder
             ['nivel' => 'Sin educación formal'],
         ];
         $this->db->table('nivel_estudios')->insertBatch($nivel);
+
+        $motivos = [
+            ['motivo' => 'Interés en el campo de estudio'],
+            ['motivo' => 'Recomendación de amigos o familiares'],
+            ['motivo' => 'Oportunidades de crecimiento profesional'],
+            ['motivo' => 'Mejorar habilidades y conocimientos'],
+            ['motivo' => 'Cumplir con requisitos laborales'],
+            ['motivo' => 'Cambio de carrera o enfoque de estudios'],
+            ['motivo' => 'Búsqueda de nuevas oportunidades laborales'],
+            ['motivo' => 'Interés en la investigación y el aprendizaje'],
+            ['motivo' => 'Mejorar el currículum vitae'],
+            ['motivo' => 'Obtener un título para aumentar el estatus'],
+            ['motivo' => 'Motivos económicos (becas, financiamiento)'],
+            ['motivo' => 'Cercanía geográfica a la institución'],
+            ['motivo' => 'Desarrollo personal y auto-superación'],
+            ['motivo' => 'Ampliar redes de contactos'],
+            ['motivo' => 'Cumplir con expectativas familiares'],
+            ['motivo' => 'Cumplir con requisitos legales o normativos'],
+            ['motivo' => 'Otro'],
+        ];
+        $this->db->table('motivos_ingreso')->insertBatch($motivos);
     }
 }
