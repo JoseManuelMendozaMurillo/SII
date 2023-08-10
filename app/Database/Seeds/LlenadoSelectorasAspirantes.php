@@ -124,5 +124,19 @@ class LlenadoSelectorasAspirantes extends Seeder
             ['motivo' => 'Otro'],
         ];
         $this->db->table('motivos_ingreso')->insertBatch($motivos);
+
+        $lenguas = [
+            ['lengua' => 'Náhuatl'],
+            ['lengua' => 'Huichol'],
+            ['lengua' => 'Purépecha'],
+            ['lengua' => 'Otomí'],
+            ['lengua' => 'Cora'],
+            ['lengua' => 'Tepehuano'],
+            ['lengua' => 'Zapoteco'],
+            ['lengua' => 'Mazahua'],
+            ['lengua' => 'Mixteco'],
+            ['lengua' => 'Otra'],
+        ];
+        $this->db->table('lenguas_indigenas')->insertBatch($lenguas);
     }
 }
