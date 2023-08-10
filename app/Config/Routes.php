@@ -104,6 +104,8 @@ $routes->group(
         $routes->post('thumb', 'Pruebas::thumb');
         $routes->get('curl', 'Pruebas::curl');
         $routes->post('getPokemon', 'Pruebas::getDataPokemon');
+
+        $routes->get('pdf', 'Pruebas::pdf');
     }
 );
 
