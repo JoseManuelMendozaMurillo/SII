@@ -138,5 +138,19 @@ class LlenadoSelectorasAspirantes extends Seeder
             ['lengua' => 'Otra'],
         ];
         $this->db->table('lenguas_indigenas')->insertBatch($lenguas);
+
+        $comunidades = [
+            ['comunidad' => 'huicholes'],
+            ['comunidad' => 'huastecos'],
+            ['comunidad' => 'mayas'],
+            ['comunidad' => 'mazahuas'],
+            ['comunidad' => 'mixtecos'],
+            ['comunidad' => 'nahuas'],
+            ['comunidad' => 'otomies'],
+            ['comunidad' => 'purhépechas'],
+            ['comunidad' => 'zapoteco'],
+            ['comunidad' => 'triquis'],
+        ];
+        $this->db->table('comunidades_indigenas')->insertBatch($comunidades);
     }
 }
