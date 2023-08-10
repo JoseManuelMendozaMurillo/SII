@@ -33,5 +33,18 @@ class LlenadoSelectorasAspirantes extends Seeder
             ['tipo' => 'Otro'],
         ];
         $this->db->table('tipos_piso')->insertBatch($pisos);
+
+        $vivienda = [
+            ['propiedad' => 'Casa propia'],
+            ['propiedad' => 'Casa alquilada'],
+            ['propiedad' => 'Apartamento propio'],
+            ['propiedad' => 'Apartamento alquilado'],
+            ['propiedad' => 'Casa de familiares'],
+            ['propiedad' => 'Casa compartida (roomates)'],
+            ['propiedad' => 'Vivienda social/gubernamental'],
+            ['propiedad' => 'Habitacion de hotel o pension'],
+            ['propiedad' => 'Otra'],
+        ];
+        $this->db->table('propiedad_vivienda')->insertBatch($vivienda);
     }
 }
