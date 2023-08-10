@@ -46,5 +46,29 @@ class LlenadoSelectorasAspirantes extends Seeder
             ['propiedad' => 'Otra'],
         ];
         $this->db->table('propiedad_vivienda')->insertBatch($vivienda);
+
+        $ocupaciones = [
+            ['ocupacion' => 'Estudiante'],
+            ['ocupacion' => 'Empleado a tiempo completo'],
+            ['ocupacion' => 'Empleado a tiempo parcial'],
+            ['ocupacion' => 'Trabajador independiente / Freelancer'],
+            ['ocupacion' => 'Empresario / Dueño de negocio'],
+            ['ocupacion' => 'Profesional de la salud (Médico, Enfermero, etc.)'],
+            ['ocupacion' => 'Profesor / Educador'],
+            ['ocupacion' => 'Artista / Creativo'],
+            ['ocupacion' => 'Desempleado'],
+            ['ocupacion' => 'Jubilado / Pensionado'],
+            ['ocupacion' => 'Trabajador manual / Oficios'],
+            ['ocupacion' => 'Técnico / Ingeniero'],
+            ['ocupacion' => 'Gerente / Directivo'],
+            ['ocupacion' => 'Investigador / Científico'],
+            ['ocupacion' => 'Estudiante a tiempo parcial / Trabajador estudiantil'],
+            ['ocupacion' => 'Agricultor / Agricultora'],
+            ['ocupacion' => 'Servicio al cliente / Atención al cliente'],
+            ['ocupacion' => 'Diseñador / Diseñadora'],
+            ['ocupacion' => 'Obrero / Obrera'],
+            ['ocupacion' => 'Funcionario público / Empleado gubernamental'],
+        ];
+        $this->db->table('ocupaciones')->insertBatch($ocupaciones);
     }
 }
