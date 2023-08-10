@@ -17,7 +17,7 @@ class TablasAspirantes extends Migration
                 'unsigned' => true,
                 'auto_increment' => true,
             ],
-            'id_user' => [
+            'user_id' => [
                 'type' => 'INT',
                 'constraint' => 11,
                 'unsigned' => true,
@@ -134,7 +134,7 @@ class TablasAspirantes extends Migration
             ],
         ]);
         $this->forge->addKey('id_aspirante', true);
-        $this->forge->addForeignKey('id_user', 'users', 'id');
+        $this->forge->addForeignKey('user_id', 'users', 'id');
         $this->forge->addForeignKey('carrera_primera_opcion', 'carreras', 'id_carrera');
         $this->forge->addForeignKey('carrera_segunda_opcion', 'carreras', 'id_carrera');
         $this->forge->addForeignKey('motivo_ingreso', 'motivos_ingreso', 'id_motivo_ingreso');
