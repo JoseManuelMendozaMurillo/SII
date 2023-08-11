@@ -114,23 +114,35 @@ class TablasAspirantes extends Migration
             ],
             'created_at' => [
                 'type' => 'DATETIME',
+                'null' => true,
+                'default' => null,
             ],
             'updated_at' => [
                 'type' => 'DATETIME',
+                'null' => true,
+                'default' => null,
             ],
             'deleted_at' => [
                 'type' => 'DATETIME',
+                'null' => true,
+                'default' => null,
             ],
             'created_by' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255,
+                'null' => true,
+                'default' => null,
             ],
             'updated_by' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255,
+                'null' => true,
+                'default' => null,
             ],
             'deleted_by' => ['type' => 'VARCHAR',
                 'constraint' => 255,
+                'null' => true,
+                'default' => null,
             ],
         ]);
         $this->forge->addKey('id_aspirante', true);
@@ -156,13 +168,19 @@ class TablasAspirantes extends Migration
             'no_interior' => [
                 'type' => 'INT',
                 'constraint' => 4,
+                'null' => true,
+                'default' => null,
             ],
             'letra_exterior' => [
                 'type' => 'VARCHAR', 'constraint' => 2,
+                'null' => true,
+                'default' => null,
             ],
             'letra_interior' => [
                 'type' => 'VARCHAR',
                 'constraint' => 2,
+                'null' => true,
+                'default' => null,
             ],
             'colonia' => [
                 'type' => 'VARCHAR',
@@ -203,6 +221,8 @@ class TablasAspirantes extends Migration
             'discapacidad' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255,
+                'null' => true,
+                'default' => null,
             ],
             'lengua_indigena' => [
                 'type' => 'INT',
@@ -268,24 +288,36 @@ class TablasAspirantes extends Migration
             ],
             'created_at' => [
                 'type' => 'DATETIME',
+                'null' => true,
+                'default' => null,
             ],
             'updated_at' => [
                 'type' => 'DATETIME',
+                'null' => true,
+                'default' => null,
             ],
             'deleted_at' => [
                 'type' => 'DATETIME',
+                'null' => true,
+                'default' => null,
             ],
             'created_by' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255,
+                'null' => true,
+                'default' => null,
             ],
             'updated_by' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255,
+                'null' => true,
+                'default' => null,
             ],
             'deleted_by' => [
                 'type' => 'VARCHAR',
-                'constraint' => 255],
+                'constraint' => 255,
+                'null' => true,
+                'default' => null, ],
         ]);
         $this->forge->addForeignKey('id_aspirante', 'aspirantes', 'id_aspirante');
         $this->forge->addForeignKey('comunidad_indigena', 'comunidades_indigenas', 'id_comunidad_indigena');
@@ -303,7 +335,9 @@ class TablasAspirantes extends Migration
 
     public function down()
     {
+        $this->db->disableForeignKeyChecks();
         $this->forge->dropTable('aspirantes');
         $this->forge->dropTable('aspirantes_datos_complementarios');
+        $this->db->enableForeignKeyChecks();
     }
 }

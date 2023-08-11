@@ -21,16 +21,16 @@ class LlenadoSelectorasAspirantes extends Seeder
         $this->db->table('tipos_sangre')->insertBatch($data);
 
         $pisos = [
-            ['tipo' => 'Tierra'],
-            ['tipo' => 'Baldosa'],
-            ['tipo' => 'Madera'],
-            ['tipo' => 'Ceramica'],
-            ['tipo' => 'Marmol o granito'],
-            ['tipo' => 'Alfombra'],
-            ['tipo' => 'Concreto o cemento pulido'],
-            ['tipo' => 'Vinilo'],
-            ['tipo' => 'Resina'],
-            ['tipo' => 'Otro'],
+            ['tipo_piso' => 'Tierra'],
+            ['tipo_piso' => 'Baldosa'],
+            ['tipo_piso' => 'Madera'],
+            ['tipo_piso' => 'Ceramica'],
+            ['tipo_piso' => 'Marmol o granito'],
+            ['tipo_piso' => 'Alfombra'],
+            ['tipo_piso' => 'Concreto o cemento pulido'],
+            ['tipo_piso' => 'Vinilo'],
+            ['tipo_piso' => 'Resina'],
+            ['tipo_piso' => 'Otro'],
         ];
         $this->db->table('tipos_piso')->insertBatch($pisos);
 
