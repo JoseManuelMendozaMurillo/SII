@@ -13,7 +13,6 @@ use CodeIgniter\Shield\Traits\Viewable;
 class LoginController extends BaseController
 {
     use Viewable;
-
     protected $helpers = ['setting'];
 
     /**
@@ -47,22 +46,22 @@ class LoginController extends BaseController
         // like the password, can only be validated properly here.
         $rules = $this->getValidationRules();
 
-        if (! $this->validateData($this->request->getPost(), $rules, [], config('Auth')->DBGroup)) {
+        if (!$this->validateData($this->request->getPost(), $rules, [], config('Auth')->DBGroup)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
         /** @var array $credentials */
-        $credentials             = $this->request->getPost(setting('Auth.validFields')) ?? [];
-        $credentials             = array_filter($credentials);
+        $credentials = $this->request->getPost(setting('Auth.validFields')) ?? [];
+        $credentials = array_filter($credentials);
         $credentials['password'] = $this->request->getPost('password');
-        $remember                = (bool) $this->request->getPost('remember');
+        $remember = (bool) $this->request->getPost('remember');
 
         /** @var Session $authenticator */
         $authenticator = auth('session')->getAuthenticator();
 
         // Attempt to login
         $result = $authenticator->remember($remember)->attempt($credentials);
-        if (! $result->isOK()) {
+        if (!$result->isOK()) {
             return redirect()->route('login')->withInput()->with('error', $result->reason());
         }
 
@@ -78,6 +77,7 @@ class LoginController extends BaseController
      * Returns the rules that should be used for validation.
      *
      * @return array<string, array<string, array<string>|string>>
+     *
      * @phpstan-return array<string, array<string, string|list<string>>>
      */
     protected function getValidationRules(): array
@@ -92,8 +92,8 @@ class LoginController extends BaseController
                 'rules' => config('AuthSession')->emailValidationRules,
             ],
             'password' => [
-                'label'  => 'Auth.password',
-                'rules'  => 'required|' . Passwords::getMaxLengthRule(),
+                'label' => 'Auth.password',
+                'rules' => 'required|' . Passwords::getMaxLengthRule(),
                 'errors' => [
                     'max_byte' => 'Auth.errorPasswordTooLongBytes',
                 ],

@@ -37,8 +37,8 @@ class Aspirantes extends RegisterController
         // Obtener datos necesarios del formulario de aspirantes
         // Si se necesitara un nuevo modelo, para validar el formato del nip y el no. solicitud
         $dataAspirante = [
-            'username' => 'aspirante',
-            'email' => 'foo.bar@example.com', // Debe ser el nip
+            'username' => 'wedin',
+            'email' => '19630306@itocotlan.com', // Debe ser el nip
             'password' => 'sii@correcaminos123', // Debe ser el numero de solicitud
             'password_confirm' => 'sii@correcaminos123',
         ];
