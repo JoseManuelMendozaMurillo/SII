@@ -45,6 +45,7 @@ $routes->group(
     ['namespace' => 'App\Controllers\Aspirantes'],
     function ($routes) {
         $routes->get('loginup', 'Aspirantes::aspirantes');
+        $routes->get('modulo', 'Aspirantes::aspirantesModulo');
     }
 );
 

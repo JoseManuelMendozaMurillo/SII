@@ -10,4 +10,9 @@ class Aspirantes extends BaseController
     {
         $this->twig->display('Aspirantes/aspirantes');
     }
+
+    public function aspirantesModulo()
+    {
+        $this->twig->display('Aspirantes/modulo-aspirantes');
+    }
 }
