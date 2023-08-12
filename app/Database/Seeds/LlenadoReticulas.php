@@ -7,8 +7,8 @@ use CodeIgniter\Database\Seeder;
 class LlenadoReticulas extends Seeder
 {
     public function run()
-    {   
-        //llenado hecho manual 
+    {
+        //llenado hecho manual
         $sqlFilePath = __DIR__ . '/ScriptsReticulas/insert_tipo_asignatura.sql';
         $sqlFileContent = file_get_contents($sqlFilePath);
         $this->db->query($sqlFileContent);
