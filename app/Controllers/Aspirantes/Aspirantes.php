@@ -141,4 +141,8 @@ class Aspirantes extends RegisterController
     }
 
     // Sobrescribir los metodos getUserProvider(), getUserEntity() y getValidationRules()
+    public function aspirantesModulo()
+    {
+        $this->twig->display('Aspirantes/modulo-aspirantes');
+    }
 }

@@ -80,6 +80,7 @@ $routes->group(
     // 'filter' => 'group:desarrollo_academico'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
     function ($routes) {
         $routes->get('', 'DesarrolloAcademico::hello');
+        $routes->get('modulo', 'Aspirantes::aspirantesModulo');
     }
 );
 
