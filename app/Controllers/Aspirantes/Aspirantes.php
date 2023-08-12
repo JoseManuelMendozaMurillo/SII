@@ -5,12 +5,38 @@ namespace App\Controllers\Aspirantes;
 use CodeIgniter\Events\Events;
 use CodeIgniter\Shield\Exceptions\ValidationException;
 use CodeIgniter\Shield\Controllers\RegisterController;
+use App\Models\ServiciosEscolares\CarrerasModel;
 
 class Aspirantes extends RegisterController
 {
-    public function aspirantes()
+    /**
+     * aspirantes
+     * Funcion para mostrar el formulario de registro de los aspirantes
+     *
+     * @return void
+     */
+    public function aspirantes(): void
     {
-        $this->twig->display('Aspirantes/aspirantes');
+        // Conexión a la base de datos
+        $db = db_connect();
+        // Models
+        $carrerasModel = new CarrerasModel();
+
+        $data = [
+            // Catalogos de datos
+            'tiposSangre' => $db->table('tipos_sangre')->get()->getResultArray(),
+            'comunidadesIndigenas' => $db->table('comunidades_indigenas')->get()->getResultArray(),
+            'lenguasIndigenas' => $db->table('lenguas_indigenas')->get()->getResultArray(),
+            'carreras' => $carrerasModel->select('id_carrera, nombre_carrera')->findAll(),
+            'motivosIngreso' => $db->table('motivos_ingreso')->get()->getResultArray(),
+            'nivelesEstudio' => $db->table('nivel_estudios')->get()->getResultArray(),
+            'cohabitantes' => $db->table('cohabitantes')->get()->getResultArray(),
+            'ocupaciones' => $db->table('ocupaciones')->get()->getResultArray(),
+            'propiedadVivienda' => $db->table('propiedad_vivienda')->get()->getResultArray(),
+            'tipoPiso' => $db->table('tipos_piso')->get()->getResultArray(),
+        ];
+
+        $this->twig->display('Aspirantes/aspirantes', $data);
     }
 
     public function hello()
