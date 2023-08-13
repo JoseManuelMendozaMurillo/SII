@@ -5,17 +5,59 @@ namespace App\Controllers\Aspirantes;
 use CodeIgniter\Events\Events;
 use CodeIgniter\Shield\Exceptions\ValidationException;
 use CodeIgniter\Shield\Controllers\RegisterController;
+use App\Models\ServiciosEscolares\CarrerasModel;
 
 class Aspirantes extends RegisterController
 {
-    public function aspirantes()
+    /**
+     * index
+     * Funcion para mostrar la pagina principal del modulo de aspirantes dentro de la plataforma
+     *
+     * @return void
+     */
+    public function index(): void
     {
-        $this->twig->display('Aspirantes/aspirantes');
+        $this->twig->display('Aspirantes/modulo-aspirantes');
     }
 
-    public function hello()
+    /**
+     * formRegister
+     * Funcion para mostrar el formulario de registro de los aspirantes
+     *
+     * @return void
+     */
+    public function formRegister(): void
     {
-        echo 'Hola, aspirante';
+        // Conexión a la base de datos
+        $db = db_connect();
+        // Models
+        $carrerasModel = new CarrerasModel();
+
+        $data = [
+            // Catalogos de datos
+            'tiposSangre' => $db->table('tipos_sangre')->get()->getResultArray(),
+            'comunidadesIndigenas' => $db->table('comunidades_indigenas')->get()->getResultArray(),
+            'lenguasIndigenas' => $db->table('lenguas_indigenas')->get()->getResultArray(),
+            'carreras' => $carrerasModel->select('id_carrera, nombre_carrera')->findAll(),
+            'motivosIngreso' => $db->table('motivos_ingreso')->get()->getResultArray(),
+            'nivelesEstudio' => $db->table('nivel_estudios')->get()->getResultArray(),
+            'cohabitantes' => $db->table('cohabitantes')->get()->getResultArray(),
+            'ocupaciones' => $db->table('ocupaciones')->get()->getResultArray(),
+            'propiedadVivienda' => $db->table('propiedad_vivienda')->get()->getResultArray(),
+            'tipoPiso' => $db->table('tipos_piso')->get()->getResultArray(),
+        ];
+
+        $this->twig->display('Aspirantes/aspirantes', $data);
+    }
+
+    /**
+     * post
+     * Funcion para guardar en la base de datos los datos de los aspirantes
+     *
+     * @return void
+     */
+    public function post(): void
+    {
     }
 
     public function new()
@@ -37,8 +79,8 @@ class Aspirantes extends RegisterController
         // Obtener datos necesarios del formulario de aspirantes
         // Si se necesitara un nuevo modelo, para validar el formato del nip y el no. solicitud
         $dataAspirante = [
-            'username' => 'aspirante',
-            'email' => 'foo.bar@example.com', // Debe ser el nip
+            'username' => 'wedin',
+            'email' => '19630306@itocotlan.com', // Debe ser el nip
             'password' => 'sii@correcaminos123', // Debe ser el numero de solicitud
             'password_confirm' => 'sii@correcaminos123',
         ];
