@@ -71,6 +71,7 @@ $routes->group(
     // 'filter' => 'group:financieros'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
     function ($routes) {
         $routes->get('', 'Financieros::hello');
+        $routes->get('nuevos/aspirantes', 'Financieros::nuevosAspirantes');
     }
 );
 
