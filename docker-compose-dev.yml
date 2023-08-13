@@ -1,19 +1,19 @@
 version: '3.9'
 
 services:
-  correcaminos:
+  correcaminos_dev:
     build: 
       context: .
       dockerfile: dockerfile.dev
     ports:
       - "443:443"
     links:
-      - db_correcaminos
+      - db_correcaminos_dev
     volumes:
       - .:/var/www/html/
       - ./config/php-dev/php:/usr/local/etc/php
     user: root
-  db_correcaminos:
+  db_correcaminos_dev:
     build:
       context: .
       dockerfile: dockerfile.mysql
@@ -21,20 +21,28 @@ services:
       - "3309:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=19630306
+      - MYSQL_DATABASE=sii_test
       - MYSQL_SSL_MODE=REQUIRED
     volumes:
-      - data-db-correcaminos:/var/lib/mysql
-      - ./sql/:/docker-entrypoint-initdb.d/
-  phpmyadmin:
+      - data-db-test-correcaminos:/var/lib/mysql
+  phpmyadmin_dev:
     build: 
       context: .
       dockerfile: dockerfile.phpmyadmin
     ports:
       - "8443:443"
     links:
-      - db_correcaminos
+      - db_correcaminos_dev
     environment:
-      - PMA_HOST=db_correcaminos
+      - PMA_HOST=db_correcaminos_dev
+  smtpserver_dev:
+    image: mailhog/mailhog:v1.0.1
+    restart: always
+    container_name: mailhog  # Nombre personalizado del contenedor
+    ports:
+      - "1025:1025"  # Puerto para SMTP
+      - "8025:8025"  # Puerto para interfaz web
+
 
 volumes:
-  data-db-correcaminos:
+  data-db-test-correcaminos:

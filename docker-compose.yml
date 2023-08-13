@@ -19,6 +19,7 @@ services:
       - "3309:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=19630306
+      - MYSQL_DATABASE=sii
       - MYSQL_SSL_MODE=REQUIRED
     volumes:
       - data-db-correcaminos:/var/lib/mysql

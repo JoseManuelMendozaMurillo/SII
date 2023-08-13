@@ -377,3 +377,4 @@ CREATE TABLE aspirantes (
  TABLE_SCHEMA = 'control_escolar'
  and REFERENCED_TABLE_NAME is not null;
  */
+ 

@@ -19,6 +19,9 @@ module.exports = {
 		ecmaVersion: 'latest',
 		sourceType: 'module',
 	},
+	globals: {
+		$: true, // Permite la variable $ de jQuery
+	},
 	rules: {
 		'no-unused-vars': 'warn', // Variables sin usar como warning
 		quotes: ['warn', 'single'], // Uso de comillas dobles ("") como warning
