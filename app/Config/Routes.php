@@ -49,15 +49,16 @@ $routes->group(
     'aspirantes',
     ['namespace' => 'App\Controllers\Aspirantes'],
     function ($routes) {
-        $routes->get('loginup', 'Aspirantes::aspirantes');
+        $routes->get('registro', 'Aspirantes::formRegister');
+        $routes->post('insert', 'Aspirantes::post');
         $routes->get('new', 'Aspirantes::new');
         $routes->get('delete/(:num)', 'Aspirantes::deleteAspirante/$1');
         $routes->group(
-            'info',
+            '',
             ['namespace' => 'App\Controllers\Aspirantes',
                 'filter' => 'group:aspirante'],
             function ($routes) {
-                $routes->get('', 'Aspirantes::hello');
+                $routes->get('', 'Aspirantes::index');
             }
         );
     }
@@ -80,7 +81,6 @@ $routes->group(
     // 'filter' => 'group:desarrollo_academico'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
     function ($routes) {
         $routes->get('', 'DesarrolloAcademico::hello');
-        $routes->get('modulo', 'Aspirantes::aspirantesModulo');
     }
 );
 

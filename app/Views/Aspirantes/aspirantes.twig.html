@@ -93,7 +93,8 @@
                     <div class="col-sm-12 col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <form id="form-wizard1" class="mt-3 text-center">
+                                <form action="{{ base_url('aspirantes/insert') }}" method="post" id="form-wizard1"
+                                    class="mt-3 text-center" enctype="multipart/form-data">
                                     <ul id="top-tab-list" class="p-0 row list-inline">
                                         <li class="mb-2 col-lg-3 col-md-6 text-start active" id="account">
                                             <a href="javascript:void();">
@@ -190,7 +191,7 @@
                                                                 style="height: 120px; width: 120px; border-radius: 70px;">
                                                         </div>
                                                         <div class="form-group">
-                                                            <input type="file" name="file" class="file">
+                                                            <input type="file" name="foto" class="file">
                                                             <div class="input-group my-3">
                                                                 <input type="text" class="form-control" disabled
                                                                     placeholder="Cargar imagen" id="file">
@@ -205,7 +206,7 @@
                                                         <br>
                                                         <div class="form-group">
                                                             <label class="form-label">CURP: *</label>
-                                                            <input type="email" class="form-control" name="email"
+                                                            <input type="text" class="form-control" name="curp"
                                                                 placeholder="LOXA880921HMCLNR05" />
                                                         </div>
                                                     </div>
@@ -213,26 +214,27 @@
                                                         <div class="form-group">
                                                             <label class="form-label">Apellido paterno: *</label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="phno" placeholder="PEREZ" />
+                                                                name="apellidoPaterno" placeholder="PEREZ" />
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Apellido materno: *</label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="phno_2" placeholder="LÓPEZ" />
+                                                                name="apellidoMaterno" placeholder="LÓPEZ" />
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Nombre(s): *</label>
                                                             <input id="name" class="form-control upper-case"
-                                                                name="lname" placeholder="JUAN" />
+                                                                name="nombre" placeholder="JUAN" />
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Fecha de nacimiento: *</label>
-                                                            <input type="date" class="form-control" name="phno"
-                                                                placeholder="03/05/2005" />
+                                                            <input type="date" class="form-control"
+                                                                name="fechaNacimiento" placeholder="03/05/2005" />
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Género: *</label>
-                                                            <select class="form-select" id="exampleFormControlSelect1">
+                                                            <select class="form-select" name="genero"
+                                                                id="exampleFormControlSelect1">
                                                                 <option selected="" disabled=""></option>
                                                                 <option selected>MASCULINO</option>
                                                                 <option>FEMENINO</option>
@@ -243,7 +245,8 @@
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label class="form-label">Estado civil: *</label>
-                                                            <select class="form-select" id="exampleFormControlSelect1">
+                                                            <select class="form-select" name="estadoCivil"
+                                                                id="exampleFormControlSelect1">
                                                                 <option selected="" disabled=""></option>
                                                                 <option selected>SOLTERO</option>
                                                                 <option>CASADO</option>
@@ -254,22 +257,22 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">País de nacimiento: *</label>
-                                                            <input type="text" class="form-control" name="phno"
-                                                                placeholder="MEXICO" />
+                                                            <input type="text" class="form-control"
+                                                                name="paisNacimiento" placeholder="MEXICO" />
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Teléfono: *</label>
-                                                            <input type="text" class="form-control" name="phno"
+                                                            <input type="text" class="form-control" name="tel"
                                                                 placeholder="3923451289" />
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Correo electrónico: *</label>
-                                                            <input type="text" class="form-control" name="phno"
+                                                            <input type="text" class="form-control" name="correo"
                                                                 placeholder="EJEMPLO@GMAIL.COM" />
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Confirmar correo: *</label>
-                                                            <input type="text" class="form-control" name="phno"
+                                                            <input type="text" class="form-control" name="confirmCorreo"
                                                                 placeholder="EJEMPLO@GMAIL.COM" />
                                                         </div>
                                                     </div>
@@ -292,46 +295,47 @@
                                                         <div class="form-group">
                                                             <label class="form-label">Colonia: *</label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="phno_2" placeholder="LA PRIMAVERA" />
+                                                                name="colonia" placeholder="LA PRIMAVERA" />
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Calle: *</label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="phno_2" placeholder="LÓPEZ MATEOS" />
+                                                                name="calle" placeholder="LÓPEZ MATEOS" />
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Número exterior: *</label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="phno_2" placeholder="80" />
+                                                                name="numExterior" placeholder="80" />
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Número interior: </label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="phno_2" placeholder="80" />
+                                                                name="numInterior" placeholder="80" />
                                                         </div>
+                                                        <!-- Agregar los campos: letra interior y letra exterior -->
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label class="form-label">Estado: *</label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="phno_2" placeholder="JALISCO" />
+                                                                name="estadoResidencia" placeholder="JALISCO" />
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Municipio: *</label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="phno" placeholder="OCOTLÁN" />
+                                                                name="municipioResidencia" placeholder="OCOTLÁN" />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label class="form-label">Código postal: *</label>
-                                                            <input type="text" class="form-control upper-case"
-                                                                name="phno" placeholder="47829" />
+                                                            <input type="text" class="form-control upper-case" name="cp"
+                                                                placeholder="47829" />
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Entre calles: *</label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="phno" placeholder="LIMÓN Y TABACHIN" />
+                                                                name="entreCalles" placeholder="LIMÓN Y TABACHIN" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -353,37 +357,39 @@
                                                         <div class="form-group">
                                                             <label class="form-label">Padre o tutor: *</label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="phno_2" placeholder="JUAN PABLO" />
+                                                                name="nombreTutor" placeholder="JUAN PABLO" />
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Tipo de sangre: *</label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="phno_2" placeholder="A+" />
+                                                                name="tipoSangre" placeholder="A+" />
                                                         </div>
                                                         <div class="form-group">
-                                                            <label class="form-label">Teléfono de contacto: *</label>
+                                                            <label class="form-label">Teléfono de contacto del tutor:
+                                                                *</label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="phno_2" placeholder="3921232143" />
+                                                                name="telTutor" placeholder="3921232143" />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label class="form-label">Estado de procedencia: *</label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="phno_2" placeholder="JALISCO" />
+                                                                name="estadoProcedencia" placeholder="JALISCO" />
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">¿Tiene alguna discapacidad?:
                                                             </label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="phno" placeholder="PARAPLEJÍA" />
+                                                                name="discapacidad" placeholder="PARAPLEJÍA" />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label class="form-label">¿Pertenece a una comunidad
                                                                 indígena?:</label>
-                                                            <select class="form-select" id="exampleFormControlSelect1">
+                                                            <select class="form-select" name="comunidadIndigena"
+                                                                id="exampleFormControlSelect1">
                                                                 <option selected>SÍ</option>
                                                                 <option>NO</option>
                                                                 <option>PREFIERO NO DECIRLO</option>
@@ -392,7 +398,8 @@
                                                         <div class="form-group">
                                                             <label class="form-label">¿Habla alguna lengua
                                                                 indígena?:</label>
-                                                            <select class="form-select" id="exampleFormControlSelect1">
+                                                            <select class="form-select" name="lenguaIndigena"
+                                                                id="exampleFormControlSelect1">
                                                                 <option selected>SÍ</option>
                                                                 <option>NO</option>
                                                                 <option>PREFIERO NO DECIRLO</option>
@@ -418,26 +425,26 @@
                                                         <div class="form-group">
                                                             <label class="form-label">Estado: *</label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="phno_2" placeholder="JALISCO" />
+                                                                name="estadoEscuela" placeholder="JALISCO" />
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Municipio: *</label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="phno_2" placeholder="OCOTLÁN" />
+                                                                name="municipioEscuela" placeholder="OCOTLÁN" />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <div class="form-group">
                                                             <label class="form-label">Nombre de la escuela: *</label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="phno_2" placeholder="CBTIS 49" />
+                                                                name="nombreEscuela" placeholder="CBTIS 49" />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <div class="form-group">
                                                             <label class="form-label">Año de egreso: *</label>
                                                             <input type="text" id="anioInput"
-                                                                class="form-control upper-case" name="phno"
+                                                                class="form-control upper-case" name="anoEgreso"
                                                                 placeholder="" />
                                                         </div>
                                                     </div>
@@ -445,7 +452,7 @@
                                                         <div class="form-group">
                                                             <label class="form-label">Promedio general: *</label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="phno" placeholder="90" />
+                                                                name="promedio" placeholder="90" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -474,7 +481,7 @@
                                                             <div class="form-group">
                                                                 <label class="form-label">¿Cuál opción aspira a
                                                                     ingresar?: *</label>
-                                                                <select class="form-select"
+                                                                <select class="form-select" name="primeraOpcionIngreso"
                                                                     id="exampleFormControlSelect1">
                                                                     <option selected>Ingeniería Industrial</option>
                                                                     <option>Ingeniería Electromecánica</option>
@@ -487,7 +494,7 @@
                                                             <div class="form-group">
                                                                 <label class="form-label">¿Cuál es su segunda opción a
                                                                     ingresar?: *</label>
-                                                                <select class="form-select"
+                                                                <select class="form-select" name="segundaOpcionIngreso"
                                                                     id="exampleFormControlSelect1">
                                                                     <option selected>Ingeniería Industrial</option>
                                                                     <option>Ingeniería Electromecánica</option>
@@ -500,7 +507,7 @@
                                                             <div class="form-group">
                                                                 <label class="form-label">¿Cuál turno desea
                                                                     preferentemente?: *</label>
-                                                                <select class="form-select"
+                                                                <select class="form-select" name="turno"
                                                                     id="exampleFormControlSelect1">
                                                                     <option selected>Cualquiera</option>
                                                                     <option>Matutino</option>
@@ -515,7 +522,7 @@
                                                             <div class="form-group">
                                                                 <label class="form-label">¿Somos tu primera opción para
                                                                     cursar sus estudios?: *</label>
-                                                                <select class="form-select"
+                                                                <select class="form-select" name="primeraOpcion"
                                                                     id="exampleFormControlSelect1">
                                                                     <option selected>SÍ</option>
                                                                     <option>NO</option>
@@ -526,12 +533,13 @@
                                                                 <label class="form-label">¿Cuál es su motivo de
                                                                     seleccionar nuestra institución?: </label>
                                                                 <input type="text" class="form-control upper-case"
-                                                                    name="phno" placeholder="POR PRESTIGIO" />
+                                                                    name="motivoIngreso" placeholder="POR PRESTIGIO" />
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">¿Cuál es su motivo de
                                                                     seleccionar este plan de estudios?: </label>
-                                                                <textarea name="" id="" cols="5" rows="5"
+                                                                <textarea name="motivoSeleccionPlanEstudio" id=""
+                                                                    cols="5" rows="5"
                                                                     class="form-control upper-case"></textarea>
                                                             </div>
                                                         </div>
@@ -572,43 +580,43 @@
                                                                 <label class="form-label">Nivel máximo de estudios de su
                                                                     padre: *</label>
                                                                 <input type="text" class="form-control upper-case"
-                                                                    name="phno_2" placeholder="NO LO SÉ" />
+                                                                    name="nivelEstudioPadre" placeholder="NO LO SÉ" />
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">Nivel máximo de estudios de su
                                                                     madre: *</label>
                                                                 <input type="text" class="form-control upper-case"
-                                                                    name="phno_2" placeholder="NO LO SÉ" />
+                                                                    name="nivelEstudioMadre" placeholder="NO LO SÉ" />
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">¿Con quién vive actualmente?:
                                                                     *</label>
                                                                 <input type="text" class="form-control upper-case"
-                                                                    name="phno_2" placeholder="PADRE Y MADRE" />
+                                                                    name="cohabitantes" placeholder="PADRE Y MADRE" />
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">Ocupación de trabajo de su
                                                                     padre: *</label>
                                                                 <input type="text" class="form-control upper-case"
-                                                                    name="phno_2" placeholder="NO LO SÉ" />
+                                                                    name="ocupacionPadre" placeholder="NO LO SÉ" />
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">Ocupación de trabajo de su
                                                                     madre: *</label>
                                                                 <input type="text" class="form-control upper-case"
-                                                                    name="phno_2" placeholder="NO LO SÉ" />
+                                                                    name="ocupacionMadre" placeholder="NO LO SÉ" />
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">La casa de donde vive es:
                                                                     *</label>
                                                                 <input type="text" class="form-control upper-case"
-                                                                    name="phno_2" placeholder="PROPIA" />
+                                                                    name="propiedadCasa" placeholder="PROPIA" />
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">¿Cuántos cuartos tiene su
                                                                     casa?: *</label>
                                                                 <input type="text" class="form-control upper-case"
-                                                                    name="phno_2" placeholder="CUATRO" />
+                                                                    name="cantidadCuartos" placeholder="CUATRO" />
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
@@ -616,44 +624,44 @@
                                                                 <label class="form-label">¿Cuántas personas viven en su
                                                                     casa?: *</label>
                                                                 <input type="text" class="form-control upper-case"
-                                                                    name="phno_2" placeholder="UNO" />
+                                                                    name="cantidadCohabitantes" placeholder="UNO" />
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">¿Cuántos baños completos hay
                                                                     para uso exclusivo de los integrantes?: </label>
                                                                 <input type="text" class="form-control upper-case"
-                                                                    name="phno" placeholder="UNO" />
+                                                                    name="cantidadBanos" placeholder="UNO" />
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">¿En su hogar se cuenta con
                                                                     regadera funcionando en alguno de los baños?:
                                                                 </label>
                                                                 <input type="text" class="form-control upper-case"
-                                                                    name="phno" placeholder="SÍ" />
+                                                                    name="regaderas" placeholder="SÍ" />
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">¿Cuántos focos tiene su
                                                                     vivienda?: </label>
                                                                 <input type="text" class="form-control upper-case"
-                                                                    name="phno" placeholder="5" />
+                                                                    name="cantidadFocos" placeholder="5" />
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">¿Qué tipo de piso predomina en
                                                                     su hogar?: </label>
                                                                 <input type="text" class="form-control upper-case"
-                                                                    name="phno" placeholder="CEMENTO FIRME" />
+                                                                    name="tipoPiso" placeholder="CEMENTO FIRME" />
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">¿Cuántos automóviles propios
                                                                     tienen en su hogar?: </label>
                                                                 <input type="text" class="form-control upper-case"
-                                                                    name="phno" placeholder="NINGUNO" />
+                                                                    name="cantidadAutos" placeholder="NINGUNO" />
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">¿En su hogar cuentan con
                                                                     estufa de gas o eléctrica?: </label>
                                                                 <input type="text" class="form-control upper-case"
-                                                                    name="phno" placeholder="ELÉCTRICA" />
+                                                                    name="estufa" placeholder="ELÉCTRICA" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -662,7 +670,7 @@
                                         </div>
                                         <br>
                                         <br>
-                                        <button type="button" name="next" id="congrats" onclick="activateConfetti();"
+                                        <button type="submit" name="next" id="congrats" onclick="activateConfetti();"
                                             class="btn btn-primary next action-button float-end" value="Submit">
                                             Enviar
                                         </button>

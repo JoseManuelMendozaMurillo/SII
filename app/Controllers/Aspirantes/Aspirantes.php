@@ -10,12 +10,23 @@ use App\Models\ServiciosEscolares\CarrerasModel;
 class Aspirantes extends RegisterController
 {
     /**
-     * aspirantes
+     * index
+     * Funcion para mostrar la pagina principal del modulo de aspirantes dentro de la plataforma
+     *
+     * @return void
+     */
+    public function index(): void
+    {
+        $this->twig->display('Aspirantes/modulo-aspirantes');
+    }
+
+    /**
+     * formRegister
      * Funcion para mostrar el formulario de registro de los aspirantes
      *
      * @return void
      */
-    public function aspirantes(): void
+    public function formRegister(): void
     {
         // Conexión a la base de datos
         $db = db_connect();
@@ -39,9 +50,14 @@ class Aspirantes extends RegisterController
         $this->twig->display('Aspirantes/aspirantes', $data);
     }
 
-    public function hello()
+    /**
+     * post
+     * Funcion para guardar en la base de datos los datos de los aspirantes
+     *
+     * @return void
+     */
+    public function post(): void
     {
-        echo 'Hola, aspirante';
     }
 
     public function new()
@@ -141,8 +157,4 @@ class Aspirantes extends RegisterController
     }
 
     // Sobrescribir los metodos getUserProvider(), getUserEntity() y getValidationRules()
-    public function aspirantesModulo()
-    {
-        $this->twig->display('Aspirantes/modulo-aspirantes');
-    }
 }

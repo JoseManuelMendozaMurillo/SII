@@ -41,10 +41,8 @@ $(document).ready(function () {
 
 	// Manejar el evento de envío del formulario
 	$('#form-login').on('submit', function (event) {
-		event.preventDefault(); // Evitar el envío del formulario si hay errores
-		if ($('#form-login').parsley().isValid()) {
-			alert('Formulario válido. Se puede enviar.');
-		} else {
+		if (!$('#form-login').parsley().isValid()) {
+			event.preventDefault(); // Evitar el envío del formulario si hay errores
 			alert('Formulario inválido. Por favor, revisa los campos.');
 		}
 	});

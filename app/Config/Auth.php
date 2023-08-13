@@ -411,7 +411,7 @@ class Auth extends ShieldAuth
     {
         // Redireccionamos a los aspirantes
         if (auth()->user()->inGroup('aspirante')) {
-            return $this->getUrl('aspirantes/info');
+            return $this->getUrl('aspirantes');
         }
 
         $url = setting('Auth.redirects')['login'];
