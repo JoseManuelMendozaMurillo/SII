@@ -235,6 +235,7 @@
    });
 </script>
 
+
 <!-- Validaciones -->
 <script>
    $(document).ready(function () {
@@ -246,10 +247,8 @@
 
       // Manejar el evento de envío del formulario
       $('#form-login').on('submit', function (event) {
-         event.preventDefault(); // Evitar el envío del formulario si hay errores
-         if ($('#form-login').parsley().isValid()) {
-            alert('Formulario válido. Se puede enviar.');
-         } else {
+         if (!$('#form-login').parsley().isValid()) {
+            event.preventDefault(); // Evitar el envío del formulario si hay errores
             alert('Formulario inválido. Por favor, revisa los campos.');
          }
       });
@@ -272,23 +271,5 @@
    });
 </script>
 
-<!-- Validaciones -->
-<script>
-   $(document).ready(function () {
-      // Llamar a la función para aplicar las validaciones genéricas 
-      customValidation();
-
-      // Inicializar Parsley en el formulario
-      $('#form-login').parsley();
-
-      // Manejar el evento de envío del formulario
-      $('#form-login').on('submit', function (event) {
-         if (!$('#form-login').parsley().isValid()) {
-            event.preventDefault(); // Evitar el envío del formulario si hay errores
-            alert('Formulario inválido. Por favor, revisa los campos.');
-         }
-      });
-   });
-</script>
 
 {% endblock %}
