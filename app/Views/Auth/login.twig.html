@@ -216,4 +216,79 @@
 <!-- Codigo js del login -->
 <script type="module" src="{{base_url('Js/Auth/login.js')}}"></script>
 
+<!-- Modo oscuro -->
+<script>
+   const switchInput = document.getElementById('checkbox');
+   const bodyElement = document.body;
+   switchInput.addEventListener('change', function () {
+      if (this.checked) {
+         // Modo oscuro activado
+         bodyElement.classList.remove('light');
+         bodyElement.classList.add('dark');
+         console.log('Switch activado');
+      } else {
+         // Modo claro activado
+         bodyElement.classList.remove('dark');
+         bodyElement.classList.add('light');
+         console.log('Switch desactivado');
+      }
+   });
+</script>
+
+<!-- Validaciones -->
+<script>
+   $(document).ready(function () {
+      // Llamar a la función para aplicar las validaciones genéricas 
+      customValidation();
+
+      // Inicializar Parsley en el formulario
+      $('#form-login').parsley();
+
+      // Manejar el evento de envío del formulario
+      $('#form-login').on('submit', function (event) {
+         event.preventDefault(); // Evitar el envío del formulario si hay errores
+         if ($('#form-login').parsley().isValid()) {
+            alert('Formulario válido. Se puede enviar.');
+         } else {
+            alert('Formulario inválido. Por favor, revisa los campos.');
+         }
+      });
+   });
+</script>
+
+<script>
+   window.addEventListener('resize', function () {
+      const responsiveColumn = document.getElementById('responsive-column');
+      const windowWidth = window.innerWidth;
+
+      // Lógica para cambiar la clase basándote en el tamaño de la pantalla
+      if (windowWidth >= 500 && windowWidth < 1500) {
+         responsiveColumn.classList.remove('col-md-4');
+         responsiveColumn.classList.add('col-md-6');
+      } else {
+         responsiveColumn.classList.remove('col-md-4', 'col-md-6');
+         responsiveColumn.classList.add('col-md-4');
+      }
+   });
+</script>
+
+<!-- Validaciones -->
+<script>
+   $(document).ready(function () {
+      // Llamar a la función para aplicar las validaciones genéricas 
+      customValidation();
+
+      // Inicializar Parsley en el formulario
+      $('#form-login').parsley();
+
+      // Manejar el evento de envío del formulario
+      $('#form-login').on('submit', function (event) {
+         if (!$('#form-login').parsley().isValid()) {
+            event.preventDefault(); // Evitar el envío del formulario si hay errores
+            alert('Formulario inválido. Por favor, revisa los campos.');
+         }
+      });
+   });
+</script>
+
 {% endblock %}
