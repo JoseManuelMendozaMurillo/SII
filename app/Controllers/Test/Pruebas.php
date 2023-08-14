@@ -237,6 +237,19 @@ class Pruebas extends BaseController
         }
     }
 
+    public function addgroup($group)
+    {
+        if (!auth()->loggedIn()) {
+            return redirect()->to('pruebas/admindex');
+        }
+
+        if (auth()->user()->addGroup($group)) {
+            d('Usuario anadido al grupo exitosamente');
+        } else {
+            d('No se pudo anadir al grupo');
+        }
+    }
+
     public function logout()
     {
         if (auth()->loggedIn()) {

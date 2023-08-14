@@ -118,6 +118,7 @@ $routes->group(
         $routes->get('logout', 'Pruebas::logout');
         $routes->get('newuser/(:any)', 'Pruebas::newuser/$1');
         $routes->get('deleteuser/(:any)', 'Pruebas::deleteuser/$1');
+        $routes->get('addgroup/(:any)', 'Pruebas::addgroup/$1');
         $routes->get('allusers', 'Pruebas::allusers');
         $routes->get('superadmin', 'Pruebas::superadmin');
     }
