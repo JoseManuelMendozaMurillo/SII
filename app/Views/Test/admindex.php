@@ -30,7 +30,9 @@
         <li>Crea un nuevo usuario yendo a /pruebas/newuser/nombreDelUsurio</li>
         <li>Logeate yendo a /pruebas/login/nombreDelUsurio</li>
         <li>Contrasena default: 1234qwer</li>
-        <li>Anadir un usuario loggeado a un grupo: /pruebas/addgroup/nombreDeGrupo</li>
+        <li>Anadir un usuario loggeado a un grupo: /pruebas/addgrouplogged/nombreDeGrupo</li>
+        <li>Anadir usuario especifico a un grupo: /pruebas/addgroup/username/grupo</li>
+        <li>Eliminar usuario: /pruebas/deleteuser/nombreDelUsurio</li>
         <li><a href="<?= base_url('pruebas/logout') ?>">Lougout (o yendo a /pruebas/logout)</a></li>
     </ul>
     <h2>Rutas</h2>

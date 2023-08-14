@@ -237,13 +237,33 @@ class Pruebas extends BaseController
         }
     }
 
-    public function addgroup($group)
+    public function allusers()
+    {
+        $users = auth()->getProvider();
+
+        $user = $users->findByCredentials([]);
+    }
+
+    public function addgrouplogged($group)
     {
         if (!auth()->loggedIn()) {
             return redirect()->to('pruebas/admindex');
         }
 
         if (auth()->user()->addGroup($group)) {
+            d('Usuario anadido al grupo exitosamente');
+        } else {
+            d('No se pudo anadir al grupo');
+        }
+    }
+
+    public function addgroup($username, $group)
+    {
+        $users = auth()->getProvider();
+
+        $user = $users->findByCredentials(['username' => $username]);
+
+        if ($user->addGroup($group)) {
             d('Usuario anadido al grupo exitosamente');
         } else {
             d('No se pudo anadir al grupo');
