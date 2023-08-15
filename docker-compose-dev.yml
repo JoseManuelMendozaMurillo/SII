@@ -35,6 +35,14 @@ services:
       - db_correcaminos_dev
     environment:
       - PMA_HOST=db_correcaminos_dev
+  smtpserver_dev:
+    image: mailhog/mailhog:v1.0.1
+    restart: always
+    container_name: mailhog  # Nombre personalizado del contenedor
+    ports:
+      - "1025:1025"  # Puerto para SMTP
+      - "8025:8025"  # Puerto para interfaz web
+
 
 volumes:
   data-db-test-correcaminos:

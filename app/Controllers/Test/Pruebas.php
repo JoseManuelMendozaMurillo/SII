@@ -132,4 +132,15 @@ class Pruebas extends BaseController
         }
         $this->twig->display('Test/PruebasCurl', $context);
     }
+
+    // PDF TESTS
+    public function pdf()
+    {
+        $mpdf = new \Mpdf\Mpdf(['tempDir' => '/var/www/html/app/temp']);
+        $html = view('Aspirantes/pdf_templates/pdf_test', []);
+        $mpdf->WriteHTML($html);
+        $this->response->setHeader('Content-Type', 'application/pdf');
+        $mpdf->Output();
+        // return $html;
+    }
 }

@@ -34,17 +34,53 @@ $routes->get('auth/login', 'Login::loginView');
 service('auth')->routes($routes, ['except' => ['login']]);
 
 // Rutas auth
-$routes->group('auth', ['namespace' => 'App\Controllers\Auth'], function ($routes) {
-    $routes->get('login', 'Login::loginView');
-    $routes->post('sing-in', 'Login::loginAction');
-    $routes->get('logout', 'Login::logoutAction');
-});
+$routes->group(
+    'auth',
+    ['namespace' => 'App\Controllers\Auth'],
+    function ($routes) {
+        $routes->get('login', 'Login::loginView');
+        $routes->post('sing-in', 'Login::loginAction');
+        $routes->get('logout', 'Login::logoutAction');
+    }
+);
 
+// Rutas aspirantes
 $routes->group(
     'aspirantes',
     ['namespace' => 'App\Controllers\Aspirantes'],
     function ($routes) {
-        $routes->get('loginup', 'Aspirantes::aspirantes');
+        $routes->get('registro', 'Aspirantes::formRegister');
+        $routes->post('insert', 'Aspirantes::post');
+        $routes->get('new', 'Aspirantes::new');
+        $routes->get('delete/(:num)', 'Aspirantes::deleteAspirante/$1');
+        $routes->group(
+            '',
+            ['namespace' => 'App\Controllers\Aspirantes',
+                'filter' => 'group:aspirante'],
+            function ($routes) {
+                $routes->get('', 'Aspirantes::index');
+            }
+        );
+    }
+);
+
+// Rutas de servicios financieros
+$routes->group(
+    'financieros',
+    ['namespace' => 'App\Controllers\Financieros'],
+    // 'filter' => 'group:financieros'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
+    function ($routes) {
+        $routes->get('', 'Financieros::hello');
+    }
+);
+
+// Desarrollo academico
+$routes->group(
+    'des-academico',
+    ['namespace' => 'App\Controllers\DesarrolloAcademico'],
+    // 'filter' => 'group:desarrollo_academico'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
+    function ($routes) {
+        $routes->get('', 'DesarrolloAcademico::hello');
     }
 );
 
@@ -61,8 +97,7 @@ $routes->group(
 // Rutas de prueba
 $routes->group(
     'pruebas',
-    ['namespace' => 'App\Controllers\Test',
-        'filter' => 'group:superadmin, permission:admin.setting'],
+    ['namespace' => 'App\Controllers\Test'],
     function ($routes) {
         $routes->get('correos', 'Pruebas::correo');
         $routes->post('sendEmail', 'Pruebas::sendEmail');
@@ -70,6 +105,8 @@ $routes->group(
         $routes->post('thumb', 'Pruebas::thumb');
         $routes->get('curl', 'Pruebas::curl');
         $routes->post('getPokemon', 'Pruebas::getDataPokemon');
+
+        $routes->get('pdf', 'Pruebas::pdf');
     }
 );
 

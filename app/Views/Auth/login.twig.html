@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="{{base_url('Vendor/Template/assets/css/button.css')}}" />
 <link rel="stylesheet" href="{{base_url('Vendor/Template/assets/css/switches.css')}}" />
 <link rel="stylesheet" href="{{base_url('Vendor/Parsley/parsley.css')}}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 <style>
    .iq-navbar-header {
       height: 260px;
@@ -84,7 +85,7 @@
                               src="{{base_url('Vendor/Template/assets/images/imagenescorrecaminos/tecnologiconacionamexico.png')}}"
                               alt="" style="width: 290px; height: 180px;"></div>
                         <div class="text-center">
-                           <h1>INSTITUTO TECNOLÓGICO DE OCOTLÁN</h1>
+                           <h2>INSTITUTO TECNOLÓGICO DE OCOTLÁN</h2>
                         </div>
                         <div class="d-none d-md-block" style="width: 290px;"><img class="img-fluid"
                               src="{{base_url('Vendor/Template/assets/images/imagenescorrecaminos/logotecocotlan.png')}}"
@@ -118,53 +119,50 @@
                         <div class="card-body"
                            style="border-radius: 10px; box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.2);">
                            <br>
-                           <a href="#" class="navbar-brand d-flex align-items-center mb-3 justify-content-center">
-                              <!--Logo start-->
-                              <!--logo End-->
-                              <!--Logo start-->
-                              <div class="logo-main">
-                                 <div class="logo-normal">
-                                    <img class="icon-40"
-                                       src="{{base_url('Vendor/Template/assets/images/imagenescorrecaminos/correcaminosicono.svg')}}"
-                                       alt="" style="width: 90px; height: 80px;">
-                                 </div>
-                                 <div class="logo-mini">
-                                    <img class="icon-40"
-                                       src="{{base_url('Vendor/Template/assets/images/imagenescorrecaminos/correcaminosicono.svg')}}"
-                                       alt="" style="width: 90px; height: 80px;">
-                                 </div>
-                              </div>
-                              <!--logo End-->
-                           </a>
+                           <h2 class="mb-2 text-center">Iniciar sesión</h2>
                            <br>
-                           <h2 class="mb-2 text-center">Iniciar Sesión</h2>
+                           <div class="row">
+                              <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                 <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off"
+                                    checked>
+                                 <label class="btn btn-outline-primary" for="btnradio1">Institución</label>
+
+                                 <input type="radio" class="btn-check" name="btnradio" id="btnradio3"
+                                    autocomplete="off">
+                                 <label class="btn btn-outline-primary" for="btnradio3">Aspirante</label>
+                              </div>
+                           </div>
+                           <br>
                            <form id="form-login" action="{{base_url('auth/sing-in')}}" enctype="multipart/form-data"
                               method="post">
                               <div class="row">
                                  <div class="col-lg-12">
                                     <div class="form-group">
-                                       <label for="email" class="form-label">Correo electrónico</label>
+                                       <label for="email" class="form-label">Correo electrónico: *</label>
                                        <input type="email" name="email" class="form-control" id="email"
-                                          aria-describedby="email" placeholder=" " data-validation="email">
+                                          aria-describedby="email" placeholder="13425714@itocotlan.com"
+                                          data-validation="email">
                                     </div>
                                  </div>
                                  <div class="col-lg-12">
                                     <div class="form-group">
-                                       <label for="password" class="form-label">Contraseña</label>
+                                       <label for="password" class="form-label">Contraseña: *</label>
                                        <input type="password" name="password" class="form-control" id="password"
-                                          aria-describedby="password" placeholder=" " data-validation="password">
+                                          aria-describedby="password" placeholder="*********"
+                                          data-validation="password">
                                     </div>
                                  </div>
                                  <div class="col-lg-12 d-flex justify-content-between">
                                     <div class="form-check mb-3">
                                        <input type="checkbox" class="form-check-input" id="customCheck1">
-                                       <label class="form-check-label" for="customCheck1">Recuerdame</label>
+                                       <label class="form-check-label" for="customCheck1">Recuérdame</label>
                                     </div>
                                     <a href="#">¿Olvidaste tu contraseña?</a>
                                  </div>
                               </div>
+                              <br>
                               <div class="d-flex justify-content-center">
-                                 <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                                 <button type="submit" class="btn btn-primary">Iniciar sesión</button>
                               </div>
                               <br>
                               <p class="text-center my-3">Síguenos en nuestras redes sociales</p>
@@ -189,9 +187,9 @@
                               </div>
                               <br>
                               <div class="d-flex justify-content-center">
-                                 <a href="{{ base_url('aspirantes/loginup') }}"
+                                 <a href="{{ base_url('aspirantes/registro') }}"
                                     class="btn buttonanimate justify-content-center btn-primary">Inscríbete a la
-                                    Institución <i class="ri-arrow-right-line"></i></a>
+                                    institución <i class="ri-arrow-right-line"></i></a>
                               </div>
                               <br>
                            </form>
@@ -215,84 +213,7 @@
 <!-- Parsley.js -->
 <script src="{{base_url('Vendor/Parsley/parsley.min.js')}}"></script>
 
-<!-- Validaciones personalizadas -->
-<script src="{{base_url('Vendor/Parsley/validations.js')}}"></script>
-
-<!-- Modo oscuro -->
-<script>
-   const switchInput = document.getElementById('checkbox');
-   const bodyElement = document.body;
-   switchInput.addEventListener('change', function () {
-      if (this.checked) {
-         // Modo oscuro activado
-         bodyElement.classList.remove('light');
-         bodyElement.classList.add('dark');
-         console.log('Switch activado');
-      } else {
-         // Modo claro activado
-         bodyElement.classList.remove('dark');
-         bodyElement.classList.add('light');
-         console.log('Switch desactivado');
-      }
-   });
-</script>
-
-<!-- Validaciones -->
-<script>
-   $(document).ready(function () {
-      // Llamar a la función para aplicar las validaciones genéricas 
-      customValidation();
-
-      // Inicializar Parsley en el formulario
-      $('#form-login').parsley();
-
-      // Manejar el evento de envío del formulario
-      $('#form-login').on('submit', function (event) {
-         event.preventDefault(); // Evitar el envío del formulario si hay errores
-         if ($('#form-login').parsley().isValid()) {
-            alert('Formulario válido. Se puede enviar.');
-         } else {
-            alert('Formulario inválido. Por favor, revisa los campos.');
-         }
-      });
-   });
-</script>
-
-<script>
-   window.addEventListener('resize', function () {
-      const responsiveColumn = document.getElementById('responsive-column');
-      const windowWidth = window.innerWidth;
-
-      // Lógica para cambiar la clase basándote en el tamaño de la pantalla
-      if (windowWidth >= 500 && windowWidth < 1500) {
-         responsiveColumn.classList.remove('col-md-4');
-         responsiveColumn.classList.add('col-md-6');
-      } else {
-         responsiveColumn.classList.remove('col-md-4', 'col-md-6');
-         responsiveColumn.classList.add('col-md-4');
-      }
-   });
-</script>
-
-<!-- Validaciones -->
-<script>
-   $(document).ready(function () {
-      // Llamar a la función para aplicar las validaciones genéricas 
-      customValidation();
-
-      // Inicializar Parsley en el formulario
-      $('#form-login').parsley();
-
-      // Manejar el evento de envío del formulario
-      $('#form-login').on('submit', function (event) {
-         event.preventDefault(); // Evitar el envío del formulario si hay errores
-         if ($('#form-login').parsley().isValid()) {
-            alert('Formulario válido. Se puede enviar.');
-         } else {
-            alert('Formulario inválido. Por favor, revisa los campos.');
-         }
-      });
-   });
-</script>
+<!-- Codigo js del login -->
+<script type="module" src="{{base_url('Js/Auth/login.js')}}"></script>
 
 {% endblock %}

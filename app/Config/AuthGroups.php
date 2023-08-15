@@ -36,6 +36,18 @@ class AuthGroups extends ShieldAuthGroups
             'title' => 'Super Admin',
             'description' => 'Complete control of the site.',
         ],
+        'aspirante' => [
+            'title' => 'Aspirante',
+            'description' => 'Aspirante a estudiante del TecNM Campus Ocotlan',
+        ],
+        'financieros' => [
+            'title' => 'Servicios financieros',
+            'description' => 'Administrativo del area de servicios financieros',
+        ],
+        'desarrollo_academico' => [
+            'title' => 'Desarrollo Academico',
+            'description' => 'Administrativo del area de desarrollo academico',
+        ],
     ];
 
     /**
@@ -49,6 +61,12 @@ class AuthGroups extends ShieldAuthGroups
     public array $permissions = [
         'admin.access' => 'Can access the sites admin area',
         'admin.settings' => 'Can access the main site settings',
+        // Aspirante permissions
+        'aspirante.access' => 'Puede acceder a los sitios del area de aspirantes',
+        // Financieros permissions
+        'financieros.access' => 'Puede acceder a los sitios del area de servicios financieros',
+        // Desarrollo academico permissions
+        'desarrollo_academico.access' => 'Puede acceder a los sirios del area de desarrollo academico',
     ];
 
     /**
@@ -62,6 +80,15 @@ class AuthGroups extends ShieldAuthGroups
     public array $matrix = [
         'superadmin' => [
             'admin.*',
+        ],
+        'aspirante' => [
+            'aspirante.*',
+        ],
+        'financieros' => [
+            'financieros.*',
+        ],
+        'desarrollo_academico' => [
+            'desarrollo_academico.*',
         ],
     ];
 }
