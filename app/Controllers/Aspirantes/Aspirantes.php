@@ -2,13 +2,32 @@
 
 namespace App\Controllers\Aspirantes;
 
-use CodeIgniter\Events\Events;
+use App\Libraries\Files;
+use App\Entities\Aspirantes\Aspirante;
+use CodeIgniter\Shield\Entities\User;
+use App\Models\Aspirantes\UserModelAspirantes;
+use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Exceptions\ValidationException;
 use CodeIgniter\Shield\Controllers\RegisterController;
+use CodeIgniter\HTTP\RedirectResponse;
 use App\Models\ServiciosEscolares\CarrerasModel;
+use App\Models\Aspirantes\AspiranteModel;
+use App\Libraries\Thumbs;
+use Exception;
 
 class Aspirantes extends RegisterController
 {
+    protected $aspirantesModel;
+    protected $db;
+    private array $tables;
+
+    public function __construct()
+    {
+        $this->aspirantesModel = new AspiranteModel();
+        $this->tables = config('Auth')->tables;
+        $this->db = db_connect();
+    }
+
     /**
      * index
      * Funcion para mostrar la pagina principal del modulo de aspirantes dentro de la plataforma
@@ -24,124 +43,398 @@ class Aspirantes extends RegisterController
      * formRegister
      * Funcion para mostrar el formulario de registro de los aspirantes
      *
-     * @return void
+     * @return ?RedirectResponse -> redirige a un modulo dependiendo de los permiso de la sesion
+     *                           -> si no hay una sesion, muestra el formulario de registro
      */
-    public function formRegister(): void
+    public function formRegister(): ?RedirectResponse
     {
-        // Conexión a la base de datos
-        $db = db_connect();
+        // Si hay una sesion activa, se redirige a un modulo dependiendo de los permisos de la sesion
+        if (auth()->loggedIn()) {
+            return redirect()->to(config('Auth')->loginRedirect())->withCookies();
+        }
+
+        // Verificamos que sea tiempo de inscripciones (Hace falta ajustar este fragmento de código)
+        if (!setting('Auth.allowRegistration')) {
+            return redirect()->back()->withInput()->with('error', lang('Auth.registerDisabled'));
+        }
+
         // Models
         $carrerasModel = new CarrerasModel();
 
         $data = [
             // Catalogos de datos
-            'tiposSangre' => $db->table('tipos_sangre')->get()->getResultArray(),
-            'comunidadesIndigenas' => $db->table('comunidades_indigenas')->get()->getResultArray(),
-            'lenguasIndigenas' => $db->table('lenguas_indigenas')->get()->getResultArray(),
+            'tiposSangre' => $this->db->table('tipos_sangre')->get()->getResultArray(),
+            'comunidadesIndigenas' => $this->db->table('comunidades_indigenas')->get()->getResultArray(),
+            'lenguasIndigenas' => $this->db->table('lenguas_indigenas')->get()->getResultArray(),
             'carreras' => $carrerasModel->select('id_carrera, nombre_carrera')->findAll(),
-            'motivosIngreso' => $db->table('motivos_ingreso')->get()->getResultArray(),
-            'nivelesEstudio' => $db->table('nivel_estudios')->get()->getResultArray(),
-            'cohabitantes' => $db->table('cohabitantes')->get()->getResultArray(),
-            'ocupaciones' => $db->table('ocupaciones')->get()->getResultArray(),
-            'propiedadVivienda' => $db->table('propiedad_vivienda')->get()->getResultArray(),
-            'tipoPiso' => $db->table('tipos_piso')->get()->getResultArray(),
+            'motivosIngreso' => $this->db->table('motivos_ingreso')->get()->getResultArray(),
+            'nivelesEstudio' => $this->db->table('nivel_estudios')->get()->getResultArray(),
+            'cohabitantes' => $this->db->table('cohabitantes')->get()->getResultArray(),
+            'ocupaciones' => $this->db->table('ocupaciones')->get()->getResultArray(),
+            'propiedadVivienda' => $this->db->table('propiedad_vivienda')->get()->getResultArray(),
+            'tipoPiso' => $this->db->table('tipos_piso')->get()->getResultArray(),
         ];
 
-        $this->twig->display('Aspirantes/aspirantes', $data);
+        return $this->twig->display('Aspirantes/aspirantes', $data);
     }
 
     /**
      * post
      * Funcion para guardar en la base de datos los datos de los aspirantes
      *
-     * @return void
+     * @return RedirectResponse
      */
-    public function post(): void
+    public function post()
     {
+        // Validamos el formulario
+        $dataAspirante = $this->request->getPost();
+        if (!$this->validation->run($dataAspirante, 'registerFormAspirantes')) {
+            //dd($this->validation->getErrors());
+
+            return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
+        }
+        //dd('Paso validaciones');
+
+        // Iniciamos una transaccion para crear el nuevo registro
+        $this->db->transStart();
+
+        try {
+            // Generamos un número de solicutud para el nuevo registro
+            $lastNoSolicitude = $this->aspirantesModel->getLastNoSolicutude();
+            $newNoSolicitude = $this->createNoSolicitude($lastNoSolicitude);
+
+            // Generamos un nip para el nuevo registro
+            $newNip = $this->createNip();
+
+            // Creamos un usuario para el aspirante
+            $user = $this->createUserAspirante($newNoSolicitude, $newNip);
+
+            // Guardamos los datos del aspirante
+            $this->insertDataAspirante($user, $newNoSolicitude, $newNip);
+
+            // Si todo está bien, confirmar la transacción
+            $this->db->transCommit();
+
+            d('Aspirante creado');
+
+            // Retornar vista de exito
+        } catch (Exception $e) {
+            // Si hay un error se realizara un rollback
+            $this->db->transRollback();
+
+            // Eliminar las fotos del aspirante si no se termino el proceso
+            if (isset($user)) {
+                $dirPhotosAspirantes = config('Paths')->photoAspiranteDirectory . '/' . $user->id;
+                $files = new Files();
+                $files->deleteDir($dirPhotosAspirantes);
+            }
+            // Retornar vista de error en el back
+            dd('Error: ' . $e->getMessage());
+        }
     }
 
-    public function new()
+    /**
+     * createNoSolicitude
+     * Funcion para crear un nuevo numero de solicitud
+     *
+     * @param string $lastNoSolicitude -> Ultimo numero de solicitud
+     *
+     * @throws Exception -> Se lanzan si $lastNoSolicitude no es un número
+     *                   -> o si el nuevo número de solicitud excede el formato de 4 numeros
+     *
+     * @return string $newNoSolicitude -> Nuevo número de solicitud
+     */
+    private function createNoSolicitude(string $lastNoSolicitude): string
     {
-        if (auth()->loggedIn()) {
-            return redirect()->to(config('Auth')->registerRedirect());
+        // Verificamos que la cadena sea un número
+        if (!is_numeric($lastNoSolicitude)) {
+            throw new Exception('El ultimo numero de solicitud no es un número');
         }
 
-        // Check if registration is allowed
-        if (!setting('Auth.allowRegistration')) {
-            dd('No esta activo el registro de cuentas');
+        // Convertirmos a int la cadena
+        $lastNoSolicitude = (int) $lastNoSolicitude;
 
-            return redirect()->back()->withInput()
-                ->with('error', lang('Auth.registerDisabled'));
+        // Creamos el nuevo número de solicitud
+        $newNoSolicitude = $lastNoSolicitude + 1;
+
+        // Verificamos que el nuevo numero de solicitud no exceda el formato de 4 números
+        if ($newNoSolicitude > 9999) {
+            throw new Exception('El nuevo número de solicutud excede el formato de 4 números');
         }
 
+        // Le damos formato de 4 numeros al nuevo número de solicitud}
+        $newNoSolicitude = str_pad($newNoSolicitude, 4, '0', STR_PAD_LEFT);
+
+        // Hace falta asegurarse de que no el no solicitud sea unico
+        return $newNoSolicitude;
+    }
+
+    /**
+     * createNip
+     * Funcion para crear un nuevo nip
+     *
+     * @return string $newNip -> Nuevo nip
+     */
+    private function createNip(): string
+    {
+        // Crear un arreglo con los números del 0 al 9
+        $nums = range(0, 9);
+
+        // Obtener una lista con todos los nips
+        $listNips = $this->aspirantesModel->getListNips();
+
+        do {
+            // Barajar el arreglo
+            shuffle($nums);
+
+            // Obtenemos los indices desde los cuales se tomaran los numeros para el nuevo nip
+            $index = rand(0, 6);
+
+            // Crear el nip
+            $newNip = implode(array_slice($nums, $index, 4));
+        } while (in_array($newNip, $listNips));
+
+        return $newNip;
+    }
+
+    /**
+     * createUserAspirante
+     * Funcion para crear y registrar el usuario del nuevo aspirante para que pueda iniciar sesion
+     *
+     * @param string $noSolicitude -> Número de solicitud para el nuevo usuario aspirante
+     * @param string $nip          -> Nip para el nuevo usuario aspirante
+     *
+     * @throws Exception -> Se lanza si los datos no pasaron la validación
+     *
+     * @return User
+     */
+    private function createUserAspirante(string $noSolicitude, string $nip): User
+    {
         $users = $this->getUserProvider();
 
-        // Obtener datos necesarios del formulario de aspirantes
-        // Si se necesitara un nuevo modelo, para validar el formato del nip y el no. solicitud
+        // Obtener datos necesarios para crear al usuario como aspirante
+        $name = $this->request->getPost('nombre');
+        $surnamePaterno = $this->request->getPost('apellidoPaterno');
+        $surnameMaterno = $this->request->getPost('apellidoMaterno');
         $dataAspirante = [
-            'username' => 'wedin',
-            'email' => '19630306@itocotlan.com', // Debe ser el nip
-            'password' => 'sii@correcaminos123', // Debe ser el numero de solicitud
-            'password_confirm' => 'sii@correcaminos123',
+            'name' => $name . $surnamePaterno . $surnameMaterno,
+            'username' => str_replace(' ', '', $name) . '_' . $noSolicitude,
+            'email' => $noSolicitude, // número de solicitud
+            'password' => $nip, // nip
+            'password_confirm' => $nip, // confirmar nip
         ];
 
-        // Validate here first, since some things,
-        // like the password, can only be validated properly here.
+        // Obtenemos las reglas de validacion
         $rules = $this->getValidationRules();
 
+        // Si los datos no pasan la validación salta una excepción
         if (!$this->validateData($dataAspirante, $rules, [], config('Auth')->DBGroup)) {
-            d('No paso las validaciones');
-            dd($this->validator->getErrors());
+            $errors = $this->validator->getErrors();
 
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+            throw new Exception($errors[array_key_first($errors)]);
         }
 
-        // Save the user
-        $allowedPostFields = array_keys($rules);
+        // Registramos el nuevo usuario para el aspirante
         $user = $this->getUserEntity();
         $user->fill($dataAspirante);
-
-        // Workaround for email only registration/login
-        if ($user->username === null) {
-            $user->username = null;
-        }
 
         try {
             $users->save($user);
         } catch (ValidationException $e) {
-            dd('Error la crear el usuario');
+            $errors = $users->errors();
 
-            return redirect()->back()->withInput()->with('errors', $users->errors());
+            throw new Exception($errors[array_key_first($errors)]);
         }
 
-        // To get the complete user object with ID, we need to get from the database
+        // Para obtener el objeto de usuario completo con ID, necesitamos obtenerlo de la base de datos
         $user = $users->findById($users->getInsertID());
 
-        // Agregamos al nuevo aspirante al grupo aspirantes
+        // Agregamos al nuevo usuario al grupo aspirantes
         $user->addGroup('aspirante');
 
-        Events::trigger('register', $user);
-
-        /** @var Session $authenticator */
-        $authenticator = auth('session')->getAuthenticator();
-
-        $authenticator->startLogin($user);
-
-        // If an action has been defined for register, start it up.
-        $hasAction = $authenticator->startUpAction('register', $user);
-        if ($hasAction) {
-            return redirect()->to('auth/a/show');
-        }
-
-        // Set the user active
+        // Activamos el nuevo usuario
         $user->activate();
 
-        $authenticator->completeLogin($user);
+        return $user;
+    }
 
-        // Success! (Redireccionar al login)
-        // return redirect()->to(config('Auth')->registerRedirect())
-        //     ->with('message', lang('Auth.registerSuccess'));
-        d('Nuevo aspirante creado');
+    /**
+     * insertDataAspirante
+     * Función para guardar los datos del aspirante en la base de datos
+     *
+     * @param User   $user         -> Entidad usuario del aspirante para iniciar sesion (Entidad del shield)
+     * @param string $noSolicitude -> Número de solicitud del aspirante
+     * @param string $nip          -> Nip del aspirante
+     *
+     * @throws Exception -> Se lanza si los datos no se guardaron en la BD
+     */
+    private function insertDataAspirante(User $user, string $noSolicitude, string $nip)
+    {
+        $namePhoto = $this->createThumbPhotoAspirante($user->id);
+        // Creamos el arreglo de datos con la información del aspirante que se insertara
+        $data = [
+            // Tabla principal
+            'user_id' => $user->id,
+            'no_solicitud' => $noSolicitude,
+            'nip' => $nip,
+            'imagen' => $namePhoto,
+            'curp' => $this->request->getPost('curp'),
+            'apellido_paterno' => $this->request->getPost('apellidoPaterno'),
+            'apellido_materno' => $this->request->getPost('apellidoMaterno'),
+            'nombre' => $this->request->getPost('nombre'),
+            'fecha_nacimiento' => $this->request->getPost('fechaNacimiento'),
+            'genero' => $this->request->getPost('genero'),
+            'estado_civil' => $this->request->getPost('estadoCivil'),
+            'pais_nacimiento' => $this->request->getPost('paisNacimiento'),
+            'telefono' => $this->request->getPost('tel'),
+            'email' => $this->request->getPost('correo'),
+            'escuela_procedencia' => $this->request->getPost('nombreEscuela'),
+            'estado_escuela' => $this->request->getPost('estadoEscuela'),
+            'municipio_escuela' => $this->request->getPost('municipioEscuela'),
+            'ano_egreso' => $this->request->getPost('anoEgreso'),
+            'promedio_general' => $this->request->getPost('promedio'),
+            'carrera_primera_opcion' => $this->request->getPost('primeraOpcionIngreso'),
+            'carrera_segunda_opcion' => $this->request->getPost('segundaOpcionIngreso'),
+            'turno_preferente' => $this->request->getPost('turno'),
+            'ito_primer_opcion' => $this->request->getPost('primeraOpcion'),
+            'motivo_ingreso' => $this->request->getPost('motivoIngreso'),
+            'motivo_seleccion_plan_estudios' => $this->request->getPost('motivoSeleccionPlanEstudio'),
+            // Tabla de datos complementarios
+            'calle_domicilio' => $this->request->getPost('calle'),
+            'no_exterior' => $this->request->getPost('numExterior'),
+            'no_interior' => $this->request->getPost('numInterior'),
+            'letra_exterior' => 'A', // Se deben agregar al form estos campos
+            'letra_interior' => null, // Se deben agregar al form estos campos
+            'colonia' => $this->request->getPost('colonia'),
+            'estado' => $this->request->getPost('estadoResidencia'),
+            'municipio' => $this->request->getPost('municipioResidencia'),
+            'codigo_postal' => $this->request->getPost('cp'),
+            'entre_calles' => $this->request->getPost('entreCalles'),
+            'tutor' => $this->request->getPost('nombreTutor'),
+            'estado_procedencia' => $this->request->getPost('estadoProcedencia'),
+            'comunidad_indigena' => $this->request->getPost('comunidadIndigena'),
+            'tipo_sangre' => $this->request->getPost('tipoSangre'),
+            'discapacidad' => $this->request->getPost('discapacidad'),
+            'lengua_indigena' => $this->request->getPost('lenguaIndigena'),
+            'telefono_contacto' => $this->request->getPost('telTutor'), // Revisar el nombre de este campo
+            'nivel_estudio_padre' => $this->request->getPost('nivelEstudioPadre'),
+            'nivel_estudio_madre' => $this->request->getPost('nivelEstudioMadre'),
+            'vives_actualmente' => $this->request->getPost('cohabitantes'),
+            'ocupacion_padre' => $this->request->getPost('ocupacionPadre'),
+            'ocupacion_madre' => $this->request->getPost('ocupacionMadre'),
+            'casa_resides' => $this->request->getPost('propiedadCasa'),
+            'no_cuartos' => $this->request->getPost('cantidadCuartos'),
+            'no_miembros' => $this->request->getPost('cantidadCohabitantes'),
+            'regadera' => $this->request->getPost('regaderas'),
+            'no_banos' => $this->request->getPost('cantidadBanos'),
+            'no_focos' => $this->request->getPost('cantidadFocos'),
+            'tipo_piso' => $this->request->getPost('tipoPiso'),
+            'no_automoviles' => $this->request->getPost('cantidadAutos'),
+            'estufa' => $this->request->getPost('estufa'),
+        ];
+
+        $fakeData = [
+            // Tabla principal
+            'user_id' => $user->id,
+            'no_solicitud' => $noSolicitude,
+            'nip' => $nip,
+            'imagen' => $namePhoto,
+            'curp' => 'MEMM011201HJCNRNA1',
+            'apellido_paterno' => 'MENDOZA',
+            'apellido_materno' => 'MURILLO',
+            'nombre' => 'JOSE MANUEL',
+            'fecha_nacimiento' => '12-01-2001',
+            'genero' => 'MASCULINO',
+            'estado_civil' => 'SOLTERO',
+            'pais_nacimiento' => 'MEXICO',
+            'telefono' => '3921279642',
+            'email' => 'trokillox.x@gmail.com',
+            'escuela_procedencia' => 'CBTIS49',
+            'estado_escuela' => 'JALISCO',
+            'municipio_escuela' => 'OCOTLAN',
+            'ano_egreso' => '2017',
+            'promedio_general' => '83.4',
+            'carrera_primera_opcion' => '1',
+            'carrera_segunda_opcion' => '1',
+            'turno_preferente' => 'MATUTINO',
+            'ito_primer_opcion' => 'SI',
+            'motivo_ingreso' => '1',
+            'motivo_seleccion_plan_estudios' => 'PRUEBAS',
+            // Tabla de datos complementarios
+            'calle_domicilio' => 'PABLO LOPEZ',
+            'no_exterior' => '87',
+            'no_interior' => null,
+            'letra_exterior' => 'A', // Se deben agregar al form estos campos
+            'letra_interior' => null, // Se deben agregar al form estos campos
+            'colonia' => 'EL TROMPO',
+            'estado' => 'JALISCO',
+            'municipio' => 'JAMAY',
+            'codigo_postal' => '47900',
+            'entre_calles' => 'AGUSTIN YAÑEZ Y LAUREL',
+            'tutor' => 'JAVIER MENDOZA ALVAREZ',
+            'estado_procedencia' => 'JALISCO',
+            'comunidad_indigena' => '1',
+            'tipo_sangre' => '1',
+            'discapacidad' => 'PRUEBAS',
+            'lengua_indigena' => '1',
+            'telefono_contacto' => '3921106055',
+            'nivel_estudio_padre' => '1',
+            'nivel_estudio_madre' => '1',
+            'vives_actualmente' => '1',
+            'ocupacion_padre' => '1',
+            'ocupacion_madre' => '1',
+            'casa_resides' => '1',
+            'no_cuartos' => '1',
+            'no_miembros' => '1',
+            'regadera' => '1',
+            'no_banos' => '1',
+            'no_focos' => '1',
+            'tipo_piso' => '1',
+            'no_automoviles' => '1',
+            'estufa' => '1',
+        ];
+
+        $aspirante = new Aspirante($data);
+
+        if (!$this->aspirantesModel->save($aspirante)) {
+            throw new Exception('Hubo un error al intentar guardar los datos del aspirante en la base de datos');
+        }
+    }
+
+    /**
+     * createThumbPhotoAspirante
+     * Función para guardar la foto del aspirante y crear un thumb de ella
+     *
+     * @param string $userId -> Se utiliza como nombre de la carpeta donde estaran todas las fotos
+     *
+     * @throws Exception -> Se lanza si el archivo que subio el usuario como foto no es un archivo de imagen
+     *                   -> Se lanza si hay un error al guardar la imagen o crear el thumb de esta
+     *
+     * @return string $fullNamePhoto -> Retorna el nombre de la foto junto con la extension de la imagen
+     */
+    private function createThumbPhotoAspirante(string $userId)
+    {
+        // Obtenemos el archivo
+        $photoAspirante = $this->request->getFile('foto');
+
+        // Verificamos que el archivo sea valido
+        if (!$photoAspirante->isValid()) {
+            throw new Exception('La foto del aspirante no tiene el formato valido');
+        }
+
+        // Obtenemos información de la imagen
+        $pathPhoto = $photoAspirante->getTempName();
+        $typePhoto = $photoAspirante->getExtension();
+        $namePhoto = uniqid('FotoAspirante_');
+
+        // Creamos el thumb y guardamos la imagen
+        $dirImg = config('Paths')->photoAspiranteDirectory . '/' . $userId . '/';
+        $thumbs = new Thumbs($dirImg);
+        if (!$thumbs->createThumbs($pathPhoto, $namePhoto, $typePhoto)) {
+            throw new Exception('No se pudo crear el thumb para la foto del aspirante');
+        }
+
+        return $namePhoto . '.' . $typePhoto;
     }
 
     public function deleteAspirante($id)
@@ -149,6 +442,12 @@ class Aspirantes extends RegisterController
         $users = auth()->getProvider();
 
         //Borrar el aspirante de la BD
+        $aspirante = $this->aspirantesModel->where('user_id', $id)->first();
+        $this->aspirantesModel->delete($aspirante->id_aspirante, true);
+
+        $files = new Files();
+        $pathPhoto = config('Paths')->photoAspiranteDirectory . '/' . $id . '/';
+        $files->deleteDir($pathPhoto);
         if ($users->delete($id, true)) {
             dd('Aspirante eliminado');
         } else {
@@ -156,5 +455,79 @@ class Aspirantes extends RegisterController
         }
     }
 
-    // Sobrescribir los metodos getUserProvider(), getUserEntity() y getValidationRules()
+    /**
+     * Returns the User provider
+     */
+    protected function getUserProvider(): UserModelAspirantes
+    {
+        $provider = new UserModelAspirantes();
+
+        assert($provider instanceof UserModel, 'Config Auth.userProvider is not a valid UserProvider.');
+
+        return $provider;
+    }
+
+    /**
+     * getValidationRules
+     * Función que devuelve un array con una lista de reglas para validar los datos para crear el nuevo usuario del
+     * aspirante
+     *
+     * @return array<string, array<string, array<string>|string>>
+     */
+    protected function getValidationRules(): array
+    {
+        $registrationUsernameRules = array_merge(
+            config('AuthSession')->usernameValidationRules,
+            [sprintf('is_unique[%s.username]', $this->tables['users'])]
+        );
+        $registrationNoSolicitude = array_merge(
+            config('AuthSession')->noSolicitudeValidationRules,
+            [sprintf('is_unique[%s.secret]', $this->tables['identities'])]
+        );
+
+        return setting('Validation.registration') ?? [
+            'username' => [
+                'label' => 'Auth.username',
+                'rules' => $registrationUsernameRules,
+                'errors' => [
+                    'required' => 'El nombre de usuario es requerido',
+                    'max_length' => 'El nombre de usuario no puede tener más de 30 caracteres',
+                    'min_length' => 'El nombre de usuario no puede tener menos de 3 caracteres',
+                    'regex_match' => 'El nombre de usuario contiene caracteres inválidos',
+                    'is_unique' => 'El nombre de usuario ya está en uso',
+                ],
+            ],
+            // Número de solicitud
+            'email' => [
+                'label' => 'Auth.noSolicitud',
+                'rules' => $registrationNoSolicitude,
+                'errors' => [
+                    'required' => 'El número de solicitud es requerido',
+                    'numeric' => 'El número de solicitud solo puede contener dígitos',
+                    'exact_length' => 'El número de solicitud debe tener 4 dígitos',
+                    'is_unique' => 'El número de solicitud ya está en uso',
+                ],
+            ],
+            // Nip
+            'password' => [
+                'label' => 'Auth.nip',
+                'rules' => 'required|exact_length[4]|numeric',
+                'errors' => [
+                    'max_byte' => 'Auth.errorPasswordTooLongBytes',
+                    'required' => 'El nip es requerido',
+                    'numeric' => 'El nip solo puede contener dígitos',
+                    'exact_length' => 'El nip debe tener 4 dígitos',
+                ],
+            ],
+            // Confirmar nip
+            'password_confirm' => [
+                'label' => 'Auth.nipConfirm',
+                'rules' => 'required|matches[password]',
+                'errors' => [
+                    'required' => 'Debe repetir el campo nip',
+                    'matches' => 'El nip no coincide',
+                ],
+            ],
+        ];
+    }
 }

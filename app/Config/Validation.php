@@ -3,6 +3,7 @@
 namespace Config;
 
 use CodeIgniter\Config\BaseConfig;
+use App\Validations\Aspirantes\RegisterFormAspirantes;
 use CodeIgniter\Validation\StrictRules\CreditCardRules;
 use CodeIgniter\Validation\StrictRules\FileRules;
 use CodeIgniter\Validation\StrictRules\FormatRules;
@@ -39,6 +40,14 @@ class Validation extends BaseConfig
     ];
 
     // --------------------------------------------------------------------
-    // Rules
+    // Grupos de reglas
     // --------------------------------------------------------------------
+
+    public $registerFormAspirantes;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->registerFormAspirantes = (new RegisterFormAspirantes())->rulesRegisterFormAspirante;
+    }
 }
