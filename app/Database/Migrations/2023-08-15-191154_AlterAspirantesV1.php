@@ -15,8 +15,10 @@ class AlterAspirantesV1 extends Migration
 
     public function down()
     {
+        $this->db->disableForeignKeyChecks();
         $sqlFilePath = __DIR__ . '/sql_rollback/alter_aspirantes_2023-08-15.sql';
         $sqlFileContent = file_get_contents($sqlFilePath);
         $this->db->query($sqlFileContent);
+        $this->db->enableForeignKeyChecks();
     }
 }
