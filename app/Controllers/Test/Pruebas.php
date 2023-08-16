@@ -5,6 +5,7 @@ namespace App\Controllers\Test;
 use App\Controllers\BaseController;
 use App\Libraries\Emails;
 use App\Libraries\Thumbs;
+use CodeIgniter\Shield\Entities\User;
 
 class Pruebas extends BaseController
 {
@@ -142,5 +143,139 @@ class Pruebas extends BaseController
         $this->response->setHeader('Content-Type', 'application/pdf');
         $mpdf->Output();
         // return $html;
+    }
+
+    // PODEROSISIMO ADMINDEX
+    public function admindex()
+    {
+        $data = [
+            'loggedIn' => 'No loggeado',
+            'user' => 'No user',
+            'permissions' => [],
+            'groups' => [],
+        ];
+
+        if (auth()->loggedIn()) {
+            // Do something.
+            $data = [
+                'loggedIn' => 'Loggeado',
+                'user' => user_id(),
+                'permissions' => auth()->user()->getPermissions(),
+                'groups' => auth()->user()->getGroups(),
+            ];
+        }
+
+        return view('Test/admindex', $data);
+    }
+
+    // SUPERDAMIN
+    public function superadmin()
+    {
+        if (auth()->loggedIn()) {
+            $user = auth()->user();
+            $user->addGroup('superadmin');
+
+            return redirect()->to('pruebas/admindex');
+        }
+        d('No estas logueado, pa');
+    }
+
+    public function login($username)
+    {
+        $credentials = [
+            'email' => $username . '@example.com',
+            'password' => '1234qwer',
+        ];
+
+        $loginAttempt = auth()->attempt($credentials);
+
+        if (!$loginAttempt->isOK()) {
+            return redirect()->back()->with('error', $loginAttempt->reason());
+        }
+
+        return redirect()->to('pruebas/admindex');
+    }
+
+    public function newuser($username)
+    {
+        $users = auth()->getProvider();
+
+        $user = new User([
+            'username' => $username,
+            'email' => $username . '@example.com',
+            'password' => '1234qwer',
+        ]);
+        $users->save($user);
+
+        // To get the complete user object with ID, we need to get from the database
+        $user = $users->findById($users->getInsertID());
+
+        // Add to default group
+        $users->addToDefaultGroup($user);
+
+        /** @var Session $authenticator */
+        $authenticator = auth('session')->getAuthenticator();
+
+        $authenticator->startLogin($user);
+        $user->activate();
+
+        $authenticator->completeLogin($user);
+
+        d('Nuevo usuario creado');
+    }
+
+    public function deleteuser($username)
+    {
+        $users = auth()->getProvider();
+
+        $user = $users->findByCredentials(['username' => $username]);
+
+        if ($users->delete($user->id, true)) {
+            d('Usuario eliminado con exito');
+        } else {
+            d('Error al eliminar usuario');
+        }
+    }
+
+    public function allusers()
+    {
+        $users = auth()->getProvider();
+
+        $user = $users->findByCredentials([]);
+    }
+
+    public function addgrouplogged($group)
+    {
+        if (!auth()->loggedIn()) {
+            return redirect()->to('pruebas/admindex');
+        }
+
+        if (auth()->user()->addGroup($group)) {
+            d('Usuario anadido al grupo exitosamente');
+        } else {
+            d('No se pudo anadir al grupo');
+        }
+    }
+
+    public function addgroup($username, $group)
+    {
+        $users = auth()->getProvider();
+
+        $user = $users->findByCredentials(['username' => $username]);
+
+        if ($user->addGroup($group)) {
+            d('Usuario anadido al grupo exitosamente');
+        } else {
+            d('No se pudo anadir al grupo');
+        }
+    }
+
+    public function logout()
+    {
+        if (auth()->loggedIn()) {
+            auth()->logout();
+        }
+
+        return redirect()->to('pruebas/admindex');
     }
 }

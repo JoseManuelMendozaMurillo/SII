@@ -33,6 +33,8 @@ $routes->get('auth/login', 'Login::loginView');
 
 service('auth')->routes($routes, ['except' => ['login']]);
 
+$routes->get('', 'Pruebas::admindex');
+
 // Rutas auth
 $routes->group(
     'auth',
@@ -107,6 +109,19 @@ $routes->group(
         $routes->post('getPokemon', 'Pruebas::getDataPokemon');
 
         $routes->get('pdf', 'Pruebas::pdf');
+
+        // Indice para administradores, para mayor conveniencia de usted y mia wink wink
+        $routes->get('admindex', 'Pruebas::admindex');
+
+        // Usuarios
+        $routes->get('login/(:any)', 'Pruebas::login/$1');
+        $routes->get('logout', 'Pruebas::logout');
+        $routes->get('newuser/(:any)', 'Pruebas::newuser/$1');
+        $routes->get('deleteuser/(:any)', 'Pruebas::deleteuser/$1');
+        $routes->get('addgrouplogged/(:any)', 'Pruebas::addgrouplogged/$1');
+        $routes->get('addgroup/(:any)/(:any)', 'Pruebas::addgroup/$1/$2');
+        $routes->get('allusers', 'Pruebas::allusers');
+        $routes->get('superadmin', 'Pruebas::superadmin');
     }
 );
 
