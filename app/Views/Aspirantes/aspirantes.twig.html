@@ -7,6 +7,7 @@
 {% block styles %}
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet" />
 <link rel="stylesheet" href="{{base_url('Vendor/Template/assets/css/button.css')}}" />
+<link rel="stylesheet" href="{{base_url('Vendor/Parsley/parsley.css')}}">
 <link rel="stylesheet" href="{{base_url('Vendor/Template/assets/css/switches.css')}}" />
 
 <style>
@@ -206,30 +207,35 @@
                                                         <br>
                                                         <div class="form-group">
                                                             <label class="form-label">CURP: *</label>
-                                                            <input type="text" class="form-control" name="curp"
-                                                                placeholder="LOXA880921HMCLNR05" />
+                                                            <input type="text" class="form-control upper-case"
+                                                                name="curp" placeholder="LOXA880921HMCLNR05"
+                                                                data-validation="curp" required />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label class="form-label">Apellido paterno: *</label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="apellidoPaterno" placeholder="PEREZ" />
+                                                                name="apellidoPaterno" data-validation="fullName"
+                                                                placeholder="PEREZ" required />
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Apellido materno: *</label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="apellidoMaterno" placeholder="LÓPEZ" />
+                                                                name="apellidoMaterno" data-validation="fullName"
+                                                                placeholder="LÓPEZ" required />
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Nombre(s): *</label>
                                                             <input id="name" class="form-control upper-case"
-                                                                name="nombre" placeholder="JUAN" />
+                                                                name="nombre" placeholder="JUAN"
+                                                                data-validation="fullName" required />
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Fecha de nacimiento: *</label>
                                                             <input type="date" class="form-control"
-                                                                name="fechaNacimiento" placeholder="03/05/2005" />
+                                                                name="fechaNacimiento" placeholder="03/05/2005"
+                                                                data-validation="birthdate" required />
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Género: *</label>
@@ -257,23 +263,30 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">País de nacimiento: *</label>
-                                                            <input type="text" class="form-control"
-                                                                name="paisNacimiento" placeholder="MEXICO" />
+                                                            <select class="form-select" name="countrySelect"
+                                                                id="countrySelect">
+                                                            </select>
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Teléfono: *</label>
                                                             <input type="text" class="form-control" name="tel"
-                                                                placeholder="3923451289" />
+                                                                placeholder="3923451289" data-validation="phone"
+                                                                required />
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Correo electrónico: *</label>
                                                             <input type="text" class="form-control" name="correo"
-                                                                placeholder="EJEMPLO@GMAIL.COM" />
+                                                                id="email" placeholder="ejemplo@gmail.com"
+                                                                data-validation="emailB" required />
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Confirmar correo: *</label>
                                                             <input type="text" class="form-control" name="confirmCorreo"
-                                                                placeholder="EJEMPLO@GMAIL.COM" />
+                                                                placeholder="ejemplo@gmail.com"
+                                                                data-parsley-equalto="#email"
+                                                                data-parsley-trigger="keyup"
+                                                                data-parsley-error-message="Los correos electrónicos no coinciden."
+                                                                required />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -295,30 +308,36 @@
                                                         <div class="form-group">
                                                             <label class="form-label">Colonia: *</label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="colonia" placeholder="LA PRIMAVERA" />
+                                                                name="colonia" placeholder="LA PRIMAVERA"
+                                                                data-validation="col" />
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Calle: *</label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="calle" placeholder="LÓPEZ MATEOS" />
+                                                                name="calle" placeholder="LÓPEZ MATEOS"
+                                                                data-validation="calle" />
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Número exterior: *</label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="numExterior" placeholder="80" />
+                                                                name="numExterior" placeholder="80"
+                                                                data-validation="num" />
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Número interior: </label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="numInterior" placeholder="80" />
+                                                                name="numInterior" placeholder="80A"
+                                                                data-validation="num" />
                                                         </div>
                                                         <!-- Agregar los campos: letra interior y letra exterior -->
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label class="form-label">Estado: *</label>
-                                                            <input type="text" class="form-control upper-case"
-                                                                name="estadoResidencia" placeholder="JALISCO" />
+                                                            <select type="text" class="form-control upper-case"
+                                                                name="estadoResidencia" placeholder="JALISCO"
+                                                                id="estado">
+                                                            </select>
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Municipio: *</label>
@@ -330,7 +349,7 @@
                                                         <div class="form-group">
                                                             <label class="form-label">Código postal: *</label>
                                                             <input type="text" class="form-control upper-case" name="cp"
-                                                                placeholder="47829" />
+                                                                placeholder="47829" data-validation="cp" />
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Entre calles: *</label>
@@ -820,6 +839,12 @@
 
 <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
 
+<script src="{{base_url('Vendor/Parsley/jquery-3.7.0.min.js')}}"></script>
+
+<script src="{{base_url('Vendor/Parsley/parsley.min.js')}}"></script>
+
+<script type="module" src="{{base_url('Js/FormsValidation/forms.js')}}"></script>
+
 <script>
     const anioInput = document.getElementById("anioInput");
     const anoActual = new Date().getFullYear();
@@ -841,6 +866,7 @@
             $(this).val(texto.toUpperCase());
         });
     });
+
 
 </script>
 
@@ -871,24 +897,6 @@
 <script>
     $(document).ready(function () {
 
-
-        const switchInput = document.getElementById("checkbox");
-        const bodyElement = document.body;
-
-        switchInput.addEventListener("change", function () {
-            if (this.checked) {
-                // Modo oscuro activado
-                bodyElement.classList.remove("light");
-                bodyElement.classList.add("dark");
-                console.log("Switch activado");
-            } else {
-                // Modo claro activado
-                bodyElement.classList.remove("dark");
-                bodyElement.classList.add("light");
-                console.log("Switch desactivado");
-            }
-        });
-
         //API DE PAISES
         var url = 'https://restcountries.com/v3.1/all';
         $.ajax({
@@ -917,6 +925,47 @@
                 console.log('Error al obtener la lista de países');
             }
         });
+
+        var apiToken = 'ed55f650-8fda-22e6-1dac-89574d44a3f7';
+        var apiUrl = ` https://www.inegi.org.mx/app/api/indicadores/desarrolladores/jsonxml/INDICATOR/1002000001/es/00/true/BISE/2.0/${apiToken}?type=json`
+
+        $.ajax({
+            url: apiUrl,
+            method: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                var estadosSelect = $('#estado');
+
+                response.forEach(function (estado) {
+                    estadosSelect.append($('<option>', {
+                        value: estado.c_estado,
+                        text: estado.d_estado
+                    }));
+                });
+            },
+            error: function () {
+                console.error('Error al obtener los estados.');
+            }
+        });
+
+        const switchInput = document.getElementById("checkbox");
+        const bodyElement = document.body;
+
+        switchInput.addEventListener("change", function () {
+            if (this.checked) {
+                // Modo oscuro activado
+                bodyElement.classList.remove("light");
+                bodyElement.classList.add("dark");
+                console.log("Switch activado");
+            } else {
+                // Modo claro activado
+                bodyElement.classList.remove("dark");
+                bodyElement.classList.add("light");
+                console.log("Switch desactivado");
+            }
+        });
+
+
 
     });
 </script>

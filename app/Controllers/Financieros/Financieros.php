@@ -10,4 +10,11 @@ class Financieros extends BaseController
     {
         echo 'Hello financieros';
     }
+
+    public function nuevosAspirantes()
+    {
+        $datos = ['nombreModulo' => 'Recursos Financieros'];
+
+        $this->twig->display('RecursosFinancieros/nuevos_aspirantes', $datos);
+    }
 }

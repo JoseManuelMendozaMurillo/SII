@@ -1,0 +1,90 @@
+{% extends "Layout/Template/recursos_financieros.twig.html" %}
+
+{% block title %} Nuevos aspirantes {% endblock %}
+
+{% block content %}
+
+<div class="conatiner-fluid content-inner mt-n5 py-0">
+    <div>
+        <div class="row">
+
+            <div class="col-lg-6">
+                <div class="card" style="border-radius: 10px; box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.082);">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div class="rounded p-3 bg-soft-success">
+                                <svg class="icon-24" xmlns="http://www.w3.org/2000/svg" width="24" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <span>Pagado</span>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <h2 class="counter">35</h2>
+                            <div>
+                                <span>
+                                    <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10"
+                                        viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd"
+                                            d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    10%
+                                </span>
+                                <span>Incrementado</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="chart-3"></div>
+                </div>
+            </div>
+
+
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body"
+                        style="border-radius: 10px; box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.082);">
+                        <div class="d-flex justify-content-between mb-3">
+                            <div>
+                                <span>Faltantes por pagar</span>
+                            </div>
+                            <div class="">
+                                <svg class="icon-20" xmlns="http://www.w3.org/2000/svg" width="20" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex align-items-center">
+                                <div class="border rounded p-3 bg-soft-danger me-3">
+                                    <svg class="icon-24" width="24" viewBox="0 0 24 24">
+                                        <path fill="currentColor"
+                                            d="M12.3 8.93L9.88 6.5H15.5V10H17V5H9.88L12.3 2.57L11.24 1.5L7 5.75L11.24 10L12.3 8.93M12 14A3 3 0 1 0 15 17A3 3 0 0 0 12 14M3 11V23H21V11M19 19A2 2 0 0 0 17 21H7A2 2 0 0 0 5 19V15A2 2 0 0 0 7 13H17A2 2 0 0 0 19 15Z" />
+                                    </svg>
+                                </div>
+                                <h2 class="counter">15</h2>
+                            </div>
+                            <div class="pt-3">
+                                <svg class="icon-20" xmlns="http://www.w3.org/2000/svg" width="20px" viewBox="0 0 20 20"
+                                    fill="#b91d12">
+                                    <path
+                                        d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
