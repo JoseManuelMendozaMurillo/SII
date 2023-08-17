@@ -12,13 +12,13 @@
     <div> User ID: <?= esc($user) ?> </div>
     <div> Permisos:</div>
     <ul>
-        <?php foreach ($permissions as $permission): ?>
+        <?php foreach ($permissions as $permission) : ?>
             <li><?= $permission ?></li>
         <?php endforeach ?>
     </ul>
     <div> Grupos:</div>
     <ul>
-        <?php foreach ($groups as $group): ?>
+        <?php foreach ($groups as $group) : ?>
             <li><?= $group ?></li>
         <?php endforeach ?>
     </ul>

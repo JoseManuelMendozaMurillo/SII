@@ -2,7 +2,7 @@
 
 namespace App\Controllers\Aspirantes;
 
-use App\Models\AspiranteModel;
+use App\Models\Aspirantes\AspiranteModel;
 use CodeIgniter\Controller;
 
 class ListarAspirantes extends Controller

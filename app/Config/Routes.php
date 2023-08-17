@@ -72,7 +72,6 @@ $routes->group(
     ['namespace' => 'App\Controllers\Financieros'],
     // 'filter' => 'group:financieros'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
     function ($routes) {
-        $routes->get('', 'Financieros::hello');
         $routes->get('nuevos/aspirantes', 'Financieros::nuevosAspirantes');
     }
 );
@@ -83,7 +82,6 @@ $routes->group(
     ['namespace' => 'App\Controllers\DesarrolloAcademico'],
     // 'filter' => 'group:desarrollo_academico'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
     function ($routes) {
-        $routes->get('', 'DesarrolloAcademico::hello');
         $routes->get('aspirantes/lista', 'DesarrolloAcademico::listaAspirantes');
     }
 );
