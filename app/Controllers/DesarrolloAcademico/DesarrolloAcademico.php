@@ -10,4 +10,11 @@ class DesarrolloAcademico extends BaseController
     {
         echo 'Hello academicos';
     }
+
+    public function listaAspirantes()
+    {
+        $datos = ['nombreModulo' => 'Desarrollo Academico'];
+
+        $this->twig->display('DesarrolloAcademico/lista_aspirantes', $datos);
+    }
 }

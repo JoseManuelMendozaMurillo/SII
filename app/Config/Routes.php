@@ -73,6 +73,7 @@ $routes->group(
     // 'filter' => 'group:financieros'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
     function ($routes) {
         $routes->get('', 'Financieros::hello');
+        $routes->get('nuevos/aspirantes', 'Financieros::nuevosAspirantes');
     }
 );
 
@@ -83,6 +84,7 @@ $routes->group(
     // 'filter' => 'group:desarrollo_academico'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
     function ($routes) {
         $routes->get('', 'DesarrolloAcademico::hello');
+        $routes->get('aspirantes/lista', 'DesarrolloAcademico::listaAspirantes');
     }
 );
 
