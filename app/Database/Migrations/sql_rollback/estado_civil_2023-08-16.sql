@@ -1,0 +1,1 @@
+drop table estado_civil;
