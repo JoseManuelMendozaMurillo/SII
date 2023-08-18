@@ -1,0 +1,71 @@
+/* Header Styles */
+.header {
+    /* Layout Properties */
+    position: static;
+    top: 40px;
+    left: 47px;
+    width: 522px;
+    height: 67px;
+    /* UI Properties */
+    opacity: 1;
+    margin-bottom: 10px;
+}
+
+.tittle {
+    font: normal normal bold 11px/25px Montserrat;
+    letter-spacing: 0px;
+    color: #000000;
+    opacity: 1;
+}
+
+/* User Styles */
+.user_info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    /* UI Properties */
+    text-align: left;
+    font: normal normal bold 11px/25px Montserrat;
+    letter-spacing: 0px;
+    color: #000000;
+    opacity: 1;
+}
+
+/* Content Styles */
+.content {
+    /* UI Properties */
+    text-align: left;
+    font: normal normal normal 11px/14px Montserrat;
+    letter-spacing: 0px;
+    color: #000000;
+    opacity: 1;
+}
+
+.social_media {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    font: normal normal normal 10px/13px Montserrat;
+}
+
+.left-column,
+.right-column {
+    flex: 1;
+}
+
+.social-icons {
+    display: flex;
+    gap: 10px;
+}
+
+/* Footer Styles */
+.footer-banner {
+    bottom: 40px;
+    left: 47px;
+    width: 522px;
+    height: 67px;
+    background: transparent 0% 0% no-repeat padding-box;
+    opacity: 1;
+}

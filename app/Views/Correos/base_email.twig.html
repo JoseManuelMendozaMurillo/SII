@@ -1,0 +1,38 @@
+{% block head %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <header>
+        <div class="header">
+            <img src="img/tecnologiconacionalmexico.svg">
+            <img src="img/LOGO-SEP.svg">
+            <img class="img-fluid"
+                src="{{base_url('Vendor/Template/assets/images/imagenescorrecaminos/logotecocotlan.png')}}">
+        </div>
+    </header>
+    {% endblock %}
+    {% block user_info %}{% endblock %}
+    {% block user_info %}{% endblock%}
+    {% block content %}{% endblock %}
+    {% block social_media %}{% endblock %}
+    {% block footer %}
+    <footer>
+        <div class="footer-banner">
+            <img src="path-to-banner.png" alt="Footer Banner" />
+        </div><br>
+        <img src="logo1.png" alt="Logo 1" />
+        <img src="logo2.png" alt="Logo 2" />
+        <img src="logo3.png" alt="Logo 3" />
+        <img src="logo4.png" alt="Logo 4" />
+    </footer>
+</body>
+
+</html>
+
+{% endblock %}
