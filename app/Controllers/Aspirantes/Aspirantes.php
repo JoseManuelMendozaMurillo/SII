@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Aspirantes;
 
+use CodeIgniter\HTTP\Response;
 use App\Libraries\Files;
 use App\Entities\Aspirantes\Aspirante;
 use CodeIgniter\Shield\Entities\User;
@@ -73,6 +74,7 @@ class Aspirantes extends RegisterController
             'ocupaciones' => $this->db->table('ocupaciones')->get()->getResultArray(),
             'propiedadVivienda' => $this->db->table('propiedad_vivienda')->get()->getResultArray(),
             'tipoPiso' => $this->db->table('tipos_piso')->get()->getResultArray(),
+            // Agregar el catalogo de estado civil
         ];
 
         return $this->twig->display('Aspirantes/aspirantes', $data);
@@ -84,16 +86,13 @@ class Aspirantes extends RegisterController
      *
      * @return RedirectResponse
      */
-    public function post()
+    public function post(): RedirectResponse
     {
         // Validamos el formulario
         $dataAspirante = $this->request->getPost();
         if (!$this->validation->run($dataAspirante, 'registerFormAspirantes')) {
-            //dd($this->validation->getErrors());
-
             return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
         }
-        //dd('Paso validaciones');
 
         // Iniciamos una transaccion para crear el nuevo registro
         $this->db->transStart();
@@ -130,6 +129,94 @@ class Aspirantes extends RegisterController
             }
             // Retornar vista de error en el back
             dd('Error: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * delete
+     * Función para eliminar de manera lógica a un aspirante
+     *
+     * @param string $userId -> Id de usuario del aspirante a eliminar
+     *
+     * @return void
+     */
+    public function delete(string $userId): void
+    {
+        // Iniciamos una transacción
+        $this->db->transStart();
+
+        try {
+            $users = auth()->getProvider();
+
+            //Borrar el aspirante de la BD
+            $aspirante = $this->aspirantesModel->where('user_id', $userId)->first();
+            $this->aspirantesModel->delete($aspirante->id_aspirante);
+
+            if (!$users->delete($userId)) {
+                throw new Exception('Hubo un error al intentar eliminar al aspirante de las tablas de usuarios');
+            }
+
+            // Si todo salio bien, confirmamos la transacción
+            $this->db->transCommit();
+
+            // Retornamos vista de exito
+            d('Aspirante eliminado');
+        } catch (Exception $e) {
+            // Hacemos un rollback para no romper la integridad de los datos
+            $this->db->transRollback();
+
+            // Mostrar la vista de error en el back
+            dd('Error: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * changeStatusPayment
+     * Función AJAX para cambiar el estatus del pago de un aspirante mendiante su id, el estatus del pago
+     * cambia a pagado (true) por defecto, pero si se configura el parametro $status en false, el status
+     * de pago del aspirante cambia a pago pendiente (false)
+     *
+     * @param string $idAspirante -> Id del aspirante a actualizar
+     * @param bool   $status      -> Nuevo estatus de pago del aspirante (true -> pagado, false -> pago pendiente).
+     *                            Por defecto es true
+     *
+     * @throws Exception -> Se lanza si los parametros no pasan la validación
+     *                   -> Se lanza si la petición post no es de tipo AJAX
+     *                   -> Se lanza si hay un error al intentar actualizar el estatus de pago
+     *
+     * @return Response -> Respuesta de la peticion AJAX
+     */
+    public function changeStatusPayment(): Response
+    {
+        // Nos aseguramos de solo recibir peticiones ajax
+        if (!$this->request->isAJAX()) {
+            throw new Exception('No se encontro el recurso', 404);
+        }
+
+        try {
+            // Validacion de datos
+            $data = $this->request->getPost();
+            if (!$this->validation->run($data, 'rulesChageStatusPaymentAspirante')) {
+                $errors = $this->validation->getErrors();
+
+                throw new Exception($errors[array_key_first($errors)], 400);
+            }
+
+            // Obtenemos los datos para actualizar el estatus de pago
+            $idAspirante = (string) $this->request->getPost('idAspirante');
+            $status = $this->request->getPost('status') != null
+                                            ? filter_var($this->request->getPost('status'), FILTER_VALIDATE_BOOLEAN)
+                                            : true;
+
+            // Actualizamos el estatus de pago
+            if (!$this->aspirantesModel->changeStatusPayment($idAspirante, $status)) {
+                // Si hay un error, lanzamos una excepcion
+                throw new Exception('Hubo un error al intentar actualizar el registro', 500);
+            }
+
+            return $this->response->setStatusCode(200);
+        } catch (Exception $e) {
+            return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
         }
     }
 
@@ -267,8 +354,10 @@ class Aspirantes extends RegisterController
      * @param string $nip          -> Nip del aspirante
      *
      * @throws Exception -> Se lanza si los datos no se guardaron en la BD
+     *
+     * @return void
      */
-    private function insertDataAspirante(User $user, string $noSolicitude, string $nip)
+    private function insertDataAspirante(User $user, string $noSolicitude, string $nip): void
     {
         $namePhoto = $this->createThumbPhotoAspirante($user->id);
         // Creamos el arreglo de datos con la información del aspirante que se insertara
@@ -412,7 +501,7 @@ class Aspirantes extends RegisterController
      *
      * @return string $fullNamePhoto -> Retorna el nombre de la foto junto con la extension de la imagen
      */
-    private function createThumbPhotoAspirante(string $userId)
+    private function createThumbPhotoAspirante(string $userId): string
     {
         // Obtenemos el archivo
         $photoAspirante = $this->request->getFile('foto');
@@ -435,24 +524,6 @@ class Aspirantes extends RegisterController
         }
 
         return $namePhoto . '.' . $typePhoto;
-    }
-
-    public function deleteAspirante($id)
-    {
-        $users = auth()->getProvider();
-
-        //Borrar el aspirante de la BD
-        $aspirante = $this->aspirantesModel->where('user_id', $id)->first();
-        $this->aspirantesModel->delete($aspirante->id_aspirante, true);
-
-        $files = new Files();
-        $pathPhoto = config('Paths')->photoAspiranteDirectory . '/' . $id . '/';
-        $files->deleteDir($pathPhoto);
-        if ($users->delete($id, true)) {
-            dd('Aspirante eliminado');
-        } else {
-            dd('Error al eliminar el aspirante');
-        }
     }
 
     /**

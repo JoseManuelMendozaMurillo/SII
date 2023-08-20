@@ -77,5 +77,5 @@ class Paths
      * Path para las fotos del aspirante
      *
      */
-    public string $photoAspiranteDirectory = __DIR__ . '/..' . '/Models/Aspirantes/FotosAspirantes';
+    public string $photoAspiranteDirectory = FCPATH . 'Uploads/Aspirantes/FotosAspirantes';
 }
