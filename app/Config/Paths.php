@@ -77,5 +77,6 @@ class Paths
      * Path para las fotos del aspirante
      *
      */
+    public string $accessPhotosAspirantes = 'Uploads/Aspirantes/FotosAspirantes';
     public string $photoAspiranteDirectory = FCPATH . 'Uploads/Aspirantes/FotosAspirantes';
 }
