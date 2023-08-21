@@ -33,6 +33,8 @@ $routes->get('auth/login', 'Login::loginView');
 
 service('auth')->routes($routes, ['except' => ['login']]);
 
+$routes->get('', 'Pruebas::admindex');
+
 // Rutas auth
 $routes->group(
     'auth',
@@ -51,8 +53,8 @@ $routes->group(
     function ($routes) {
         $routes->get('registro', 'Aspirantes::formRegister');
         $routes->post('insert', 'Aspirantes::post');
-        $routes->get('new', 'Aspirantes::new');
-        $routes->get('delete/(:num)', 'Aspirantes::deleteAspirante/$1');
+        $routes->get('delete/(:num)', 'Aspirantes::delete/$1'); // Esta ruta no debe ser publica
+        $routes->post('change-status-payment', 'Aspirantes::changeStatusPayment'); // Esta ruta no debe ser publica
         $routes->group(
             '',
             ['namespace' => 'App\Controllers\Aspirantes',
@@ -70,7 +72,6 @@ $routes->group(
     ['namespace' => 'App\Controllers\Financieros'],
     // 'filter' => 'group:financieros'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
     function ($routes) {
-        $routes->get('', 'Financieros::hello');
         $routes->get('nuevos/aspirantes', 'Financieros::nuevosAspirantes');
     }
 );
@@ -81,7 +82,6 @@ $routes->group(
     ['namespace' => 'App\Controllers\DesarrolloAcademico'],
     // 'filter' => 'group:desarrollo_academico'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
     function ($routes) {
-        $routes->get('', 'DesarrolloAcademico::hello');
         $routes->get('aspirantes/lista', 'DesarrolloAcademico::listaAspirantes');
     }
 );
@@ -109,6 +109,19 @@ $routes->group(
         $routes->post('getPokemon', 'Pruebas::getDataPokemon');
 
         $routes->get('pdf', 'Pruebas::pdf');
+
+        // Indice para administradores, para mayor conveniencia de usted y mia wink wink
+        $routes->get('admindex', 'Pruebas::admindex');
+
+        // Usuarios
+        $routes->get('login/(:any)', 'Pruebas::login/$1');
+        $routes->get('logout', 'Pruebas::logout');
+        $routes->get('newuser/(:any)', 'Pruebas::newuser/$1');
+        $routes->get('deleteuser/(:any)', 'Pruebas::deleteuser/$1');
+        $routes->get('addgrouplogged/(:any)', 'Pruebas::addgrouplogged/$1');
+        $routes->get('addgroup/(:any)/(:any)', 'Pruebas::addgroup/$1/$2');
+        $routes->get('allusers', 'Pruebas::allusers');
+        $routes->get('superadmin', 'Pruebas::superadmin');
     }
 );
 

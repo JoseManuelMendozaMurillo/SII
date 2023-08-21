@@ -2,6 +2,9 @@
 
 namespace App\Libraries;
 
+use Exception;
+use Mpdf\Tag\Em;
+
 class Files
 {
     public function __construct()
@@ -54,5 +57,37 @@ class Files
         }
         // Sí el directorio no existe, lo creamos
         return mkdir($path_dir);
+    }
+
+    /**
+     * deleteDir
+     * Funcion para eliminar un directorio si es que este existe
+     *
+     * @param string $pathDir -> Ruta completa de la carpeta a eliminar
+     *
+     * @throws Exception -> Se lanza si la dirección no es una carpeta válida
+     *
+     * @return bool
+     */
+    public function deleteDir(string $pathDir): bool
+    {
+        if (!file_exists($pathDir)) {
+            return true;
+        }
+
+        if (!is_dir($pathDir)) {
+            throw new Exception('La dirección especificada no es una carpeta válida');
+        }
+
+        $files = glob($pathDir . '/*');
+        foreach ($files as $file) {
+            if (is_dir($file)) {
+                $this->deleteDir($file);
+            } else {
+                unlink($file); // Eliminar archivo
+            }
+        }
+
+        return rmdir($pathDir); // Eliminar carpeta vacía
     }
 }

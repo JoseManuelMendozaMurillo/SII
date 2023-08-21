@@ -6,11 +6,6 @@ use App\Controllers\BaseController;
 
 class Financieros extends BaseController
 {
-    public function hello()
-    {
-        echo 'Hello financieros';
-    }
-
     public function nuevosAspirantes()
     {
         $datos = ['nombreModulo' => 'Recursos Financieros'];

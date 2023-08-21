@@ -1,0 +1,81 @@
+{% block head %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Hope UI | Responsive Bootstrap 5 Admin Dashboard Template</title>
+
+    <link rel="stylesheet" href="css/styles.css" />
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{base_url('Vendor/Template/assets/images/favicon.ico')}}" />
+
+    <!-- Library / Plugin Css Build -->
+    <link rel="stylesheet" href="{{base_url('Vendor/Template/assets/css/core/libs.min.css')}}" />
+
+
+    <!-- Hope Ui Design System Css -->
+    <link rel="stylesheet" href="{{base_url('Vendor/Template/assets/css/hope-ui.min.css?v=2.0.0')}}" />
+
+    <!-- Custom Css -->
+    <link rel="stylesheet" href="{{base_url('Vendor/Template/assets/css/custom.min.css?v=2.0.0')}}" />
+
+    <!-- Dark Css -->
+    <link rel="stylesheet" href="{{base_url('Vendor/Template/assets/css/dark.min.css')}}" />
+
+    <!-- Customizer Css -->
+    <link rel="stylesheet" href="{{base_url('Vendor/Template/assets/css/customizer.min.css')}}" />
+
+    <!-- RTL Css -->
+    <link rel="stylesheet" href="{{base_url('Vendor/Template/assets/css/rtl.min.css')}}" />
+</head>
+
+<body class="bg-white" data-bs-spy="scroll" data-bs-target="#elements-section" data-bs-offset="0" tabindex="0">
+    <!-- loader Start -->
+    <div id="loading">
+        <div class="loader simple-loader">
+            <div class="loader-body"></div>
+        </div>
+    </div>
+    <!-- loader END -->
+    <header>
+        <div class="container pt-5">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-lg-4 text-start">
+                    <img src="{{base_url('Vendor/Template/assets/images/imagenescorrecaminos/tecnologiconacionalmexico.svg')}}"
+                        style="height: 150px; width: 300px;">
+                </div>
+                <div class=" col-lg-4 text-center">
+                    <img src="{{base_url('Vendor/Template/assets/images/imagenescorrecaminos/LOGO-SEP.svg')}}"
+                        style="height: 150px; width: 300px;">
+                </div>
+                <div class=" col-lg-4 text-end">
+                    <img class="img-fluid"
+                        src="{{base_url('Vendor/Template/assets/images/imagenescorrecaminos/TecOcotlán2.svg')}}"
+                        style="height: 150px; width: 200px;">
+                </div>
+
+            </div>
+        </div>
+    </header>
+    {% endblock %}
+    {% block user_info %}{% endblock %}
+    {% block user_info %}{% endblock%}
+    {% block content %}{% endblock %}
+    {% block social_media %}{% endblock %}
+    {% block footer %}
+    <footer>
+        <div class=" footer-banner">
+            <img src="path-to-banner.png" alt="Footer Banner" />
+        </div><br>
+        <img src="logo1.png" alt="Logo 1" />
+        <img src="logo2.png" alt="Logo 2" />
+        <img src="logo3.png" alt="Logo 3" />
+        <img src="logo4.png" alt="Logo 4" />
+    </footer>
+</body>
+
+</html>
+
+{% endblock %}
