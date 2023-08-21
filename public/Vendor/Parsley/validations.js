@@ -67,6 +67,10 @@ export function customValidation() {
           $input.attr('data-parsley-pattern', '^(?:100|[0-9]?[0-9](?:\\.[0-9]{1,2})?)$');
           $input.attr('data-parsley-error-message', 'Ingresa un promedio válido (por ejemplo, 95.5).');
           break;
+        case 'discapacidad':
+          $input.attr('data-parsley-pattern', '^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+(\\s[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+)*$');
+          $input.attr('data-parsley-error-message', 'Ingresa un valor valido (Sin numeros y/o caracteres especiales)');
+          break;
         default:
       }
     })
