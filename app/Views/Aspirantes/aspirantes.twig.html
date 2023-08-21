@@ -48,7 +48,10 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="flex-wrap d-flex justify-content-between align-items-center">
-                            <div>
+                            <div class="d-flex align-items-start me-5">
+                                <a class="btn btn-success" href="{{ base_url('auth/login') }}"> Regresar al inicio </a>
+                            </div>
+                            <div class="flex-grow-1">
                                 <h1>Instituto Tecnológico de Ocotlán</h1>
                                 <p>
                                     ¡Forma parte de nuestro plantel! Estamos encantados de
@@ -780,7 +783,7 @@
                                                             <div class="form-group">
                                                                 <label class="form-label">¿En su hogar cuentan con
                                                                     estufa de gas o eléctrica?: </label>
-                                                                <select type="text" class="form-control upper-case"
+                                                                <select type="text" class="form-select upper-case"
                                                                     name="estufa">
                                                                     <option value="0">SÍ</option>
                                                                     <option value="1">NO</option>
@@ -850,7 +853,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="row">
-                                                            <div class="col"><span><strong>Opcion de carrera:
+                                                            <div class="col"><span><strong>Opción de carrera:
                                                                     </strong></span></div>
                                                             <br>
                                                             <div class="col"><span class="text-success"> Ingeniería en
