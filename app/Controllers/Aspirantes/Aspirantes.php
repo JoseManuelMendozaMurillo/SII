@@ -3,7 +3,6 @@
 namespace App\Controllers\Aspirantes;
 
 use CodeIgniter\HTTP\Response;
-use App\Libraries\Files;
 use App\Entities\Aspirantes\Aspirante;
 use CodeIgniter\Shield\Entities\User;
 use App\Models\Aspirantes\UserModelAspirantes;
@@ -13,7 +12,10 @@ use CodeIgniter\Shield\Controllers\RegisterController;
 use CodeIgniter\HTTP\RedirectResponse;
 use App\Models\ServiciosEscolares\CarrerasModel;
 use App\Models\Aspirantes\AspiranteModel;
+use App\Libraries\Files;
 use App\Libraries\Thumbs;
+use App\Libraries\Emails;
+use CodeIgniter\Email\Email;
 use Exception;
 
 class Aspirantes extends RegisterController
@@ -109,7 +111,33 @@ class Aspirantes extends RegisterController
             $user = $this->createUserAspirante($newNoSolicitude, $newNip);
 
             // Guardamos los datos del aspirante
-            $this->insertDataAspirante($user, $newNoSolicitude, $newNip);
+            $dataAspirante = $this->insertDataAspirante($user, $newNoSolicitude, $newNip);
+
+            // Enviamos el correo con la informacion de inicio sesion al aspirante
+            // Obtención de datos para generar el correo
+            $carrerasModel = new CarrerasModel();
+            $idCarrera = $dataAspirante['carrera_primera_opcion'];
+            $pathPhoto = config('Paths')->accessPhotosAspirantes . '/' . $user->id . '/' . $dataAspirante['imagen'];
+            $dataEmail = [
+                'aspirante' => [
+                    'nombre' => $dataAspirante['nombre'],
+                    'apellidoPaterno' => $dataAspirante['apellido_paterno'],
+                    'apellidoMaterno' => $dataAspirante['apellido_materno'],
+                    'noSolicitude' => $newNoSolicitude,
+                    'nip' => $newNip,
+                    'foto' => $pathPhoto,
+                    'carrera' => $carrerasModel->getNameById($idCarrera),
+                    'anoIngreso' => date('Y'),
+                ],
+            ];
+            // Enviamos el correo
+            $emails = new Emails();
+            $addressee = $dataAspirante['email'];
+            $subject = '¡Felicidades por inscribirte al Tecnológico de Ocotlán!';
+            $htmlEmail = $this->twig->render('Correos/email', $dataEmail);
+            if (!$emails->sendHtmlEmail($addressee, $subject, $htmlEmail)) {
+                throw new Exception('Ha ocurrido un error al intentar enviar el correo');
+            }
 
             // Si todo está bien, confirmar la transacción
             $this->db->transCommit();
@@ -130,6 +158,36 @@ class Aspirantes extends RegisterController
             // Retornar vista de error en el back
             dd('Error: ' . $e->getMessage());
         }
+    }
+
+    public function sendEmail()
+    {
+        // Enviamos el correo con la informacion de inicio sesion al aspirante
+        // Obtención de datos para generar el correo
+        $carrerasModel = new CarrerasModel();
+        $idCarrera = '1';
+        $pathPhoto = config('Paths')->accessPhotosAspirantes . '/test.png';
+        $dataEmail = [
+            'aspirante' => [
+                'nombre' => 'Jose Manuel',
+                'apellidoPaterno' => 'Mendoza',
+                'apellidoMaterno' => 'Murillo',
+                'noSolicitude' => '0001',
+                'nip' => '4455',
+                'foto' => $pathPhoto,
+                'carrera' => $carrerasModel->getNameById($idCarrera),
+                'anoIngreso' => date('Y'),
+            ],
+        ];
+        // Enviamos el correo
+        $emails = new Emails();
+        $addressee = 'trokillox.x@gmail.com';
+        $subject = '¡Felicidades por inscribirte al Tecnológico de Ocotlán!';
+        $htmlEmail = $this->twig->render('Correos/email', $dataEmail);
+        if (!$emails->sendHtmlEmail($addressee, $subject, $htmlEmail)) {
+            dd('El correo no se envio');
+        }
+        $this->twig->display('Correos/email', $dataEmail);
     }
 
     /**
@@ -190,7 +248,7 @@ class Aspirantes extends RegisterController
     {
         // Nos aseguramos de solo recibir peticiones ajax
         if (!$this->request->isAJAX()) {
-            throw new Exception('No se encontro el recurso', 404);
+            throw new Exception('No se encontró el recurso', 404);
         }
 
         try {
@@ -355,9 +413,9 @@ class Aspirantes extends RegisterController
      *
      * @throws Exception -> Se lanza si los datos no se guardaron en la BD
      *
-     * @return void
+     * @return array $data -> Datos del aspirante insertados en la base de datos
      */
-    private function insertDataAspirante(User $user, string $noSolicitude, string $nip): void
+    private function insertDataAspirante(User $user, string $noSolicitude, string $nip): array
     {
         $namePhoto = $this->createThumbPhotoAspirante($user->id);
         // Creamos el arreglo de datos con la información del aspirante que se insertara
@@ -488,6 +546,8 @@ class Aspirantes extends RegisterController
         if (!$this->aspirantesModel->save($aspirante)) {
             throw new Exception('Hubo un error al intentar guardar los datos del aspirante en la base de datos');
         }
+
+        return $data;
     }
 
     /**

@@ -1,6 +1,9 @@
 {% extends "Correos/base_email.twig.html" %}
 
-{% block head %}{{parent()}}{% endblock %}
+{% block head %}
+{{parent()}}
+{% endblock %}
+
 {% block user_info %}
 <div class="tittle">
     <p style="text-align: right;">Instituto Tecnológico de Ocotlan.</p>
@@ -8,25 +11,25 @@
 </div>
 <div class="user_info">
     <div class="left-column">
-        <p>Nombre del aspirante: {{ aspirante.nombre }} {{ aspirante.apellido_paterno }} {{
-            aspirante.apellido_materno }}</p>
-        <p>Numero de solicitud: {{ aspirante.id_aspirante }}</p>
-        <p>NIP: {{ nip }}</p>
+        <p>Nombre del aspirante: {{ aspirante.nombre }} {{ aspirante.apellidoPaterno }} {{
+            aspirante.apellidoMaterno }}</p>
+        <p>Numero de solicitud: {{ aspirante.noSolicitude }}</p>
+        <p>NIP: {{ aspirante.nip }}</p>
     </div>
     <div class="right-column">
-        <img src="{{ aspirante.imagen }}" alt="Foto del aspirante">
+        <img src="{{ base_url(aspirante.foto) }}" alt="Foto del aspirante">
     </div>
 </div>
-
 {% endblock%}
+
 {% block content %}
 <div class="content">
     <p>
-        Estimado {{ aspirante.nombre }} {{ aspirante.apellido_paterno }} {{
-        aspirante.apellido_materno }}, Nos complace enormemente felicitarte por haber
+        Estimado {{ aspirante.nombre }} {{ aspirante.apellidoPaterno }}
+        {{ aspirante.apellidoMaterno }}, Nos complace enormemente felicitarte por haber
         tomado el paso valiente y determinante de inscribirte como aspirante a
         la carrera de {{ aspirante.carrera }} en el Instituto Tecnológico de Ocotlán para
-        el año {{ aspirante.ano_egreso }}. Tu compromiso con la educación y tu deseo de
+        el año {{ aspirante.anoIngreso }}. Tu compromiso con la educación y tu deseo de
         perseguir una formación superior en esta área tan crucial son
         admirables. <br />
         Te alentamos a que sigas comprometido con tus objetivos educativos y a
@@ -83,4 +86,6 @@
 </p>
 {% endblock %}
 
-{% block footer %}{{parent()}}{% endblock %}
+{% block footer %}
+{{parent()}}
+{% endblock %}
