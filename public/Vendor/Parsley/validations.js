@@ -14,7 +14,7 @@ export function customValidation() {
           break;
         case 'password':
           $input.attr('data-parsley-minlength','8');
-          $input.attr('data-parsley-minlength-message','La contrasenia debe tener al menos 8 caracteres');
+          $input.attr('data-parsley-minlength-message','La contraseña debe tener al menos 8 caracteres');
           break;
         case 'curp':
           $input.attr('data-parsley-length', '[18, 18]');
@@ -43,7 +43,6 @@ export function customValidation() {
           $input.attr('data-parsley-pattern', '^[0-9]{5}$');
           $input.attr('data-parsley-error-message','Ingresa un código postal válido de 5 dígitos.');
           break;
-        default:
         case 'col':
           $input.attr('data-parsley-pattern', '^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\\.]+(\\s+[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+\\.?)*$');
           $input.attr('data-parsley-error-message','Ingresa una colonia válida.');
@@ -52,11 +51,23 @@ export function customValidation() {
           $input.attr('data-parsley-pattern', '^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9\\.]+(\\s[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9]+)*$');
           $input.attr('data-parsley-error-message', 'Ingresa una calle válida.');
           break;
-          case 'num':
-            $input.attr('data-parsley-pattern', '^\\d+(?:[a-zA-Z]{1,2})?$');
-            $input.attr('data-parsley-error-message', 'Ingresa un valor válido (números con opcionalmente una o dos letras al final).');
-            break;
-          
+        case 'num':
+          $input.attr('data-parsley-pattern', '^\\d+(?:[a-zA-Z]{1,2})?$');
+          $input.attr('data-parsley-error-message', 'Ingresa un valor válido (números con opcionalmente una o dos letras al final).');
+          break;
+        case 'entreCalles':
+          $input.attr('data-parsley-pattern', '^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9\\.]+(\\s[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9]+\\.*)*$');
+          $input.attr('data-parsley-error-message', 'Ingresa un valor válido (opcionalmente números y puntos al final de cada palabra).');
+          break;
+        case 'egreso':
+          $input.attr('data-parsley-pattern', '^[0-9]{4}$');
+          $input.attr('data-parsley-error-message', 'Ingresa un año válido (formato: YYYY).');
+          break;
+        case 'promedio':
+          $input.attr('data-parsley-pattern', '^(?:100|[0-9]?[0-9](?:\\.[0-9]{1,2})?)$');
+          $input.attr('data-parsley-error-message', 'Ingresa un promedio válido (por ejemplo, 95.5).');
+          break;
+        default:
       }
     })
   }
