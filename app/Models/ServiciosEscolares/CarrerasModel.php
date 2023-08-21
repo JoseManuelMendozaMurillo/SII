@@ -56,4 +56,21 @@ class CarrerasModel extends Model
     protected $afterFind = [];
     protected $beforeDelete = [];
     protected $afterDelete = [];
+
+    /**
+     * getNameById
+     * Funcion que devuelve el nombre de una carrera que coincida con un id dado
+     *
+     * @param string $idCarrera = null -> Id de la carrera a buscar
+     */
+    public function getNameById(string $idCarrera)
+    {
+        $nameCarrera = $this->select('nombre_carrera')->where($this->primaryKey, $idCarrera)->first();
+
+        if ($nameCarrera == null) {
+            return null;
+        }
+
+        return $nameCarrera['nombre_carrera'];
+    }
 }

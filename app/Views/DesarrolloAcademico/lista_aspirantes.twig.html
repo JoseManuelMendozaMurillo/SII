@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<div class="conatiner-fluid mt-n5 py-0 ">
+<div class="conatiner-fluid content-inner mt-n5 py-0 ">
     <div>
         <div class="row">
 
@@ -73,78 +73,80 @@
             </div>
 
         </div>
-    </div>
-</div>
 
-<!-- Tarjeta de Aspirantes que han hecho su pago-->
-<div class="conatiner-fluid ">
-    <div>
-        <div class="row">
-
-            <div class="col-lg-12">
-                <div class="card" style="border-radius: 10px; box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.082);">
-                    <div class="card-body">
-                        <h5 class="card-title">Aspirantes que han hecho su pago</h5>
-                        <!-- Barra de búsqueda y filtro -->
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div class="d-flex">
-                                <div class="input-group me-2">
-                                    <input id="searchInput" type="text" class="form-control" placeholder="Buscar">
-                                    <select id="filterSelect" class="form-select">
-                                        <option value="numero_solicitud">Número de Solicitud</option>
-                                        <option value="nombre">Nombre</option>
-                                    </select>
-                                    <button id="searchButton" class="btn btn-primary">Buscar</button>
+        <!-- Tarjeta de Aspirantes que han hecho su pago-->
+        <div class=" ">
+            <div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card"
+                            style="border-radius: 10px; box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.082);">
+                            <div class="card-body">
+                                <h5 class="card-title">Aspirantes que han hecho su pago</h5>
+                                <!-- Barra de búsqueda y filtro -->
+                                <div class="row mb-3">
+                                    <div class="col-lg-6 d-flex p-2">
+                                        <div class="input-group me-2">
+                                            <input id="searchInput" type="text" class="form-control"
+                                                placeholder="Buscar">
+                                            <select id="filterSelect" class="form-select">
+                                                <option value="numero_solicitud">Número de Solicitud</option>
+                                                <option value="nombre">Nombre</option>
+                                            </select>
+                                            <button id="searchButton" class="btn btn-primary">Buscar</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 text-end p-2">
+                                        <button class="btn btn-primary">Imprimir toda la lista</button>
+                                    </div>
                                 </div>
-                            </div>
-                            <div>
-                                <button class="btn btn-secondary">Imprimir toda la lista</button>
-                            </div>
-                        </div>
 
-                        <!-- Tabla de datos -->
-                        <table id="dataTable" class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Número de Solicitud</th>
-                                    <th>Nombre</th>
-                                    <th>Correo Electrónico</th>
-                                    <th>Imprimir Información</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for aspirante in aspirantes %}
-                                <tr>
-                                    <td>{{ aspirante.user_id }}</td>
-                                    <td>{{ aspirante.nombre }} {{ aspirante.apellido_paterno }} {{
-                                        aspirante.apellido_materno }}</td>
-                                    <td>{{ aspirante.email }}</td>
-                                    <td><a href="#" class="btn btn-secondary">
-                                            <svg class="icon-20" xmlns="http://www.w3.org/2000/svg" width="20px"
-                                                viewBox="0 0 20 20" fill="currentColor">
-                                                <path
-                                                    d="M15.5 18H4.5C3.67157 18 3 17.3284 3 16.5V7.5C3 6.67157 3.67157 6 4.5 6H5.5V3.5C5.5 2.67157 6.17157 2 7 2H13C13.8284 2 14.5 2.67157 14.5 3.5V6H15.5C16.3284 6 17 6.67157 17 7.5V16.5C17 17.3284 16.3284 18 15.5 18ZM6.5 16V7H13.5V16H6.5ZM15 3.5C15 3.22386 14.7761 3 14.5 3H5.5C5.22386 3 5 3.22386 5 3.5V6H15V3.5ZM14.5 7C15.3284 7 16 7.67157 16 8.5V15.5C16 16.3284 15.3284 17 14.5 17H5.5C4.67157 17 4 16.3284 4 15.5V8.5C4 7.67157 4.67157 7 5.5 7H14.5Z" />
-                                                <path d="M6 11H10V15H6V11Z" />
-                                            </svg>
-                                        </a></td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-
-                        <!-- Paginación -->
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <select class="form-select">
-                                    <option value="10">Mostrar 10 registros</option>
-                                    <option value="20">Mostrar 20 registros</option>
-                                </select>
-                            </div>
-                            <div>
-                                <button class="btn btn-secondary">Anterior</button>
-                                <button class="btn btn-secondary">1</button>
-                                <!-- Más botones de paginación aquí -->
-                                <button class="btn btn-secondary">Siguiente</button>
+                                <div class="table-responsive">
+                                    <!-- Tabla de datos -->
+                                    <table id="datatable_wrapper" class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Número de Solicitud</th>
+                                                <th>Nombre</th>
+                                                <th>Correo Electrónico</th>
+                                                <th>Imprimir Información</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for aspirante in aspirantes %}
+                                            <tr>
+                                                <td>{{ aspirante.user_id }}</td>
+                                                <td>{{ aspirante.nombre }} {{ aspirante.apellido_paterno }} {{
+                                                    aspirante.apellido_materno }}</td>
+                                                <td>{{ aspirante.email }}</td>
+                                                <td><a href="#" class="btn btn-secondary">
+                                                        <svg class="icon-20" xmlns="http://www.w3.org/2000/svg"
+                                                            width="20px" viewBox="0 0 20 20" fill="currentColor">
+                                                            <path
+                                                                d="M15.5 18H4.5C3.67157 18 3 17.3284 3 16.5V7.5C3 6.67157 3.67157 6 4.5 6H5.5V3.5C5.5 2.67157 6.17157 2 7 2H13C13.8284 2 14.5 2.67157 14.5 3.5V6H15.5C16.3284 6 17 6.67157 17 7.5V16.5C17 17.3284 16.3284 18 15.5 18ZM6.5 16V7H13.5V16H6.5ZM15 3.5C15 3.22386 14.7761 3 14.5 3H5.5C5.22386 3 5 3.22386 5 3.5V6H15V3.5ZM14.5 7C15.3284 7 16 7.67157 16 8.5V15.5C16 16.3284 15.3284 17 14.5 17H5.5C4.67157 17 4 16.3284 4 15.5V8.5C4 7.67157 4.67157 7 5.5 7H14.5Z" />
+                                                            <path d="M6 11H10V15H6V11Z" />
+                                                        </svg>
+                                                    </a></td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- Paginación -->
+                                <div class="row d-flex">
+                                    <div class="col-lg-6 p-2">
+                                        <select class="form-select">
+                                            <option value="10">Mostrar 10 registros</option>
+                                            <option value="20">Mostrar 20 registros</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-6 text-end p-2">
+                                        <button class="btn btn-secondary">Anterior</button>
+                                        <button class="btn btn-secondary">1</button>
+                                        <!-- Más botones de paginación aquí -->
+                                        <button class="btn btn-secondary ">Siguiente</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

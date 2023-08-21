@@ -1,0 +1,91 @@
+{% extends "Correos/base_email.twig.html" %}
+
+{% block head %}
+{{parent()}}
+{% endblock %}
+
+{% block user_info %}
+<div class="tittle">
+    <p style="text-align: right;">Instituto Tecnológico de Ocotlan.</p>
+    <p style="text-align: center; font: 18px/22px;">ASPIRANTE</p>
+</div>
+<div class="user_info">
+    <div class="left-column">
+        <p>Nombre del aspirante: {{ aspirante.nombre }} {{ aspirante.apellidoPaterno }} {{
+            aspirante.apellidoMaterno }}</p>
+        <p>Numero de solicitud: {{ aspirante.noSolicitude }}</p>
+        <p>NIP: {{ aspirante.nip }}</p>
+    </div>
+    <div class="right-column">
+        <img src="{{ base_url(aspirante.foto) }}" alt="Foto del aspirante">
+    </div>
+</div>
+{% endblock%}
+
+{% block content %}
+<div class="content">
+    <p>
+        Estimado {{ aspirante.nombre }} {{ aspirante.apellidoPaterno }}
+        {{ aspirante.apellidoMaterno }}, Nos complace enormemente felicitarte por haber
+        tomado el paso valiente y determinante de inscribirte como aspirante a
+        la carrera de {{ aspirante.carrera }} en el Instituto Tecnológico de Ocotlán para
+        el año {{ aspirante.anoIngreso }}. Tu compromiso con la educación y tu deseo de
+        perseguir una formación superior en esta área tan crucial son
+        admirables. <br />
+        Te alentamos a que sigas comprometido con tus objetivos educativos y a
+        que aproveches al máximo todas las oportunidades que te ofrece el
+        Instituto Tecnológico de Ocotlán. Estamos seguros de que tu dedicación y
+        esfuerzo te llevarán a alcanzar grandes logros en tu trayectoria
+        académica y en tu futura carrera. <br />Una vez más, enhorabuena por dar
+        este importante paso en tu camino hacia la excelencia educativa en el
+        campo de la ingeniería. Te deseamos todo el éxito en tu proceso de
+        admisión y esperamos verte prosperar en esta nueva etapa de tu vida.
+    </p>
+    <p style="font: normal normal bold;">ATENTAMENTE</p>
+    Excelencia en Educación Tecnológica
+    <p style="font: normal normal 300;">
+        "Unidos con Espiritu de Triunfo y Tecnológica Propia."
+    </p>
+</div>
+{% endblock %}
+
+{% block social_media %}
+<div class="social_media">
+    <div class="left-column">
+        <p>Únete al grupo de WhatsApp</p>
+        <a href="https://www.google.com/">
+            <img src="img/whatsapp-logo.png" alt="WhatsApp Logo" /></a>
+    </div>
+    <div class="right-column">
+        <p>Únete a nuestras redes sociales</p>
+        <div class="social-icons">
+            <a href="https://www.facebook.com/InstitutoTecnologicodeOcotlanOFICIAL">
+                <img src="img/facebook.svg" alt="" /></a>
+        </div>
+        <div class="social-icons">
+            <a href="https://www.instagram.com/tecnmcampusocotlan/">
+                <img src="img/instagram.svg" alt="" /></a>
+        </div>
+        <div class="social-icons">
+            <a href="https://www.linkedin.com/in/tecnm-campus-ocotl%C3%A1n-ito-a7b163214/">
+                <img src="img/linkedin.svg" alt="" /></a>
+        </div>
+        <div class="social-icons">
+            <a href="https://www.tiktok.com/@tecnmcampusocotlan">
+                <img src="img/tiktok.svg" alt="" /></a>
+        </div>
+        <div class="social-icons">
+            <a href="https://twitter.com/TECOcotlan">
+                <img src="img/twitter.svg" alt="" /></a>
+        </div>
+    </div>
+</div>
+<p style="font: normal normal normal 10px/14px Segoe UI;">
+    Si tienes alguna duda escríbenos:<br />
+    Correo: tecocotlan@itococotlan.org.mx WhatsApp: 56-3388-9253
+</p>
+{% endblock %}
+
+{% block footer %}
+{{parent()}}
+{% endblock %}

@@ -108,7 +108,7 @@ class AspiranteModel extends Model
 
     /**
      * save
-     * Función para guardar todos los datos de un aspirante en ambas tamblas
+     * Función para guardar todos los datos de un aspirante en ambas tablas
      *
      */
     public function save($data = null, bool $validate = true): bool
@@ -188,5 +188,88 @@ class AspiranteModel extends Model
         }
 
         return $aspirante;
+    }
+
+    /**
+     * getByStatusPayment
+     * Funcion para obtener el los datos de los aspirantes que YA realizarón su pago ($statusPayment = true)
+     * o los datos de los aspirantes que NO han realizado su pago ($statusPayment = false)
+     *
+     * @param bool $statusPayment -> Parametro que controla si se obtienen los aspirantes que ya realizarón
+     *                            su pago (true) o los aspirantes que aun no realizan su pago (false)
+     *
+     * @return array $result -> Datos de los aspirantes
+     */
+    public function getByStatusPayment(bool $statusPayment): array
+    {
+        // Creamos la consulta para obtener los datos necesarios de la base de datos
+        $getData = $this->select('id_aspirante, user_id, curp, no_solicitud, imagen, apellido_paterno, 
+                                apellido_materno, nombre, email')
+                      ->where('status_pago', $statusPayment);
+
+        // Ejecutamos la consulta
+        $data = $getData->get()->getResultArray();
+
+        // Transformamos algunos datos para crear el resultado
+        $pathPhotos = config('Paths')->photoAspiranteDirectory . '/';
+        $result = [];
+        foreach ($data as $aspirante) {
+            $name = implode(' ', [$aspirante['nombre'],
+                $aspirante['apellido_paterno'],
+                $aspirante['apellido_materno']]);
+            $result[] = [
+                'id' => $aspirante['id_aspirante'],
+                'noSolicitude' => $aspirante['no_solicitud'],
+                'name' => $name,
+                'pathPhotos' => $pathPhotos . $aspirante['user_id'],
+                'photo' => $aspirante['imagen'],
+                'curp' => $aspirante['curp'],
+                'email' => $aspirante['email'],
+            ];
+        }
+        $result['totalAspirantes'] = count($data);
+
+        return $result; // Retorna el resultado
+    }
+
+    /**
+     * countByStatusPayment
+     * Funcion para obtener el número de aspirantes que YA realizarón su pago ($statusPayment = true)
+     * o el número de aspirantes que NO han realizado su pago ($statusPayment = false)
+     *
+     * @param bool $statusPayment -> Parametro que controla si se cuentan los aspirantes que ya realizarón
+     *                            su pago (true) o los aspirantes que aun no realizan su pago (false)
+     *
+     * @return int $numAspirantes -> Número de aspirantes
+     */
+    public function countByStatusPayment(bool $statusPayment): int
+    {
+        $query = $this->selectCount('id_aspirante')->where('status_pago', $statusPayment);
+
+        $result = $query->get()->getResult();
+
+        if (!empty($result) && isset($result[0]->id_aspirante)) {
+            return intval($result[0]->id_aspirante);
+        }
+
+        return 0; // Si no hay resultados, retornar 0
+    }
+
+    /**
+     * changeStatusPayment
+     * Funcion para actualizar el estatus del pago de un aspirante mediante su id
+     *
+     * @param string $idAspirante -> Id del aspirante al cual se le quiere actualizar el estatus del pago
+     * @param bool   $status      -> Estado del pago del aspirante (true -> pagado, false -> pago pendiente).
+     *                            Por defecto true
+     *
+     * @return bool $status -> Retorna true si el cambio de estatus fue exitoso, de lo contrario false
+     */
+    public function changeStatusPayment(string $idAspirante, bool $status = true): bool
+    {
+        // Actualizamos el estado del pago
+        return $this->update($idAspirante, [
+            'status_pago' => $status,
+        ]);
     }
 }

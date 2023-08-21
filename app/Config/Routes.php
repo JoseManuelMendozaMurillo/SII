@@ -53,8 +53,9 @@ $routes->group(
     function ($routes) {
         $routes->get('registro', 'Aspirantes::formRegister');
         $routes->post('insert', 'Aspirantes::post');
-        $routes->get('new', 'Aspirantes::new');
-        $routes->get('delete/(:num)', 'Aspirantes::deleteAspirante/$1');
+        $routes->get('send-email', 'Aspirantes::sendEmail'); // Ruta de prueba
+        $routes->get('delete/(:num)', 'Aspirantes::delete/$1'); // Esta ruta no debe ser publica
+        $routes->post('change-status-payment', 'Aspirantes::changeStatusPayment'); // Esta ruta no debe ser publica
         $routes->group(
             '',
             ['namespace' => 'App\Controllers\Aspirantes',

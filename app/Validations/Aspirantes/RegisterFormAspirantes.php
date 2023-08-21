@@ -91,4 +91,31 @@ class RegisterFormAspirantes
         'automobilesHouse' => 'required|numeric',
         'stoveHouse' => 'required',
     ];
+
+    public function boolean(string $str, string $fields, array $data): bool
+    {
+        return filter_var($data['status'], FILTER_VALIDATE_BOOLEAN);
+    }
+
+    /**
+     * Reglas de validacion para cambiar el estatus de pago de un aspirante
+     *
+     * @var array $rulesChageStatusPaymentAspirante
+     */
+    public array $rulesChageStatusPaymentAspirante = [
+        'idAspirante' => [
+            'rules' => 'required|numeric|is_not_unique[aspirantes.id_aspirante]', //campo de prueba
+            'errors' => [
+                'required' => 'El id del aspirante es requerido',
+                'numeric' => 'El id del aspirante solo puede contener números',
+                'is_not_unique' => 'El id del aspirante no existe',
+            ],
+        ],
+        'status' => [
+            'rules' => 'validBool[status]',
+            'errors' => [
+                'validBool' => 'El campo status debe ser booleano',
+            ],
+        ],
+    ];
 }

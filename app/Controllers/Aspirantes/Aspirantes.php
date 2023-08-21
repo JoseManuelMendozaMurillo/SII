@@ -2,7 +2,7 @@
 
 namespace App\Controllers\Aspirantes;
 
-use App\Libraries\Files;
+use CodeIgniter\HTTP\Response;
 use App\Entities\Aspirantes\Aspirante;
 use CodeIgniter\Shield\Entities\User;
 use App\Models\Aspirantes\UserModelAspirantes;
@@ -12,7 +12,10 @@ use CodeIgniter\Shield\Controllers\RegisterController;
 use CodeIgniter\HTTP\RedirectResponse;
 use App\Models\ServiciosEscolares\CarrerasModel;
 use App\Models\Aspirantes\AspiranteModel;
+use App\Libraries\Files;
 use App\Libraries\Thumbs;
+use App\Libraries\Emails;
+use CodeIgniter\Email\Email;
 use Exception;
 
 class Aspirantes extends RegisterController
@@ -73,6 +76,7 @@ class Aspirantes extends RegisterController
             'ocupaciones' => $this->db->table('ocupaciones')->get()->getResultArray(),
             'propiedadVivienda' => $this->db->table('propiedad_vivienda')->get()->getResultArray(),
             'tipoPiso' => $this->db->table('tipos_piso')->get()->getResultArray(),
+            // Agregar el catalogo de estado civil
         ];
 
         return $this->twig->display('Aspirantes/aspirantes', $data);
@@ -84,16 +88,13 @@ class Aspirantes extends RegisterController
      *
      * @return RedirectResponse
      */
-    public function post()
+    public function post(): RedirectResponse
     {
         // Validamos el formulario
         $dataAspirante = $this->request->getPost();
         if (!$this->validation->run($dataAspirante, 'registerFormAspirantes')) {
-            //dd($this->validation->getErrors());
-
             return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
         }
-        //dd('Paso validaciones');
 
         // Iniciamos una transaccion para crear el nuevo registro
         $this->db->transStart();
@@ -110,7 +111,33 @@ class Aspirantes extends RegisterController
             $user = $this->createUserAspirante($newNoSolicitude, $newNip);
 
             // Guardamos los datos del aspirante
-            $this->insertDataAspirante($user, $newNoSolicitude, $newNip);
+            $dataAspirante = $this->insertDataAspirante($user, $newNoSolicitude, $newNip);
+
+            // Enviamos el correo con la informacion de inicio sesion al aspirante
+            // Obtención de datos para generar el correo
+            $carrerasModel = new CarrerasModel();
+            $idCarrera = $dataAspirante['carrera_primera_opcion'];
+            $pathPhoto = config('Paths')->accessPhotosAspirantes . '/' . $user->id . '/' . $dataAspirante['imagen'];
+            $dataEmail = [
+                'aspirante' => [
+                    'nombre' => $dataAspirante['nombre'],
+                    'apellidoPaterno' => $dataAspirante['apellido_paterno'],
+                    'apellidoMaterno' => $dataAspirante['apellido_materno'],
+                    'noSolicitude' => $newNoSolicitude,
+                    'nip' => $newNip,
+                    'foto' => $pathPhoto,
+                    'carrera' => $carrerasModel->getNameById($idCarrera),
+                    'anoIngreso' => date('Y'),
+                ],
+            ];
+            // Enviamos el correo
+            $emails = new Emails();
+            $addressee = $dataAspirante['email'];
+            $subject = '¡Felicidades por inscribirte al Tecnológico de Ocotlán!';
+            $htmlEmail = $this->twig->render('Correos/email', $dataEmail);
+            if (!$emails->sendHtmlEmail($addressee, $subject, $htmlEmail)) {
+                throw new Exception('Ha ocurrido un error al intentar enviar el correo');
+            }
 
             // Si todo está bien, confirmar la transacción
             $this->db->transCommit();
@@ -130,6 +157,124 @@ class Aspirantes extends RegisterController
             }
             // Retornar vista de error en el back
             dd('Error: ' . $e->getMessage());
+        }
+    }
+
+    public function sendEmail()
+    {
+        // Enviamos el correo con la informacion de inicio sesion al aspirante
+        // Obtención de datos para generar el correo
+        $carrerasModel = new CarrerasModel();
+        $idCarrera = '1';
+        $pathPhoto = config('Paths')->accessPhotosAspirantes . '/test.png';
+        $dataEmail = [
+            'aspirante' => [
+                'nombre' => 'Jose Manuel',
+                'apellidoPaterno' => 'Mendoza',
+                'apellidoMaterno' => 'Murillo',
+                'noSolicitude' => '0001',
+                'nip' => '4455',
+                'foto' => $pathPhoto,
+                'carrera' => $carrerasModel->getNameById($idCarrera),
+                'anoIngreso' => date('Y'),
+            ],
+        ];
+        // Enviamos el correo
+        $emails = new Emails();
+        $addressee = 'trokillox.x@gmail.com';
+        $subject = '¡Felicidades por inscribirte al Tecnológico de Ocotlán!';
+        $htmlEmail = $this->twig->render('Correos/email', $dataEmail);
+        if (!$emails->sendHtmlEmail($addressee, $subject, $htmlEmail)) {
+            dd('El correo no se envio');
+        }
+        $this->twig->display('Correos/email', $dataEmail);
+    }
+
+    /**
+     * delete
+     * Función para eliminar de manera lógica a un aspirante
+     *
+     * @param string $userId -> Id de usuario del aspirante a eliminar
+     *
+     * @return void
+     */
+    public function delete(string $userId): void
+    {
+        // Iniciamos una transacción
+        $this->db->transStart();
+
+        try {
+            $users = auth()->getProvider();
+
+            //Borrar el aspirante de la BD
+            $aspirante = $this->aspirantesModel->where('user_id', $userId)->first();
+            $this->aspirantesModel->delete($aspirante->id_aspirante);
+
+            if (!$users->delete($userId)) {
+                throw new Exception('Hubo un error al intentar eliminar al aspirante de las tablas de usuarios');
+            }
+
+            // Si todo salio bien, confirmamos la transacción
+            $this->db->transCommit();
+
+            // Retornamos vista de exito
+            d('Aspirante eliminado');
+        } catch (Exception $e) {
+            // Hacemos un rollback para no romper la integridad de los datos
+            $this->db->transRollback();
+
+            // Mostrar la vista de error en el back
+            dd('Error: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * changeStatusPayment
+     * Función AJAX para cambiar el estatus del pago de un aspirante mendiante su id, el estatus del pago
+     * cambia a pagado (true) por defecto, pero si se configura el parametro $status en false, el status
+     * de pago del aspirante cambia a pago pendiente (false)
+     *
+     * @param string $idAspirante -> Id del aspirante a actualizar
+     * @param bool   $status      -> Nuevo estatus de pago del aspirante (true -> pagado, false -> pago pendiente).
+     *                            Por defecto es true
+     *
+     * @throws Exception -> Se lanza si los parametros no pasan la validación
+     *                   -> Se lanza si la petición post no es de tipo AJAX
+     *                   -> Se lanza si hay un error al intentar actualizar el estatus de pago
+     *
+     * @return Response -> Respuesta de la peticion AJAX
+     */
+    public function changeStatusPayment(): Response
+    {
+        // Nos aseguramos de solo recibir peticiones ajax
+        if (!$this->request->isAJAX()) {
+            throw new Exception('No se encontró el recurso', 404);
+        }
+
+        try {
+            // Validacion de datos
+            $data = $this->request->getPost();
+            if (!$this->validation->run($data, 'rulesChageStatusPaymentAspirante')) {
+                $errors = $this->validation->getErrors();
+
+                throw new Exception($errors[array_key_first($errors)], 400);
+            }
+
+            // Obtenemos los datos para actualizar el estatus de pago
+            $idAspirante = (string) $this->request->getPost('idAspirante');
+            $status = $this->request->getPost('status') != null
+                                            ? filter_var($this->request->getPost('status'), FILTER_VALIDATE_BOOLEAN)
+                                            : true;
+
+            // Actualizamos el estatus de pago
+            if (!$this->aspirantesModel->changeStatusPayment($idAspirante, $status)) {
+                // Si hay un error, lanzamos una excepcion
+                throw new Exception('Hubo un error al intentar actualizar el registro', 500);
+            }
+
+            return $this->response->setStatusCode(200);
+        } catch (Exception $e) {
+            return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
         }
     }
 
@@ -267,8 +412,10 @@ class Aspirantes extends RegisterController
      * @param string $nip          -> Nip del aspirante
      *
      * @throws Exception -> Se lanza si los datos no se guardaron en la BD
+     *
+     * @return array $data -> Datos del aspirante insertados en la base de datos
      */
-    private function insertDataAspirante(User $user, string $noSolicitude, string $nip)
+    private function insertDataAspirante(User $user, string $noSolicitude, string $nip): array
     {
         $namePhoto = $this->createThumbPhotoAspirante($user->id);
         // Creamos el arreglo de datos con la información del aspirante que se insertara
@@ -399,6 +546,8 @@ class Aspirantes extends RegisterController
         if (!$this->aspirantesModel->save($aspirante)) {
             throw new Exception('Hubo un error al intentar guardar los datos del aspirante en la base de datos');
         }
+
+        return $data;
     }
 
     /**
@@ -412,7 +561,7 @@ class Aspirantes extends RegisterController
      *
      * @return string $fullNamePhoto -> Retorna el nombre de la foto junto con la extension de la imagen
      */
-    private function createThumbPhotoAspirante(string $userId)
+    private function createThumbPhotoAspirante(string $userId): string
     {
         // Obtenemos el archivo
         $photoAspirante = $this->request->getFile('foto');
@@ -435,24 +584,6 @@ class Aspirantes extends RegisterController
         }
 
         return $namePhoto . '.' . $typePhoto;
-    }
-
-    public function deleteAspirante($id)
-    {
-        $users = auth()->getProvider();
-
-        //Borrar el aspirante de la BD
-        $aspirante = $this->aspirantesModel->where('user_id', $id)->first();
-        $this->aspirantesModel->delete($aspirante->id_aspirante, true);
-
-        $files = new Files();
-        $pathPhoto = config('Paths')->photoAspiranteDirectory . '/' . $id . '/';
-        $files->deleteDir($pathPhoto);
-        if ($users->delete($id, true)) {
-            dd('Aspirante eliminado');
-        } else {
-            dd('Error al eliminar el aspirante');
-        }
     }
 
     /**
