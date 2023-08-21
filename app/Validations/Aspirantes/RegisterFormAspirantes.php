@@ -55,7 +55,12 @@ class RegisterFormAspirantes
         'guardianState' => 'required',
         'guardianIndigenousCommunity' => 'required',
         'guardianBloodType' => 'required',
-        'guardianDisability' => 'required',
+        'discapacidad' => [
+            'rules' => 'required',
+            'errors' => [
+                'required' => 'Este campo es requerido',
+            ],
+        ],
         'guardianIndigenousLanguage' => 'required',
         'guardianPhone' => 'required|numeric',
 
