@@ -15,8 +15,9 @@ use App\Models\Aspirantes\AspiranteModel;
 use App\Libraries\Files;
 use App\Libraries\Thumbs;
 use App\Libraries\Emails;
-use CodeIgniter\Email\Email;
 use Exception;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class Aspirantes extends RegisterController
 {
@@ -29,6 +30,37 @@ class Aspirantes extends RegisterController
         $this->aspirantesModel = new AspiranteModel();
         $this->tables = config('Auth')->tables;
         $this->db = db_connect();
+    }
+
+    public function pdf()
+    {
+        $options = new Options();
+        $options->setChroot(FCPATH);
+        $options->setDefaultFont('Inter');
+        $options->setIsRemoteEnabled(true);
+
+        $fullName = 'Jose Manuel Mendoza Murillo';
+        $pathPhoto = config('Paths')->accessPhotosAspirantes . '/' . 'test.png';
+        $html = $this->twig->render('Aspirantes/pdf_templates/pdf_aspirantes', [
+            'fullName' => $fullName,
+            'curp' => 'PEGJ850315HJCRRN07',
+            'noSolicitude' => '0001',
+            'nip' => '3654',
+            'firstOption' => 'Ingeniería en Sistemas Computacionales',
+            'pathPhoto' => $pathPhoto,
+        ]);
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($html);
+        $dompdf->render();
+
+        $pdfContent = $dompdf->output();
+        $fileName = 'Pruebas.pdf';
+
+        // Enviar la respuesta al cliente
+        return $this->response->setStatusCode(200)
+                              ->setBody($pdfContent)
+                              ->setHeader('Content-Type', 'application/pdf')
+                              ->setHeader('Content-Disposition', 'inline; filename="' . $fileName . '"');
     }
 
     /**
