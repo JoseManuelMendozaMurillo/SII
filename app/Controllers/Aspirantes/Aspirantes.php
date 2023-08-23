@@ -470,7 +470,7 @@ class Aspirantes extends RegisterController
             'escuela_procedencia' => $this->request->getPost('nombreEscuela'),
             'estado_escuela' => $this->request->getPost('estadoEscuela'),
             'municipio_escuela' => $this->request->getPost('municipioEscuela'),
-            'ano_egreso' => $this->request->getPost('anoEgreso'),
+            'ano_egreso' => $this->request->getPost('anioEgreso'),
             'promedio_general' => $this->request->getPost('promedio'),
             'carrera_primera_opcion' => $this->request->getPost('primeraOpcionIngreso'),
             'carrera_segunda_opcion' => $this->request->getPost('segundaOpcionIngreso'),
@@ -482,6 +482,8 @@ class Aspirantes extends RegisterController
             'calle_domicilio' => $this->request->getPost('calle'),
             'no_exterior' => $this->request->getPost('numExterior'),
             'no_interior' => $this->request->getPost('numInterior'),
+            'letra_exterior' => $this->request->getPost('letraExterior'),
+            'letra_interior' => $this->request->getPost('letraInterior'),
             'letra_exterior' => 'A', // Se deben agregar al form estos campos
             'letra_interior' => null, // Se deben agregar al form estos campos
             'colonia' => $this->request->getPost('colonia'),
