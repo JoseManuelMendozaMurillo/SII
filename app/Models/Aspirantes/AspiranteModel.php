@@ -5,6 +5,7 @@ namespace App\Models\Aspirantes;
 use App\Entities\Aspirantes\Aspirante;
 use App\Models\Aspirantes\ComplementAspiranteModel;
 use CodeIgniter\Model;
+use Exception;
 
 class AspiranteModel extends Model
 {
@@ -20,7 +21,7 @@ class AspiranteModel extends Model
         'user_id',
         'no_solicitud',
         'nip',
-        'status_pago',
+        'estatus_pago',
         'imagen',
         'curp',
         'apellido_paterno',
@@ -69,41 +70,6 @@ class AspiranteModel extends Model
     protected function initialize()
     {
         $this->complementAspiranteModel = new ComplementAspiranteModel();
-    }
-
-    /**
-     * getLastNoSolicutude
-     * Funcion para obtener el ultimo número de solicutud registrado
-     *
-     * @return string
-     */
-    public function getLastNoSolicutude(): string
-    {
-        // Construimos y ejecutamos la consulta
-        $query = $this->select('no_solicitud')
-                  ->where($this->deletedField, null)
-                  ->orderBy('user_id', 'desc')
-                  ->limit(1);
-
-        $result = $query->get();
-
-        // Si existe un número de solicutud lo retornamos, si no existe retornamos cero
-        if ($result !== false && $result->getNumRows() > 0) {
-            return $result->getRow()->no_solicitud;
-        } else {
-            return '0';
-        }
-    }
-
-    /**
-     * getListNips
-     * Funcion para obtener una lista con todos los nips
-     *
-     * @return array
-     */
-    public function getListNips(): array
-    {
-        return $this->select('nip')->get()->getResultArray();
     }
 
     /**
@@ -191,6 +157,41 @@ class AspiranteModel extends Model
     }
 
     /**
+     * getLastNoSolicutude
+     * Funcion para obtener el ultimo número de solicutud registrado
+     *
+     * @return string
+     */
+    public function getLastNoSolicutude(): string
+    {
+        // Construimos y ejecutamos la consulta
+        $query = $this->select('no_solicitud')
+                  ->where($this->deletedField, null)
+                  ->orderBy('user_id', 'desc')
+                  ->limit(1);
+
+        $result = $query->get();
+
+        // Si existe un número de solicutud lo retornamos, si no existe retornamos cero
+        if ($result !== false && $result->getNumRows() > 0) {
+            return $result->getRow()->no_solicitud;
+        } else {
+            return '0';
+        }
+    }
+
+    /**
+     * getListNips
+     * Funcion para obtener una lista con todos los nips
+     *
+     * @return array
+     */
+    public function getListNips(): array
+    {
+        return $this->select('nip')->get()->getResultArray();
+    }
+
+    /**
      * getByStatusPayment
      * Funcion para obtener el los datos de los aspirantes que YA realizarón su pago ($statusPayment = true)
      * o los datos de los aspirantes que NO han realizado su pago ($statusPayment = false)
@@ -205,7 +206,7 @@ class AspiranteModel extends Model
         // Creamos la consulta para obtener los datos necesarios de la base de datos
         $getData = $this->select('id_aspirante, user_id, curp, no_solicitud, imagen, apellido_paterno, 
                                 apellido_materno, nombre, email')
-                      ->where('status_pago', $statusPayment);
+                      ->where('estatus_pago', $statusPayment);
 
         // Ejecutamos la consulta
         $data = $getData->get()->getResultArray();
@@ -244,7 +245,7 @@ class AspiranteModel extends Model
      */
     public function countByStatusPayment(bool $statusPayment): int
     {
-        $query = $this->selectCount('id_aspirante')->where('status_pago', $statusPayment);
+        $query = $this->selectCount('id_aspirante')->where('estatus_pago', $statusPayment);
 
         $result = $query->get()->getResult();
 
@@ -263,13 +264,36 @@ class AspiranteModel extends Model
      * @param bool   $status      -> Estado del pago del aspirante (true -> pagado, false -> pago pendiente).
      *                            Por defecto true
      *
+     * @throws Exception -> Se lanza si hay un error al momento de intentar actualizar un registro
+     *
      * @return bool $status -> Retorna true si el cambio de estatus fue exitoso, de lo contrario false
      */
     public function changeStatusPayment(string $idAspirante, bool $status = true): bool
     {
-        // Actualizamos el estado del pago
-        return $this->update($idAspirante, [
-            'status_pago' => $status,
-        ]);
+        try {
+            // Actualizamos el estado del pago
+            return $this->update($idAspirante, [
+                'estatus_pago' => $status,
+            ]);
+        } catch (Exception $e) {
+            throw new Exception('Hubo un error en la base de datos al intentar actualizar el registro', 500);
+        }
+    }
+
+    /**
+     * getDataForAcademicDevReport
+     * Función para obtener los datos de los aspirantes que necesita el departamento de desarrollo académico
+     * para crear el reporte que envía a México sobre los aspirantes que deben hacer su examen de admisión
+     *
+     * @return array -> Array con la información requerida para elaborar el reporte
+     */
+    public function getDataForAcademicDevReport(): array
+    {
+        // Creamos la consulta para obtener los datos necesarios
+        $getData = $this->select('curp, apellido_paterno, apellido_materno, nombre, email')
+                        ->where('estatus_pago', true);
+
+        // Ejecutamos la consulta y retornamos el resultado
+        return $getData->get()->getResultArray();
     }
 }

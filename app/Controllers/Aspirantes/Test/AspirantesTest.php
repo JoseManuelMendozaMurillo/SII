@@ -7,6 +7,11 @@ use App\Models\Aspirantes\AspiranteModel;
 use App\Models\ServiciosEscolares\CarrerasModel;
 use App\Libraries\Emails;
 use App\Libraries\Files;
+use CodeIgniter\HTTP\Response;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Exception;
 
 class AspirantesTest extends BaseController
@@ -45,7 +50,7 @@ class AspirantesTest extends BaseController
                 'nombre' => 'JOSE MANUEL',
                 'fechaNacimiento' => '12-01-2001',
                 'genero' => 'MASCULINO',
-                'estadoCivil' => 'SOLTERO',
+                'estadoCivil' => '1',
                 'paisNacimiento' => 'MEXICO',
                 'tel' => '3921279642',
                 'correo' => 'trokillox.x@gmail.com',
@@ -188,5 +193,93 @@ class AspirantesTest extends BaseController
             dd('El correo no se envio');
         }
         $this->twig->display('Correos/email', $dataEmail);
+    }
+
+    /**
+     * exportPdf
+     * Función para probar la exportacion de documentos pdf
+     *
+     * @return Response
+     */
+    public function exportPdf()
+    {
+        $options = new Options();
+        $options->setChroot(FCPATH);
+        $options->setDefaultFont('Inter');
+        $options->setIsRemoteEnabled(true);
+
+        $fullName = 'Jose Manuel Mendoza Murillo';
+        $pathPhoto = config('Paths')->accessPhotosAspirantes . '/' . 'test.png';
+        $html = $this->twig->render('Aspirantes/pdf_templates/pdf_aspirantes', [
+            'fullName' => $fullName,
+            'curp' => 'PEGJ850315HJCRRN07',
+            'noSolicitude' => '0001',
+            'nip' => '3654',
+            'firstOption' => 'Ingeniería en Sistemas Computacionales',
+            'pathPhoto' => $pathPhoto,
+        ]);
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($html);
+        $dompdf->render();
+
+        $pdfContent = $dompdf->output();
+        $fileName = 'Pruebas.pdf';
+
+        // Enviar la respuesta al cliente
+        return $this->response->setStatusCode(200)
+                              ->setBody($pdfContent)
+                              ->setHeader('Content-Type', 'application/pdf')
+                              ->setHeader('Content-Disposition', 'inline; filename="' . $fileName . '"')
+                              ->setHeader('Cache-Control', 'max-age=0');
+    }
+
+    /**
+     * exportExcel
+     * Función para probar la exportacion de datos a excel
+     *
+     * @return Response
+     */
+    public function exportExcel(): Response
+    {
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        /* Definimos los encabezados de la hoja de datos */
+        // Columna A
+        $sheet->getColumnDimension('A')->setWidth(25);
+        $sheet->setCellValue('A1', 'Curp');
+        // Columna B
+        $sheet->getColumnDimension('B')->setWidth(40);
+        $sheet->setCellValue('B1', 'Nombre');
+        // Columna C
+        $sheet->getColumnDimension('C')->setWidth(30);
+        $sheet->setCellValue('C1', 'Correo');
+
+        // Agregamos los datos
+        $aspirantes = $this->aspirantesModel->getDataForAcademicDevReport();
+        $row = 2;
+        foreach ($aspirantes as $aspirante) {
+            $fullName = implode(
+                ' ',
+                [
+                    $aspirante['nombre'],
+                    $aspirante['apellido_paterno'],
+                    $aspirante['apellido_materno'],
+                ]
+            );
+            $sheet->setCellValue('A' . $row, $aspirante['curp']);
+            $sheet->setCellValue('B' . $row, $fullName);
+            $sheet->setCellValue('C' . $row, $aspirante['email']);
+            $row++;
+        }
+
+        // Generamos el archivo Excel
+        $writer = new Xlsx($spreadsheet);
+
+        return $this->response->setStatusCode(200)
+                    ->setBody($writer->save('php://output'))
+                    ->setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+                    ->setHeader('Content-Disposition', 'attachment;filename="example.xlsx"')
+                    ->setHeader('Cache-Control', 'max-age=0');
     }
 }

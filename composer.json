@@ -12,6 +12,7 @@
         "codeigniter4/shield": "dev-develop",
         "dompdf/dompdf": "^2.0",
         "laminas/laminas-escaper": "^2.9",
+        "phpoffice/phpspreadsheet": "^1.29",
         "psr/log": "^1.1",
         "twig/twig": "^3.0"
     },

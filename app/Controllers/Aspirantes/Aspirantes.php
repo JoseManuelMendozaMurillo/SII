@@ -15,8 +15,6 @@ use App\Models\Aspirantes\AspiranteModel;
 use App\Libraries\Files;
 use App\Libraries\Thumbs;
 use App\Libraries\Emails;
-use Dompdf\Dompdf;
-use Dompdf\Options;
 use Exception;
 
 class Aspirantes extends RegisterController
@@ -30,37 +28,6 @@ class Aspirantes extends RegisterController
         $this->aspirantesModel = new AspiranteModel();
         $this->tables = config('Auth')->tables;
         $this->db = db_connect();
-    }
-
-    public function pdf()
-    {
-        $options = new Options();
-        $options->setChroot(FCPATH);
-        $options->setDefaultFont('Inter');
-        $options->setIsRemoteEnabled(true);
-
-        $fullName = 'Jose Manuel Mendoza Murillo';
-        $pathPhoto = config('Paths')->accessPhotosAspirantes . '/' . 'test.png';
-        $html = $this->twig->render('Aspirantes/pdf_templates/pdf_aspirantes', [
-            'fullName' => $fullName,
-            'curp' => 'PEGJ850315HJCRRN07',
-            'noSolicitude' => '0001',
-            'nip' => '3654',
-            'firstOption' => 'Ingeniería en Sistemas Computacionales',
-            'pathPhoto' => $pathPhoto,
-        ]);
-        $dompdf = new Dompdf($options);
-        $dompdf->loadHtml($html);
-        $dompdf->render();
-
-        $pdfContent = $dompdf->output();
-        $fileName = 'Pruebas.pdf';
-
-        // Enviar la respuesta al cliente
-        return $this->response->setStatusCode(200)
-                              ->setBody($pdfContent)
-                              ->setHeader('Content-Type', 'application/pdf')
-                              ->setHeader('Content-Disposition', 'inline; filename="' . $fileName . '"');
     }
 
     /**
@@ -271,8 +238,8 @@ class Aspirantes extends RegisterController
 
             // Actualizamos el estatus de pago
             if (!$this->aspirantesModel->changeStatusPayment($idAspirante, $status)) {
-                // Si hay un error, lanzamos una excepcion
-                throw new Exception('Hubo un error al intentar actualizar el registro', 500);
+                // Si el registro no se actualizo, lanzamos una excepcion
+                throw new Exception('El registro no se pudo actualizar', 500);
             }
 
             return $this->response->setStatusCode(200);
@@ -365,7 +332,7 @@ class Aspirantes extends RegisterController
         $surnamePaterno = $this->request->getPost('apellidoPaterno');
         $surnameMaterno = $this->request->getPost('apellidoMaterno');
         $dataAspirante = [
-            'name' => $name . $surnamePaterno . $surnameMaterno,
+            'name' => $name . ' ' . $surnamePaterno . ' ' . $surnameMaterno,
             'username' => str_replace(' ', '', $name) . '_' . $noSolicitude,
             'email' => $noSolicitude, // número de solicitud
             'password' => $nip, // nip

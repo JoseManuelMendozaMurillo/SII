@@ -53,9 +53,9 @@ $routes->group(
     function ($routes) {
         $routes->get('registro', 'Aspirantes::formRegister');
         $routes->post('insert', 'Aspirantes::post');
-        $routes->get('pdf', 'Aspirantes::pdf'); // Ruta de prueba
         $routes->get('delete/(:num)', 'Aspirantes::delete/$1'); // Esta ruta no debe ser publica (eliminado logico)
         $routes->post('change-status-payment', 'Aspirantes::changeStatusPayment'); // Esta ruta no debe ser publica
+
         $routes->group(
             '',
             ['namespace' => 'App\Controllers\Aspirantes',
@@ -64,6 +64,7 @@ $routes->group(
                 $routes->get('', 'Aspirantes::index');
             }
         );
+
         $routes->group(
             'test',
             ['namespace' => 'App\Controllers\Aspirantes\Test'],
@@ -71,6 +72,8 @@ $routes->group(
                 $routes->get('new', 'AspirantesTest::simulateFormInsert');
                 $routes->get('delete/(:num)', 'AspirantesTest::delete/$1'); // Eliminado fisico
                 $routes->get('send-email', 'AspirantesTest::sendEmail');
+                $routes->get('export-pdf', 'AspirantesTest::exportPdf');
+                $routes->get('export-excel', 'AspirantesTest::exportExcel');
             }
         );
     }
@@ -92,7 +95,16 @@ $routes->group(
     ['namespace' => 'App\Controllers\DesarrolloAcademico'],
     // 'filter' => 'group:desarrollo_academico'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
     function ($routes) {
-        $routes->get('aspirantes/lista', 'DesarrolloAcademico::listAspirantes');
+        // Rutas para trabajar con los aspirantes dentro de desarrollo academico
+        $routes->group(
+            'aspirantes',
+            ['namespace' => 'App\Controllers\DesarrolloAcademico'],
+            function ($routes) {
+                // ¿Seria bueno crear un controller aspirantes para el area de desarrollo academico?
+                $routes->get('lista', 'DesarrolloAcademico::listAspirantes');
+                $routes->get('exportar-reporte', 'DesarrolloAcademico::exportAcademicDevReport');
+            }
+        );
     }
 );
 
