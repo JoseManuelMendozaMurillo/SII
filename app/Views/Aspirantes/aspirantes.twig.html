@@ -954,7 +954,7 @@
 <script type="module" src="{{base_url('Js/FormsValidation/forms.js')}}"></script>
 
 <script>
-    const anioInput = document.getElementById("anioInput");
+    const anioInput = document.getElementById("anioEgreso");
     const anoActual = new Date().getFullYear();
     anioInput.placeholder = `${anoActual}`;
 </script>
@@ -1158,26 +1158,6 @@
                 }
             });
         });
-
-
-        const switchInput = document.getElementById("checkbox");
-        const bodyElement = document.body;
-
-        switchInput.addEventListener("change", function () {
-            if (this.checked) {
-                // Modo oscuro activado
-                bodyElement.classList.remove("light");
-                bodyElement.classList.add("dark");
-                console.log("Switch activado");
-            } else {
-                // Modo claro activado
-                bodyElement.classList.remove("dark");
-                bodyElement.classList.add("light");
-                console.log("Switch desactivado");
-            }
-        });
-
-
 
     });
 </script>

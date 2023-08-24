@@ -53,9 +53,8 @@ $routes->group(
     function ($routes) {
         $routes->get('registro', 'Aspirantes::formRegister');
         $routes->post('insert', 'Aspirantes::post');
-        $routes->get('send-email', 'Aspirantes::sendEmail'); // Ruta de prueba
         $routes->get('pdf', 'Aspirantes::pdf'); // Ruta de prueba
-        $routes->get('delete/(:num)', 'Aspirantes::delete/$1'); // Esta ruta no debe ser publica
+        $routes->get('delete/(:num)', 'Aspirantes::delete/$1'); // Esta ruta no debe ser publica (eliminado logico)
         $routes->post('change-status-payment', 'Aspirantes::changeStatusPayment'); // Esta ruta no debe ser publica
         $routes->group(
             '',
@@ -63,6 +62,15 @@ $routes->group(
                 'filter' => 'group:aspirante'],
             function ($routes) {
                 $routes->get('', 'Aspirantes::index');
+            }
+        );
+        $routes->group(
+            'test',
+            ['namespace' => 'App\Controllers\Aspirantes\Test'],
+            function ($routes) {
+                $routes->get('new', 'AspirantesTest::simulateFormInsert');
+                $routes->get('delete/(:num)', 'AspirantesTest::delete/$1'); // Eliminado fisico
+                $routes->get('send-email', 'AspirantesTest::sendEmail');
             }
         );
     }
@@ -84,7 +92,7 @@ $routes->group(
     ['namespace' => 'App\Controllers\DesarrolloAcademico'],
     // 'filter' => 'group:desarrollo_academico'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
     function ($routes) {
-        $routes->get('aspirantes/lista', 'DesarrolloAcademico::listaAspirantes');
+        $routes->get('aspirantes/lista', 'DesarrolloAcademico::listAspirantes');
     }
 );
 

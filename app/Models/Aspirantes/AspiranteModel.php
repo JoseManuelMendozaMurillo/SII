@@ -211,7 +211,7 @@ class AspiranteModel extends Model
         $data = $getData->get()->getResultArray();
 
         // Transformamos algunos datos para crear el resultado
-        $pathPhotos = config('Paths')->photoAspiranteDirectory . '/';
+        $pathPhotos = config('Paths')->accessPhotosAspirantes . '/';
         $result = [];
         foreach ($data as $aspirante) {
             $name = implode(' ', [$aspirante['nombre'],

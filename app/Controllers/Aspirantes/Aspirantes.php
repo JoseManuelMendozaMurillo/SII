@@ -15,9 +15,9 @@ use App\Models\Aspirantes\AspiranteModel;
 use App\Libraries\Files;
 use App\Libraries\Thumbs;
 use App\Libraries\Emails;
-use Exception;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Exception;
 
 class Aspirantes extends RegisterController
 {
@@ -98,6 +98,7 @@ class Aspirantes extends RegisterController
 
         $data = [
             // Catalogos de datos
+            'estadoCivil' => $this->db->table('estado_civil')->get()->getResultArray(),
             'tiposSangre' => $this->db->table('tipos_sangre')->get()->getResultArray(),
             'comunidadesIndigenas' => $this->db->table('comunidades_indigenas')->get()->getResultArray(),
             'lenguasIndigenas' => $this->db->table('lenguas_indigenas')->get()->getResultArray(),
@@ -174,9 +175,8 @@ class Aspirantes extends RegisterController
             // Si todo está bien, confirmar la transacción
             $this->db->transCommit();
 
-            d('Aspirante creado');
-
-            // Retornar vista de exito
+            // Retornar la vista de exito
+            return d('Aspirante creado');
         } catch (Exception $e) {
             // Si hay un error se realizara un rollback
             $this->db->transRollback();
@@ -187,39 +187,10 @@ class Aspirantes extends RegisterController
                 $files = new Files();
                 $files->deleteDir($dirPhotosAspirantes);
             }
-            // Retornar vista de error en el back
-            dd('Error: ' . $e->getMessage());
-        }
-    }
 
-    public function sendEmail()
-    {
-        // Enviamos el correo con la informacion de inicio sesion al aspirante
-        // Obtención de datos para generar el correo
-        $carrerasModel = new CarrerasModel();
-        $idCarrera = '1';
-        $pathPhoto = config('Paths')->accessPhotosAspirantes . '/test.png';
-        $dataEmail = [
-            'aspirante' => [
-                'nombre' => 'Jose Manuel',
-                'apellidoPaterno' => 'Mendoza',
-                'apellidoMaterno' => 'Murillo',
-                'noSolicitude' => '0001',
-                'nip' => '4455',
-                'foto' => $pathPhoto,
-                'carrera' => $carrerasModel->getNameById($idCarrera),
-                'anoIngreso' => date('Y'),
-            ],
-        ];
-        // Enviamos el correo
-        $emails = new Emails();
-        $addressee = 'trokillox.x@gmail.com';
-        $subject = '¡Felicidades por inscribirte al Tecnológico de Ocotlán!';
-        $htmlEmail = $this->twig->render('Correos/email', $dataEmail);
-        if (!$emails->sendHtmlEmail($addressee, $subject, $htmlEmail)) {
-            dd('El correo no se envio');
+            // Retornar vista de error en el back
+            return dd('Error: ' . $e->getMessage());
         }
-        $this->twig->display('Correos/email', $dataEmail);
     }
 
     /**
@@ -450,6 +421,7 @@ class Aspirantes extends RegisterController
     private function insertDataAspirante(User $user, string $noSolicitude, string $nip): array
     {
         $namePhoto = $this->createThumbPhotoAspirante($user->id);
+
         // Creamos el arreglo de datos con la información del aspirante que se insertara
         $data = [
             // Tabla principal
@@ -484,8 +456,6 @@ class Aspirantes extends RegisterController
             'no_interior' => $this->request->getPost('numInterior'),
             'letra_exterior' => $this->request->getPost('letraExterior'),
             'letra_interior' => $this->request->getPost('letraInterior'),
-            'letra_exterior' => 'A', // Se deben agregar al form estos campos
-            'letra_interior' => null, // Se deben agregar al form estos campos
             'colonia' => $this->request->getPost('colonia'),
             'estado' => $this->request->getPost('estadoResidencia'),
             'municipio' => $this->request->getPost('municipioResidencia'),
@@ -512,67 +482,6 @@ class Aspirantes extends RegisterController
             'tipo_piso' => $this->request->getPost('tipoPiso'),
             'no_automoviles' => $this->request->getPost('cantidadAutos'),
             'estufa' => $this->request->getPost('estufa'),
-        ];
-
-        $fakeData = [
-            // Tabla principal
-            'user_id' => $user->id,
-            'no_solicitud' => $noSolicitude,
-            'nip' => $nip,
-            'imagen' => $namePhoto,
-            'curp' => 'MEMM011201HJCNRNA1',
-            'apellido_paterno' => 'MENDOZA',
-            'apellido_materno' => 'MURILLO',
-            'nombre' => 'JOSE MANUEL',
-            'fecha_nacimiento' => '12-01-2001',
-            'genero' => 'MASCULINO',
-            'estado_civil' => 'SOLTERO',
-            'pais_nacimiento' => 'MEXICO',
-            'telefono' => '3921279642',
-            'email' => 'trokillox.x@gmail.com',
-            'escuela_procedencia' => 'CBTIS49',
-            'estado_escuela' => 'JALISCO',
-            'municipio_escuela' => 'OCOTLAN',
-            'ano_egreso' => '2017',
-            'promedio_general' => '83.4',
-            'carrera_primera_opcion' => '1',
-            'carrera_segunda_opcion' => '1',
-            'turno_preferente' => 'MATUTINO',
-            'ito_primer_opcion' => 'SI',
-            'motivo_ingreso' => '1',
-            'motivo_seleccion_plan_estudios' => 'PRUEBAS',
-            // Tabla de datos complementarios
-            'calle_domicilio' => 'PABLO LOPEZ',
-            'no_exterior' => '87',
-            'no_interior' => null,
-            'letra_exterior' => 'A', // Se deben agregar al form estos campos
-            'letra_interior' => null, // Se deben agregar al form estos campos
-            'colonia' => 'EL TROMPO',
-            'estado' => 'JALISCO',
-            'municipio' => 'JAMAY',
-            'codigo_postal' => '47900',
-            'entre_calles' => 'AGUSTIN YAÑEZ Y LAUREL',
-            'tutor' => 'JAVIER MENDOZA ALVAREZ',
-            'estado_procedencia' => 'JALISCO',
-            'comunidad_indigena' => '1',
-            'tipo_sangre' => '1',
-            'discapacidad' => 'PRUEBAS',
-            'lengua_indigena' => '1',
-            'telefono_contacto' => '3921106055',
-            'nivel_estudio_padre' => '1',
-            'nivel_estudio_madre' => '1',
-            'vives_actualmente' => '1',
-            'ocupacion_padre' => '1',
-            'ocupacion_madre' => '1',
-            'casa_resides' => '1',
-            'no_cuartos' => '1',
-            'no_miembros' => '1',
-            'regadera' => '1',
-            'no_banos' => '1',
-            'no_focos' => '1',
-            'tipo_piso' => '1',
-            'no_automoviles' => '1',
-            'estufa' => '1',
         ];
 
         $aspirante = new Aspirante($data);
