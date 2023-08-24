@@ -2,6 +2,8 @@
 
 namespace Config;
 
+use App\Libraries\Twig;
+
 // Create a new instance of our RouteCollection class.
 $routes = Services::routes();
 
@@ -14,7 +16,10 @@ $routes->setDefaultNamespace('App\Controllers\Auth');
 $routes->setDefaultController('Login');
 $routes->setDefaultMethod('loginView');
 $routes->setTranslateURIDashes(false);
-$routes->set404Override();
+$routes->set404Override(function () {
+    $twigLibrary = new Twig();
+    $twigLibrary->display('errors/error404');
+});
 // The Auto Routing (Legacy) is very dangerous. It is easy to create vulnerable apps
 // where controller filters or CSRF protection are bypassed.
 // If you don't want to define all routes, please use the Auto Routing (Improved).
