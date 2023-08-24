@@ -57,6 +57,7 @@ $routes->group(
     ['namespace' => 'App\Controllers\Aspirantes'],
     function ($routes) {
         $routes->get('registro', 'Aspirantes::formRegister');
+        $routes->get('finalizacion', 'Aspirantes::finalizacionAspirantes'); //Ruta de finalizacion del aspirantes
         $routes->post('insert', 'Aspirantes::post');
         $routes->get('send-email', 'Aspirantes::sendEmail'); // Ruta de prueba
         $routes->get('pdf', 'Aspirantes::pdf'); // Ruta de prueba

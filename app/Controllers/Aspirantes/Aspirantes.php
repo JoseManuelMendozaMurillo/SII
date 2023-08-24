@@ -695,4 +695,9 @@ class Aspirantes extends RegisterController
             ],
         ];
     }
+
+    public function finalizacionAspirantes(): void
+    {
+        $this->twig->display('Aspirantes/finalizacion_aspirantes');
+    }
 }
