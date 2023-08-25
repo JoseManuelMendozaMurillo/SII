@@ -129,42 +129,11 @@
                                                 aspirante.apellido_materno }}</td>
                                             <td>{{ aspirante.email }}</td>
                                             <td>
-                                                <a class="btn {% if aspirante.estatus_pago == 'Pendiente' %}btn-warning{% else %}btn-success{% endif %}"
-                                                    data-toggle="modal"
-                                                    data-target="#cambiarEstadoModal{{ aspirante.user_id }}">
+                                                <button
+                                                    class="btn {% if aspirante.estatus_pago == 'Pendiente' %}btn-warning{% else %}btn-success{% endif %}"
+                                                    onclick="mostrarConfirmacion('{{ aspirante.user_id }}')">
                                                     {{ aspirante.estatus_pago }}
-                                                </a>
-
-                                                <!-- Modal para cambiar el estado de pago -->
-                                                <div class="modal fade" id="cambiarEstadoModal{{ aspirante.user_id }}"
-                                                    tabindex="-1" role="dialog"
-                                                    aria-labelledby="cambiarEstadoModalLabel{{ aspirante.user_id }}"
-                                                    aria-hidden="true">
-                                                    <div class="modal-dialog" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title"
-                                                                    id="cambiarEstadoModalLabel{{ aspirante.user_id }}">
-                                                                    Cambiar el estado de pago</h5>
-                                                                <button type="button" class="close" data-dismiss="modal"
-                                                                    aria-label="Cerrar">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                ¿Seguro/a que quiere cambiar el estado de pago?
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-dismiss="modal">Cancelar</button>
-                                                                <button type="button" class="btn btn-primary"
-                                                                    data-dismiss="modal"
-                                                                    onclick="cambiarEstado('{{ aspirante.user_id }}')">Cambiar</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
+                                                </button>
 
 
                                         </tr>
@@ -202,25 +171,29 @@
 {% block script %}
 <!-- JQuery -->
 <script src="{{base_url('Vendor/Parsley/jquery-3.7.0.min.js')}}"></script>
+<!-- SweetAlert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script
+    type="text/javascript">window.$crisp = []; window.CRISP_WEBSITE_ID = "89fe603c-fae1-4249-b972-a9982b1e246e"; (function () { d = document; s = d.createElement("script"); s.src = "https://client.crisp.chat/l.js"; s.async = 1; d.getElementsByTagName("head")[0].appendChild(s); })();</script>
 
 <script>
-    $(document).ready(function () {
-        // Función para realizar la búsqueda y filtrado en la tabla
-        $("#searchButton").click(function () {
-            var searchText = $("#searchInput").val().toLowerCase();
-            var filterType = $("#filterSelect").val();
-
-            $("#dataTable tbody tr").each(function () {
-                var rowText = $(this).find("td:nth-child(" + (filterType === "numero_solicitud" ? 1 : 2) + ")").text().toLowerCase();
-
-                if (rowText.includes(searchText)) {
-                    $(this).show();
-                } else {
-                    $(this).hide();
-                }
-            });
+    function mostrarConfirmacion(user_id) {
+        Swal.fire({
+            title: 'Cambiar el estado de pago',
+            text: '¿Seguro/a que quiere cambiar el estado de pago?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Cambiar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                cambiarEstado(user_id);
+            }
         });
-    });
+    }
 </script>
 
 <script>
@@ -228,17 +201,23 @@
         // Realiza una llamada AJAX para actualizar el estado de pago en el servidor
         $.ajax({
             type: 'POST',
-            url: '/Aspirantes/ListarAspirantes/cambiar_estado_pago',
+            url: '/Aspirantes/ListarAspirantes/cambiarEstadoPago',
             data: { 'user_id': user_id },
             success: function (response) {
                 if (response.success) {
-                    var btn = $('#cambiarEstadoModal' + user_id).prev('.btn');
+                    var btn = $('.btn[data-user-id="' + user_id + '"]');
                     if (response.nuevo_estado === 'Pendiente') {
                         btn.removeClass('btn-success').addClass('btn-warning').text('Pendiente');
                     } else {
                         btn.removeClass('btn-warning').addClass('btn-success').text('Pagado');
                     }
+                    Swal.fire('¡Listo!', 'El estado de pago ha sido cambiado.', 'success');
+                } else {
+                    Swal.fire('Error', 'Hubo un problema al cambiar el estado de pago.', 'error');
                 }
+            },
+            error: function () {
+                Swal.fire('Error', 'Hubo un problema de conexión.', 'error');
             }
         });
     }
