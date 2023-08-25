@@ -700,4 +700,9 @@ class Aspirantes extends RegisterController
     {
         $this->twig->display('Aspirantes/finalizacion_aspirantes');
     }
+
+    public function pagadoModulo(): void
+    {
+        $this->twig->display('Aspirantes/modulo_pagado');
+    }
 }

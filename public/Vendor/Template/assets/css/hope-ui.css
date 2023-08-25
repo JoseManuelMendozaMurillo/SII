@@ -97,6 +97,10 @@ hr {
   --bs-highlight-bg: #fcf8e3;
 }
 
+.centrar-texto {
+  text-align: justify;
+}
+
 *,
 *::before,
 *::after {
