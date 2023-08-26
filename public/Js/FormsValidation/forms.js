@@ -1,4 +1,4 @@
-import { customValidation } from '../../Vendor/Parsley/validations.js';
+import { customValidation } from '../../Vendor/Parsley/validationsAspirantes.js';
 
 $(document).ready(function () {
 	customValidation();
