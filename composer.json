@@ -10,8 +10,8 @@
         "ext-json": "*",
         "ext-mbstring": "*",
         "codeigniter4/shield": "dev-develop",
+        "dompdf/dompdf": "^2.0",
         "laminas/laminas-escaper": "^2.9",
-        "mpdf/mpdf": "^8.1",
         "psr/log": "^1.1",
         "twig/twig": "^3.0"
     },

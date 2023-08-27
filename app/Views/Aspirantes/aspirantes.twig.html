@@ -7,6 +7,7 @@
 {% block styles %}
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet" />
 <link rel="stylesheet" href="{{base_url('Vendor/Template/assets/css/button.css')}}" />
+<link rel="stylesheet" href="{{base_url('Vendor/Parsley/parsley.css')}}">
 <link rel="stylesheet" href="{{base_url('Vendor/Template/assets/css/switches.css')}}" />
 
 <style>
@@ -47,7 +48,10 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="flex-wrap d-flex justify-content-between align-items-center">
-                            <div>
+                            <div class="d-flex align-items-start me-5">
+                                <a class="btn btn-success" href="{{ base_url('auth/login') }}"> Regresar al inicio </a>
+                            </div>
+                            <div class="flex-grow-1">
                                 <h1>Instituto Tecnológico de Ocotlán</h1>
                                 <p>
                                     ¡Forma parte de nuestro plantel! Estamos encantados de
@@ -206,30 +210,35 @@
                                                         <br>
                                                         <div class="form-group">
                                                             <label class="form-label">CURP: *</label>
-                                                            <input type="text" class="form-control" name="curp"
-                                                                placeholder="LOXA880921HMCLNR05" />
+                                                            <input type="text" class="form-control upper-case"
+                                                                name="curp" placeholder="LOXA880921HMCLNR05"
+                                                                data-validation="curp" required />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label class="form-label">Apellido paterno: *</label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="apellidoPaterno" placeholder="PEREZ" />
+                                                                name="apellidoPaterno" data-validation="fullName"
+                                                                placeholder="PEREZ" required />
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Apellido materno: *</label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="apellidoMaterno" placeholder="LÓPEZ" />
+                                                                name="apellidoMaterno" data-validation="fullName"
+                                                                placeholder="LÓPEZ" required />
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Nombre(s): *</label>
                                                             <input id="name" class="form-control upper-case"
-                                                                name="nombre" placeholder="JUAN" />
+                                                                name="nombre" placeholder="JUAN"
+                                                                data-validation="fullName" required />
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Fecha de nacimiento: *</label>
                                                             <input type="date" class="form-control"
-                                                                name="fechaNacimiento" placeholder="03/05/2005" />
+                                                                name="fechaNacimiento" placeholder="03/05/2005"
+                                                                data-validation="birthdate" required />
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Género: *</label>
@@ -257,23 +266,30 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">País de nacimiento: *</label>
-                                                            <input type="text" class="form-control"
-                                                                name="paisNacimiento" placeholder="MEXICO" />
+                                                            <select class="form-select" name="paisNacimiento"
+                                                                id="countrySelect">
+                                                            </select>
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Teléfono: *</label>
                                                             <input type="text" class="form-control" name="tel"
-                                                                placeholder="3923451289" />
+                                                                placeholder="3923451289" data-validation="phone"
+                                                                required />
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Correo electrónico: *</label>
                                                             <input type="text" class="form-control" name="correo"
-                                                                placeholder="EJEMPLO@GMAIL.COM" />
+                                                                id="email" placeholder="ejemplo@gmail.com"
+                                                                data-validation="emailB" required />
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Confirmar correo: *</label>
                                                             <input type="text" class="form-control" name="confirmCorreo"
-                                                                placeholder="EJEMPLO@GMAIL.COM" />
+                                                                placeholder="ejemplo@gmail.com"
+                                                                data-parsley-equalto="#email"
+                                                                data-parsley-trigger="keyup"
+                                                                data-parsley-error-message="Los correos electrónicos no coinciden."
+                                                                required />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -293,49 +309,59 @@
                                                 <div class="row">
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label class="form-label">Colonia: *</label>
-                                                            <input type="text" class="form-control upper-case"
-                                                                name="colonia" placeholder="LA PRIMAVERA" />
+                                                            <label class="form-label">Estado: *</label>
+                                                            <select type="text" class="form-select upper-case"
+                                                                name="estadoResidencia" placeholder="JALISCO"
+                                                                id="estado">
+                                                            </select>
+
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Calle: *</label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="calle" placeholder="LÓPEZ MATEOS" />
+                                                                name="calle" placeholder="LÓPEZ MATEOS"
+                                                                data-validation="calle" />
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Número exterior: *</label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="numExterior" placeholder="80" />
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="form-label">Número interior: </label>
-                                                            <input type="text" class="form-control upper-case"
-                                                                name="numInterior" placeholder="80" />
+                                                                name="numExterior" placeholder="80"
+                                                                data-validation="num" />
                                                         </div>
                                                         <!-- Agregar los campos: letra interior y letra exterior -->
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label class="form-label">Estado: *</label>
-                                                            <input type="text" class="form-control upper-case"
-                                                                name="estadoResidencia" placeholder="JALISCO" />
+                                                            <label class="form-label">Municipio: *</label>
+                                                            <select type="text" class="form-select upper-case"
+                                                                name="municipioResidencia" id="municipio"
+                                                                placeholder="OCOTLÁN">
+                                                            </select>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label class="form-label">Municipio: *</label>
+                                                            <label class="form-label">Colonia: *</label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="municipioResidencia" placeholder="OCOTLÁN" />
+                                                                name="colonia" placeholder="LA PRIMAVERA" id="colonia"
+                                                                data-validation="col" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-label">Número interior: </label>
+                                                            <input type="text" class="form-control upper-case"
+                                                                name="numInterior" placeholder="80A"
+                                                                data-validation="num" />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label class="form-label">Código postal: *</label>
                                                             <input type="text" class="form-control upper-case" name="cp"
-                                                                placeholder="47829" />
+                                                                placeholder="47829" data-validation="cp" />
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Entre calles: *</label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="entreCalles" placeholder="LIMÓN Y TABACHIN" />
+                                                                name="entreCalles" placeholder="LIMÓN Y TABACHIN"
+                                                                data-validation="entreCalles" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -357,42 +383,56 @@
                                                         <div class="form-group">
                                                             <label class="form-label">Padre o tutor: *</label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="nombreTutor" placeholder="JUAN PABLO" />
+                                                                name="nombreTutor" placeholder="JUAN PABLO"
+                                                                data-validation="fullName" />
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Tipo de sangre: *</label>
-                                                            <input type="text" class="form-control upper-case"
-                                                                name="tipoSangre" placeholder="A+" />
+                                                            <select type="text" class="form-select upper-case"
+                                                                name="tipoSangre" placeholder="O-">
+                                                                {% for tipoSangre in tiposSangre %}
+                                                                <option value="{{ tipoSangre['id_tipo_sangre'] }}">
+                                                                    {{ tipoSangre['tipo'] }}
+                                                                </option>
+                                                                {%endfor%}
+                                                            </select>
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Teléfono de contacto del tutor:
                                                                 *</label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="telTutor" placeholder="3921232143" />
+                                                                name="telTutor" placeholder="3921232143"
+                                                                data-validation="phone" />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label class="form-label">Estado de procedencia: *</label>
-                                                            <input type="text" class="form-control upper-case"
-                                                                name="estadoProcedencia" placeholder="JALISCO" />
+                                                            <select type="text" class="form-select upper-case"
+                                                                name="estadoProcedencia" id="estadoProcedencia"
+                                                                placeholder="JALISCO">
+                                                            </select>
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">¿Tiene alguna discapacidad?:
                                                             </label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="discapacidad" placeholder="PARAPLEJÍA" />
+                                                                name="discapacidad" placeholder="PARAPLEJÍA"
+                                                                data-validation="discapacidad" required />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label class="form-label">¿Pertenece a una comunidad
                                                                 indígena?:</label>
-                                                            <select class="form-select" name="comunidadIndigena"
-                                                                id="exampleFormControlSelect1">
-                                                                <option selected>SÍ</option>
-                                                                <option>NO</option>
-                                                                <option>PREFIERO NO DECIRLO</option>
+                                                            <select class="form-select upper-case"
+                                                                name="comunidadIndigena" id="exampleFormControlSelect1">
+                                                                {% for comunidadIndigena in comunidadesIndigenas %}
+                                                                <option
+                                                                    value="{{ comunidadIndigena['id_comunidad_indigena'] }}">
+                                                                    {{ comunidadIndigena['comunidad']|upper }}
+                                                                </option>
+                                                                {%endfor%}
                                                             </select>
                                                         </div>
                                                         <div class="form-group">
@@ -400,9 +440,12 @@
                                                                 indígena?:</label>
                                                             <select class="form-select" name="lenguaIndigena"
                                                                 id="exampleFormControlSelect1">
-                                                                <option selected>SÍ</option>
-                                                                <option>NO</option>
-                                                                <option>PREFIERO NO DECIRLO</option>
+                                                                {% for lenguaIndigena in lenguasIndigenas %}
+                                                                <option
+                                                                    value="{{ lenguaIndigena['id_lengua_indigena'] }}">
+                                                                    {{ lenguaIndigena['lengua']|upper }}
+                                                                </option>
+                                                                {%endfor%}
                                                             </select>
                                                         </div>
                                                     </div>
@@ -424,35 +467,42 @@
                                                     <div class="col-md-3">
                                                         <div class="form-group">
                                                             <label class="form-label">Estado: *</label>
-                                                            <input type="text" class="form-control upper-case"
-                                                                name="estadoEscuela" placeholder="JALISCO" />
+                                                            <select type="text" class="form-select upper-case"
+                                                                name="estadoEscuela" placeholder="JALISCO"
+                                                                id="estadoEscuela">
+                                                            </select>
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">Municipio: *</label>
-                                                            <input type="text" class="form-control upper-case"
-                                                                name="municipioEscuela" placeholder="OCOTLÁN" />
+                                                            <select type="text" class="form-select upper-case"
+                                                                name="municipioEscuela" placeholder="OCOTLÁN"
+                                                                id="municipioEscuela">
+
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <div class="form-group">
                                                             <label class="form-label">Nombre de la escuela: *</label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="nombreEscuela" placeholder="CBTIS 49" />
+                                                                name="nombreEscuela" placeholder="CBTIS 49"
+                                                                data-validation="entreCalles" />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <div class="form-group">
                                                             <label class="form-label">Año de egreso: *</label>
-                                                            <input type="text" id="anioInput"
+                                                            <input type="text" id="anioEgreso"
                                                                 class="form-control upper-case" name="anoEgreso"
-                                                                placeholder="" />
+                                                                placeholder="2024" data-validation="egreso" />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <div class="form-group">
                                                             <label class="form-label">Promedio general: *</label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="promedio" placeholder="90" />
+                                                                name="promedio" placeholder="90"
+                                                                data-validation="promedio" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -483,12 +533,11 @@
                                                                     ingresar?: *</label>
                                                                 <select class="form-select" name="primeraOpcionIngreso"
                                                                     id="exampleFormControlSelect1">
-                                                                    <option selected>Ingeniería Industrial</option>
-                                                                    <option>Ingeniería Electromecánica</option>
-                                                                    <option>Ingeniería Sistemas Computacionales</option>
-                                                                    <option>Ingeniería Gestión Empresarial</option>
-                                                                    <option>Ingeniería Logística</option>
-                                                                    <option>Contador Público</option>
+                                                                    {% for carrera in carreras %}
+                                                                    <option value="{{ carrera['id_carrera'] }}">
+                                                                        {{ carrera['nombre_carrera']|upper }}
+                                                                    </option>
+                                                                    {%endfor%}
                                                                 </select>
                                                             </div>
                                                             <div class="form-group">
@@ -496,12 +545,11 @@
                                                                     ingresar?: *</label>
                                                                 <select class="form-select" name="segundaOpcionIngreso"
                                                                     id="exampleFormControlSelect1">
-                                                                    <option selected>Ingeniería Industrial</option>
-                                                                    <option>Ingeniería Electromecánica</option>
-                                                                    <option>Ingeniería Sistemas Computacionales</option>
-                                                                    <option>Ingenieria Gestión Empresarial</option>
-                                                                    <option>Ingenieria Logística</option>
-                                                                    <option>Contador Público</option>
+                                                                    {% for carrera in carreras %}
+                                                                    <option value="{{ carrera['id_carrera'] }}">
+                                                                        {{ carrera['nombre_carrera']|upper }}
+                                                                    </option>
+                                                                    {%endfor%}
                                                                 </select>
                                                             </div>
                                                             <div class="form-group">
@@ -509,9 +557,9 @@
                                                                     preferentemente?: *</label>
                                                                 <select class="form-select" name="turno"
                                                                     id="exampleFormControlSelect1">
-                                                                    <option selected>Cualquiera</option>
-                                                                    <option>Matutino</option>
-                                                                    <option>Vespertino</option>
+                                                                    <option selected>CUALQUIERA</option>
+                                                                    <option>MATUTINO</option>
+                                                                    <option>VESPERTINO</option>
                                                                 </select>
                                                                 <br>
                                                                 <h6 class="text-danger">Nota: es posible que algunas
@@ -532,8 +580,15 @@
                                                             <div class="form-group">
                                                                 <label class="form-label">¿Cuál es su motivo de
                                                                     seleccionar nuestra institución?: </label>
-                                                                <input type="text" class="form-control upper-case"
-                                                                    name="motivoIngreso" placeholder="POR PRESTIGIO" />
+                                                                <select type="text" class="form-select upper-case"
+                                                                    name="motivoIngreso" placeholder="POR PRESTIGIO">
+                                                                    {% for motivoIngreso in motivosIngreso %}
+                                                                    <option
+                                                                        value="{{ motivoIngreso['id_motivoIngreso'] }}">
+                                                                        {{ motivoIngreso['motivo']|upper }}
+                                                                    </option>
+                                                                    {%endfor%}
+                                                                </select>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">¿Cuál es su motivo de
@@ -579,44 +634,88 @@
                                                             <div class="form-group">
                                                                 <label class="form-label">Nivel máximo de estudios de su
                                                                     padre: *</label>
-                                                                <input type="text" class="form-control upper-case"
-                                                                    name="nivelEstudioPadre" placeholder="NO LO SÉ" />
+                                                                <select type="text" class="form-select upper-case"
+                                                                    name="nivelEstudioPadre">
+                                                                    {% for nivelEstudio in nivelesEstudio %}
+                                                                    <option
+                                                                        value="{{ nivelEstudio['id_nivel_estudio'] }}">
+                                                                        {{ nivelEstudio['nivel']|upper }}
+                                                                    </option>
+                                                                    {%endfor%}
+                                                                </select>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">Nivel máximo de estudios de su
                                                                     madre: *</label>
-                                                                <input type="text" class="form-control upper-case"
-                                                                    name="nivelEstudioMadre" placeholder="NO LO SÉ" />
+                                                                <select type="text" class="form-select upper-case"
+                                                                    name="nivelEstudioMadre">
+                                                                    {% for nivelEstudio in nivelesEstudio %}
+                                                                    <option
+                                                                        value="{{ nivelEstudio['id_nivel_estudio'] }}">
+                                                                        {{ nivelEstudio['nivel']|upper }}
+                                                                    </option>
+                                                                    {%endfor%}
+                                                                </select>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">¿Con quién vive actualmente?:
                                                                     *</label>
-                                                                <input type="text" class="form-control upper-case"
-                                                                    name="cohabitantes" placeholder="PADRE Y MADRE" />
+                                                                <select type="text" class="form-select upper-case"
+                                                                    name="cohabitantes" placeholder="PADRE Y MADRE"
+                                                                    required>
+                                                                    {% for cohabitante in cohabitantes %}
+                                                                    <option value="{{ cohabitante['id_cohabitante'] }}">
+                                                                        {{ cohabitante['cohabitantes']|upper }}
+                                                                    </option>
+                                                                    {%endfor%}
+                                                                </select>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">Ocupación de trabajo de su
                                                                     padre: *</label>
-                                                                <input type="text" class="form-control upper-case"
-                                                                    name="ocupacionPadre" placeholder="NO LO SÉ" />
+                                                                <select type="text" class="form-select upper-case"
+                                                                    name="ocupacionPadre" placeholder="NO LO SÉ">
+                                                                    {% for ocupacion in ocupaciones %}
+                                                                    <option value="{{ ocupacion['id_ocupacion'] }}">
+                                                                        {{ ocupacion['ocupacion']|upper }}
+                                                                    </option>
+                                                                    {%endfor%}
+                                                                </select>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">Ocupación de trabajo de su
                                                                     madre: *</label>
-                                                                <input type="text" class="form-control upper-case"
-                                                                    name="ocupacionMadre" placeholder="NO LO SÉ" />
+                                                                <select type="text" class="form-select upper-case"
+                                                                    name="ocupacionMadre" placeholder="NO LO SÉ">
+                                                                    {% for ocupacion in ocupaciones %}
+                                                                    <option value="{{ ocupacion['id_ocupacion'] }}">
+                                                                        {{ ocupacion['ocupacion']|upper }}
+                                                                    </option>
+                                                                    {%endfor%}
+                                                                </select>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">La casa de donde vive es:
                                                                     *</label>
-                                                                <input type="text" class="form-control upper-case"
-                                                                    name="propiedadCasa" placeholder="PROPIA" />
+                                                                <select type="text" class="form-select upper-case"
+                                                                    name="propiedadCasa" placeholder="PROPIA">
+                                                                    {% for vivienda in propiedadVivienda %}
+                                                                    <option
+                                                                        value="{{ vivienda['id_propiedad_vivienda'] }}">
+                                                                        {{ vivienda['propiedad']|upper }}
+                                                                    </option>
+                                                                    {%endfor%}
+                                                                </select>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">¿Cuántos cuartos tiene su
                                                                     casa?: *</label>
                                                                 <input type="text" class="form-control upper-case"
-                                                                    name="cantidadCuartos" placeholder="CUATRO" />
+                                                                    name="cantidadCuartos" placeholder="CUATRO"
+                                                                    data-parsley-trigger="keyup"
+                                                                    data-parsley-type="number"
+                                                                    data-parsley-error-message="Ingresa solamente números"
+                                                                    required />
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
@@ -624,44 +723,72 @@
                                                                 <label class="form-label">¿Cuántas personas viven en su
                                                                     casa?: *</label>
                                                                 <input type="text" class="form-control upper-case"
-                                                                    name="cantidadCohabitantes" placeholder="UNO" />
+                                                                    name="cantidadCohabitantes" placeholder="UNO"
+                                                                    data-parsley-trigger="keyup"
+                                                                    data-parsley-type="number"
+                                                                    data-parsley-error-message="Ingresa solamente números"
+                                                                    required />
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">¿Cuántos baños completos hay
                                                                     para uso exclusivo de los integrantes?: </label>
                                                                 <input type="text" class="form-control upper-case"
-                                                                    name="cantidadBanos" placeholder="UNO" />
+                                                                    name="cantidadBanos" placeholder="UNO"
+                                                                    data-parsley-trigger="keyup"
+                                                                    data-parsley-type="number"
+                                                                    data-parsley-error-message="Ingresa solamente números"
+                                                                    required />
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">¿En su hogar se cuenta con
                                                                     regadera funcionando en alguno de los baños?:
                                                                 </label>
-                                                                <input type="text" class="form-control upper-case"
-                                                                    name="regaderas" placeholder="SÍ" />
+                                                                <select type="text" class="form-control upper-case"
+                                                                    name="regaderas" placeholder="SÍ">
+                                                                    <option value="0">SÍ</option>
+                                                                    <option value="1">NO</option>
+                                                                </select>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">¿Cuántos focos tiene su
                                                                     vivienda?: </label>
                                                                 <input type="text" class="form-control upper-case"
-                                                                    name="cantidadFocos" placeholder="5" />
+                                                                    name="cantidadFocos" placeholder="5"
+                                                                    data-parsley-trigger="keyup"
+                                                                    data-parsley-type="number"
+                                                                    data-parsley-error-message="Ingresa solamente números"
+                                                                    required />
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">¿Qué tipo de piso predomina en
                                                                     su hogar?: </label>
-                                                                <input type="text" class="form-control upper-case"
-                                                                    name="tipoPiso" placeholder="CEMENTO FIRME" />
+                                                                <select type="text" class="form-select upper-case"
+                                                                    name="tipoPiso" placeholder="CEMENTO FIRME">
+                                                                    {% for tipo in tipoPiso %}
+                                                                    <option value="{{ vivienda['id_tipo_piso'] }}">
+                                                                        {{ tipo['tipo_piso']|upper }}
+                                                                    </option>
+                                                                    {%endfor%}
+                                                                </select>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">¿Cuántos automóviles propios
                                                                     tienen en su hogar?: </label>
                                                                 <input type="text" class="form-control upper-case"
-                                                                    name="cantidadAutos" placeholder="NINGUNO" />
+                                                                    name="cantidadAutos" placeholder="0"
+                                                                    data-parsley-trigger="keyup"
+                                                                    data-parsley-type="number"
+                                                                    data-parsley-error-message="Ingresa solamente números"
+                                                                    required />
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">¿En su hogar cuentan con
                                                                     estufa de gas o eléctrica?: </label>
-                                                                <input type="text" class="form-control upper-case"
-                                                                    name="estufa" placeholder="ELÉCTRICA" />
+                                                                <select type="text" class="form-select upper-case"
+                                                                    name="estufa">
+                                                                    <option value="0">SÍ</option>
+                                                                    <option value="1">NO</option>
+                                                                </select>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -727,7 +854,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="row">
-                                                            <div class="col"><span><strong>Opcion de carrera:
+                                                            <div class="col"><span><strong>Opción de carrera:
                                                                     </strong></span></div>
                                                             <br>
                                                             <div class="col"><span class="text-success"> Ingeniería en
@@ -820,6 +947,12 @@
 
 <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
 
+<script src="{{base_url('Vendor/Parsley/jquery-3.7.0.min.js')}}"></script>
+
+<script src="{{base_url('Vendor/Parsley/parsley.min.js')}}"></script>
+
+<script type="module" src="{{base_url('Js/FormsValidation/forms.js')}}"></script>
+
 <script>
     const anioInput = document.getElementById("anioInput");
     const anoActual = new Date().getFullYear();
@@ -871,24 +1004,6 @@
 <script>
     $(document).ready(function () {
 
-
-        const switchInput = document.getElementById("checkbox");
-        const bodyElement = document.body;
-
-        switchInput.addEventListener("change", function () {
-            if (this.checked) {
-                // Modo oscuro activado
-                bodyElement.classList.remove("light");
-                bodyElement.classList.add("dark");
-                console.log("Switch activado");
-            } else {
-                // Modo claro activado
-                bodyElement.classList.remove("dark");
-                bodyElement.classList.add("light");
-                console.log("Switch desactivado");
-            }
-        });
-
         //API DE PAISES
         var url = 'https://restcountries.com/v3.1/all';
         $.ajax({
@@ -909,7 +1024,7 @@
 
                 var $select = $('#countrySelect');
                 countries.forEach(function (country) {
-                    var option = $('<option>').val(country.code).text(country.name);
+                    var option = $('<option>').val(country.code).text(country.name.toUpperCase());
                     $select.append(option);
                 });
             },
@@ -917,6 +1032,152 @@
                 console.log('Error al obtener la lista de países');
             }
         });
+
+        var apiUrl = `https://gaia.inegi.org.mx/wscatgeo/mgee/`
+
+        $.ajax({
+            url: apiUrl,
+            method: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                var estadosSelect = $('#estado');
+
+                const res = response.datos;
+
+                res.forEach(function (estado) {
+                    estadosSelect.append($('<option>', {
+                        value: estado.cvegeo,
+                        text: estado.nom_agee.toUpperCase()
+                    }));
+                });
+
+
+            },
+            error: function () {
+                console.error('Error al obtener los estados.');
+            }
+        });
+
+        $.ajax({
+            url: apiUrl,
+            method: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                var estadosSelect = $('#estadoProcedencia');
+
+                const res = response.datos;
+
+                res.forEach(function (estado) {
+                    estadosSelect.append($('<option>', {
+                        value: estado.cvegeo,
+                        text: estado.nom_agee.toUpperCase()
+                    }));
+                });
+
+
+            },
+            error: function () {
+                console.error('Error al obtener los estados.');
+            }
+        });
+
+        $.ajax({
+            url: apiUrl,
+            method: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                var estadosSelect = $('#estadoEscuela');
+
+                const res = response.datos;
+
+                res.forEach(function (estado) {
+                    estadosSelect.append($('<option>', {
+                        value: estado.cvegeo,
+                        text: estado.nom_agee.toUpperCase()
+                    }));
+                });
+
+
+            },
+            error: function () {
+                console.error('Error al obtener los estados.');
+            }
+        });
+
+
+        $('#estado').change(function () {
+            var selectedValue = $(this).val();
+
+            var apiMunicipio = `https://gaia.inegi.org.mx/wscatgeo/mgem/${selectedValue}`
+
+            $.ajax({
+                url: apiMunicipio,
+                method: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    var municipioSelect = $('#municipio');
+                    municipioSelect.empty();
+                    const res = response.datos;
+
+                    res.forEach(function (municipio) {
+                        municipioSelect.append($('<option>', {
+                            value: municipio.cvegeo,
+                            text: municipio.nom_agem.toUpperCase()
+                        }));
+                    });
+                },
+                error: function () {
+                    console.error('Error al obtener los estados.');
+                }
+            });
+        });
+
+        $('#estadoEscuela').change(function () {
+            var selectedValue = $(this).val();
+
+            var apiMunicipio = `https://gaia.inegi.org.mx/wscatgeo/mgem/${selectedValue}`
+
+            $.ajax({
+                url: apiMunicipio,
+                method: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    var municipioSelect = $('#municipioEscuela');
+                    municipioSelect.empty();
+                    const res = response.datos;
+
+                    res.forEach(function (municipio) {
+                        municipioSelect.append($('<option>', {
+                            value: municipio.cvegeo,
+                            text: municipio.nom_agem.toUpperCase()
+                        }));
+                    });
+                },
+                error: function () {
+                    console.error('Error al obtener los estados.');
+                }
+            });
+        });
+
+
+        const switchInput = document.getElementById("checkbox");
+        const bodyElement = document.body;
+
+        switchInput.addEventListener("change", function () {
+            if (this.checked) {
+                // Modo oscuro activado
+                bodyElement.classList.remove("light");
+                bodyElement.classList.add("dark");
+                console.log("Switch activado");
+            } else {
+                // Modo claro activado
+                bodyElement.classList.remove("dark");
+                bodyElement.classList.add("light");
+                console.log("Switch desactivado");
+            }
+        });
+
+
 
     });
 </script>

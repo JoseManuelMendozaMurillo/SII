@@ -1,0 +1,89 @@
+{% block head %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Email</title>
+
+    <!--<link rel="stylesheet" href="{{base_url('Vendor/Template/assets/css/stylesEmail.css')}}" />-->
+
+    <link rel="shortcut icon"
+        href="{{base_url('Vendor/Template/assets/images/imagenescorrecaminos/correcaminosicono.svg')}}" />
+
+    <!-- Library / Plugin Css Build -->
+    <link rel="stylesheet" href="{{base_url('Vendor/Template/assets/css/core/libs.min.css')}}" />
+
+
+    <!-- Hope Ui Design System Css -->
+    <link rel="stylesheet" href="{{base_url('Vendor/Template/assets/css/hope-ui.min.css?v=2.0.0')}}" />
+
+    <!-- Custom Css -->
+    <link rel="stylesheet" href="{{base_url('Vendor/Template/assets/css/custom.min.css?v=2.0.0')}}" />
+
+    <!-- Dark Css -->
+    <link rel="stylesheet" href="{{base_url('Vendor/Template/assets/css/dark.min.css')}}" />
+
+    <!-- Customizer Css -->
+    <link rel="stylesheet" href="{{base_url('Vendor/Template/assets/css/customizer.min.css')}}" />
+
+    <!-- RTL Css -->
+    <link rel="stylesheet" href="{{base_url('Vendor/Template/assets/css/rtl.min.css')}}" />
+</head>
+
+<body class="bg-white" data-bs-spy="scroll" data-bs-target="#elements-section" data-bs-offset="0" tabindex="0">
+
+
+    <div class="container pt-5">
+        <div class="d-flex 
+                    gap-xl-0 gap-md-5 gap-0
+                    justify-content-md-between justify-content-center 
+                    align-items-center 
+                    flex-md-nowrap flex-wrap
+                    w-100">
+
+            <div class="w-auto">
+                <img src="{{base_url('Vendor/Template/assets/images/imagenescorrecaminos/tecnologiconacionalmexico.svg')}}"
+                    class="w-100" style="height: 150px;">
+            </div>
+
+            <div class="w-auto ">
+                <img src="{{base_url('Vendor/Template/assets/images/imagenescorrecaminos/logosecretariaeducacionpublica.svg')}}"
+                    class="w-100" style="height: 150px;">
+            </div>
+
+            <div class="w-auto">
+                <img class="img-fluid"
+                    src="{{base_url('Vendor/Template/assets/images/imagenescorrecaminos/logotecocotlan.png')}}"
+                    class="w-100" style="height: 150px;">
+            </div>
+
+        </div>
+
+
+        {% endblock %}
+        {% block user_info %}{% endblock %}
+        {% block content %}{% endblock %}
+        {% block social_media %}{% endblock %}
+        {% block footer %}
+
+        <div class="pt-5 pb-5">
+            <div class="row">
+                <div class="col-lg-12">
+                    <img src="{{base_url('Vendor/Template/assets/images/imagenescorrecaminos/footer.png')}}" alt=""
+                        class="" style="height: auto; width: 100%;">
+                </div>
+            </div>
+        </div>
+        <!--<img src="logo1.png" alt="Logo 1" />
+        <img src="logo2.png" alt="Logo 2" />
+        <img src="logo3.png" alt="Logo 3" />
+        <img src="logo4.png" alt="Logo 4" />-->
+
+    </div>
+</body>
+
+</html>
+
+{% endblock %}

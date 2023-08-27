@@ -7,6 +7,8 @@ use CodeIgniter\Validation\StrictRules\CreditCardRules;
 use CodeIgniter\Validation\StrictRules\FileRules;
 use CodeIgniter\Validation\StrictRules\FormatRules;
 use CodeIgniter\Validation\StrictRules\Rules;
+use App\Validations\Aspirantes\RegisterFormAspirantes;
+use App\Validations\CustomRules;
 
 class Validation extends BaseConfig
 {
@@ -25,6 +27,8 @@ class Validation extends BaseConfig
         FormatRules::class,
         FileRules::class,
         CreditCardRules::class,
+        // Reglas personalizadas
+        CustomRules::class,
     ];
 
     /**
@@ -39,6 +43,17 @@ class Validation extends BaseConfig
     ];
 
     // --------------------------------------------------------------------
-    // Rules
+    // Grupos de reglas
     // --------------------------------------------------------------------
+
+    /* Aspirantes */
+    public $registerFormAspirantes;
+    public $rulesChageStatusPaymentAspirante;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->registerFormAspirantes = (new RegisterFormAspirantes())->rulesRegisterFormAspirante;
+        $this->rulesChageStatusPaymentAspirante = (new RegisterFormAspirantes())->rulesChageStatusPaymentAspirante;
+    }
 }

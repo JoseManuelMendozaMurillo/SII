@@ -6,8 +6,10 @@ use App\Controllers\BaseController;
 
 class Financieros extends BaseController
 {
-    public function hello()
+    public function nuevosAspirantes()
     {
-        echo 'Hello financieros';
+        $datos = ['nombreModulo' => 'Recursos Financieros'];
+
+        $this->twig->display('RecursosFinancieros/nuevos_aspirantes', $datos);
     }
 }
