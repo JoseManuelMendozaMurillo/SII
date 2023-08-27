@@ -267,7 +267,7 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="form-label">País de nacimiento: *</label>
-                                                            <select class="form-select" name="countrySelect"
+                                                            <select class="form-select" name="paisNacimiento"
                                                                 id="countrySelect">
                                                             </select>
                                                         </div>
@@ -430,7 +430,8 @@
                                                             <label class="form-label">¿Tiene alguna discapacidad?:
                                                             </label>
                                                             <input type="text" class="form-control upper-case"
-                                                                name="discapacidad" placeholder="PARAPLEJÍA" required />
+                                                                name="discapacidad" placeholder="PARAPLEJÍA"
+                                                                data-validation="discapacidad" required />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
@@ -504,7 +505,7 @@
                                                     <div class="col-md-3">
                                                         <div class="form-group">
                                                             <label class="form-label">Año de egreso: *</label>
-                                                            <input type="text" id="anioInput"
+                                                            <input type="text" id="anioEgreso"
                                                                 class="form-control upper-case" name="anoEgreso"
                                                                 placeholder="2024" data-validation="egreso" />
                                                         </div>
@@ -601,8 +602,8 @@
                                                                 <label class="form-label">¿Cuál es su motivo de
                                                                     seleccionar este plan de estudios?: </label>
                                                                 <textarea name="motivoSeleccionPlanEstudio" id=""
-                                                                    cols="5" rows="5" class="form-control upper-case"
-                                                                    required></textarea>
+                                                                    cols="5" rows="5"
+                                                                    class="form-control upper-case"></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -959,6 +960,17 @@
 <script src="{{base_url('Vendor/Parsley/parsley.min.js')}}"></script>
 
 <script type="module" src="{{base_url('Js/FormsValidation/forms.js')}}"></script>
+<!--Crisp Chat -->
+<script type="text/javascript">
+    window.$crisp = [];
+    window.CRISP_WEBSITE_ID = "29bd961b-66d8-46f4-b7ef-3559b164f326";
+    (function () {
+        d = document; s = d.createElement("script");
+        s.src = "https://client.crisp.chat/l.js";
+        s.async = 1;
+        d.getElementsByTagName("head")[0].appendChild(s);
+    })();
+</script>
 
 <script>
     const anioInput = document.getElementById("anioInput");

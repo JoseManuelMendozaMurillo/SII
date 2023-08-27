@@ -1,10 +1,10 @@
 //Parsley.js v2.9.2
 export function customValidation() {
-    $('[data-validation]').each(function () {
+    $('.form-control.validation-email').each(function () {
       var $input = $(this);
-      var $inputType = $input.data('validation');
       $input.attr('data-parsley-trigger','keyup');
       $input.attr('data-parsley-required','');
+<<<<<<< HEAD
       
       switch ($inputType) {
         case 'email':
@@ -74,4 +74,34 @@ export function customValidation() {
         default:
       }
     })
+=======
+      $input.attr('data-parsley-type','email');
+      $input.attr('data-parsley-pattern','^[A-Za-z0-9]+@(itocotlan\.com)$');
+      $input.attr('data-parsley-error-message','El correo electrónico debe tener un dominio itocotlan.com');
+    });
+
+    $('.form-control.validation-password').each(function () {
+      var $input = $(this);
+      $input.attr('data-parsley-trigger','keyup');
+      $input.attr('data-parsley-required','');
+      $input.attr('data-parsley-minlength','8');
+      $input.attr('data-parsley-minlength-message','La contraseña debe tener al menos 8 caracteres');
+    });
+
+    $('.form-control.validation-numerosolicitud').each(function () {
+      var $input = $(this);
+      $input.attr('data-parsley-trigger','keyup');
+      $input.attr('data-parsley-required','');
+      $input.attr('data-parsley-pattern','^[0-9]{4}$');
+      $input.attr('data-parsley-error-message','El numero de solicitud debe tener 4 digitos');
+    });
+
+    $('.form-control.validation-nip').each(function () {
+      var $input = $(this);
+      $input.attr('data-parsley-trigger','keyup');
+      $input.attr('data-parsley-required','');
+      $input.attr('data-parsley-minlength','8');
+      $input.attr('data-parsley-minlength-message','La contraseña debe tener al menos 8 caracteres');
+    });
+>>>>>>> 4c3b5155cdad439b1ef653b4d658d468597b116b
   }

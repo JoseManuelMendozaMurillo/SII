@@ -3,7 +3,6 @@
 namespace App\Controllers\Aspirantes;
 
 use CodeIgniter\HTTP\Response;
-use App\Libraries\Files;
 use App\Entities\Aspirantes\Aspirante;
 use CodeIgniter\Shield\Entities\User;
 use App\Models\Aspirantes\UserModelAspirantes;
@@ -13,8 +12,12 @@ use CodeIgniter\Shield\Controllers\RegisterController;
 use CodeIgniter\HTTP\RedirectResponse;
 use App\Models\ServiciosEscolares\CarrerasModel;
 use App\Models\Aspirantes\AspiranteModel;
+use App\Libraries\Files;
 use App\Libraries\Thumbs;
+use App\Libraries\Emails;
 use Exception;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class Aspirantes extends RegisterController
 {
@@ -27,6 +30,37 @@ class Aspirantes extends RegisterController
         $this->aspirantesModel = new AspiranteModel();
         $this->tables = config('Auth')->tables;
         $this->db = db_connect();
+    }
+
+    public function pdf()
+    {
+        $options = new Options();
+        $options->setChroot(FCPATH);
+        $options->setDefaultFont('Inter');
+        $options->setIsRemoteEnabled(true);
+
+        $fullName = 'Jose Manuel Mendoza Murillo';
+        $pathPhoto = config('Paths')->accessPhotosAspirantes . '/' . 'test.png';
+        $html = $this->twig->render('Aspirantes/pdf_templates/pdf_aspirantes', [
+            'fullName' => $fullName,
+            'curp' => 'PEGJ850315HJCRRN07',
+            'noSolicitude' => '0001',
+            'nip' => '3654',
+            'firstOption' => 'Ingeniería en Sistemas Computacionales',
+            'pathPhoto' => $pathPhoto,
+        ]);
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($html);
+        $dompdf->render();
+
+        $pdfContent = $dompdf->output();
+        $fileName = 'Pruebas.pdf';
+
+        // Enviar la respuesta al cliente
+        return $this->response->setStatusCode(200)
+                              ->setBody($pdfContent)
+                              ->setHeader('Content-Type', 'application/pdf')
+                              ->setHeader('Content-Disposition', 'inline; filename="' . $fileName . '"');
     }
 
     /**
@@ -109,7 +143,33 @@ class Aspirantes extends RegisterController
             $user = $this->createUserAspirante($newNoSolicitude, $newNip);
 
             // Guardamos los datos del aspirante
-            $this->insertDataAspirante($user, $newNoSolicitude, $newNip);
+            $dataAspirante = $this->insertDataAspirante($user, $newNoSolicitude, $newNip);
+
+            // Enviamos el correo con la informacion de inicio sesion al aspirante
+            // Obtención de datos para generar el correo
+            $carrerasModel = new CarrerasModel();
+            $idCarrera = $dataAspirante['carrera_primera_opcion'];
+            $pathPhoto = config('Paths')->accessPhotosAspirantes . '/' . $user->id . '/' . $dataAspirante['imagen'];
+            $dataEmail = [
+                'aspirante' => [
+                    'nombre' => $dataAspirante['nombre'],
+                    'apellidoPaterno' => $dataAspirante['apellido_paterno'],
+                    'apellidoMaterno' => $dataAspirante['apellido_materno'],
+                    'noSolicitude' => $newNoSolicitude,
+                    'nip' => $newNip,
+                    'foto' => $pathPhoto,
+                    'carrera' => $carrerasModel->getNameById($idCarrera),
+                    'anoIngreso' => date('Y'),
+                ],
+            ];
+            // Enviamos el correo
+            $emails = new Emails();
+            $addressee = $dataAspirante['email'];
+            $subject = '¡Felicidades por inscribirte al Tecnológico de Ocotlán!';
+            $htmlEmail = $this->twig->render('Correos/email', $dataEmail);
+            if (!$emails->sendHtmlEmail($addressee, $subject, $htmlEmail)) {
+                throw new Exception('Ha ocurrido un error al intentar enviar el correo');
+            }
 
             // Si todo está bien, confirmar la transacción
             $this->db->transCommit();
@@ -130,6 +190,36 @@ class Aspirantes extends RegisterController
             // Retornar vista de error en el back
             dd('Error: ' . $e->getMessage());
         }
+    }
+
+    public function sendEmail()
+    {
+        // Enviamos el correo con la informacion de inicio sesion al aspirante
+        // Obtención de datos para generar el correo
+        $carrerasModel = new CarrerasModel();
+        $idCarrera = '1';
+        $pathPhoto = config('Paths')->accessPhotosAspirantes . '/test.png';
+        $dataEmail = [
+            'aspirante' => [
+                'nombre' => 'Jose Manuel',
+                'apellidoPaterno' => 'Mendoza',
+                'apellidoMaterno' => 'Murillo',
+                'noSolicitude' => '0001',
+                'nip' => '4455',
+                'foto' => $pathPhoto,
+                'carrera' => $carrerasModel->getNameById($idCarrera),
+                'anoIngreso' => date('Y'),
+            ],
+        ];
+        // Enviamos el correo
+        $emails = new Emails();
+        $addressee = 'trokillox.x@gmail.com';
+        $subject = '¡Felicidades por inscribirte al Tecnológico de Ocotlán!';
+        $htmlEmail = $this->twig->render('Correos/email', $dataEmail);
+        if (!$emails->sendHtmlEmail($addressee, $subject, $htmlEmail)) {
+            dd('El correo no se envio');
+        }
+        $this->twig->display('Correos/email', $dataEmail);
     }
 
     /**
@@ -190,7 +280,7 @@ class Aspirantes extends RegisterController
     {
         // Nos aseguramos de solo recibir peticiones ajax
         if (!$this->request->isAJAX()) {
-            throw new Exception('No se encontro el recurso', 404);
+            throw new Exception('No se encontró el recurso', 404);
         }
 
         try {
@@ -355,9 +445,9 @@ class Aspirantes extends RegisterController
      *
      * @throws Exception -> Se lanza si los datos no se guardaron en la BD
      *
-     * @return void
+     * @return array $data -> Datos del aspirante insertados en la base de datos
      */
-    private function insertDataAspirante(User $user, string $noSolicitude, string $nip): void
+    private function insertDataAspirante(User $user, string $noSolicitude, string $nip): array
     {
         $namePhoto = $this->createThumbPhotoAspirante($user->id);
         // Creamos el arreglo de datos con la información del aspirante que se insertara
@@ -380,7 +470,7 @@ class Aspirantes extends RegisterController
             'escuela_procedencia' => $this->request->getPost('nombreEscuela'),
             'estado_escuela' => $this->request->getPost('estadoEscuela'),
             'municipio_escuela' => $this->request->getPost('municipioEscuela'),
-            'ano_egreso' => $this->request->getPost('anoEgreso'),
+            'ano_egreso' => $this->request->getPost('anioEgreso'),
             'promedio_general' => $this->request->getPost('promedio'),
             'carrera_primera_opcion' => $this->request->getPost('primeraOpcionIngreso'),
             'carrera_segunda_opcion' => $this->request->getPost('segundaOpcionIngreso'),
@@ -392,6 +482,8 @@ class Aspirantes extends RegisterController
             'calle_domicilio' => $this->request->getPost('calle'),
             'no_exterior' => $this->request->getPost('numExterior'),
             'no_interior' => $this->request->getPost('numInterior'),
+            'letra_exterior' => $this->request->getPost('letraExterior'),
+            'letra_interior' => $this->request->getPost('letraInterior'),
             'letra_exterior' => 'A', // Se deben agregar al form estos campos
             'letra_interior' => null, // Se deben agregar al form estos campos
             'colonia' => $this->request->getPost('colonia'),
@@ -488,6 +580,8 @@ class Aspirantes extends RegisterController
         if (!$this->aspirantesModel->save($aspirante)) {
             throw new Exception('Hubo un error al intentar guardar los datos del aspirante en la base de datos');
         }
+
+        return $data;
     }
 
     /**
@@ -600,5 +694,15 @@ class Aspirantes extends RegisterController
                 ],
             ],
         ];
+    }
+
+    public function finalizacionAspirantes(): void
+    {
+        $this->twig->display('Aspirantes/finalizacion_aspirantes');
+    }
+
+    public function pagadoModulo(): void
+    {
+        $this->twig->display('Aspirantes/modulo_pagado');
     }
 }

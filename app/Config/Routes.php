@@ -2,6 +2,8 @@
 
 namespace Config;
 
+use App\Libraries\Twig;
+
 // Create a new instance of our RouteCollection class.
 $routes = Services::routes();
 
@@ -14,7 +16,10 @@ $routes->setDefaultNamespace('App\Controllers\Auth');
 $routes->setDefaultController('Login');
 $routes->setDefaultMethod('loginView');
 $routes->setTranslateURIDashes(false);
-$routes->set404Override();
+$routes->set404Override(function () {
+    $twigLibrary = new Twig();
+    $twigLibrary->display('errors/error404');
+});
 // The Auto Routing (Legacy) is very dangerous. It is easy to create vulnerable apps
 // where controller filters or CSRF protection are bypassed.
 // If you don't want to define all routes, please use the Auto Routing (Improved).
@@ -52,7 +57,11 @@ $routes->group(
     ['namespace' => 'App\Controllers\Aspirantes'],
     function ($routes) {
         $routes->get('registro', 'Aspirantes::formRegister');
+        $routes->get('finalizacion', 'Aspirantes::finalizacionAspirantes'); //Ruta de finalizacion del aspirantes
+        $routes->get('acreditado', 'Aspirantes::pagadoModulo'); //Ruta de pago acreditado
         $routes->post('insert', 'Aspirantes::post');
+        $routes->get('send-email', 'Aspirantes::sendEmail'); // Ruta de prueba
+        $routes->get('pdf', 'Aspirantes::pdf'); // Ruta de prueba
         $routes->get('delete/(:num)', 'Aspirantes::delete/$1'); // Esta ruta no debe ser publica
         $routes->post('change-status-payment', 'Aspirantes::changeStatusPayment'); // Esta ruta no debe ser publica
         $routes->group(
