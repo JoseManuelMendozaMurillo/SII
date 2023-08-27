@@ -4,7 +4,6 @@ export function customValidation() {
       var $input = $(this);
       $input.attr('data-parsley-trigger','keyup');
       $input.attr('data-parsley-required','');
-<<<<<<< HEAD
       
       switch ($inputType) {
         case 'email':
@@ -63,22 +62,21 @@ export function customValidation() {
           $input.attr('data-parsley-pattern', '^[0-9]{4}$');
           $input.attr('data-parsley-error-message', 'Ingresa un año válido (formato: YYYY).');
           break;
+        case 'oneLetter':
+          $input.attr('data-parsley-pattern', '^[a-zA]{1,4}$');
+          $input.attr('data-parsley-error-message', 'Solo pueden ingresar hasta cuatro letras');
+          $input.attr('data-parsley-required', false);
+          break;
         case 'promedio':
           $input.attr('data-parsley-pattern', '^(?:100|[0-9]?[0-9](?:\\.[0-9]{1,2})?)$');
           $input.attr('data-parsley-error-message', 'Ingresa un promedio válido (por ejemplo, 95.5).');
           break;
-        case 'oneLetter':
-          $input.attr('data-parsley-pattern', '^[a-zA-Z]{1,4}$');
-          $input.attr('data-parsley-error-message', 'Solo pueden ingresar hasta cuatro letras');
-          $input.attr('data-parsley-required', false);
-        default:
       }
     })
-=======
+
       $input.attr('data-parsley-type','email');
       $input.attr('data-parsley-pattern','^[A-Za-z0-9]+@(itocotlan\.com)$');
       $input.attr('data-parsley-error-message','El correo electrónico debe tener un dominio itocotlan.com');
-    });
 
     $('.form-control.validation-password').each(function () {
       var $input = $(this);
@@ -103,5 +101,5 @@ export function customValidation() {
       $input.attr('data-parsley-minlength','8');
       $input.attr('data-parsley-minlength-message','La contraseña debe tener al menos 8 caracteres');
     });
->>>>>>> 4c3b5155cdad439b1ef653b4d658d468597b116b
+  
   }

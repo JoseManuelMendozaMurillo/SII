@@ -333,9 +333,11 @@
                                                             <label class="form-label">Letra exterior: *</label>
                                                             <input type="text" class="form-control upper-case"
                                                                 name="letraInterior" placeholder="A"
-                                                                data-validation="oneLetter" />
+                                                                data-validation="oneLetter"
+                                                                data-parsley-pattern="^[a-zA]{1,4}$"
+                                                                data-parsley-error-message="Solo pueden ingresar hasta cuatro letras"
+                                                                required />
                                                         </div>
-                                                        <!-- Agregar los campos: letra interior y letra exterior -->
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
@@ -361,7 +363,10 @@
                                                             <label class="form-label">Letra interior: *</label>
                                                             <input type="text" class="form-control upper-case"
                                                                 name="letraExterior" placeholder="A"
-                                                                data-validation="oneLetter" />
+                                                                data-validation="oneLetter"
+                                                                data-parsley-pattern="^[a-zA]{1,4}$"
+                                                                data-parsley-error-message="Solo pueden ingresar hasta cuatro letras"
+                                                                required />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">

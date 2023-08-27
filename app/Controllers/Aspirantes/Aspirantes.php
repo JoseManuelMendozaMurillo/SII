@@ -41,7 +41,7 @@ class Aspirantes extends RegisterController
 
         $fullName = 'Jose Manuel Mendoza Murillo';
         $pathPhoto = config('Paths')->accessPhotosAspirantes . '/' . 'test.png';
-        $html = $this->twig->render('Aspirantes/pdf_templates/pdf_aspirantes', [
+        $html = $this->twig->render('Aspirantes/pdf_templates/pdf_recibo_pago', [
             'fullName' => $fullName,
             'curp' => 'PEGJ850315HJCRRN07',
             'noSolicitude' => '0001',
