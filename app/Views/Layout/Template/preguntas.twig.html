@@ -1,0 +1,88 @@
+{% extends "Layout/base.twig.html" %}
+
+
+{% block title %}Finalización de registro{% endblock %}
+
+
+{% block styles %}
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet" />
+<link rel="stylesheet" href="{{base_url('Vendor/Template/assets/css/button.css')}}" />
+<link rel="stylesheet" href="{{base_url('Vendor/Parsley/parsley.css')}}">
+<link rel="stylesheet" href="{{base_url('Vendor/Template/assets/css/switches.css')}}" />
+
+<style>
+    .file {
+        visibility: hidden;
+        position: absolute;
+    }
+
+    .iq-navbar-header {
+        height: 200px;
+        /* Altura predeterminada para pantallas más grandes */
+    }
+
+    @media (max-width: 920px) {
+
+        /* Modifica la clase para pantallas más pequeñas con un ancho máximo de 920px */
+        .iq-navbar-header {
+            height: 220px;
+        }
+    }
+
+    @media (max-width: 520px) {
+
+        /* Modifica la clase para pantallas más pequeñas con un ancho máximo de 520px */
+        .iq-navbar-header {
+            height: 260px;
+        }
+    }
+</style>
+{% endblock %}
+
+
+{% block body %}
+<main class="main-content">
+    <div class="position-relative iq-banner">
+        <div class="iq-navbar-header">
+            <div class="container-fluid iq-container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="flex-wrap d-flex justify-content-between align-items-center">
+                            <div class="flex-grow-1">
+                                <h1>Titulo</h1>
+                                <p>
+                                    Subtitulo
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="iq-header-img">
+                <img src="{{base_url('Vendor/Template/assets/images/dashboard/top-header.png')}}" alt="header"
+                    class="theme-color-default-img img-fluid w-100 h-100 animated-scaleX" />
+                <img src="{{base_url('Vendor/Template/assets/images/dashboard/top-header1.png')}}" alt="header"
+                    class="theme-color-purple-img img-fluid w-100 h-100 animated-scaleX" />
+                <img src="{{base_url('Vendor/Template/assets/images/dashboard/top-header2.png')}}" alt="header"
+                    class="theme-color-blue-img img-fluid w-100 h-100 animated-scaleX" />
+                <img src="{{base_url('Vendor/Template/assets/images/dashboard/top-header3.png')}}" alt="header"
+                    class="theme-color-green-img img-fluid w-100 h-100 animated-scaleX" />
+                <img src="{{base_url('Vendor/Template/assets/images/dashboard/top-header6.png')}}" alt="header"
+                    class="theme-color-yellow-img img-fluid w-100 h-100 animated-scaleX" />
+                <img src="{{base_url('Vendor/Template/assets/images/dashboard/top-header5.png')}}" alt="header"
+                    class="theme-color-pink-img img-fluid w-100 h-100 animated-scaleX" />
+            </div>
+        </div>
+        <div class="conatiner-fluid content-inner mt-n5 py-0">
+            {% block contenido %}{% endblock %}
+        </div>
+    </div>
+
+</main>
+{% endblock %}
+
+{% block script %}
+
+<script src="{{ base_url('Js/Aspirantes/aspirantes.js')}}"></script>
+
+{% endblock %}

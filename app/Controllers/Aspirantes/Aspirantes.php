@@ -71,7 +71,11 @@ class Aspirantes extends RegisterController
      */
     public function index(): void
     {
-        $this->twig->display('Aspirantes/modulo-aspirantes');
+        $esAcreditado = false;
+
+        $this->twig->display('Aspirantes/modulo-aspirantes', [
+            'esAcreditado' => $esAcreditado,
+        ]);
     }
 
     /**
@@ -703,6 +707,10 @@ class Aspirantes extends RegisterController
 
     public function pagadoModulo(): void
     {
-        $this->twig->display('Aspirantes/modulo_pagado');
+        $esAcreditado = true; // Puedes cambiar esto según tu lógica\
+
+        $this->twig->display('Aspirantes/modulo_pagado', [
+            'esAcreditado' => $esAcreditado,
+        ]);
     }
 }
