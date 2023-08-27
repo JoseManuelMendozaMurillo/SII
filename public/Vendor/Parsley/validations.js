@@ -52,7 +52,7 @@ export function customValidation() {
           $input.attr('data-parsley-error-message', 'Ingresa una calle válida.');
           break;
         case 'num':
-          $input.attr('data-parsley-pattern', '^\\d+(?:[a-zA-Z]{1,2})?$');
+          $input.attr('data-parsley-pattern', '^[0-9]{2}?$');
           $input.attr('data-parsley-error-message', 'Ingresa un valor válido (números con opcionalmente una o dos letras al final).');
           break;
         case 'entreCalles':
@@ -67,6 +67,10 @@ export function customValidation() {
           $input.attr('data-parsley-pattern', '^(?:100|[0-9]?[0-9](?:\\.[0-9]{1,2})?)$');
           $input.attr('data-parsley-error-message', 'Ingresa un promedio válido (por ejemplo, 95.5).');
           break;
+        case 'oneLetter':
+          $input.attr('data-parsley-pattern', '^[a-zA-Z]{1,4}$');
+          $input.attr('data-parsley-error-message', 'Solo pueden ingresar hasta cuatro letras');
+          $input.attr('data-parsley-required', false);
         default:
       }
     })

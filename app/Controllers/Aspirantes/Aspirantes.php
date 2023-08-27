@@ -74,7 +74,7 @@ class Aspirantes extends RegisterController
             'ocupaciones' => $this->db->table('ocupaciones')->get()->getResultArray(),
             'propiedadVivienda' => $this->db->table('propiedad_vivienda')->get()->getResultArray(),
             'tipoPiso' => $this->db->table('tipos_piso')->get()->getResultArray(),
-            // Agregar el catalogo de estado civil
+            'estadoCivil' => $this->db->table('estado_civil')->get()->getResultArray(),
         ];
 
         return $this->twig->display('Aspirantes/aspirantes', $data);
