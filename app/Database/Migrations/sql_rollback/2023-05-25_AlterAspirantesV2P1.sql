@@ -1,0 +1,1 @@
+ALTER TABLE aspirantes add COLUMN fecha_nacimiento2 DATETIME AFTER fecha_nacimiento;
