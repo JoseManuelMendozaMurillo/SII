@@ -63,8 +63,11 @@ class Pruebas extends BaseController
         $context = ['email' => $email];
         $message = $this->twig->render('Correos/Test', $context);
 
-        // Enviamos el correo de activación
+        // Enviamos el correo de activación (test)
         $send = $emails->sendHtmlEmail($email, 'Prueba', $message);
+
+        // Enviamos el correo de activación (real)
+        // $send = $emails->sendHtmlEmailFromBrevo('Jose Manuel', $email, 'Prueba', $message);
 
         // Sí el correo no se envio
         if (!$send) {
