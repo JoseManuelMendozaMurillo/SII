@@ -66,8 +66,8 @@ $routes->group(
         $routes->post('change-status-payment', 'Aspirantes::changeStatusPayment'); // Esta ruta no debe ser publica
         $routes->group(
             '',
-            ['namespace' => 'App\Controllers\Aspirantes',
-                'filter' => 'group:aspirante'],
+            ['namespace' => 'App\Controllers\Aspirantes'],
+            //'filter' => 'group:aspirante',// LINEA COMENTADA PARA PERMITIR EL ACCESO
             function ($routes) {
                 $routes->get('', 'Aspirantes::index');
             }

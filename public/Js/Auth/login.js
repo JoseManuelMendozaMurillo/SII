@@ -2,9 +2,7 @@ import { customValidation } from '../../Vendor/Parsley/validations.js';
 
 $(document).ready(function () {
 	// Para cambiar los placeholders
-
 	customValidation();
-
 	const radioButtons = document.querySelectorAll('.btn-check');
 	const emailLabel = document.querySelector('label[for="email"]');
 	const passwordLabel = document.querySelector('label[for="password"]');
@@ -18,14 +16,22 @@ $(document).ready(function () {
 
 	radioButtons.forEach(function (radio) {
 		radio.addEventListener('change', function () {
+			$('#email').val('');
+			$('#password').val('');
+
+			$('#email').removeAttr(
+				'data-parsley-pattern',
+				'data-parsley-error-message',
+			);
+			$('#password').removeAttr(
+				'data-parsley-pattern',
+				'data-parsley-error-message',
+			);
+
 			if (radio.id === 'btnradio3') {
 				emailLabel.textContent = 'Número de solicitud: *';
 				passwordLabel.textContent = 'NIP: *';
-
-				emailInput.dataValidation = 'numerosolicitud';
 				emailInput.placeholder = '4567';
-
-				passwordInput.id = 'nip';
 				passwordInput.placeholder = '****';
 				emailInput.classList.remove('validation-email');
 				emailInput.classList.add('validation-numerosolicitud');
@@ -34,8 +40,6 @@ $(document).ready(function () {
 			} else if (radio.id === 'btnradio1') {
 				emailLabel.textContent = originalEmailLabel;
 				passwordLabel.textContent = originalPasswordLabel;
-
-				emailInput.dataValidation = 'email';
 				emailInput.placeholder = originalEmailPlaceholder;
 
 				passwordInput.placeholder = originalPasswordPlaceholder;
@@ -44,6 +48,10 @@ $(document).ready(function () {
 				passwordInput.classList.remove('validation-nip');
 				passwordInput.classList.add('validation-password');
 			}
+			$('#email').parsley().reset();
+			$('#password').parsley().reset();
+			$('#email').parsley().validate();
+			$('#password').parsley().validate();
 			customValidation();
 		});
 	});
