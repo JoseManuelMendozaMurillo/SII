@@ -19,14 +19,10 @@ $(document).ready(function () {
 			$('#email').val('');
 			$('#password').val('');
 
-			$('#email').removeAttr(
-				'data-parsley-pattern',
-				'data-parsley-error-message',
-			);
-			$('#password').removeAttr(
-				'data-parsley-pattern',
-				'data-parsley-error-message',
-			);
+			$('#email').removeAttr('data-parsley-pattern');
+			$('#email').removeAttr('data-parsley-error-message');
+			$('#password').removeAttr('data-parsley-pattern');
+			$('#password').removeAttr('data-parsley-error-message');
 
 			if (radio.id === 'btnradio3') {
 				emailLabel.textContent = 'Número de solicitud: *';
@@ -41,7 +37,6 @@ $(document).ready(function () {
 				emailLabel.textContent = originalEmailLabel;
 				passwordLabel.textContent = originalPasswordLabel;
 				emailInput.placeholder = originalEmailPlaceholder;
-
 				passwordInput.placeholder = originalPasswordPlaceholder;
 				emailInput.classList.remove('validation-numerosolicitud');
 				emailInput.classList.add('validation-email');

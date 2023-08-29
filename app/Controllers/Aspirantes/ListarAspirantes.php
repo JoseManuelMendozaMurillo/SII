@@ -7,14 +7,14 @@ use CodeIgniter\Controller;
 
 class ListarAspirantes extends Controller
 {
-    public function index()
+    /*public function index()
     {
         $model = new AspiranteModel();
 
         $data['aspirantes'] = $model->findAll();
 
         return view('lista_aspirantes', $data);
-    }
+    }*/
 
     public function cambiarEstadoPago()
     {
@@ -29,8 +29,10 @@ class ListarAspirantes extends Controller
 
             $result = $aspiranteModel->changeStatusPayment($user_id, $nuevo_estado);
             if ($result) {
-                return $this->response->setJSON(['success' => true,
-                    'nuevo_estado' => $nuevo_estado ? 'Pagado' : 'Pendiente']);
+                return $this->response->setJSON([
+                    'success' => true,
+                    'nuevo_estado' => $nuevo_estado ? 'Pagado' : 'Pendiente'
+                ]);
             }
         }
 
