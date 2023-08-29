@@ -15,7 +15,7 @@
                         <div class="text-center">Aspirantes que han hecho su pago</div>
                         <div class="d-flex align-items-center justify-content-between mt-3">
                             <div class="">
-                                <h2 class="counter">{{aspirantes.numAspPaymentPaid}}</h2><!--75%-->
+                                <h2 class="counter">{{aspirantes.totalAspirantes}}</h2><!--75%-->
                             </div>
                             <div class="border bg-soft-info rounded p-3">
                                 <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none"
@@ -153,22 +153,14 @@
     $(document).ready(function () {
         // Función para realizar la búsqueda y filtrado en la tabla
         $("#searchButton").click(function () {
-            updateDisplayedRecords();
-        });
-
-        var currentPage = 1; // Pagina Actual
-        var recordsPerPage = 10; // Numero de registros por default
-        var searchText = $("#searchInput").val().toLowerCase();
-        var filterType = $("#filterSelect").val();
-
-        function updateDisplayedRecords() {
-            var startIndex = (currentPage - 1) * recordsPerPage;
-            var endIndex = startIndex + recordsPerPage;
             var searchText = $("#searchInput").val().toLowerCase();
             var filterType = $("#filterSelect").val();
+            console.log(searchText);
 
-            $("#datatable tbody tr").each(function (index) {
-                if (index >= startIndex && index < endIndex) {
+            if (searchText == '') {
+                updateDisplayedRecords();
+            } else {
+                $("#datatable tbody tr").each(function () {
                     var rowText = $(this).find("td:nth-child(" + (filterType === "numero_solicitud" ? 1 : 2) + ")").text().toLowerCase();
 
                     if (rowText.includes(searchText)) {
@@ -176,7 +168,21 @@
                     } else {
                         $(this).hide();
                     }
-                    // $(this).show();
+                });
+            }
+
+        });
+
+        var currentPage = 1; // Pagina Actual
+        var recordsPerPage = 10; // Numero de registros por default
+
+        function updateDisplayedRecords() {
+            var startIndex = (currentPage - 1) * recordsPerPage;
+            var endIndex = startIndex + recordsPerPage;
+
+            $("#datatable tbody tr").each(function (index) {
+                if (index >= startIndex && index < endIndex) {
+                    $(this).show();
                 } else {
                     $(this).hide();
                 }
