@@ -154,6 +154,15 @@ $routes->group(
     }
 );
 
+// Rutas de preguntas
+$routes->group(
+    'preguntas',
+    ['namespace' => 'App\Controllers'],
+    function ($routes) {
+        $routes->get('', 'Preguntas::preguntasFrecuentes');
+    }
+);
+
 // Rutas de ejemplo de servicios escolares
 $routes->group(
     'servicios',
