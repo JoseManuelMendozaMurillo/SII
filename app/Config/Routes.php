@@ -63,6 +63,7 @@ $routes->group(
         $routes->get('delete/(:num)', 'Aspirantes::delete/$1'); // Esta ruta no debe ser publica (eliminado logico)
         $routes->post('change-status-payment', 'Aspirantes::changeStatusPayment'); // Esta ruta no debe ser publica
         $routes->post('ficha', 'Aspirantes::getfichaAspirante');
+        $routes->get('data', 'Aspirantes::getDatosAspirante');
         $routes->group(
             '',
             ['namespace' => 'App\Controllers\Aspirantes'],
