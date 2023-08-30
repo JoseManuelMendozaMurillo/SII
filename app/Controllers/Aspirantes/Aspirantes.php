@@ -97,12 +97,12 @@ class Aspirantes extends RegisterController
     public function post(): RedirectResponse
     {
         // Validamos el formulario
-        // $dataAspirante = $this->request->getPost();
-        // if (!$this->validation->run($dataAspirante, 'registerFormAspirantes')) {
-        //     dd($this->validation->getErrors());
+        $dataAspirante = $this->request->getPost();
+        if (!$this->validation->run($dataAspirante, 'registerFormAspirantes')) {
+            dd($this->validation->getErrors());
 
-        //     return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
-        // }
+            return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
+        }
 
         // Iniciamos una transaccion para crear el nuevo registro
         $this->db->transStart();
@@ -151,7 +151,7 @@ class Aspirantes extends RegisterController
             $this->db->transCommit();
 
             // Retornar la vista de exito
-            return d('Aspirante creado');
+            d('Aspirante creado');
         } catch (Exception $e) {
             // Si hay un error se realizara un rollback
             $this->db->transRollback();
@@ -164,7 +164,7 @@ class Aspirantes extends RegisterController
             }
 
             // Retornar vista de error en el back
-            return dd('Error: ' . $e->getMessage());
+            dd('Error: ' . $e->getMessage());
         }
     }
 
