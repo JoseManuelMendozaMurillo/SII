@@ -13,6 +13,7 @@ class LimpiaTablasAspirantes extends Seeder
         $this->db->query(file_get_contents(__DIR__ . '/ScriptsLimpiarShieldAspirantes/TruncateAspirantes.sql'));
         $this->db->query(file_get_contents(__DIR__ . '/ScriptsLimpiarShieldAspirantes/TruncateAspirantesDatosC.sql'));
         $this->db->query(file_get_contents(__DIR__ . '/ScriptsLimpiarShieldAspirantes/TruncateAuthIdentities.sql'));
+        $this->db->query(file_get_contents(__DIR__ . '/ScriptsLimpiarShieldAspirantes/TruncateAuthGroupsUsers.sql'));
         $this->db->query(file_get_contents(__DIR__ . '/ScriptsLimpiarShieldAspirantes/DesactivaFKC.sql'));
     }
 }

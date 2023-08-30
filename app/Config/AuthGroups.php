@@ -40,13 +40,17 @@ class AuthGroups extends ShieldAuthGroups
             'title' => 'Aspirante',
             'description' => 'Aspirante a estudiante del TecNM Campus Ocotlan',
         ],
-        'financieros' => [
-            'title' => 'Servicios financieros',
+        'recursos_financieros' => [
+            'title' => 'Recursos Financieros',
             'description' => 'Administrativo del area de servicios financieros',
         ],
         'desarrollo_academico' => [
             'title' => 'Desarrollo Academico',
             'description' => 'Administrativo del area de desarrollo academico',
+        ],
+        'servicios_escolares' => [
+            'title' => 'Servicios Escolares',
+            'description' => 'Administrativo del area de Servicios Escolares',
         ],
     ];
 
