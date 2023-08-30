@@ -62,7 +62,8 @@ $routes->group(
         $routes->post('insert', 'Aspirantes::post');
         $routes->get('delete/(:num)', 'Aspirantes::delete/$1'); // Esta ruta no debe ser publica (eliminado logico)
         $routes->post('change-status-payment', 'Aspirantes::changeStatusPayment'); // Esta ruta no debe ser publica
-
+        $routes->post('ficha', 'Aspirantes::getfichaAspirante');
+        $routes->get('data', 'Aspirantes::getDatosAspirante');
         $routes->group(
             '',
             ['namespace' => 'App\Controllers\Aspirantes'],
@@ -151,6 +152,8 @@ $routes->group(
         $routes->get('addgroup/(:any)/(:any)', 'Pruebas::addgroup/$1/$2');
         $routes->get('allusers', 'Pruebas::allusers');
         $routes->get('superadmin', 'Pruebas::superadmin');
+
+        $routes->get('testpost', 'Pruebas::testpost');
     }
 );
 

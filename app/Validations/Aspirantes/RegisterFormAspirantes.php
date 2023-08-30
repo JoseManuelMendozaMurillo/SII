@@ -172,11 +172,6 @@ class RegisterFormAspirantes
         'estufa' => 'required',
     ];
 
-    public function boolean(string $str, string $fields, array $data): bool
-    {
-        return filter_var($data['status'], FILTER_VALIDATE_BOOLEAN);
-    }
-
     /**
      * Reglas de validacion para cambiar el estatus de pago de un aspirante
      *

@@ -1,0 +1,91 @@
+<!-- Sección donde se pide la información de la carrera a la cual quiere ingresar el aspirante -->
+<fieldset>
+    <div class="form-card text-start">
+        <div class="card-body" style="
+                border-radius: 10px;
+                box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.2);
+            ">
+            <div class="form-card text-start">
+                <div class="row">
+                    <div class="col-7">
+                        <h3 class="mb-4">SOLICITUD DEL ASPIRANTE:</h3>
+                    </div>
+                    <div class="col-5"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">¿Cuál opción aspira a ingresar?: *</label>
+                            <select class="form-select" name="primeraOpcionIngreso" id="primeraOpcionIngreso">
+                                {% for carrera in carreras %}
+                                <option value="{{ carrera['id_carrera'] }}">
+                                    {{ carrera['nombre_carrera']|upper }}
+                                </option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">¿Cuál es su segunda opción a ingresar?:
+                                *</label>
+                            <select class="form-select" name="segundaOpcionIngreso" id="segundaOpcionIngreso"></select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">¿Cuál turno desea preferentemente?: *</label>
+                            <select class="form-select" name="turno" id="exampleFormControlSelect1">
+                                <option selected>CUALQUIERA</option>
+                                <option>MATUTINO</option>
+                                <option>VESPERTINO</option>
+                            </select>
+                            <br />
+                            <h6 class="text-danger">
+                                Nota: es posible que algunas carreras no se
+                                aperturen en todos los turnos.
+                            </h6>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">¿Somos tu primera opción para cursar sus
+                                estudios?: *</label>
+                            <select class="form-select" name="primeraOpcion" id="exampleFormControlSelect1">
+                                <option selected>SÍ</option>
+                                <option>NO</option>
+                                <option>PREFIERO NO DECIRLO</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">¿Cuál es su motivo de seleccionar nuestra
+                                institución?:
+                            </label>
+                            <select type="text" class="form-select upper-case" name="motivoIngreso"
+                                placeholder="POR PRESTIGIO">
+                                {% for motivoIngreso in motivosIngreso %}
+                                <option value="{{ motivoIngreso['id_motivoIngreso'] }}">
+                                    {{ motivoIngreso['motivo']|upper }}
+                                </option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">¿Cuál es su motivo de seleccionar este plan
+                                de estudios?:
+                            </label>
+                            <textarea name="motivoSeleccionPlanEstudio" id="" cols="5" rows="5"
+                                class="form-control upper-case"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+    </div>
+    <br />
+    <br />
+    <button type="button" name="next" class="btn btn-primary next action-button float-end" value="Next">
+        Siguiente
+    </button>
+    <button type="button" name="previous" class="btn btn-dark previous action-button-previous float-end me-1"
+        value="Previous">
+        Atras
+    </button>
+</fieldset>
