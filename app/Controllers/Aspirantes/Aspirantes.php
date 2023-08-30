@@ -16,6 +16,8 @@ use App\Libraries\Files;
 use App\Libraries\Thumbs;
 use App\Libraries\Emails;
 use Exception;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class Aspirantes extends RegisterController
 {
@@ -95,12 +97,12 @@ class Aspirantes extends RegisterController
     public function post(): RedirectResponse
     {
         // Validamos el formulario
-        $dataAspirante = $this->request->getPost();
-        if (!$this->validation->run($dataAspirante, 'registerFormAspirantes')) {
-            dd($this->validation->getErrors());
+        // $dataAspirante = $this->request->getPost();
+        // if (!$this->validation->run($dataAspirante, 'registerFormAspirantes')) {
+        //     dd($this->validation->getErrors());
 
-            return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
-        }
+        //     return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
+        // }
 
         // Iniciamos una transaccion para crear el nuevo registro
         $this->db->transStart();
@@ -149,7 +151,7 @@ class Aspirantes extends RegisterController
             $this->db->transCommit();
 
             // Retornar la vista de exito
-            d('Aspirante creado');
+            return d('Aspirante creado');
         } catch (Exception $e) {
             // Si hay un error se realizara un rollback
             $this->db->transRollback();
@@ -162,7 +164,7 @@ class Aspirantes extends RegisterController
             }
 
             // Retornar vista de error en el back
-            dd('Error: ' . $e->getMessage());
+            return dd('Error: ' . $e->getMessage());
         }
     }
 
@@ -590,5 +592,61 @@ class Aspirantes extends RegisterController
         $this->twig->display('Aspirantes/modulo_pagado', [
             'esAcreditado' => $esAcreditado,
         ]);
+    }
+
+    /**
+     * exportPdf
+     * Función para exportar documentos HTML a PDF
+     *
+     * @return Response
+     */
+    public function exportPdf($template, $data, $fileName)
+    {
+        $options = new Options();
+        $options->setChroot(FCPATH);
+        $options->setDefaultFont('Inter');
+        $options->setIsRemoteEnabled(true);
+
+        $html = $this->twig->render($template, $data);
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($html);
+        $dompdf->render();
+
+        $pdfContent = $dompdf->output();
+
+        // Enviar la respuesta al cliente
+        return $this->response->setStatusCode(200)
+                              ->setBody($pdfContent)
+                              ->setHeader('Content-Type', 'application/pdf')
+                              ->setHeader('Content-Disposition', 'inline; filename="' . $fileName . '"')
+                              ->setHeader('Cache-Control', 'max-age=0');
+    }
+
+    public function getFichaAspirante()
+    {
+        $id = $this->request->getPost('id');
+
+        $user = $this->aspirantesModel->find($id)->toArray();
+        $carrera = new CarrerasModel();
+
+        $data = [
+            'fullName' => $user['nombre'] . ' '
+                        . $user['apellido_paterno'] . ' '
+                        . $user['apellido_materno'],
+            'curp' => $user['curp'],
+            'noSolicitude' => $user['no_solicitud'],
+            'nip' => $user['nip'],
+            'firstOption' => $carrera->getNameById($user['carrera_primera_opcion']),
+            // 'pathPhoto' => config('Paths')->accessPhotosAspirantes . '/' . $user['id_aspirante'] . '/' . $user['imagen'],
+            $pathPhoto = config('Paths')->accessPhotosAspirantes . '/' . 'test.png',
+
+        ];
+
+        d($data);
+
+        $template = 'Aspirantes/pdf_templates/pdf_aspirantes';
+        $fileName = 'ficha_' . $user['no_solicitud'];
+
+        return $this->exportPdf($template, $data, $fileName);
     }
 }
