@@ -83,7 +83,7 @@ class Aspirantes extends RegisterController
             'estadoCivil' => $this->db->table('estado_civil')->get()->getResultArray(),
         ];
 
-        return $this->twig->display('Aspirantes/aspirantes', $data);
+        return $this->twig->display('Aspirantes/FormRegister/form', $data);
     }
 
     /**
@@ -97,6 +97,8 @@ class Aspirantes extends RegisterController
         // Validamos el formulario
         $dataAspirante = $this->request->getPost();
         if (!$this->validation->run($dataAspirante, 'registerFormAspirantes')) {
+            dd($this->validation->getErrors());
+
             return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
         }
 
@@ -147,7 +149,7 @@ class Aspirantes extends RegisterController
             $this->db->transCommit();
 
             // Retornar la vista de exito
-            return d('Aspirante creado');
+            d('Aspirante creado');
         } catch (Exception $e) {
             // Si hay un error se realizara un rollback
             $this->db->transRollback();
@@ -160,7 +162,7 @@ class Aspirantes extends RegisterController
             }
 
             // Retornar vista de error en el back
-            return dd('Error: ' . $e->getMessage());
+            dd('Error: ' . $e->getMessage());
         }
     }
 
