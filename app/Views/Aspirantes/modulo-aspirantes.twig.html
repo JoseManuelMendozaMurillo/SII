@@ -24,28 +24,28 @@
                                         <div class="d-flex pb-3">
                                             <span class="px-2"> <strong>Banco:
                                                 </strong></span>
-                                            <span class="text-primary">BANAMEX</span>
+                                            <span class="text-primary">{{banco}}</span>
                                         </div>
                                         <div class="d-flex pb-3">
                                             <span class="px-2"> <strong>Nùmero de sucursal:
                                                 </strong></span>
-                                            <span class="text-primary">7006</span>
+                                            <span class="text-primary">{{numSucursal}}</span>
                                         </div>
                                         <div class="d-flex pb-3">
                                             <span class="px-2"> <strong>Cuenta:
                                                 </strong></span>
-                                            <span class="text-primary">5252854</span>
+                                            <span class="text-primary">{{numCuenta}}</span>
                                         </div>
                                         <div class="d-flex">
                                             <span class="px-2"> <strong>Referencia bancaria:
                                                 </strong></span>
-                                            <p class="text-break text-primary">ITOCO7219PEREZJUAN030301</p>
+                                            <p class="text-break text-primary">{{refBancaria}}</p>
                                         </div>
                                         <div class="d-flex">
                                             <span class="px-2"> <strong>Monto a pagar:
                                                 </strong></span>
                                             <span class="text-primary">$</span>
-                                            <span class="text-primary">750</span>
+                                            <span class="text-primary">{{montoPagar}}</span>
                                         </div>
                                     </div>
                                     <div class="col-md-4 pb-3 text-center align-items-center">
@@ -55,7 +55,8 @@
                                 </div>
                                 <br>
                                 <div class="d-flex justify-content-center">
-                                    <button type="submit" class="btn btn-primary">Imprime tu recibo</button>
+                                    <a class="btn btn-primary" href="{{base_url('aspirantes/pdf')}}">Imprime tu
+                                        recibo</a>
                                 </div>
                             </div>
                         </div>
