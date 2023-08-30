@@ -24,8 +24,8 @@
                             </div>
                         </div>
                         <div class="text-center">
-                            <h2 class="counter">35</h2>
-                            <div>
+                            <h2 class="counter">{{aspirantes.numAspPaymentPaid}}</h2>
+                            <div><!--
                                 <span>
                                     <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10"
                                         viewBox="0 0 20 20" fill="currentColor">
@@ -35,7 +35,7 @@
                                     </svg>
                                     10%
                                 </span>
-                                <span>Incrementado</span>
+                                <span>Incrementado</span>-->
                             </div>
                         </div>
                     </div>
@@ -69,7 +69,7 @@
                                             d="M12.3 8.93L9.88 6.5H15.5V10H17V5H9.88L12.3 2.57L11.24 1.5L7 5.75L11.24 10L12.3 8.93M12 14A3 3 0 1 0 15 17A3 3 0 0 0 12 14M3 11V23H21V11M19 19A2 2 0 0 0 17 21H7A2 2 0 0 0 5 19V15A2 2 0 0 0 7 13H17A2 2 0 0 0 19 15Z" />
                                     </svg>
                                 </div>
-                                <h2 class="counter">15</h2>
+                                <h2 class="counter">{{aspirantes.numAspPaymentPending}}</h2>
                             </div>
                             <div class="pt-3">
                                 <svg class="icon-20" xmlns="http://www.w3.org/2000/svg" width="20px" viewBox="0 0 20 20"
@@ -122,15 +122,15 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <p>{{dump(aspirantes)}}</p>
                                         {% for aspirante in aspirantes %}
                                         <tr>
-                                            <td>{{ aspirante.user_id }}</td>
-                                            <td>{{ aspirante.nombre }} {{ aspirante.apellido_paterno }} {{
-                                                aspirante.apellido_materno }}</td>
+                                            <td>{{ aspirante.noSolicitude }}</td>
+                                            <td>{{ aspirante.name }}</td>
                                             <td>{{ aspirante.email }}</td>
                                             <td>
                                                 <button
-                                                    class="btn {% if aspirante.estatus_pago == 'Pendiente' %}btn-warning{% else %}btn-success{% endif %}"
+                                                    class="btn {% if aspirante.estatus_pago == '0' %}btn-success{% else %}btn-warning{% endif %}"
                                                     onclick="mostrarConfirmacion('{{ aspirante.user_id }}')">
                                                     {{ aspirante.estatus_pago }}
                                                 </button>
@@ -153,8 +153,6 @@
                                 </div>
                                 <div>
                                     <button class="btn btn-secondary">Anterior</button>
-                                    <button class="btn btn-secondary">1</button>
-                                    <!-- Más botones de paginación aquí -->
                                     <button class="btn btn-secondary">Siguiente</button>
                                 </div>
                             </div>
@@ -169,13 +167,13 @@
 {% endblock %}
 
 {% block script %}
+
+<script src="{{ base_url('Js/RecursosFinancieros/RecursosFinancieros.js')}}" type="module"></script>
+
 <!-- JQuery -->
 <script src="{{base_url('Vendor/Parsley/jquery-3.7.0.min.js')}}"></script>
 <!-- SweetAlert -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<script
-    type="text/javascript">window.$crisp = []; window.CRISP_WEBSITE_ID = "89fe603c-fae1-4249-b972-a9982b1e246e"; (function () { d = document; s = d.createElement("script"); s.src = "https://client.crisp.chat/l.js"; s.async = 1; d.getElementsByTagName("head")[0].appendChild(s); })();</script>
 
 <script>
     function mostrarConfirmacion(user_id) {
@@ -222,4 +220,6 @@
         });
     }
 </script>
+
+
 {% endblock %}

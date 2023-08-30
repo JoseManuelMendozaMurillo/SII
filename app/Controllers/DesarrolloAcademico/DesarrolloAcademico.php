@@ -51,6 +51,7 @@ class DesarrolloAcademico extends BaseController
             unset($aspirante['pathPhotos']);
             $aspirantes[] = $aspirante;
         }
+        $percent = (float) 100 * $numAspPaymentPaid / ($numAspPaymentPending + $numAspPaymentPaid);
 
         $data = [
             'nombreModulo' => 'Desarrollo Academico',
@@ -58,6 +59,7 @@ class DesarrolloAcademico extends BaseController
             'numAspPaymentPending' => $numAspPaymentPending,
             'numTotalAsp' => $numTotalAsp,
             'aspirantes' => $aspirantes,
+            'percent' => $percent,
         ];
 
         $this->twig->display('DesarrolloAcademico/lista_aspirantes', $data);
