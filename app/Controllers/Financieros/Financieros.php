@@ -8,13 +8,6 @@ use CodeIgniter\HTTP\Response;
 
 class Financieros extends BaseController
 {
-    public function nuevosAspirantes()
-    {
-        $datos = ['nombreModulo' => 'Recursos Financieros'];
-
-        $this->twig->display('RecursosFinancieros/nuevos_aspirantes', $datos);
-    }
-
     /**
      * listAspirantes
      * Función para mostrar la vista de aspirante para recursos financieros

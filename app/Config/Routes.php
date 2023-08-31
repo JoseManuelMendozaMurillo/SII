@@ -93,7 +93,7 @@ $routes->group(
     ['namespace' => 'App\Controllers\Financieros'],
     // 'filter' => 'group:financieros'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
     function ($routes) {
-        $routes->get('nuevos/aspirantes', 'Financieros::nuevosAspirantes');
+        $routes->get('nuevos/aspirantes', 'Financieros::listAspirantes');
     }
 );
 
