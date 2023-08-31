@@ -51,6 +51,16 @@ $routes->group(
     }
 );
 
+// Rutas Accounts
+$routes->group(
+    'accounts',
+    ['namespace' => 'App\Controllers\Accounts'],
+    function ($routes) {
+        $routes->get('profile', 'Profile::profile');
+        $routes->get('change-password', 'Porfile::changePassword');
+    }
+);
+
 // Rutas aspirantes
 $routes->group(
     'aspirantes',
