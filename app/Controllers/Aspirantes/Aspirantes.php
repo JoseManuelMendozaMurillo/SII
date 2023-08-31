@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Aspirantes;
 
+use App\Database\Migrations\InformacionBancaria;
 use CodeIgniter\HTTP\Response;
 use App\Entities\Aspirantes\Aspirante;
 use CodeIgniter\Shield\Entities\User;
@@ -15,7 +16,10 @@ use App\Models\Aspirantes\AspiranteModel;
 use App\Libraries\Files;
 use App\Libraries\Thumbs;
 use App\Libraries\Emails;
+use App\Models\RecursosFinancieros\InfoBancariaModel;
 use Exception;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class Aspirantes extends RegisterController
 {
@@ -599,5 +603,106 @@ class Aspirantes extends RegisterController
         $this->twig->display('Aspirantes/modulo_pagado', [
             'esAcreditado' => $esAcreditado,
         ]);
+    }
+
+    /**
+     * exportPdf
+     * Función para exportar documentos HTML a PDF
+     *
+     * @return Response
+     */
+    public function exportPdf($template, $data, $fileName)
+    {
+        $options = new Options();
+        $options->setChroot(FCPATH);
+        $options->setDefaultFont('Inter');
+        $options->setIsRemoteEnabled(true);
+
+        $html = $this->twig->render($template, $data);
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($html);
+        $dompdf->render();
+
+        $pdfContent = $dompdf->output();
+
+        // Enviar la respuesta al cliente
+        return $this->response->setStatusCode(200)
+                              ->setBody($pdfContent)
+                              ->setHeader('Content-Type', 'application/pdf')
+                              ->setHeader('Content-Disposition', 'inline; filename="' . $fileName . '"')
+                              ->setHeader('Cache-Control', 'max-age=0');
+    }
+
+    /**
+     * getFichaAspirante
+     * Genera un PDF con los los datos de la ficha de solicitud del aspirante
+     */
+    public function getFichaAspirante()
+    {
+        $id = $this->request->getPost('id');
+
+        $user = $this->aspirantesModel->find($id)->toArray();
+        $carrera = new CarrerasModel();
+
+        $data = [
+            'fullName' => $user['nombre'] . ' '
+                        . $user['apellido_paterno'] . ' '
+                        . $user['apellido_materno'],
+            'curp' => $user['curp'],
+            'noSolicitude' => $user['no_solicitud'],
+            'nip' => $user['nip'],
+            'firstOption' => $carrera->getNameById($user['carrera_primera_opcion']),
+            // 'pathPhoto' => config('Paths')->accessPhotosAspirantes . '/' . $user['id_aspirante'] . '/' . $user['imagen'],
+            $pathPhoto = config('Paths')->accessPhotosAspirantes . '/' . 'test.png',
+
+        ];
+
+        // d($data);
+
+        $template = 'Aspirantes/pdf_templates/pdf_aspirantes';
+        $fileName = 'ficha_' . $user['no_solicitud'];
+
+        return $this->exportPdf($template, $data, $fileName);
+    }
+
+    /**
+     * getDatosASpirante
+     * Manda datos a la vista de de aspirante
+     */
+    public function getDatosAspirante()
+    {
+        // PENDIENTE: Asignar el id por medio de post y mandar datos a la vista
+
+        // $id = $this->request->getPost('id');
+        $user = $this->aspirantesModel->find(1)->toArray();
+
+        $banco = new InfoBancariaModel();
+        $banco = $banco->getData();
+
+        $date = $user['fecha_nacimiento'];
+        $date_aux = substr($date, 2, 2) . substr($date, 5, 2) . substr($date, 8, 2);
+        $data = [
+            'fullName' => $user['nombre'] . ' '
+                        . $user['apellido_paterno'] . ' '
+                        . $user['apellido_materno'],
+
+            'noSolicitude' => $user['no_solicitud'],
+            'pathPhoto' => config('Paths')->accessPhotosAspirantes . '/' . 'test.png',
+
+            'banco' => $banco['banco'],
+            'sucursal' => $banco['sucursal'],
+            'cuenta' => $banco['cuenta'],
+
+            'costo_examen' => $banco['costo_examen'],
+
+            'referencia' => 'ITOCO'
+                            . $user['no_solicitud']
+                            . $user['apellido_paterno']
+                            . $user['nombre']
+                            . $date_aux,
+
+        ];
+
+        d($data);
     }
 }
