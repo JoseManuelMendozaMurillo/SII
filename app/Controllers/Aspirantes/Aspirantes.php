@@ -92,7 +92,7 @@ class Aspirantes extends RegisterController
      *
      * @return RedirectResponse
      */
-    public function post(): RedirectResponse
+    public function post()//: RedirectResponse
     {
         // Validamos el formulario
         $dataAspirante = $this->request->getPost();
@@ -148,8 +148,23 @@ class Aspirantes extends RegisterController
             // Si todo está bien, confirmar la transacción
             $this->db->transCommit();
 
-            // Retornar la vista de exito
-            d('Aspirante creado');
+            // Mostramos la vista de exito
+            $nombre = implode(
+                ' ',
+                [
+                    $dataAspirante['nombre'],
+                    $dataAspirante['apellido_paterno'],
+                    $dataAspirante['apellido_materno'],
+                ]
+            );
+            $data = [
+                'nombre' => $nombre,
+                'curp' => $dataAspirante['curp'],
+                'carrera' => $carrerasModel->getNameById($idCarrera),
+                'foto' => $pathPhoto,
+            ];
+
+            $this->twig->display('Aspirantes/finalizacion_aspirantes', $data);
         } catch (Exception $e) {
             // Si hay un error se realizara un rollback
             $this->db->transRollback();
@@ -161,8 +176,7 @@ class Aspirantes extends RegisterController
                 $files->deleteDir($dirPhotosAspirantes);
             }
 
-            // Retornar vista de error en el back
-            dd('Error: ' . $e->getMessage());
+            $this->twig->display('errors/error500');
         }
     }
 
@@ -415,7 +429,7 @@ class Aspirantes extends RegisterController
             'escuela_procedencia' => $this->request->getPost('nombreEscuela'),
             'estado_escuela' => $this->request->getPost('estadoEscuela'),
             'municipio_escuela' => $this->request->getPost('municipioEscuela'),
-            'ano_egreso' => $this->request->getPost('anioEgreso'),
+            'ano_egreso' => $this->request->getPost('anoEgreso'),
             'promedio_general' => $this->request->getPost('promedio'),
             'carrera_primera_opcion' => $this->request->getPost('primeraOpcionIngreso'),
             'carrera_segunda_opcion' => $this->request->getPost('segundaOpcionIngreso'),
@@ -454,7 +468,7 @@ class Aspirantes extends RegisterController
             'no_focos' => $this->request->getPost('cantidadFocos'),
             'tipo_piso' => $this->request->getPost('tipoPiso'),
             'no_automoviles' => $this->request->getPost('cantidadAutos'),
-            'estufa' => $this->request->getPost('estufa'),
+            'estufa' => $this->request->getPost('estufa') == 'S' ? 1 : 0,
         ];
 
         $aspirante = new Aspirante($data);
@@ -576,11 +590,6 @@ class Aspirantes extends RegisterController
                 ],
             ],
         ];
-    }
-
-    public function finalizacionAspirantes(): void
-    {
-        $this->twig->display('Aspirantes/finalizacion_aspirantes');
     }
 
     public function pagadoModulo(): void
