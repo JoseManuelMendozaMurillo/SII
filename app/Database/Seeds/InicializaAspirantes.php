@@ -10,6 +10,5 @@ class InicializaAspirantes extends Seeder
     {
         $this->call('CompletadoSelectoras');
         $this->call('LlenaEstadoCivil');
-        $this->call('LlenaAspirantes');
     }
 }

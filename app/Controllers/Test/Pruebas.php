@@ -187,7 +187,7 @@ class Pruebas extends BaseController
     {
         $credentials = [
             'email' => $username . '@example.com',
-            'password' => '1234qwer',
+            'password' => 'correcaminos',
         ];
 
         $loginAttempt = auth()->attempt($credentials);

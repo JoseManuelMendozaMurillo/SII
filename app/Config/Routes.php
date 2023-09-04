@@ -51,13 +51,22 @@ $routes->group(
     }
 );
 
+// Rutas Accounts
+$routes->group(
+    'accounts',
+    ['namespace' => 'App\Controllers\Accounts'],
+    function ($routes) {
+        $routes->get('profile', 'Profile::profile');
+        $routes->get('change-password', 'Porfile::changePassword');
+    }
+);
+
 // Rutas aspirantes
 $routes->group(
     'aspirantes',
     ['namespace' => 'App\Controllers\Aspirantes'],
     function ($routes) {
         $routes->get('registro', 'Aspirantes::formRegister');
-        $routes->get('finalizacion', 'Aspirantes::finalizacionAspirantes'); //Ruta de finalizacion del aspirantes
         $routes->get('acreditado', 'Aspirantes::pagadoModulo'); //Ruta de pago acreditado
         $routes->post('insert', 'Aspirantes::post');
         $routes->get('delete/(:num)', 'Aspirantes::delete/$1'); // Esta ruta no debe ser publica (eliminado logico)

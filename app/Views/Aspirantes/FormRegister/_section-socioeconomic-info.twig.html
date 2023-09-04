@@ -129,7 +129,7 @@
                             <select type="text" class="form-select upper-case" name="tipoPiso"
                                 placeholder="CEMENTO FIRME">
                                 {% for tipo in tipoPiso %}
-                                <option value="{{ vivienda['id_tipo_piso'] }}">
+                                <option value="{{ tipo['id_tipo_piso'] }}">
                                     {{ tipo['tipo_piso']|upper }}
                                 </option>
                                 {%endfor%}
@@ -148,8 +148,8 @@
                                 eléctrica?:
                             </label>
                             <select type="text" class="form-select upper-case" name="estufa">
-                                <option value="0">SÍ</option>
-                                <option value="1">NO</option>
+                                <option value="S">SÍ</option>
+                                <option value="N">NO</option>
                             </select>
                         </div>
                     </div>
@@ -159,8 +159,7 @@
     </div>
     <br />
     <br />
-    <button type="submit" name="next" id="congrats" onclick="activateConfetti();"
-        class="btn btn-primary next action-button float-end" value="Submit">
+    <button type="submit" id="congrats" class="btn btn-primary next action-button float-end">
         Enviar
     </button>
     <button type="button" name="previous" class="btn btn-dark previous action-button-previous float-end me-1"

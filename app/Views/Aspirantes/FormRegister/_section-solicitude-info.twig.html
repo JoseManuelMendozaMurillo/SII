@@ -60,7 +60,7 @@
                             <select type="text" class="form-select upper-case" name="motivoIngreso"
                                 placeholder="POR PRESTIGIO">
                                 {% for motivoIngreso in motivosIngreso %}
-                                <option value="{{ motivoIngreso['id_motivoIngreso'] }}">
+                                <option value="{{ motivoIngreso['id_motivo_ingreso'] }}">
                                     {{ motivoIngreso['motivo']|upper }}
                                 </option>
                                 {%endfor%}
