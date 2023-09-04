@@ -49,7 +49,7 @@ function validateCandidate()
 {
     $fields = ['application', 'nip'];
     $rules = [
-        'application' => 'required|CustomValidations::validateEmail',
+        'application' => 'required',
         'nip' => 'required',
     ];
 

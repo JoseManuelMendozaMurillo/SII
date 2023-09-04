@@ -149,7 +149,7 @@ if(document.querySelectorAll('#chart-3').length){
     },
     series: [{
         name: 'series1',
-        data: [60, 40, 60, 40, 70]
+        data: [60, 20, 60, 40, 90]
     }, ],
     colors: ['#07750b'],
   

@@ -139,17 +139,15 @@
                                  <div class="col-lg-12">
                                     <div class="form-group">
                                        <label for="email" class="form-label">Correo electrónico: *</label>
-                                       <input type="email" name="email" class="form-control" id="email"
-                                          aria-describedby="email" placeholder="13425714@itocotlan.com"
-                                          data-validation="email">
+                                       <input type="text" name="email" class="form-control validation-email" id="email"
+                                          aria-describedby="email" placeholder="13425714@itocotlan.com" required>
                                     </div>
                                  </div>
                                  <div class="col-lg-12">
                                     <div class="form-group">
                                        <label for="password" class="form-label">Contraseña: *</label>
-                                       <input type="password" name="password" class="form-control" id="password"
-                                          aria-describedby="password" placeholder="*********"
-                                          data-validation="password">
+                                       <input type="password" name="password" class="form-control validation-password"
+                                          id="password" aria-describedby="password" placeholder="*********" required>
                                     </div>
                                  </div>
                                  <div class="col-lg-12 d-flex justify-content-between">
@@ -215,6 +213,19 @@
 
 <!-- Codigo js del login -->
 <script type="module" src="{{base_url('Js/Auth/login.js')}}"></script>
+
+<!--Crisp Chat -->
+<script type="text/javascript">
+   window.$crisp = [];
+   window.CRISP_WEBSITE_ID = "29bd961b-66d8-46f4-b7ef-3559b164f326";
+   (function () {
+      d = document; s = d.createElement("script");
+      s.src = "https://client.crisp.chat/l.js";
+      s.async = 1;
+      d.getElementsByTagName("head")[0].appendChild(s);
+   })();
+</script>
+
 
 <!-- Modo oscuro -->
 <script>

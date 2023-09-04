@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Aspirantes;
 
+use App\Database\Migrations\InformacionBancaria;
 use CodeIgniter\HTTP\Response;
 use App\Entities\Aspirantes\Aspirante;
 use CodeIgniter\Shield\Entities\User;
@@ -15,6 +16,7 @@ use App\Models\Aspirantes\AspiranteModel;
 use App\Libraries\Files;
 use App\Libraries\Thumbs;
 use App\Libraries\Emails;
+use App\Models\RecursosFinancieros\InfoBancariaModel;
 use Exception;
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -32,37 +34,6 @@ class Aspirantes extends RegisterController
         $this->db = db_connect();
     }
 
-    public function pdf()
-    {
-        $options = new Options();
-        $options->setChroot(FCPATH);
-        $options->setDefaultFont('Inter');
-        $options->setIsRemoteEnabled(true);
-
-        $fullName = 'Jose Manuel Mendoza Murillo';
-        $pathPhoto = config('Paths')->accessPhotosAspirantes . '/' . 'test.png';
-        $html = $this->twig->render('Aspirantes/pdf_templates/pdf_aspirantes', [
-            'fullName' => $fullName,
-            'curp' => 'PEGJ850315HJCRRN07',
-            'noSolicitude' => '0001',
-            'nip' => '3654',
-            'firstOption' => 'Ingeniería en Sistemas Computacionales',
-            'pathPhoto' => $pathPhoto,
-        ]);
-        $dompdf = new Dompdf($options);
-        $dompdf->loadHtml($html);
-        $dompdf->render();
-
-        $pdfContent = $dompdf->output();
-        $fileName = 'Pruebas.pdf';
-
-        // Enviar la respuesta al cliente
-        return $this->response->setStatusCode(200)
-                              ->setBody($pdfContent)
-                              ->setHeader('Content-Type', 'application/pdf')
-                              ->setHeader('Content-Disposition', 'inline; filename="' . $fileName . '"');
-    }
-
     /**
      * index
      * Funcion para mostrar la pagina principal del modulo de aspirantes dentro de la plataforma
@@ -71,7 +42,11 @@ class Aspirantes extends RegisterController
      */
     public function index(): void
     {
-        $this->twig->display('Aspirantes/modulo-aspirantes');
+        $esAcreditado = false;
+
+        $this->twig->display('Aspirantes/modulo-aspirantes', [
+            'esAcreditado' => $esAcreditado,
+        ]);
     }
 
     /**
@@ -98,6 +73,7 @@ class Aspirantes extends RegisterController
 
         $data = [
             // Catalogos de datos
+            'estadoCivil' => $this->db->table('estado_civil')->get()->getResultArray(),
             'tiposSangre' => $this->db->table('tipos_sangre')->get()->getResultArray(),
             'comunidadesIndigenas' => $this->db->table('comunidades_indigenas')->get()->getResultArray(),
             'lenguasIndigenas' => $this->db->table('lenguas_indigenas')->get()->getResultArray(),
@@ -108,10 +84,10 @@ class Aspirantes extends RegisterController
             'ocupaciones' => $this->db->table('ocupaciones')->get()->getResultArray(),
             'propiedadVivienda' => $this->db->table('propiedad_vivienda')->get()->getResultArray(),
             'tipoPiso' => $this->db->table('tipos_piso')->get()->getResultArray(),
-            // Agregar el catalogo de estado civil
+            'estadoCivil' => $this->db->table('estado_civil')->get()->getResultArray(),
         ];
 
-        return $this->twig->display('Aspirantes/aspirantes', $data);
+        return $this->twig->display('Aspirantes/FormRegister/form', $data);
     }
 
     /**
@@ -120,11 +96,13 @@ class Aspirantes extends RegisterController
      *
      * @return RedirectResponse
      */
-    public function post(): RedirectResponse
+    public function post()//: RedirectResponse
     {
         // Validamos el formulario
         $dataAspirante = $this->request->getPost();
         if (!$this->validation->run($dataAspirante, 'registerFormAspirantes')) {
+            dd($this->validation->getErrors());
+
             return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
         }
 
@@ -174,9 +152,23 @@ class Aspirantes extends RegisterController
             // Si todo está bien, confirmar la transacción
             $this->db->transCommit();
 
-            d('Aspirante creado');
+            // Mostramos la vista de exito
+            $nombre = implode(
+                ' ',
+                [
+                    $dataAspirante['nombre'],
+                    $dataAspirante['apellido_paterno'],
+                    $dataAspirante['apellido_materno'],
+                ]
+            );
+            $data = [
+                'nombre' => $nombre,
+                'curp' => $dataAspirante['curp'],
+                'carrera' => $carrerasModel->getNameById($idCarrera),
+                'foto' => $pathPhoto,
+            ];
 
-            // Retornar vista de exito
+            $this->twig->display('Aspirantes/finalizacion_aspirantes', $data);
         } catch (Exception $e) {
             // Si hay un error se realizara un rollback
             $this->db->transRollback();
@@ -187,39 +179,9 @@ class Aspirantes extends RegisterController
                 $files = new Files();
                 $files->deleteDir($dirPhotosAspirantes);
             }
-            // Retornar vista de error en el back
-            dd('Error: ' . $e->getMessage());
-        }
-    }
 
-    public function sendEmail()
-    {
-        // Enviamos el correo con la informacion de inicio sesion al aspirante
-        // Obtención de datos para generar el correo
-        $carrerasModel = new CarrerasModel();
-        $idCarrera = '1';
-        $pathPhoto = config('Paths')->accessPhotosAspirantes . '/test.png';
-        $dataEmail = [
-            'aspirante' => [
-                'nombre' => 'Jose Manuel',
-                'apellidoPaterno' => 'Mendoza',
-                'apellidoMaterno' => 'Murillo',
-                'noSolicitude' => '0001',
-                'nip' => '4455',
-                'foto' => $pathPhoto,
-                'carrera' => $carrerasModel->getNameById($idCarrera),
-                'anoIngreso' => date('Y'),
-            ],
-        ];
-        // Enviamos el correo
-        $emails = new Emails();
-        $addressee = 'trokillox.x@gmail.com';
-        $subject = '¡Felicidades por inscribirte al Tecnológico de Ocotlán!';
-        $htmlEmail = $this->twig->render('Correos/email', $dataEmail);
-        if (!$emails->sendHtmlEmail($addressee, $subject, $htmlEmail)) {
-            dd('El correo no se envio');
+            $this->twig->display('errors/error500');
         }
-        $this->twig->display('Correos/email', $dataEmail);
     }
 
     /**
@@ -300,8 +262,8 @@ class Aspirantes extends RegisterController
 
             // Actualizamos el estatus de pago
             if (!$this->aspirantesModel->changeStatusPayment($idAspirante, $status)) {
-                // Si hay un error, lanzamos una excepcion
-                throw new Exception('Hubo un error al intentar actualizar el registro', 500);
+                // Si el registro no se actualizo, lanzamos una excepcion
+                throw new Exception('El registro no se pudo actualizar', 500);
             }
 
             return $this->response->setStatusCode(200);
@@ -394,7 +356,7 @@ class Aspirantes extends RegisterController
         $surnamePaterno = $this->request->getPost('apellidoPaterno');
         $surnameMaterno = $this->request->getPost('apellidoMaterno');
         $dataAspirante = [
-            'name' => $name . $surnamePaterno . $surnameMaterno,
+            'name' => $name . ' ' . $surnamePaterno . ' ' . $surnameMaterno,
             'username' => str_replace(' ', '', $name) . '_' . $noSolicitude,
             'email' => $noSolicitude, // número de solicitud
             'password' => $nip, // nip
@@ -450,6 +412,7 @@ class Aspirantes extends RegisterController
     private function insertDataAspirante(User $user, string $noSolicitude, string $nip): array
     {
         $namePhoto = $this->createThumbPhotoAspirante($user->id);
+
         // Creamos el arreglo de datos con la información del aspirante que se insertara
         $data = [
             // Tabla principal
@@ -470,7 +433,7 @@ class Aspirantes extends RegisterController
             'escuela_procedencia' => $this->request->getPost('nombreEscuela'),
             'estado_escuela' => $this->request->getPost('estadoEscuela'),
             'municipio_escuela' => $this->request->getPost('municipioEscuela'),
-            'ano_egreso' => $this->request->getPost('anioEgreso'),
+            'ano_egreso' => $this->request->getPost('anoEgreso'),
             'promedio_general' => $this->request->getPost('promedio'),
             'carrera_primera_opcion' => $this->request->getPost('primeraOpcionIngreso'),
             'carrera_segunda_opcion' => $this->request->getPost('segundaOpcionIngreso'),
@@ -484,8 +447,6 @@ class Aspirantes extends RegisterController
             'no_interior' => $this->request->getPost('numInterior'),
             'letra_exterior' => $this->request->getPost('letraExterior'),
             'letra_interior' => $this->request->getPost('letraInterior'),
-            'letra_exterior' => 'A', // Se deben agregar al form estos campos
-            'letra_interior' => null, // Se deben agregar al form estos campos
             'colonia' => $this->request->getPost('colonia'),
             'estado' => $this->request->getPost('estadoResidencia'),
             'municipio' => $this->request->getPost('municipioResidencia'),
@@ -511,68 +472,7 @@ class Aspirantes extends RegisterController
             'no_focos' => $this->request->getPost('cantidadFocos'),
             'tipo_piso' => $this->request->getPost('tipoPiso'),
             'no_automoviles' => $this->request->getPost('cantidadAutos'),
-            'estufa' => $this->request->getPost('estufa'),
-        ];
-
-        $fakeData = [
-            // Tabla principal
-            'user_id' => $user->id,
-            'no_solicitud' => $noSolicitude,
-            'nip' => $nip,
-            'imagen' => $namePhoto,
-            'curp' => 'MEMM011201HJCNRNA1',
-            'apellido_paterno' => 'MENDOZA',
-            'apellido_materno' => 'MURILLO',
-            'nombre' => 'JOSE MANUEL',
-            'fecha_nacimiento' => '12-01-2001',
-            'genero' => 'MASCULINO',
-            'estado_civil' => 'SOLTERO',
-            'pais_nacimiento' => 'MEXICO',
-            'telefono' => '3921279642',
-            'email' => 'trokillox.x@gmail.com',
-            'escuela_procedencia' => 'CBTIS49',
-            'estado_escuela' => 'JALISCO',
-            'municipio_escuela' => 'OCOTLAN',
-            'ano_egreso' => '2017',
-            'promedio_general' => '83.4',
-            'carrera_primera_opcion' => '1',
-            'carrera_segunda_opcion' => '1',
-            'turno_preferente' => 'MATUTINO',
-            'ito_primer_opcion' => 'SI',
-            'motivo_ingreso' => '1',
-            'motivo_seleccion_plan_estudios' => 'PRUEBAS',
-            // Tabla de datos complementarios
-            'calle_domicilio' => 'PABLO LOPEZ',
-            'no_exterior' => '87',
-            'no_interior' => null,
-            'letra_exterior' => 'A', // Se deben agregar al form estos campos
-            'letra_interior' => null, // Se deben agregar al form estos campos
-            'colonia' => 'EL TROMPO',
-            'estado' => 'JALISCO',
-            'municipio' => 'JAMAY',
-            'codigo_postal' => '47900',
-            'entre_calles' => 'AGUSTIN YAÑEZ Y LAUREL',
-            'tutor' => 'JAVIER MENDOZA ALVAREZ',
-            'estado_procedencia' => 'JALISCO',
-            'comunidad_indigena' => '1',
-            'tipo_sangre' => '1',
-            'discapacidad' => 'PRUEBAS',
-            'lengua_indigena' => '1',
-            'telefono_contacto' => '3921106055',
-            'nivel_estudio_padre' => '1',
-            'nivel_estudio_madre' => '1',
-            'vives_actualmente' => '1',
-            'ocupacion_padre' => '1',
-            'ocupacion_madre' => '1',
-            'casa_resides' => '1',
-            'no_cuartos' => '1',
-            'no_miembros' => '1',
-            'regadera' => '1',
-            'no_banos' => '1',
-            'no_focos' => '1',
-            'tipo_piso' => '1',
-            'no_automoviles' => '1',
-            'estufa' => '1',
+            'estufa' => $this->request->getPost('estufa') == 'S' ? 1 : 0,
         ];
 
         $aspirante = new Aspirante($data);
@@ -694,5 +594,115 @@ class Aspirantes extends RegisterController
                 ],
             ],
         ];
+    }
+
+    public function pagadoModulo(): void
+    {
+        $esAcreditado = true; // Puedes cambiar esto según tu lógica\
+
+        $this->twig->display('Aspirantes/modulo_pagado', [
+            'esAcreditado' => $esAcreditado,
+        ]);
+    }
+
+    /**
+     * exportPdf
+     * Función para exportar documentos HTML a PDF
+     *
+     * @return Response
+     */
+    public function exportPdf($template, $data, $fileName)
+    {
+        $options = new Options();
+        $options->setChroot(FCPATH);
+        $options->setDefaultFont('Inter');
+        $options->setIsRemoteEnabled(true);
+
+        $html = $this->twig->render($template, $data);
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($html);
+        $dompdf->render();
+
+        $pdfContent = $dompdf->output();
+
+        // Enviar la respuesta al cliente
+        return $this->response->setStatusCode(200)
+                              ->setBody($pdfContent)
+                              ->setHeader('Content-Type', 'application/pdf')
+                              ->setHeader('Content-Disposition', 'inline; filename="' . $fileName . '"')
+                              ->setHeader('Cache-Control', 'max-age=0');
+    }
+
+    /**
+     * getFichaAspirante
+     * Genera un PDF con los los datos de la ficha de solicitud del aspirante
+     */
+    public function getFichaAspirante()
+    {
+        $id = $this->request->getPost('id');
+
+        $user = $this->aspirantesModel->find($id)->toArray();
+        $carrera = new CarrerasModel();
+
+        $data = [
+            'fullName' => $user['nombre'] . ' '
+                        . $user['apellido_paterno'] . ' '
+                        . $user['apellido_materno'],
+            'curp' => $user['curp'],
+            'noSolicitude' => $user['no_solicitud'],
+            'nip' => $user['nip'],
+            'firstOption' => $carrera->getNameById($user['carrera_primera_opcion']),
+            // 'pathPhoto' => config('Paths')->accessPhotosAspirantes . '/' . $user['id_aspirante'] . '/' . $user['imagen'],
+            $pathPhoto = config('Paths')->accessPhotosAspirantes . '/' . 'test.png',
+
+        ];
+
+        // d($data);
+
+        $template = 'Aspirantes/pdf_templates/pdf_aspirantes';
+        $fileName = 'ficha_' . $user['no_solicitud'];
+
+        return $this->exportPdf($template, $data, $fileName);
+    }
+
+    /**
+     * getDatosASpirante
+     * Manda datos a la vista de de aspirante
+     */
+    public function getDatosAspirante()
+    {
+        // PENDIENTE: Asignar el id por medio de post y mandar datos a la vista
+
+        // $id = $this->request->getPost('id');
+        $user = $this->aspirantesModel->find(1)->toArray();
+
+        $banco = new InfoBancariaModel();
+        $banco = $banco->getData();
+
+        $date = $user['fecha_nacimiento'];
+        $date_aux = substr($date, 2, 2) . substr($date, 5, 2) . substr($date, 8, 2);
+        $data = [
+            'fullName' => $user['nombre'] . ' '
+                        . $user['apellido_paterno'] . ' '
+                        . $user['apellido_materno'],
+
+            'noSolicitude' => $user['no_solicitud'],
+            'pathPhoto' => config('Paths')->accessPhotosAspirantes . '/' . 'test.png',
+
+            'banco' => $banco['banco'],
+            'sucursal' => $banco['sucursal'],
+            'cuenta' => $banco['cuenta'],
+
+            'costo_examen' => $banco['costo_examen'],
+
+            'referencia' => 'ITOCO'
+                            . $user['no_solicitud']
+                            . $user['apellido_paterno']
+                            . $user['nombre']
+                            . $date_aux,
+
+        ];
+
+        d($data);
     }
 }

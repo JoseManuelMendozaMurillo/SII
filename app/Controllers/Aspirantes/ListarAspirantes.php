@@ -7,14 +7,14 @@ use CodeIgniter\Controller;
 
 class ListarAspirantes extends Controller
 {
-    public function index()
+    /*public function index()
     {
         $model = new AspiranteModel();
 
         $data['aspirantes'] = $model->findAll();
 
         return view('lista_aspirantes', $data);
-    }
+    }*/
 
     public function cambiarEstadoPago()
     {
@@ -25,14 +25,15 @@ class ListarAspirantes extends Controller
             // Realiza la lógica para cambiar el estado de pago en la base de datos
             $aspiranteModel = new AspiranteModel();
             $aspirante = $aspiranteModel->find($user_id);
-            if ($aspirante->estatus_pago == 'Pendiente') {
-                $aspirante->estatus_pago = 'Pagado';
-            } else {
-                $aspirante->estatus_pago = 'Pendiente';
-            }
-            $aspiranteModel->save($aspirante);
+            $nuevo_estado = !$aspirante->status_pago;
 
-            return $this->response->setJSON(['success' => true, 'nuevo_estado' => $aspirante->estatus_pago]);
+            $result = $aspiranteModel->changeStatusPayment($user_id, $nuevo_estado);
+            if ($result) {
+                return $this->response->setJSON([
+                    'success' => true,
+                    'nuevo_estado' => $nuevo_estado ? 'Pagado' : 'Pendiente'
+                ]);
+            }
         }
 
         return $this->response->setJSON(['success' => false]);

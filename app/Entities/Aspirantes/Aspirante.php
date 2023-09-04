@@ -14,7 +14,7 @@ class Aspirante extends Entity
         'user_id' => null,
         'no_solicitud' => null,
         'nip' => null,
-        'status_pago' => false,
+        'estatus_pago' => false,
         'imagen' => null,
         'curp' => null,
         'apellido_paterno' => null,
@@ -41,7 +41,7 @@ class Aspirante extends Entity
         'calle_domicilio' => null,
         'no_exterior' => null,
         'no_interior' => null,
-        'letra_exterior' => 'A',
+        'letra_exterior' => null,
         'letra_interior' => null,
         'colonia' => null,
         'estado' => null,
@@ -87,11 +87,38 @@ class Aspirante extends Entity
         if (!empty($this->attributes['nip'])) {
             $this->setNipHash($this->attributes['nip']);
         }
+
+        if (!empty($this->attributes['no_interior'])) {
+            $this->setNumeroInterior($this->attributes['no_interior']);
+        }
+
+        if (!empty($this->attributes['letra_exterior'])) {
+            $this->setLetraExterior($this->attributes['letra_exterior']);
+        }
+
+        if (!empty($this->attributes['letra_interior'])) {
+            $this->setLetraInterior($this->attributes['letra_interior']);
+        }
     }
 
     protected function setNipHash(string $nip)
     {
         $this->attributes['nipHash'] = service('passwords')->hash($nip);
+    }
+
+    protected function setNumeroInterior(?string $numInterior)
+    {
+        $this->attributes['no_interior'] = $numInterior != '' ? $numInterior : null;
+    }
+
+    protected function setLetraInterior(?string $letraInterior)
+    {
+        $this->attributes['letra_interior'] = $letraInterior != '' ? $letraInterior : null;
+    }
+
+    protected function setLetraExterior(?string $letraExterior)
+    {
+        $this->attributes['letra_exterior'] = $letraExterior != '' ? $letraExterior : null;
     }
 
     protected function setFechaNacimiento(string $dateString)

@@ -1,0 +1,399 @@
+{% extends "Layout/base.twig.html" %}
+
+{% block title %}Registro aspirantes{% endblock %}
+
+{% block styles %}
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet" />
+<link rel="stylesheet" href="{{base_url('Vendor/Template/assets/css/button.css')}}" />
+<link rel="stylesheet" href="{{base_url('Vendor/Parsley/parsley.css')}}" />
+<link rel="stylesheet" href="{{base_url('Vendor/Template/assets/css/switches.css')}}" />
+
+<!-- Estilos custom para el formulario -->
+<link rel="stylesheet" href="{{base_url('Css/Aspirantes/form.css')}}" />
+{% endblock %}
+
+{% block body %}
+<main class="main-content">
+    <div class="position-relative iq-banner">
+        <div class="iq-navbar-header">
+            <div class="container-fluid iq-container">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="flex-wrap d-flex justify-content-between align-items-center">
+                            <div class="content">
+
+                                <a class="btn btn-soft-light btn-back" id="btnBack" href="{{base_url('auth/login')}}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"
+                                        class="btn-back-icon">
+                                        <path fill-rule="evenodd"
+                                            d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
+                                    </svg>
+                                    <span class="d-none" id="btnBackTxt">Ir al login</span>
+                                </a>
+
+                                <div class="">
+                                    <h1>Instituto Tecnológico de Ocotlán</h1>
+                                    <p>
+                                        ¡Forma parte de nuestro plantel!
+                                        <span class="txt-extra">Estamos encantados de recibirte en nuestra
+                                            institución.</span>
+                                    </p>
+                                </div>
+
+                            </div>
+
+                            <div>
+                                <a href="" class="btn btn-link btn-soft-light">
+                                    <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M11.8251 15.2171H12.1748C14.0987 15.2171 15.731 13.985 16.3054 12.2764C16.3887 12.0276 16.1979 11.7713 15.9334 11.7713H14.8562C14.5133 11.7713 14.2362 11.4977 14.2362 11.16C14.2362 10.8213 14.5133 10.5467 14.8562 10.5467H15.9005C16.2463 10.5467 16.5263 10.2703 16.5263 9.92875C16.5263 9.58722 16.2463 9.31075 15.9005 9.31075H14.8562C14.5133 9.31075 14.2362 9.03619 14.2362 8.69849C14.2362 8.35984 14.5133 8.08528 14.8562 8.08528H15.9005C16.2463 8.08528 16.5263 7.8088 16.5263 7.46728C16.5263 7.12575 16.2463 6.84928 15.9005 6.84928H14.8562C14.5133 6.84928 14.2362 6.57472 14.2362 6.23606C14.2362 5.89837 14.5133 5.62381 14.8562 5.62381H15.9886C16.2483 5.62381 16.4343 5.3789 16.3645 5.13113C15.8501 3.32401 14.1694 2 12.1748 2H11.8251C9.42172 2 7.47363 3.92287 7.47363 6.29729V10.9198C7.47363 13.2933 9.42172 15.2171 11.8251 15.2171Z"
+                                            fill="currentColor"></path>
+                                        <path opacity="0.4"
+                                            d="M19.5313 9.82568C18.9966 9.82568 18.5626 10.2533 18.5626 10.7823C18.5626 14.3554 15.6186 17.2627 12.0005 17.2627C8.38136 17.2627 5.43743 14.3554 5.43743 10.7823C5.43743 10.2533 5.00345 9.82568 4.46872 9.82568C3.93398 9.82568 3.5 10.2533 3.5 10.7823C3.5 15.0873 6.79945 18.6413 11.0318 19.1186V21.0434C11.0318 21.5715 11.4648 22.0001 12.0005 22.0001C12.5352 22.0001 12.9692 21.5715 12.9692 21.0434V19.1186C17.2006 18.6413 20.5 15.0873 20.5 10.7823C20.5 10.2533 20.066 9.82568 19.5313 9.82568Z"
+                                            fill="currentColor"></path>
+                                    </svg>
+                                    <span>¿Algún problema?</span>
+                                </a>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="iq-header-img">
+                <img src="{{base_url('Vendor/Template/assets/images/dashboard/top-header.png')}}" alt="header"
+                    class="theme-color-default-img img-fluid w-100 h-100 animated-scaleX" />
+                <img src="{{base_url('Vendor/Template/assets/images/dashboard/top-header1.png')}}" alt="header"
+                    class="theme-color-purple-img img-fluid w-100 h-100 animated-scaleX" />
+                <img src="{{base_url('Vendor/Template/assets/images/dashboard/top-header2.png')}}" alt="header"
+                    class="theme-color-blue-img img-fluid w-100 h-100 animated-scaleX" />
+                <img src="{{base_url('Vendor/Template/assets/images/dashboard/top-header3.png')}}" alt="header"
+                    class="theme-color-green-img img-fluid w-100 h-100 animated-scaleX" />
+                <img src="{{base_url('Vendor/Template/assets/images/dashboard/top-header6.png')}}" alt="header"
+                    class="theme-color-yellow-img img-fluid w-100 h-100 animated-scaleX" />
+                <img src="{{base_url('Vendor/Template/assets/images/dashboard/top-header5.png')}}" alt="header"
+                    class="theme-color-pink-img img-fluid w-100 h-100 animated-scaleX" />
+            </div>
+        </div>
+        <div class="container-fluid content-inner mt-n5 py-0">
+
+            <div class="row margin-card">
+                <div class="col-sm-12 col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form action="{{ base_url('aspirantes/insert') }}" method="post" id="form-wizard1"
+                                class="mt-3 text-center" enctype="multipart/form-data">
+
+                                {% include 'Aspirantes/FormRegister/_items-sections.twig.html' %}
+
+                                {% include 'Aspirantes/FormRegister/_section-personal-info.twig.html' %}
+
+                                {% include 'Aspirantes/FormRegister/_section-solicitude-info.twig.html' %}
+
+                                {% include 'Aspirantes/FormRegister/_section-socioeconomic-info.twig.html' %}
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block script %}
+
+<script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
+
+<script src="{{base_url('Vendor/Parsley/jquery-3.7.0.min.js')}}"></script>
+
+<script src="{{base_url('Vendor/Parsley/parsley.min.js')}}"></script>
+
+<script type="module" src="{{base_url('Js/FormsValidation/forms.js')}}"></script>
+
+<!--Crisp Chat -->
+<script type="text/javascript">
+    window.$crisp = [];
+    window.CRISP_WEBSITE_ID = '29bd961b-66d8-46f4-b7ef-3559b164f326';
+    (function () {
+        d = document;
+        s = d.createElement('script');
+        s.src = 'https://client.crisp.chat/l.js';
+        s.async = 1;
+        d.getElementsByTagName('head')[0].appendChild(s);
+    })();
+</script>
+
+<script>
+    const anioInput = document.getElementById('anioEgreso');
+    const anoActual = new Date().getFullYear();
+    anioInput.placeholder = `${anoActual}`;
+</script>
+
+<script>
+    function activateConfetti() {
+        const jsConfetti = new JSConfetti();
+        jsConfetti.addConfetti();
+    }
+
+    $(window).resize(function () {
+        if ($(window).width() < 1212) {
+            if ($('#btnBack').hasClass('btn-back--in-expand')) {
+                $('#btnBackTxt').addClass('d-none');
+                clearTimeout(timeoutId); // Limpiar el timeout si el usuario quita el ratón
+                $('#btnBack').removeClass('btn-back--in-expand');
+                $('#btnBack').addClass('btn-back--out-expand');
+            }
+        }
+    });
+
+    let timeoutId; // Variable para almacenar el identificador de timeout
+
+    $('#btnBack').mouseenter(function () {
+        if ($(window).width() >= 1212) {
+            clearTimeout(timeoutId); // Limpiar cualquier timeout pendiente
+            $('#btnBack').removeClass('btn-back--out-expand');
+            $('#btnBack').addClass('btn-back--in-expand');
+            timeoutId = setTimeout(() => {
+                $('#btnBackTxt').removeClass('d-none');
+            }, 210);
+        }
+    });
+
+    $('#btnBack').mouseleave(function () {
+        if ($(window).width() >= 1212) {
+            $('#btnBackTxt').addClass('d-none');
+            clearTimeout(timeoutId); // Limpiar el timeout si el usuario quita el ratón
+            $('#btnBack').removeClass('btn-back--in-expand');
+            $('#btnBack').addClass('btn-back--out-expand');
+        }
+    });
+
+
+
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('.upper-case').on('input', function () {
+            var texto = $(this).val();
+            $(this).val(texto.toUpperCase());
+        });
+    });
+</script>
+
+<script>
+    $(document).on('click', '.browse', function () {
+        var file = $(this).parent().parent().parent().find('.file');
+        file.trigger('click');
+    });
+    $('input[type="file"]').change(function (e) {
+        var fileName = e.target.files[0].name;
+        $('#file').val(fileName);
+
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            // get loaded data and render thumbnail.
+            document.getElementById('preview').src = e.target.result;
+        };
+        // read the image file as a data URL.
+        reader.readAsDataURL(this.files[0]);
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        //API DE PAISES
+        const url = 'https://restcountries.com/v3.1/all';
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                var countries = data.map(function (country) {
+                    return {
+                        name: country.name.common,
+                        code: country.cca2,
+                    };
+                });
+
+                countries.sort(function (a, b) {
+                    return a.name.localeCompare(b.name);
+                });
+
+                // Reorganizar el arreglo para que México sea el primer elemento
+                var mexicoIndex = countries.findIndex(function (country) {
+                    return country.code === 'MX';
+                });
+
+                if (mexicoIndex !== -1) {
+                    var mexicoCountry = countries.splice(mexicoIndex, 1)[0];
+                    countries.unshift(mexicoCountry);
+                }
+
+                var $select = $('#countrySelect');
+
+                countries.forEach(function (country) {
+                    var option = $('<option>')
+                        .val(country.code)
+                        .text(country.name.toUpperCase());
+                    $select.append(option);
+                });
+            },
+            error: function () {
+                console.log('Error al obtener la lista de países');
+            },
+        });
+
+        let estados;
+        function getIdEstado(nameEstado) {
+            const estado = estados.find(estado => estado.nom_agee.toUpperCase() === nameEstado.toUpperCase());
+            if (estado) {
+                return estado.cve_agee;
+            } else {
+                return null; // O un valor predeterminado si no se encuentra el estado
+            }
+        }
+
+        function setOptionsSelect(idSelect, options) {
+            options = $('<option>', options);
+            $(`#${idSelect}`).append(options);
+        }
+
+
+        // Obtenemos la lista de estados
+        const urlApiEstados = `https://gaia.inegi.org.mx/wscatgeo/mgee/`;
+        $.ajax({
+            url: urlApiEstados,
+            method: 'GET',
+            dataType: 'json',
+            success: function (response) {
+
+                estados = response.datos;
+
+                // Obtener el id de estado de jalisco
+                const jaliscoIndex = estados.findIndex(function (estado) {
+                    return estado.nom_agee.toUpperCase() === 'JALISCO';
+                });
+
+                // Reorganizar el arreglo para que Jalisco sea el primer elemento
+                if (jaliscoIndex !== -1) {
+                    const jaliscoEstado = estados.splice(jaliscoIndex, 1)[0];
+                    estados.unshift(jaliscoEstado);
+                }
+
+                estados.forEach(function (estado) {
+                    option = {
+                        value: estado.nom_agee.toUpperCase(),
+                        text: estado.nom_agee.toUpperCase(),
+                    };
+                    setOptionsSelect('estado', option);
+                    setOptionsSelect('estadoProcedencia', option);
+                    setOptionsSelect('estadoEscuela', option);
+                });
+            },
+            error: function () {
+                console.error('Error al obtener los estados.');
+            },
+        });
+
+
+        $('#estado').change(function () {
+            const estado = $(this).val();
+            const idEstado = getIdEstado(estado);
+            const apiMunicipio = `https://gaia.inegi.org.mx/wscatgeo/mgem/${idEstado}`;
+
+            $.ajax({
+                url: apiMunicipio,
+                method: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    // Limpiamos el select
+                    $('#municipio').empty();
+
+                    const municipios = response.datos;
+                    municipios.forEach(function (municipio) {
+                        option = {
+                            value: municipio.nom_agem.toUpperCase(),
+                            text: municipio.nom_agem.toUpperCase(),
+                        };
+                        setOptionsSelect('municipio', option);
+                    });
+                },
+                error: function () {
+                    console.error('Error al obtener los estados.');
+                },
+            });
+        });
+
+        $('#estadoEscuela').change(function () {
+            const estado = $(this).val();
+            const idEstado = getIdEstado(estado);
+            const apiMunicipio = `https://gaia.inegi.org.mx/wscatgeo/mgem/${idEstado}`;
+
+            $.ajax({
+                url: apiMunicipio,
+                method: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    // Limpiamos el select
+                    $('#municipioEscuela').empty();
+
+                    const municipios = response.datos;
+                    municipios.forEach(function (municipio) {
+                        option = {
+                            value: municipio.nom_agem.toUpperCase(),
+                            text: municipio.nom_agem.toUpperCase(),
+                        };
+                        setOptionsSelect('municipioEscuela', option);
+                    });
+                },
+                error: function () {
+                    console.error('Error al obtener los estados.');
+                },
+            });
+        });
+
+        // Deshabilitar la primera opción por defecto en el segundo select
+        var defaultValue = $('#primeraOpcionIngreso').val();
+
+        // Obtener todas las opciones de carreras
+        var carrerasOptions = [];
+        $('#primeraOpcionIngreso option').each(function () {
+            carrerasOptions.push($(this).val());
+        });
+
+        // Filtrar y agregar las opciones al segundo select
+        $('#primeraOpcionIngreso').change(function () {
+            var selectedValue = $(this).val();
+
+            // Filtrar las opciones para el segundo select
+            var opcionesFiltradas = carrerasOptions.filter(function (option) {
+                return option !== selectedValue;
+            });
+
+            // Limpiar opciones previas en el segundo select
+            $('#segundaOpcionIngreso').empty();
+
+            // Agregar las opciones filtradas al segundo select
+            opcionesFiltradas.forEach(function (option) {
+                var carreraName = $(
+                    "#primeraOpcionIngreso option[value='" + option + "']",
+                ).text();
+                var optionElement = $('<option>').val(option).text(carreraName);
+                $('#segundaOpcionIngreso').append(optionElement);
+            });
+        });
+
+        // Inicialmente, filtrar las opciones para el segundo select
+        $('#primeraOpcionIngreso').trigger('change');
+
+    });
+</script>
+
+{% endblock %}

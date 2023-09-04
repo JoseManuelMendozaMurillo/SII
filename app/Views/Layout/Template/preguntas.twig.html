@@ -1,0 +1,312 @@
+{% extends "Layout/base.twig.html" %}
+
+
+{% block title %}Finalización de registro{% endblock %}
+
+
+{% block styles %}
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet" />
+<link rel="stylesheet" href="{{base_url('Vendor/Template/assets/css/button.css')}}" />
+<link rel="stylesheet" href="{{base_url('Vendor/Parsley/parsley.css')}}">
+<link rel="stylesheet" href="{{base_url('Vendor/Template/assets/css/switches.css')}}" />
+
+<style>
+    .file {
+        visibility: hidden;
+        position: absolute;
+    }
+
+    .iq-navbar-header {
+        height: 200px;
+        /* Altura predeterminada para pantallas más grandes */
+    }
+
+    @media (max-width: 920px) {
+
+        /* Modifica la clase para pantallas más pequeñas con un ancho máximo de 920px */
+        .iq-navbar-header {
+            height: 220px;
+        }
+    }
+
+    @media (max-width: 520px) {
+
+        /* Modifica la clase para pantallas más pequeñas con un ancho máximo de 520px */
+        .iq-navbar-header {
+            height: 260px;
+        }
+    }
+</style>
+{% endblock %}
+
+
+{% block body %}
+<main class="main-content">
+    <div class="iq-banner z-0">
+        <div class="iq-navbar-header">
+            <div class="container-fluid iq-container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="flex-wrap d-flex justify-content-between align-items-center">
+                            <div class="flex-grow-1">
+                                <h1>Preguntas frecuentes</h1>
+                                <p>
+                                    Si tienes más dudas, puedes comunicarte a las oficinas al número [número]
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="iq-header-img">
+                <img src="{{base_url('Vendor/Template/assets/images/dashboard/top-header.png')}}" alt="header"
+                    class="theme-color-default-img img-fluid w-100 h-100 animated-scaleX" />
+                <img src="{{base_url('Vendor/Template/assets/images/dashboard/top-header1.png')}}" alt="header"
+                    class="theme-color-purple-img img-fluid w-100 h-100 animated-scaleX" />
+                <img src="{{base_url('Vendor/Template/assets/images/dashboard/top-header2.png')}}" alt="header"
+                    class="theme-color-blue-img img-fluid w-100 h-100 animated-scaleX" />
+                <img src="{{base_url('Vendor/Template/assets/images/dashboard/top-header3.png')}}" alt="header"
+                    class="theme-color-green-img img-fluid w-100 h-100 animated-scaleX" />
+                <img src="{{base_url('Vendor/Template/assets/images/dashboard/top-header6.png')}}" alt="header"
+                    class="theme-color-yellow-img img-fluid w-100 h-100 animated-scaleX" />
+                <img src="{{base_url('Vendor/Template/assets/images/dashboard/top-header5.png')}}" alt="header"
+                    class="theme-color-pink-img img-fluid w-100 h-100 animated-scaleX" />
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid d-flex justify-content-center">
+        <div class=" col-lg-6 z-3 position-relative shadow-lg p-4 mb-5 bg-body-tertiary rounded bg-white">
+
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            ¿Cuál es la fecha límite para solicitar el ingreso?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            La fecha límite para solicitar el ingreso es el [Fecha]. Asegúrate de enviar tu solicitud
+                            antes de esa fecha para ser considerado en el proceso de selección.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            ¿Cuáles son los requisitos de admisión para [Programa]?
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Los requisitos de admisión para el programa de [Programa] incluyen [Requisitos]. Asegúrate
+                            de revisar nuestra página de admisiones para obtener información detallada.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            ¿Dónde puedo encontrar información sobre las becas disponibles?
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Toda la información sobre las becas disponibles, incluyendo requisitos y fechas límite, se
+                            encuentra en nuestra sección de becas en el sitio web oficial.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingFour">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            ¿Cómo puedo programar una visita al campus?
+                        </button>
+                    </h2>
+                    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Puedes programar una visita al campus completando el formulario en línea en nuestra sección
+                            de visitas. Nos pondremos en contacto contigo para confirmar la fecha y hora de tu visita.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingFive">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                            ¿Cuándo estarán disponibles los horarios de clases para el próximo semestre?
+                        </button>
+                    </h2>
+                    <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Los horarios de clases para el próximo semestre estarán disponibles en la semana [Fecha] a
+                            través de nuestro sistema en línea. Te recomendamos estar atento a las actualizaciones.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingSix">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                            ¿Dónde puedo obtener mi constancia de estudios?
+                        </button>
+                    </h2>
+                    <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Puedes obtener tu constancia de estudios solicitándola en la oficina de control escolar. Por
+                            favor, asegúrate de llevar contigo una identificación oficial y los documentos necesarios.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingSeven">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                            ¿Cuál es el proceso de inscripción para alumnos de nuevo ingreso?
+                        </button>
+                    </h2>
+                    <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            El proceso de inscripción para alumnos de nuevo ingreso incluye [Pasos del proceso]. Te
+                            recomendamos revisar nuestra página de inscripciones para obtener detalles específicos.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingEight">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+                            ¿Dónde puedo encontrar información sobre los eventos y actividades extracurriculares?
+                        </button>
+                    </h2>
+                    <div id="collapseEight" class="accordion-collapse collapse" aria-labelledby="headingEight"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Toda la información sobre eventos y actividades extracurriculares se publica en nuestro
+                            calendario en línea y en tablones de anuncios por todo el campus.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingNine">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
+                            ¿Cómo puedo restablecer mi contraseña del sistema en línea?
+                        </button>
+                    </h2>
+                    <div id="collapseNine" class="accordion-collapse collapse" aria-labelledby="headingNine"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Puedes restablecer tu contraseña del sistema en línea haciendo clic en la opción "Olvidé mi
+                            contraseña" en la página de inicio de sesión. Sigue las instrucciones para crear una nueva
+                            contraseña.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTen">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
+                            ¿Cuál es el horario de atención de la biblioteca?
+                        </button>
+                    </h2>
+                    <div id="collapseTen" class="accordion-collapse collapse" aria-labelledby="headingTen"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            El horario de atención de la biblioteca es de [Horario]. Te recomendamos consultar el sitio
+                            web de la biblioteca para conocer los horarios específicos por día.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingEleven">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseEleven" aria-expanded="false" aria-controls="collapseEleven">
+                            ¿Cuáles son las carreras que ofrece la institución?
+                        </button>
+                    </h2>
+                    <div id="collapseEleven" class="accordion-collapse collapse" aria-labelledby="headingEleven"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Ofrecemos una amplia variedad de carreras en áreas como [Carreras]. Puedes explorar la lista
+                            completa de programas académicos en nuestra página web.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwelve">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseTwelve" aria-expanded="false" aria-controls="collapseTwelve">
+                            ¿Cuál es la dirección de la institución?
+                        </button>
+                    </h2>
+                    <div id="collapseTwelve" class="accordion-collapse collapse" aria-labelledby="headingTwelve"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Nos encontramos ubicados en [Dirección]. Puedes consultar un mapa detallado en nuestra
+                            página de contacto para obtener indicaciones precisas.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThirteen">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseThirteen" aria-expanded="false" aria-controls="collapseThirteen">
+                            ¿Cuáles son los números de teléfono de contacto?
+                        </button>
+                    </h2>
+                    <div id="collapseThirteen" class="accordion-collapse collapse" aria-labelledby="headingThirteen"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Puedes contactarnos a través de los siguientes números de teléfono: [Teléfonos]. Estamos
+                            disponibles para responder tus preguntas durante nuestro horario de atención.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingFourteen">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseFourteen" aria-expanded="false" aria-controls="collapseFourteen">
+                            ¿Puedes darme una breve historia de la institución?
+                        </button>
+                    </h2>
+                    <div id="collapseFourteen" class="accordion-collapse collapse" aria-labelledby="headingFourteen"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Nuestra institución fue fundada en [Año] con el objetivo de [Misión]. A lo largo de los
+                            años, hemos crecido y evolucionado, convirtiéndonos en [Logros]. Para obtener más detalles,
+                            te invitamos a visitar nuestra sección de historia en el sitio web.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</main>
+
+{% endblock %}
+
+{% block script %}
+
+<!-- <script src=" {{ base_url('Js/Aspirantes/aspirantes.js')}}">
+        </script> -->
+
+{% endblock %}

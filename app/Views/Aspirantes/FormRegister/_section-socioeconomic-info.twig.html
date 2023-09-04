@@ -1,0 +1,169 @@
+<!-- Sección donde se pide la información de la socioeconomica del aspirante -->
+<fieldset>
+    <div class="form-card text-start">
+        <div class="card-body" style="
+                border-radius: 10px;
+                box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.2);
+            ">
+            <div class="form-card text-start">
+                <div class="row">
+                    <div class="col-7">
+                        <h3 class="mb-4">
+                            SOCIOECONÓMICOS DEL ASPIRANTE:
+                        </h3>
+                        <br />
+                        <h4>Datos familiares y del hogar</h4>
+                        <br />
+                    </div>
+                    <div class="col-5"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Nivel máximo de estudios de su padre:
+                                *</label>
+                            <select type="text" class="form-select upper-case" name="nivelEstudioPadre">
+                                {% for nivelEstudio in nivelesEstudio %}
+                                <option value="{{ nivelEstudio['id_nivel_estudio'] }}">
+                                    {{ nivelEstudio['nivel']|upper }}
+                                </option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Nivel máximo de estudios de su madre:
+                                *</label>
+                            <select type="text" class="form-select upper-case" name="nivelEstudioMadre">
+                                {% for nivelEstudio in nivelesEstudio %}
+                                <option value="{{ nivelEstudio['id_nivel_estudio'] }}">
+                                    {{ nivelEstudio['nivel']|upper }}
+                                </option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">¿Con quién vive actualmente?: *</label>
+                            <select type="text" class="form-select upper-case" name="cohabitantes"
+                                placeholder="PADRE Y MADRE" required>
+                                {% for cohabitante in cohabitantes %}
+                                <option value="{{ cohabitante['id_cohabitante'] }}">
+                                    {{ cohabitante['cohabitantes']|upper }}
+                                </option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Ocupación de trabajo de su padre: *</label>
+                            <select type="text" class="form-select upper-case" name="ocupacionPadre"
+                                placeholder="NO LO SÉ">
+                                {% for ocupacion in ocupaciones %}
+                                <option value="{{ ocupacion['id_ocupacion'] }}">
+                                    {{ ocupacion['ocupacion']|upper }}
+                                </option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Ocupación de trabajo de su madre: *</label>
+                            <select type="text" class="form-select upper-case" name="ocupacionMadre"
+                                placeholder="NO LO SÉ">
+                                {% for ocupacion in ocupaciones %}
+                                <option value="{{ ocupacion['id_ocupacion'] }}">
+                                    {{ ocupacion['ocupacion']|upper }}
+                                </option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">La casa de donde vive es: *</label>
+                            <select type="text" class="form-select upper-case" name="propiedadCasa"
+                                placeholder="PROPIA">
+                                {% for vivienda in propiedadVivienda %}
+                                <option value="{{ vivienda['id_propiedad_vivienda'] }}">
+                                    {{ vivienda['propiedad']|upper }}
+                                </option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">¿Cuántos cuartos tiene su casa?: *</label>
+                            <input type="text" class="form-control upper-case" name="cantidadCuartos"
+                                placeholder="CUATRO" data-parsley-trigger="keyup" data-parsley-type="number"
+                                data-parsley-error-message="Ingresa solamente números" required />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">¿Cuántas personas viven en su casa?: *</label>
+                            <input type="text" class="form-control upper-case" name="cantidadCohabitantes"
+                                placeholder="2" data-parsley-trigger="keyup" data-parsley-type="number"
+                                data-parsley-error-message="Ingresa solamente números" required />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">¿Cuántos baños completos hay para uso
+                                exclusivo de los integrantes?:
+                            </label>
+                            <input type="text" class="form-control upper-case" name="cantidadBanos" placeholder="3"
+                                data-parsley-trigger="keyup" data-parsley-type="number"
+                                data-parsley-error-message="Ingresa solamente números" required />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">¿En su hogar se cuenta con regadera
+                                funcionando en alguno de los baños?:
+                            </label>
+                            <select type="text" class="form-control upper-case" name="regaderas" placeholder="SÍ">
+                                <option value="0">SÍ</option>
+                                <option value="1">NO</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">¿Cuántos focos tiene su vivienda?:
+                            </label>
+                            <input type="text" class="form-control upper-case" name="cantidadFocos" placeholder="5"
+                                data-parsley-trigger="keyup" data-parsley-type="number"
+                                data-parsley-error-message="Ingresa solamente números" required />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">¿Qué tipo de piso predomina en su hogar?:
+                            </label>
+                            <select type="text" class="form-select upper-case" name="tipoPiso"
+                                placeholder="CEMENTO FIRME">
+                                {% for tipo in tipoPiso %}
+                                <option value="{{ tipo['id_tipo_piso'] }}">
+                                    {{ tipo['tipo_piso']|upper }}
+                                </option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">¿Cuántos automóviles propios tienen en su
+                                hogar?:
+                            </label>
+                            <input type="text" class="form-control upper-case" name="cantidadAutos" placeholder="0"
+                                data-parsley-trigger="keyup" data-parsley-type="number"
+                                data-parsley-error-message="Ingresa solamente números" required />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">¿En su hogar cuentan con estufa de gas o
+                                eléctrica?:
+                            </label>
+                            <select type="text" class="form-select upper-case" name="estufa">
+                                <option value="S">SÍ</option>
+                                <option value="N">NO</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+    <button type="submit" id="congrats" class="btn btn-primary next action-button float-end">
+        Enviar
+    </button>
+    <button type="button" name="previous" class="btn btn-dark previous action-button-previous float-end me-1"
+        value="Previous">
+        Atras
+    </button>
+</fieldset>

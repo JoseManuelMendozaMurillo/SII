@@ -1,0 +1,87 @@
+{% extends "Layout/Template/aspirantes_modulo.twig.html" %}
+
+{% block title %}Modulo Aspirantes{% endblock %}
+
+{% block contenido %}
+<div class="row justify-content-center align-items-center">
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-body" style="border-radius: 10px; box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.2);">
+
+                <br>
+                <h3 class="mb-2">CONFIRMACION DE PAGO RECIBIDO</h3>
+                <br>
+
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-md-10">
+                        <div class="card mb-3">
+                            <div class="card-body"
+                                style="border-radius: 10px; box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.2);">
+                                <h4 class="text-center pt-3"><strong>Un paso más cerca de sus metas
+                                        académicas</strong></h4>
+                                <div class="row pt-4">
+                                    <div class="col-md-8">
+                                        <div class="d-flex pb-3">
+                                            <p>Estimado</p>
+                                            <p class="ps-1"><strong>Juan Perez</strong></p>
+                                        </div>
+                                        <div>
+                                            <p class="centrar-texto">Le escribo para felicitarle por haber
+                                                completado el pago de
+                                                inscripción al Instituto Tecnológico de Ocotián.</p>
+                                            <p class="centrar-texto">Me complace confirmarie que su pago fue
+                                                recibido y procesado
+                                                exitosamente. Su compromiso para completar este importante
+                                                paso en el proceso deinscripción demuestra su dedicación
+                                                para alcanzar sus metas educativas. </p>
+                                            <p class="centrar-texto">Estamos entusiasmados de poder apoyarie
+                                                en su desarrollo
+                                                profesional y esperamos darle la bienvenids al comienzo del
+                                                próximo ciclo escolar.</p>
+                                            <p class="centrar-texto">El equipo del Instituto Tecnológico de
+                                                Ocotlan aprecia su
+                                                interès en nuestra Institución. Estamos seguros que
+                                                encontrará que nuestros programas académicos desafiantes y
+                                                nuestro enfoque práctico le prepararán exitosamente para su
+                                                carrera</p>
+                                            <p class="centrar-texto">Si tiene cualquier otra pregunta
+                                                mientras se prepara para
+                                                comenzar sus estudios con nosotros, por favor siéntase con
+                                                confianza de contactarnos. ¡Esperamos verle pronto!</p>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-md-4 pb-3 text-center align-items-center justify-content-center d-flex">
+                                        <img src="{{base_url('Vendor/Template/assets/images/imagenescorrecaminos/logotecocotlan.png')}}"
+                                            alt="" class="img-fluid w-75">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+                <br><br>
+
+                <p class=""><span class="text-danger" style="font-size: 20px;">Paso 3:</span>
+                    Les informamos que el próximo examen se llevará a cabo el dia 25 de julio a las 9:00 am.
+                    Esta evaluación será administrada a través de la plataforma oficial del Instituto, cuyo
+                    acceso se encuentra en la dirección: <a href="">http//www.tecnm.com//examen</a></p>
+                <br>
+
+                <div class="text-center">
+                    <button type="button" class="btn btn-warning" data-bs-container="body" data-bs-toggle="popover"
+                        data-bs-placement="top" data-bs-content="Los resultados todavía se encuentran pendientes">
+                        PENDIENTE
+                    </button>
+                </div>
+                <div class="text-center pt-3">
+                    <p>Estatus de admisión</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
