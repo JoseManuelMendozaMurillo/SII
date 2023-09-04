@@ -168,7 +168,7 @@ class Aspirantes extends RegisterController
                 'foto' => $pathPhoto,
             ];
 
-            $this->twig->display('Aspirantes/finalizacion_aspirantes', $data);
+            $this->twig->display('Aspirantes/finalizacion-aspirantes', $data);
         } catch (Exception $e) {
             // Si hay un error se realizara un rollback
             $this->db->transRollback();
@@ -652,12 +652,9 @@ class Aspirantes extends RegisterController
             'noSolicitude' => $user['no_solicitud'],
             'nip' => $user['nip'],
             'firstOption' => $carrera->getNameById($user['carrera_primera_opcion']),
-            // 'pathPhoto' => config('Paths')->accessPhotosAspirantes . '/' . $user['id_aspirante'] . '/' . $user['imagen'],
-            $pathPhoto = config('Paths')->accessPhotosAspirantes . '/' . 'test.png',
-
+            'pathPhoto' => config('Paths')->accessPhotosAspirantes . '/' . $user['id_aspirante'] .
+                           '/' . $user['imagen'],
         ];
-
-        // d($data);
 
         $template = 'Aspirantes/pdf_templates/pdf_aspirantes';
         $fileName = 'ficha_' . $user['no_solicitud'];

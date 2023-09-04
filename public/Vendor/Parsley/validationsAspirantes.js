@@ -65,4 +65,11 @@ export function customValidation() {
         default:
       }
     })
+
+    // Agregamos a grupos a los inputs de las diferentes secciones del formulario para validarlos por
+    // separado
+    $('#sectionPersonalInfo').find(':input').attr('data-parsley-group', 'sectionPersonalInfo');
+    $('#sectionSolicitudeInfo').find(':input').attr('data-parsley-group', 'sectionSolicitudeInfo');
+    $('#sectionSocioeconomicInfo').find(':input').attr('data-parsley-group', 'sectionSocioeconomicInfo');
+
   }
