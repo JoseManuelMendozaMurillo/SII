@@ -1,0 +1,1 @@
+DROP TABLE alumno_inf_personal;
