@@ -202,6 +202,70 @@ class User extends Entity
     }
 
     /**
+     * saveAspiranteIdentity(): bool
+     * Funcion para guardar a un aspirante (Funcion agregada por los programadores)
+     *
+     * @return bool
+     */
+    public function saveAspiranteIdentity(): bool
+    {
+        if (empty($this->email) && empty($this->password) && empty($this->password_hash)) {
+            return true;
+        }
+
+        $identity = $this->getEmailIdentity();
+        if ($identity === null) {
+            // Ensure we reload all identities
+            $this->identities = null;
+
+            $this->createEmailIdentity([
+                'email' => $this->email,
+                'password' => '',
+            ]);
+
+            $identity = $this->getEmailIdentity();
+        }
+
+        if (!empty($this->email)) {
+            $identity->secret = $this->email;
+        }
+
+        if (!empty($this->password)) {
+            $identity->secret2 = service('passwords')->hash($this->password);
+        }
+
+        if (!empty($this->password_hash) && empty($this->password)) {
+            $identity->secret2 = $this->password_hash;
+        }
+
+        /* Codigo customizado */
+        $identity->type = 'noSolicitud_nip';
+        $identity->name = $this->name;
+        /* Codigo customizado */
+
+        /** @var UserIdentityModel $identityModel */
+        $identityModel = model(UserIdentityModel::class);
+
+        try {
+            /** @throws DataException */
+            $identityModel->save($identity);
+        } catch (DataException $e) {
+            // There may be no data to update.
+            $messages = [
+                lang('Database.emptyDataset', ['insert']),
+                lang('Database.emptyDataset', ['update']),
+            ];
+            if (in_array($e->getMessage(), $messages, true)) {
+                return true;
+            }
+
+            throw $e;
+        }
+
+        return true;
+    }
+
+    /**
      * Update the last used at date for an identity record.
      */
     public function touchIdentity(UserIdentity $identity): void

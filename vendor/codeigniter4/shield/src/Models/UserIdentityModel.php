@@ -17,10 +17,10 @@ use Faker\Generator;
 
 class UserIdentityModel extends BaseModel
 {
-    protected $primaryKey     = 'id';
-    protected $returnType     = UserIdentity::class;
+    protected $primaryKey = 'id';
+    protected $returnType = UserIdentity::class;
     protected $useSoftDeletes = false;
-    protected $allowedFields  = [
+    protected $allowedFields = [
         'user_id',
         'type',
         'name',
@@ -71,8 +71,8 @@ class UserIdentityModel extends BaseModel
 
         $return = $this->insert([
             'user_id' => $user->id,
-            'type'    => Session::ID_TYPE_EMAIL_PASSWORD,
-            'secret'  => $credentials['email'],
+            'type' => Session::ID_TYPE_EMAIL_PASSWORD,
+            'secret' => $credentials['email'],
             'secret2' => $passwords->hash($credentials['password']),
         ]);
 
@@ -92,6 +92,7 @@ class UserIdentityModel extends BaseModel
      * Create an identity with 6 digits code for auth action
      *
      * @phpstan-param array{type: string, name: string, extra: string} $data
+     *
      * @param callable $codeGenerator generate secret code
      *
      * @return string secret
@@ -106,7 +107,7 @@ class UserIdentityModel extends BaseModel
         helper('text');
 
         // Create an identity for the action
-        $maxTry          = 5;
+        $maxTry = 5;
         $data['user_id'] = $user->id;
 
         while (true) {
@@ -141,11 +142,11 @@ class UserIdentityModel extends BaseModel
         helper('text');
 
         $return = $this->insert([
-            'type'    => AccessTokens::ID_TYPE_ACCESS_TOKEN,
+            'type' => AccessTokens::ID_TYPE_ACCESS_TOKEN,
             'user_id' => $user->id,
-            'name'    => $name,
-            'secret'  => hash('sha256', $rawToken = random_string('crypto', 64)),
-            'extra'   => serialize($scopes),
+            'name' => $name,
+            'secret' => hash('sha256', $rawToken = random_string('crypto', 64)),
+            'extra' => serialize($scopes),
         ]);
 
         $this->checkQueryReturn($return);
@@ -356,7 +357,7 @@ class UserIdentityModel extends BaseModel
     public function forceGlobalPasswordReset(): void
     {
         $whereFilter = [
-            'type'        => Session::ID_TYPE_EMAIL_PASSWORD,
+            'type' => Session::ID_TYPE_EMAIL_PASSWORD,
             'force_reset' => 0,
         ];
         $this->where($whereFilter);
@@ -389,14 +390,14 @@ class UserIdentityModel extends BaseModel
     public function fake(Generator &$faker): UserIdentity
     {
         return new UserIdentity([
-            'user_id'      => fake(UserModel::class)->id,
-            'type'         => Session::ID_TYPE_EMAIL_PASSWORD,
-            'name'         => null,
-            'secret'       => $faker->unique()->email(),
-            'secret2'      => password_hash('secret', PASSWORD_DEFAULT),
-            'expires'      => null,
-            'extra'        => null,
-            'force_reset'  => false,
+            'user_id' => fake(UserModel::class)->id,
+            'type' => Session::ID_TYPE_EMAIL_PASSWORD,
+            'name' => null,
+            'secret' => $faker->unique()->email(),
+            'secret2' => password_hash('secret', PASSWORD_DEFAULT),
+            'expires' => null,
+            'extra' => null,
+            'force_reset' => false,
             'last_used_at' => null,
         ]);
     }

@@ -29,8 +29,8 @@ abstract class AbstractAuthFilter implements FilterInterface
             return;
         }
 
-        if (! auth()->loggedIn()) {
-            return redirect()->route('login');
+        if (!auth()->loggedIn()) {
+            return redirect()->route('auth/login');
         }
 
         if ($this->isAuthorized($arguments)) {
@@ -39,6 +39,7 @@ abstract class AbstractAuthFilter implements FilterInterface
 
         // Otherwise, we'll just send them to the home page.
         return redirect()->to('/')->with('error', lang('Auth.notEnoughPrivilege'));
+        // return show404(); se debe retornar esta pagina
     }
 
     /**

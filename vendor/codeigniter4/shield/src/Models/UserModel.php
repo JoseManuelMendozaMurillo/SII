@@ -28,10 +28,6 @@ class UserModel extends BaseModel
         'active',
         'last_active',
         'deleted_at',
-
-        // Added fields
-        'email',
-        'password',
     ];
     protected $useTimestamps = true;
     protected $afterFind = ['fetchIdentities'];
