@@ -209,7 +209,7 @@
 <script>
     $(document).ready(function () {
         //API DE PAISES
-        var url = 'https://restcountries.com/v3.1/all';
+        const url = 'https://restcountries.com/v3.1/all';
         $.ajax({
             url: url,
             type: 'GET',
@@ -250,34 +250,51 @@
             },
         });
 
-        var apiUrl = `https://gaia.inegi.org.mx/wscatgeo/mgee/`;
+        let estados;
+        function getIdEstado(nameEstado) {
+            const estado = estados.find(estado => estado.nom_agee.toUpperCase() === nameEstado.toUpperCase());
+            if (estado) {
+                return estado.cve_agee;
+            } else {
+                return null; // O un valor predeterminado si no se encuentra el estado
+            }
+        }
 
+        function setOptionsSelect(idSelect, options) {
+            options = $('<option>', options);
+            $(`#${idSelect}`).append(options);
+        }
+
+
+        // Obtenemos la lista de estados
+        const urlApiEstados = `https://gaia.inegi.org.mx/wscatgeo/mgee/`;
         $.ajax({
-            url: apiUrl,
+            url: urlApiEstados,
             method: 'GET',
             dataType: 'json',
             success: function (response) {
-                var estadosSelect = $('#estado');
 
-                const res = response.datos;
+                estados = response.datos;
 
-                // Reorganizar el arreglo para que Jalisco sea el primer elemento
-                var jaliscoIndex = res.findIndex(function (estado) {
+                // Obtener el id de estado de jalisco
+                const jaliscoIndex = estados.findIndex(function (estado) {
                     return estado.nom_agee.toUpperCase() === 'JALISCO';
                 });
 
+                // Reorganizar el arreglo para que Jalisco sea el primer elemento
                 if (jaliscoIndex !== -1) {
-                    var jaliscoEstado = res.splice(jaliscoIndex, 1)[0];
-                    res.unshift(jaliscoEstado);
+                    const jaliscoEstado = estados.splice(jaliscoIndex, 1)[0];
+                    estados.unshift(jaliscoEstado);
                 }
 
-                res.forEach(function (estado) {
-                    estadosSelect.append(
-                        $('<option>', {
-                            value: estado.cvegeo,
-                            text: estado.nom_agee.toUpperCase(),
-                        }),
-                    );
+                estados.forEach(function (estado) {
+                    option = {
+                        value: estado.nom_agee.toUpperCase(),
+                        text: estado.nom_agee.toUpperCase(),
+                    };
+                    setOptionsSelect('estado', option);
+                    setOptionsSelect('estadoProcedencia', option);
+                    setOptionsSelect('estadoEscuela', option);
                 });
             },
             error: function () {
@@ -285,93 +302,27 @@
             },
         });
 
-        $.ajax({
-            url: apiUrl,
-            method: 'GET',
-            dataType: 'json',
-            success: function (response) {
-                var estadosSelect = $('#estadoProcedencia');
-
-                const res = response.datos;
-
-                // Reorganizar el arreglo para que Jalisco sea el primer elemento
-                var jaliscoIndex = res.findIndex(function (estado) {
-                    return estado.nom_agee.toUpperCase() === 'JALISCO';
-                });
-
-                if (jaliscoIndex !== -1) {
-                    var jaliscoEstado = res.splice(jaliscoIndex, 1)[0];
-                    res.unshift(jaliscoEstado);
-                }
-
-                res.forEach(function (estado) {
-                    estadosSelect.append(
-                        $('<option>', {
-                            value: estado.cvegeo,
-                            text: estado.nom_agee.toUpperCase(),
-                        }),
-                    );
-                });
-            },
-            error: function () {
-                console.error('Error al obtener los estados.');
-            },
-        });
-
-        $.ajax({
-            url: apiUrl,
-            method: 'GET',
-            dataType: 'json',
-            success: function (response) {
-                var estadosSelect = $('#estadoEscuela');
-
-                const res = response.datos;
-
-                // Reorganizar el arreglo para que Jalisco sea el primer elemento
-                var jaliscoIndex = res.findIndex(function (estado) {
-                    return estado.nom_agee.toUpperCase() === 'JALISCO';
-                });
-
-                if (jaliscoIndex !== -1) {
-                    var jaliscoEstado = res.splice(jaliscoIndex, 1)[0];
-                    res.unshift(jaliscoEstado);
-                }
-
-                res.forEach(function (estado) {
-                    estadosSelect.append(
-                        $('<option>', {
-                            value: estado.cvegeo,
-                            text: estado.nom_agee.toUpperCase(),
-                        }),
-                    );
-                });
-            },
-            error: function () {
-                console.error('Error al obtener los estados.');
-            },
-        });
 
         $('#estado').change(function () {
-            var selectedValue = $(this).val();
-
-            var apiMunicipio = `https://gaia.inegi.org.mx/wscatgeo/mgem/${selectedValue}`;
+            const estado = $(this).val();
+            const idEstado = getIdEstado(estado);
+            const apiMunicipio = `https://gaia.inegi.org.mx/wscatgeo/mgem/${idEstado}`;
 
             $.ajax({
                 url: apiMunicipio,
                 method: 'GET',
                 dataType: 'json',
                 success: function (response) {
-                    var municipioSelect = $('#municipio');
-                    municipioSelect.empty();
-                    const res = response.datos;
+                    // Limpiamos el select
+                    $('#municipio').empty();
 
-                    res.forEach(function (municipio) {
-                        municipioSelect.append(
-                            $('<option>', {
-                                value: municipio.cvegeo,
-                                text: municipio.nom_agem.toUpperCase(),
-                            }),
-                        );
+                    const municipios = response.datos;
+                    municipios.forEach(function (municipio) {
+                        option = {
+                            value: municipio.nom_agem.toUpperCase(),
+                            text: municipio.nom_agem.toUpperCase(),
+                        };
+                        setOptionsSelect('municipio', option);
                     });
                 },
                 error: function () {
@@ -381,26 +332,25 @@
         });
 
         $('#estadoEscuela').change(function () {
-            var selectedValue = $(this).val();
-
-            var apiMunicipio = `https://gaia.inegi.org.mx/wscatgeo/mgem/${selectedValue}`;
+            const estado = $(this).val();
+            const idEstado = getIdEstado(estado);
+            const apiMunicipio = `https://gaia.inegi.org.mx/wscatgeo/mgem/${idEstado}`;
 
             $.ajax({
                 url: apiMunicipio,
                 method: 'GET',
                 dataType: 'json',
                 success: function (response) {
-                    var municipioSelect = $('#municipioEscuela');
-                    municipioSelect.empty();
-                    const res = response.datos;
+                    // Limpiamos el select
+                    $('#municipioEscuela').empty();
 
-                    res.forEach(function (municipio) {
-                        municipioSelect.append(
-                            $('<option>', {
-                                value: municipio.cvegeo,
-                                text: municipio.nom_agem.toUpperCase(),
-                            }),
-                        );
+                    const municipios = response.datos;
+                    municipios.forEach(function (municipio) {
+                        option = {
+                            value: municipio.nom_agem.toUpperCase(),
+                            text: municipio.nom_agem.toUpperCase(),
+                        };
+                        setOptionsSelect('municipioEscuela', option);
                     });
                 },
                 error: function () {
