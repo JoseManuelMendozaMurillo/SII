@@ -19,11 +19,11 @@ class RegisterFormAspirantes
         //Informacion del aspirante
 
         'imagen' => [
-            'rules' => 'uploaded[imagen]|max_size[imagen,4096]|is_image[imagen]
+            'rules' => 'uploaded[imagen]|max_size[imagen,5120]|is_image[imagen]
                         |mime_in[imagen,image/jpg,image/jpeg,image/png]',
             'errors' => [
                 'uploaded' => 'Debe subir una foto',
-                'max_size' => 'El tamaño máximo de la foto es de 4MB',
+                'max_size' => 'El tamaño máximo de la foto es de 5MB',
                 'is_image' => 'El archivo subido no es una imagen válida',
                 'mime_in' => 'El archivo subido no es una imagen válida',
             ],
@@ -31,7 +31,8 @@ class RegisterFormAspirantes
         ],
 
         'curp' => [
-            'rules' => 'required|alpha_numeric|is_unique[aspirantes.curp]', //campo de prueba
+            'rules' => 'required|alpha_numeric|is_unique[aspirantes.curp]
+            |regex_match[/^[A-Z]{4}[0-9]{6}[A-Z]{6}[0-9A-Z]{2}$/]', //campo de prueba
             'errors' => [
                 'required' => 'El campo CURP es obligatorio',
                 'is_unique' => 'Esta CURP ya está en uso',
@@ -44,7 +45,7 @@ class RegisterFormAspirantes
         'genero' => 'required',
         'estado_civil' => 'required',
         'pais_nacimiento' => 'required',
-        'telefono' => 'required|numeric',
+        'telefono' => 'required|numeric|regex_match[/^[0-9]{10}$/]',
         'email' => [
             'rules' => 'required|valid_email|is_unique[aspirantes.email]', //campo de prueba
             'errors' => [
@@ -60,23 +61,25 @@ class RegisterFormAspirantes
         'colonia' => 'required',
         'no_exterior' => 'required|numeric',
         'no_interior' => 'permit_empty|numeric',
-        'codigo_postal' => 'required|numeric',
-        'municipio' => 'required',
-        'estado' => 'required',
+        'letra_exterior' => 'permit_empty|alpha_space',
+        'letra_interior' => 'permit_empty|alpha_space',
+        'codigo_postal' => 'required|numeric|regex_match[/^[0-9]{5}$/]',
+        'municipio' => 'required|alpha_space',
+        'estado' => 'required|alpha_space',
         'entre_calles' => 'required',
 
         //Datos complementarios
         'tutor' => 'required|alpha_space',
         'estado_procedencia' => 'required',
         'comunidad_indigena' => [
-            'rules' => 'required|callback_checkCatalog[comunidades_indigenas.comunidad]',
+            'rules' => 'required|is_not_unique[comunidades_indigenas.comunidad]',
             'errors' => [
                 'required' => 'El campo del nivel de estudios es obligatorio',
                 'checkCatalog' => 'La opcion seleccionada no es válida',
             ],
         ],
         'tipo_sangre' => [
-            'rules' => 'required|callback_checkCatalog[tipos_sangre.tipo]',
+            'rules' => 'required|is_not_unique[tipos_sangre.tipo]',
             'errors' => [
                 'required' => 'El campo tipo de sangre es obligatorio',
                 'checkCatalog' => 'El tipo de sangre seleccionado no es válido',
@@ -84,7 +87,7 @@ class RegisterFormAspirantes
         ],
         'discapacidad' => 'required',
         'lengua_indigena' => [
-            'rules' => 'required|callback_checkCatalog[lenguas_indigenas.lengua]',
+            'rules' => 'required|is_not_unique[lenguas_indigenas.lengua]',
             'errors' => [
                 'required' => 'El campo del nivel de estudios es obligatorio',
                 'checkCatalog' => 'La opcion seleccionada no es válida',
@@ -95,8 +98,8 @@ class RegisterFormAspirantes
         //Escuela de procedencia
         'escuela_procedencia' => 'required',
         'estado_escuela' => 'required',
-        'ano_egreso' => 'required|numeric',
-        'promedio_general' => 'required|numeric',
+        'ano_egreso' => 'required|numeric|regex_match[/^[0-9]{4}$/]',
+        'promedio_general' => 'required|decimal|regex_match[/^(?:100|[0-9]?[0-9](?:\\.[0-9]{1,2})?)$/]',
         'municipio_escuela' => 'required',
 
         //---------------------------------------Solicitud del aspirante-----------------------------------------------
@@ -105,7 +108,7 @@ class RegisterFormAspirantes
         'turno_preferente' => 'required',
         'ito_primer_opcion' => 'required',
         'motivo_ingreso' => [
-            'rules' => 'required|callback_checkCatalog[motivos_ingreso.motivo]',
+            'rules' => 'required|is_not_unique[motivos_ingreso.motivo]',
             'errors' => [
                 'required' => 'El campo del nivel de estudios es obligatorio',
                 'checkCatalog' => 'La opcion seleccionada no es válida',
@@ -115,42 +118,42 @@ class RegisterFormAspirantes
 
         //---------------------------------------Socioeconomicos del aspirante-----------------------------------------
         'nivel_estudio_padre' => [
-            'rules' => 'required|callback_checkCatalog[nivel_estudios.nivel]',
+            'rules' => 'required|is_not_unique[nivel_estudios.nivel]',
             'errors' => [
                 'required' => 'El campo del nivel de estudios es obligatorio',
                 'checkCatalog' => 'La opcion seleccionada no es válida',
             ],
         ],
         'nivel_estudio_madre' => [
-            'rules' => 'required|callback_checkCatalog[nivel_estudios.nivel]',
+            'rules' => 'required|is_not_unique[nivel_estudios.nivel]',
             'errors' => [
                 'required' => 'El campo del nivel de estudios es obligatorio',
                 'checkCatalog' => 'La opcion seleccionada no es válida',
             ],
         ],
         'vives_actualmente' => [
-            'rules' => 'required|callback_checkCatalog[cohabitantes.cohabitantes]',
+            'rules' => 'required|is_not_unique[cohabitantes.cohabitantes]',
             'errors' => [
                 'required' => 'El campo de los cohabitantes obligatorio',
                 'checkCatalog' => 'La opcion seleccionada no es válida',
             ],
         ],
         'ocupacion_padre' => [
-            'rules' => 'required|callback_checkCatalog[ocupaciones.ocupacion]',
+            'rules' => 'required|is_not_unique[ocupaciones.ocupacion]',
             'errors' => [
                 'required' => 'El campo ocupacion del padre es obligatorio',
                 'checkCatalog' => 'La ocupacion seleccionada no es válida',
             ],
         ],
         'ocupacion_madre' => [
-            'rules' => 'required|callback_checkCatalog[ocupaciones.ocupacion]',
+            'rules' => 'required|is_not_unique[ocupaciones.ocupacion]',
             'errors' => [
                 'required' => 'El campo ocupacion de la madre es obligatorio',
                 'checkCatalog' => 'La ocupacion seleccionada no es válida',
             ],
         ],
         'casa_resides' => [
-            'rules' => 'required|callback_checkCatalog[propiedad_vivienda.propiedad]',
+            'rules' => 'required|is_not_unique[propiedad_vivienda.propiedad]',
             'errors' => [
                 'required' => 'El campo tipo de vivienda es obligatorio',
                 'checkCatalog' => 'El tipo de vivienda seleccionado no es válido',
@@ -162,7 +165,7 @@ class RegisterFormAspirantes
         'regadera' => 'required',
         'no_focos' => 'required|numeric',
         'tipo_piso' => [
-            'rules' => 'required|callback_checkCatalog[tipos_pisos.tipo_piso]',
+            'rules' => 'required|is_not_unique[tipos_pisos.tipo_piso]',
             'errors' => [
                 'required' => 'El campo tipo de piso es obligatorio',
                 'checkCatalog' => 'El tipo de piso seleccionado no es válido',
