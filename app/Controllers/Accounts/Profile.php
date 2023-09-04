@@ -14,6 +14,7 @@ class Profile extends BaseController
     protected $users;
     protected $model;
     protected $db;
+    protected $rol;
     private array $tables;
 
     public function __construct()
@@ -21,6 +22,9 @@ class Profile extends BaseController
         // TODO: CAMBIAR MODELO SEGUN USUARIO
         $this->user = auth()->user();
         $this->users = auth()->getProvider();
+
+        if ($this->user->inGroup('admins')) {
+        }
         $this->model = new AspiranteModel();
         $this->tables = config('Auth')->tables;
         $this->db = db_connect();
