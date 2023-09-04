@@ -6,8 +6,10 @@ use App\Controllers\BaseController;
 
 class DesarrolloAcademico extends BaseController
 {
-    public function hello()
+    public function listaAspirantes()
     {
-        echo 'Hello academicos';
+        $datos = ['nombreModulo' => 'Desarrollo Academico'];
+
+        $this->twig->display('DesarrolloAcademico/lista_aspirantes', $datos);
     }
 }

@@ -1,4 +1,4 @@
-use control_escolar;
+use sii_test;
 /*Bloque auth*/
 
 

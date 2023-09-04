@@ -409,6 +409,17 @@ class Auth extends ShieldAuth
      */
     public function loginRedirect(): string
     {
+        // Redireccionamos a los aspirantes
+        if (auth()->user()->inGroup('aspirante')) {
+            return $this->getUrl('aspirantes');
+        }
+        // Redireccion a desarrollo academico
+        if (auth()->user()->inGroup('desarrollo_academico')) {
+            return $this->getUrl('des-academico');
+        }
+        if (auth()->user()->inGroup('financieros')) {
+            return $this->getUrl('financieros');
+        }
         $url = setting('Auth.redirects')['login'];
 
         return $this->getUrl($url);

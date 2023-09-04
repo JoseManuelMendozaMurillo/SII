@@ -72,4 +72,11 @@ class Paths
      * is used when no value is provided to `Services::renderer()`.
      */
     public string $viewDirectory = __DIR__ . '/../Views';
+
+    /**
+     * Path para las fotos del aspirante
+     *
+     */
+    public string $accessPhotosAspirantes = 'Uploads/Aspirantes/FotosAspirantes';
+    public string $photoAspiranteDirectory = FCPATH . 'Uploads/Aspirantes/FotosAspirantes';
 }

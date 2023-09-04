@@ -1,0 +1,1 @@
+truncate table auth_identities;
