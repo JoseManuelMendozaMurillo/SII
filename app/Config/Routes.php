@@ -57,7 +57,7 @@ $routes->group(
     ['namespace' => 'App\Controllers\Accounts'],
     function ($routes) {
         $routes->get('profile', 'Profile::profile');
-        $routes->get('change-password', 'Porfile::changePassword');
+        $routes->post('change-password', 'Profile::changePassword');
     }
 );
 
