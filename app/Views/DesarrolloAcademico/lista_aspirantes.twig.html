@@ -2,47 +2,118 @@
 
 {% block title %} Lista aspirantes {% endblock %}
 
+{% block styles %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.min.css"
+    integrity="sha512-WBBdLBZSQGm9JN1Yut45Y9ijfFANbcOX3G+/A5+oO8W2ZWASp3NkPrG8mgr8QvGviyLoAz8y09l7SJ1dt0as7g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+    .custom-height {
+        min-height: 25vh;
+        border-radius: 10px;
+        box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.082);
+    }
+
+    .custom-button {
+        min-width: 17vh;
+    }
+
+    /* Estilo para la barra de búsqueda */
+    .actionBar {
+        display: flex;
+        align-items: center;
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        padding: 5px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    /* Estilo para el campo de entrada de búsqueda */
+    .search-field input[type="text"] {
+        flex-grow: 1;
+        border: none;
+        padding: 5px;
+        outline: none;
+    }
+
+    .dropdown-toggle {
+        visibility: hidden;
+    }
+
+    .pagination {
+        display: flex;
+        align-items: center;
+        /* Alinea verticalmente los elementos dentro del contenedor de paginación */
+    }
+
+    /* Estilo para los botones de paginación */
+    .button {
+        margin-right: 5px;
+        padding: 5px 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    /* Estilo para el botón de página activa */
+    .active {
+        background-color: #0056b3;
+    }
+</style>
+
+
+{% endblock %}
+
 {% block content %}
 
 <div class="conatiner-fluid content-inner mt-n5 py-0 ">
     <div>
         <div class="row">
 
-            <div class="col-lg-6">
-                <div class="card">
-                    <div class="card-body"
-                        style="border-radius: 10px; box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.082);">
-                        <div class="text-center">Aspirantes que han hecho su pago</div>
-                        <div class="d-flex align-items-center justify-content-between mt-3">
-                            <div class="">
-                                <h2 class="counter">{{numAspPaymentPaid}}</h2>
-                                {{percent}}%
-                            </div>
-                            <div class="border bg-soft-info rounded p-3">
-                                <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M11.9488 14.54C8.49884 14.54 5.58789 15.1038 5.58789 17.2795C5.58789 19.4562 8.51765 20.0001 11.9488 20.0001C15.3988 20.0001 18.3098 19.4364 18.3098 17.2606C18.3098 15.084 15.38 14.54 11.9488 14.54Z"
-                                        fill="currentColor"></path>
-                                    <path opacity="0.4"
-                                        d="M11.949 12.467C14.2851 12.467 16.1583 10.5831 16.1583 8.23351C16.1583 5.88306 14.2851 4 11.949 4C9.61293 4 7.73975 5.88306 7.73975 8.23351C7.73975 10.5831 9.61293 12.467 11.949 12.467Z"
-                                        fill="currentColor"></path>
-                                    <path opacity="0.4"
-                                        d="M21.0881 9.21923C21.6925 6.84176 19.9205 4.70654 17.664 4.70654C17.4187 4.70654 17.1841 4.73356 16.9549 4.77949C16.9244 4.78669 16.8904 4.802 16.8725 4.82902C16.8519 4.86324 16.8671 4.90917 16.8895 4.93889C17.5673 5.89528 17.9568 7.0597 17.9568 8.30967C17.9568 9.50741 17.5996 10.6241 16.9728 11.5508C16.9083 11.6462 16.9656 11.775 17.0793 11.7948C17.2369 11.8227 17.3981 11.8371 17.5629 11.8416C19.2059 11.8849 20.6807 10.8213 21.0881 9.21923Z"
-                                        fill="currentColor"></path>
-                                    <path
-                                        d="M22.8094 14.817C22.5086 14.1722 21.7824 13.73 20.6783 13.513C20.1572 13.3851 18.747 13.205 17.4352 13.2293C17.4155 13.232 17.4048 13.2455 17.403 13.2545C17.4003 13.2671 17.4057 13.2887 17.4316 13.3022C18.0378 13.6039 20.3811 14.916 20.0865 17.6834C20.074 17.8032 20.1698 17.9068 20.2888 17.8888C20.8655 17.8059 22.3492 17.4853 22.8094 16.4866C23.0637 15.9589 23.0637 15.3456 22.8094 14.817Z"
-                                        fill="currentColor"></path>
-                                    <path opacity="0.4"
-                                        d="M7.04459 4.77973C6.81626 4.7329 6.58077 4.70679 6.33543 4.70679C4.07901 4.70679 2.30701 6.84201 2.9123 9.21947C3.31882 10.8216 4.79355 11.8851 6.43661 11.8419C6.60136 11.8374 6.76343 11.8221 6.92013 11.7951C7.03384 11.7753 7.09115 11.6465 7.02668 11.551C6.3999 10.6234 6.04263 9.50765 6.04263 8.30991C6.04263 7.05904 6.43303 5.89462 7.11085 4.93913C7.13234 4.90941 7.14845 4.86348 7.12696 4.82926C7.10906 4.80135 7.07593 4.78694 7.04459 4.77973Z"
-                                        fill="currentColor"></path>
-                                    <path
-                                        d="M3.32156 13.5127C2.21752 13.7297 1.49225 14.1719 1.19139 14.8167C0.936203 15.3453 0.936203 15.9586 1.19139 16.4872C1.65163 17.4851 3.13531 17.8066 3.71195 17.8885C3.83104 17.9065 3.92595 17.8038 3.91342 17.6832C3.61883 14.9167 5.9621 13.6046 6.56918 13.3029C6.59425 13.2885 6.59962 13.2677 6.59694 13.2542C6.59515 13.2452 6.5853 13.2317 6.5656 13.2299C5.25294 13.2047 3.84358 13.3848 3.32156 13.5127Z"
-                                        fill="currentColor"></path>
+            <div class="col-lg-4 col-md-6" bis_skin_checked="1">
+                <div class="card custom-height" bis_skin_checked="1">
+                    <div class="card-body d-grid align-items-center" bis_skin_checked="1">
+                        <div class="d-flex justify-content-between align-items-center" bis_skin_checked="1">
+                            <div class="bg-info text-white rounded p-3" bis_skin_checked="1">
+                                <svg class="icon-20" xmlns="http://www.w3.org/2000/svg" width="20px" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
+                                    </path>
                                 </svg>
                             </div>
+                            <div class="text-end" bis_skin_checked="1">
+                                <h2 class="counter" style="visibility: visible;">{{numTotalAsp}}</h2>
+                                Total de aspirantes
+                            </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6" bis_skin_checked="1">
+                <div class="card custom-height" bis_skin_checked="1">
+                    <div class="card-body d-grid align-items-center" bis_skin_checked="1">
+                        <div class="d-flex justify-content-between align-items-center" bis_skin_checked="1">
+                            <div class="bg-soft-success rounded p-3" bis_skin_checked="1">
+                                <svg class="icon-24" xmlns="http://www.w3.org/2000/svg" width="24" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                                </svg>
+                            </div>
+                            <div class="text-end" bis_skin_checked="1">
+                                <h2 class="counter" style="visibility: visible;">{{numAspPaymentPaid}}</h2>
+                                Pagados
+                            </div>
+                        </div>
+
                         <div class="mt-4">
+                            <div class="text-center">{{percent}}%</div>
                             <div class="progress bg-soft-info shadow-none w-100" style="height: 6px">
                                 <div class="progress-bar bg-info" data-toggle="progress-bar" role="progressbar"
                                     aria-valuenow="{{percent}}" aria-valuemin="0" aria-valuemax="100"></div>
@@ -52,21 +123,19 @@
                 </div>
             </div>
 
-            <div class="col-lg-6">
-                <div class="card " style="background-color: rgb(255, 196, 196);">
-                    <div class="card-body"
-                        style="border-radius: 10px; box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.082);">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="bg-soft-danger rounded p-3">
-                                <svg class="icon-20" xmlns="http://www.w3.org/2000/svg" width="20px" viewBox="0 0 20 20"
-                                    fill="currentColor">
-                                    <path
-                                        d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+            <div class="col-lg-4 col-md-6" bis_skin_checked="1">
+                <div class="card custom-height" bis_skin_checked="1">
+                    <div class="card-body d-grid align-items-center" bis_skin_checked="1">
+                        <div class="d-flex justify-content-between align-items-center" bis_skin_checked="1">
+                            <div class="bg-soft-danger rounded p-3" bis_skin_checked="1">
+                                <svg class="icon-24" width="24" viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M12.3 8.93L9.88 6.5H15.5V10H17V5H9.88L12.3 2.57L11.24 1.5L7 5.75L11.24 10L12.3 8.93M12 14A3 3 0 1 0 15 17A3 3 0 0 0 12 14M3 11V23H21V11M19 19A2 2 0 0 0 17 21H7A2 2 0 0 0 5 19V15A2 2 0 0 0 7 13H17A2 2 0 0 0 19 15Z" />
                                 </svg>
                             </div>
-                            <div class="text-end">
-                                <h2 class="counter">{{numAspPaymentPending}}</h2>
-                                <p class="text-danger">Faltantes de pago</p>
+                            <div class="text-end" bis_skin_checked="1">
+                                <h2 class="counter" style="visibility: visible;">{{numAspPaymentPending}}</h2>
+                                Faltantes por pagar
                             </div>
                         </div>
                     </div>
@@ -84,23 +153,15 @@
                             <div class="card-body">
                                 <h5 class="card-title">Aspirantes que han hecho su pago</h5>
                                 <!-- Barra de búsqueda y filtro -->
-                                <div class="row mb-3">
-                                    <div class="col-lg-6 d-flex p-2">
-                                        <div class="input-group me-2">
-                                            <input id="searchInput" type="text" class="form-control"
-                                                placeholder="Buscar">
-                                            <select id="filterSelect" class="form-select">
-                                                <option value="numero_solicitud">Número de Solicitud</option>
-                                                <option value="nombre">Nombre</option>
-                                            </select>
-                                            <button id="searchButton" class="btn btn-primary">Buscar</button>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 text-end p-2">
-                                        <a class="btn btn-primary"
-                                            href="{{base_url('des-academico/aspirantes/exportar-reporte')}}">Imprimir
-                                            toda la
-                                            lista</a>
+                                <div class="row ">
+                                    <div class="col-lg-12 text-end p-2">
+                                        <a class="btn btn-primary bg-soft-success"
+                                            href="{{base_url('des-academico/aspirantes/exportar-reporte')}}"><svg
+                                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="50px"
+                                                height="50px">
+                                                <path
+                                                    d="M 28.875 0 C 28.855469 0.0078125 28.832031 0.0195313 28.8125 0.03125 L 0.8125 5.34375 C 0.335938 5.433594 -0.0078125 5.855469 0 6.34375 L 0 43.65625 C -0.0078125 44.144531 0.335938 44.566406 0.8125 44.65625 L 28.8125 49.96875 C 29.101563 50.023438 29.402344 49.949219 29.632813 49.761719 C 29.859375 49.574219 29.996094 49.296875 30 49 L 30 44 L 47 44 C 48.09375 44 49 43.09375 49 42 L 49 8 C 49 6.90625 48.09375 6 47 6 L 30 6 L 30 1 C 30.003906 0.710938 29.878906 0.4375 29.664063 0.246094 C 29.449219 0.0546875 29.160156 -0.0351563 28.875 0 Z M 28 2.1875 L 28 6.53125 C 27.867188 6.808594 27.867188 7.128906 28 7.40625 L 28 42.8125 C 27.972656 42.945313 27.972656 43.085938 28 43.21875 L 28 47.8125 L 2 42.84375 L 2 7.15625 Z M 30 8 L 47 8 L 47 42 L 30 42 L 30 37 L 34 37 L 34 35 L 30 35 L 30 29 L 34 29 L 34 27 L 30 27 L 30 22 L 34 22 L 34 20 L 30 20 L 30 15 L 34 15 L 34 13 L 30 13 Z M 36 13 L 36 15 L 44 15 L 44 13 Z M 6.6875 15.6875 L 12.15625 25.03125 L 6.1875 34.375 L 11.1875 34.375 L 14.4375 28.34375 C 14.664063 27.761719 14.8125 27.316406 14.875 27.03125 L 14.90625 27.03125 C 15.035156 27.640625 15.160156 28.054688 15.28125 28.28125 L 18.53125 34.375 L 23.5 34.375 L 17.75 24.9375 L 23.34375 15.6875 L 18.65625 15.6875 L 15.6875 21.21875 C 15.402344 21.941406 15.199219 22.511719 15.09375 22.875 L 15.0625 22.875 C 14.898438 22.265625 14.710938 21.722656 14.5 21.28125 L 11.8125 15.6875 Z M 36 20 L 36 22 L 44 22 L 44 20 Z M 36 27 L 36 29 L 44 29 L 44 27 Z M 36 35 L 36 37 L 44 37 L 44 35 Z" />
+                                            </svg></a>
                                     </div>
                                 </div>
                                 <!--<p>{{d(aspirantes)}}</p>-->
@@ -109,15 +170,23 @@
                                     <table id="datatable" class="table table-striped">
                                         <thead>
                                             <tr>
-                                                <th>Número de Solicitud</th>
-                                                <th>Nombre</th>
-                                                <th>Correo Electrónico</th>
-                                                <th>CURP</th>
+                                                <th data-column-id="id" data-visible="false">id
+                                                </th>
+                                                <th data-column-id="numero_solicitud" data-sortable="false">Número de
+                                                    Solicitud</th>
+                                                <th data-column-id="nombre">Nombre</th>
+                                                <th data-column-id="email" data-searchable="false"
+                                                    data-sortable="false">
+                                                    Correo electronico</th>
+                                                <th data-column-id="curp" data-sortable="false">CURP
+                                                </th>
+                                                <!-- Otros encabezados de columna -->
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {% for aspirante in aspirantes %}
                                             <tr>
+                                                <td>{{ aspirante.id}}</td>
                                                 <td>{{ aspirante.noSolicitude }}</td>
                                                 <td>{{ aspirante.name }}</td>
                                                 <td>{{ aspirante.email }}</td>
@@ -126,18 +195,6 @@
                                             {% endfor %}
                                         </tbody>
                                     </table>
-                                </div>
-                                <div class="row d-flex">
-                                    <div class="col-lg-6 p-2">
-                                        <select id="pageSizeSelect" class="form-select">
-                                            <option value="10">Mostrar 10 registros</option>
-                                            <option value="20">Mostrar 20 registros</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-lg-6 text-end p-2">
-                                        <button id="prevPageButton" class="btn btn-secondary">Anterior</button>
-                                        <button id="nextPageButton" class="btn btn-secondary">Siguiente</button>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -153,71 +210,50 @@
 <!-- JQuery -->
 <script src="{{base_url('Vendor/Parsley/jquery-3.7.0.min.js')}}"></script>
 
+<!-- Bootgrid -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.min.js"
+    integrity="sha512-ut+jq2MDKjyWKK7rpEbyHjJ2kDBDO58DLFw4xJobqvS2kUgx4DJbj3OLjwk4F0pKtcxUoUIRS6esQVhh4fmWNA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
 <script>
     $(document).ready(function () {
-        // Función para realizar la búsqueda y filtrado en la tabla
-        $("#searchButton").click(function () {
-            var searchText = $("#searchInput").val().toLowerCase();
-            var filterType = $("#filterSelect").val();
-            console.log(searchText);
+        var $tabla = $("#datatable").bootgrid({
+            caseSensitive: false,
+            ajax: false, // Desactivamos la solicitud AJAX
+            labels: {
+                noResults: "No hay resultados",
+                loading: "Cargando...",
+                infos: "Mostrando {{ctx.start}} al {{'{{ctx.end}}'}} de {{'{{ctx.total}}'}} registros",
+                search: "Buscar",
+                refresh: "Recarga",
 
-            if (searchText == '') {
-                updateDisplayedRecords();
-            } else {
-                $("#datatable tbody tr").each(function () {
-                    var rowText = $(this).find("td:nth-child(" + (filterType === "numero_solicitud" ? 1 : 2) + ")").text().toLowerCase();
-
-                    if (rowText.includes(searchText)) {
-                        $(this).show();
-                    } else {
-                        $(this).hide();
-                    }
-                });
-            }
-
+            },
+            pagination: true,
+            rowCount: 10,
+            searchSettings: {
+                delay: 100,
+                characters: 3,
+                searchOnEnterKey: true,
+                searchOnKeyPress: true,
+            },
         });
 
-        var currentPage = 1; // Pagina Actual
-        var recordsPerPage = 10; // Numero de registros por default
+        var $searchBar = $tabla.find(".actionBar");
+        var $customButton = $(
+            '<div class="my-custom-button"><button class="btn btn-primary">Mi Botón</button></div>'
+        );
 
-        function updateDisplayedRecords() {
-            var startIndex = (currentPage - 1) * recordsPerPage;
-            var endIndex = startIndex + recordsPerPage;
+        $searchBar.append($customButton);
 
-            $("#datatable tbody tr").each(function (index) {
-                if (index >= startIndex && index < endIndex) {
-                    $(this).show();
-                } else {
-                    $(this).hide();
-                }
-            });
-        }
-
-        $("#pageSizeSelect").change(function () {
-            recordsPerPage = parseInt($(this).val(), 10);
-            currentPage = 1;
-            updateDisplayedRecords();
+        // Agrega el manejo de eventos para el botón personalizado
+        $customButton.find("button").on("click", function () {
+            // Acción que deseas realizar al hacer clic en el botón personalizado
+            // Por ejemplo, puedes ejecutar una función o redirigir a una página
+            alert("Botón personalizado clicado");
         });
 
-        $("#prevPageButton").click(function () {
-            if (currentPage > 1) {
-                currentPage--;
-                updateDisplayedRecords();
-            }
-        });
 
-        $("#nextPageButton").click(function () {
-            var totalRecords = $("#datatable tbody tr").length;
-            var totalPages = Math.ceil(totalRecords / recordsPerPage);
-
-            if (currentPage < totalPages) {
-                currentPage++;
-                updateDisplayedRecords();
-            }
-        });
-
-        // Actulizacion inicial
-        updateDisplayedRecords();
     });
 
 </script>
