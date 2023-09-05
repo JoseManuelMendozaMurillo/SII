@@ -68,7 +68,7 @@ class Profile extends BaseController
         // }
 
         $data = [
-            'aspirante.foto' => config('Paths')->accessPhotosAspirantes . '/' . 'test.png',
+            'photo' => base_url('Vendor/Template/assets/images/avatars/01.png'),
             'fullName' => $user_data['nombre'] . ' '
                         . $user_data['apellido_paterno'] . ' '
                         . $user_data['apellido_materno'] . ' ',

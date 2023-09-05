@@ -163,6 +163,7 @@ class Pruebas extends BaseController
             $data = [
                 'loggedIn' => 'Loggeado',
                 'user' => user_id(),
+                'email' => auth()->user()->getEmail(),
                 'permissions' => auth()->user()->getPermissions(),
                 'groups' => auth()->user()->getGroups(),
             ];
@@ -186,9 +187,13 @@ class Pruebas extends BaseController
     public function login($username)
     {
         $credentials = [
-            'email' => $username . '@example.com',
-            'password' => '1234qwer',
+            'email' => $username,
+            'password' => '1234',
         ];
+
+        if (auth()->loggedIn()) {
+            auth()->logout();
+        }
 
         $loginAttempt = auth()->attempt($credentials);
 
