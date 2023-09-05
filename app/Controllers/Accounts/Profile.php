@@ -21,9 +21,9 @@ class Profile extends BaseController
 
     public function __construct()
     {
-        // TODO: CAMBIAR MODELO SEGUN USUARIO
         $this->user = auth()->user();
         $this->users = auth()->getProvider();
+        $this->model = new AspiranteModel();
         $this->tables = config('Auth')->tables;
         $this->db = db_connect();
     }
@@ -33,32 +33,39 @@ class Profile extends BaseController
         // Retorna resultado como un array de objetos, por lo cual accedemos al primero
         // y lo convertimos en array para poder trabajar con ellos
         // TODO: CAMBIAR EL 7 POR $this->user->id PARA OBTENER EL ID DEL USUARIO LEGGEADO
+
         $user_data = $this->model->where('user_id', 7)->find()[0]->toArray();
+
+        $carrera = new CarrerasModel();
+        $job = 'Alumno'; // Aqui va el puesto segun su rol, por mejorar
+        $department = 'Carrera';
+        $departmentassociated = $carrera->getNameById($user_data['carrera_primera_opcion']);
 
         $job = '';
         $department = '';
         $carrera = '';
 
         // Seleccion de roles
-        if ($this->user->inGroup('personal')) {
-            $this->model = new PersonalModel();
-            $job = 'Personal del instituto'; // Aqui va el puesto segun su rol, por mejorar
-            $department = 'Departamento';
-            $departmentassociated = 'Departamento de Ciencias Básicas'; // Aqui va el departamento al que esta asociado
-        }
+        // DESCOMENTAR CUANDO LOS MODELOS ESTEN FUNCIONALES
+        // if ($this->user->inGroup('personal')) {
+        //     $this->model = new PersonalModel();
+        //     $job = 'Personal del instituto'; // Aqui va el puesto segun su rol, por mejorar
+        //     $department = 'Departamento';
+        //     $departmentassociated = 'Departamento de Ciencias Básicas'; // Aqui va el departamento al que esta asociado
+        // }
 
-        if ($this->user->inGroup('alumnos')) {
-            $this->model = new AlumnoModel();
-            $carrera = new CarrerasModel();
-            $job = 'Alumno'; // Aqui va el puesto segun su rol, por mejorar
-            $department = 'Carrera';
-            $departmentassociated = $carrera->getNameById($user_data['carrera_primera_opcion']); // Aqui va la carrera
-        }
+        // if ($this->user->inGroup('alumnos')) {
+        //     $this->model = new AlumnoModel();
+        //     $carrera = new CarrerasModel();
+        //     $job = 'Alumno'; // Aqui va el puesto segun su rol, por mejorar
+        //     $department = 'Carrera';
+        //     $departmentassociated = $carrera->getNameById($user_data['carrera_primera_opcion']); // Aqui va la carrera
+        // }
 
-        // Rol de aspirantes no tiene esta vista, solo es de prueba
-        if ($this->user->inGroup('aspirantes')) {
-            $this->model = new AspiranteModel();
-        }
+        // // Rol de aspirantes no tiene esta vista, solo es de prueba
+        // if ($this->user->inGroup('aspirantes')) {
+        //     $this->model = new AspiranteModel();
+        // }
 
         $data = [
             'aspirante.foto' => config('Paths')->accessPhotosAspirantes . '/' . 'test.png',
