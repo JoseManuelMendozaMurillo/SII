@@ -35,7 +35,7 @@ export function customValidation() {
           $input.attr('data-parsley-error-message','Ingresa un código postal válido de 5 dígitos.');
           break;
         case 'col':
-          $input.attr('data-parsley-pattern', '^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\\.]+(\\s+[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+\\.?)*$');
+          $input.attr('data-parsley-pattern', '^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9\\.]+(\\s+[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9]+\\.?)*$');
           $input.attr('data-parsley-error-message','Ingresa una colonia válida.');
           break;
         case 'calle':

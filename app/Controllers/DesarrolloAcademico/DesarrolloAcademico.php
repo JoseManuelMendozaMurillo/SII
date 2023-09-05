@@ -51,7 +51,7 @@ class DesarrolloAcademico extends BaseController
             unset($aspirante['pathPhotos']);
             $aspirantes[] = $aspirante;
         }
-        $percent = (float) 100 * $numAspPaymentPaid / ($numAspPaymentPending + $numAspPaymentPaid);
+        $percent = (float) 100 * $numAspPaymentPaid / ($numTotalAsp);
 
         $data = [
             'nombreModulo' => 'Desarrollo Academico',

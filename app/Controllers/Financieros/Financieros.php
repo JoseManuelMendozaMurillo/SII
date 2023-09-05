@@ -8,13 +8,6 @@ use CodeIgniter\HTTP\Response;
 
 class Financieros extends BaseController
 {
-    public function nuevosAspirantes()
-    {
-        $datos = ['nombreModulo' => 'Recursos Financieros'];
-
-        $this->twig->display('RecursosFinancieros/nuevos_aspirantes', $datos);
-    }
-
     /**
      * listAspirantes
      * Función para mostrar la vista de aspirante para recursos financieros
@@ -70,6 +63,14 @@ class Financieros extends BaseController
             $aspirantesPendingPayment[] = $aspirante;
         }
 
+        $todosAspirantes = array_merge($aspirantes, $aspirantesPendingPayment);
+
+        usort($todosAspirantes, function ($a, $b) {
+            return strcmp($a['name'], $b['name']);
+        });
+
+        $percent = (float) 100 * $numAspPaymentPaid / ($numTotalAsp);
+
         $data = [
             'nombreModulo' => 'Recursos Financieros',
             'numAspPaymentPaid' => $numAspPaymentPaid,
@@ -77,6 +78,8 @@ class Financieros extends BaseController
             'numTotalAsp' => $numTotalAsp,
             'aspirantes' => $aspirantes,
             'aspirantesNoPago' => $aspirantesPendingPayment,
+            'aspirantesTodos' => $todosAspirantes,
+            'percent' => $percent,
         ];
 
         $this->twig->display('RecursosFinancieros/nuevos_aspirantes', $data);

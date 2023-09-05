@@ -2,86 +2,147 @@
 
 {% block title %} Nuevos aspirantes {% endblock %}
 
+{% block styles %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.min.css"
+    integrity="sha512-WBBdLBZSQGm9JN1Yut45Y9ijfFANbcOX3G+/A5+oO8W2ZWASp3NkPrG8mgr8QvGviyLoAz8y09l7SJ1dt0as7g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+    .custom-height {
+        min-height: 25vh;
+        border-radius: 10px;
+        box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.082);
+    }
+
+    .custom-button {
+        min-width: 17vh;
+    }
+
+    /* Estilo para la barra de búsqueda */
+    .actionBar {
+        display: flex;
+        align-items: center;
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        padding: 5px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    /* Estilo para el campo de entrada de búsqueda */
+    .search-field input[type="text"] {
+        flex-grow: 1;
+        border: none;
+        padding: 5px;
+        outline: none;
+    }
+
+    .dropdown-toggle {
+        visibility: hidden;
+    }
+
+    .pagination {
+        display: flex;
+        align-items: center;
+        /* Alinea verticalmente los elementos dentro del contenedor de paginación */
+    }
+
+    /* Estilo para los botones de paginación */
+    .button {
+        margin-right: 5px;
+        padding: 5px 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    /* Estilo para el botón de página activa */
+    .active {
+        background-color: #0056b3;
+    }
+</style>
+
+
+{% endblock %}
+
 {% block content %}
 
 <div class="conatiner-fluid content-inner mt-n5 py-0">
     <div>
         <div class="row">
 
-            <div class="col-lg-6">
-                <div class="card" style="border-radius: 10px; box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.082);">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <div class="rounded p-3 bg-soft-success">
+            <div class="col-lg-4 col-md-6" bis_skin_checked="1">
+                <div class="card custom-height" bis_skin_checked="1">
+                    <div class="card-body d-grid align-items-center" bis_skin_checked="1">
+                        <div class="d-flex justify-content-between align-items-center" bis_skin_checked="1">
+                            <div class="bg-info text-white rounded p-3" bis_skin_checked="1">
+                                <svg class="icon-20" xmlns="http://www.w3.org/2000/svg" width="20px" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div class="text-end" bis_skin_checked="1">
+                                <h2 class="counter" style="visibility: visible;">{{numTotalAsp}}</h2>
+                                Total de aspirantes
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6" bis_skin_checked="1">
+                <div class="card custom-height" bis_skin_checked="1">
+                    <div class="card-body d-grid align-items-center" bis_skin_checked="1">
+                        <div class="d-flex justify-content-between align-items-center" bis_skin_checked="1">
+                            <div class="bg-soft-success rounded p-3" bis_skin_checked="1">
                                 <svg class="icon-24" xmlns="http://www.w3.org/2000/svg" width="24" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                                 </svg>
                             </div>
-                            <div>
-                                <span>Pagado</span>
+                            <div class="text-end" bis_skin_checked="1">
+                                <h2 class="counter" style="visibility: visible;">{{numAspPaymentPaid}}</h2>
+                                Pagados
                             </div>
                         </div>
-                        <div class="text-center">
-                            <h2 class="counter">{{aspirantes.numAspPaymentPaid}}</h2>
-                            <div><!--
-                                <span>
-                                    <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10"
-                                        viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd"
-                                            d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                    10%
-                                </span>
-                                <span>Incrementado</span>-->
-                            </div>
-                        </div>
-                    </div>
-                    <div id="chart-3"></div>
-                </div>
-            </div>
 
-
-            <div class="col-lg-6">
-                <div class="card">
-                    <div class="card-body"
-                        style="border-radius: 10px; box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.082);">
-                        <div class="d-flex justify-content-between mb-3">
-                            <div>
-                                <span>Faltantes por pagar</span>
-                            </div>
-                            <div class="">
-                                <svg class="icon-20" xmlns="http://www.w3.org/2000/svg" width="20" viewBox="0 0 20 20"
-                                    fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <div class="border rounded p-3 bg-soft-danger me-3">
-                                    <svg class="icon-24" width="24" viewBox="0 0 24 24">
-                                        <path fill="currentColor"
-                                            d="M12.3 8.93L9.88 6.5H15.5V10H17V5H9.88L12.3 2.57L11.24 1.5L7 5.75L11.24 10L12.3 8.93M12 14A3 3 0 1 0 15 17A3 3 0 0 0 12 14M3 11V23H21V11M19 19A2 2 0 0 0 17 21H7A2 2 0 0 0 5 19V15A2 2 0 0 0 7 13H17A2 2 0 0 0 19 15Z" />
-                                    </svg>
-                                </div>
-                                <h2 class="counter">{{aspirantes.numAspPaymentPending}}</h2>
-                            </div>
-                            <div class="pt-3">
-                                <svg class="icon-20" xmlns="http://www.w3.org/2000/svg" width="20px" viewBox="0 0 20 20"
-                                    fill="#b91d12">
-                                    <path
-                                        d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
-                                </svg>
+                        <div class="mt-4">
+                            <div class="text-center">{{percent}}%</div>
+                            <div class="progress bg-soft-info shadow-none w-100" style="height: 6px">
+                                <div class="progress-bar bg-info" data-toggle="progress-bar" role="progressbar"
+                                    aria-valuenow="{{percent}}" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <div class="col-lg-4 col-md-6" bis_skin_checked="1">
+                <div class="card custom-height" bis_skin_checked="1">
+                    <div class="card-body d-grid align-items-center" bis_skin_checked="1">
+                        <div class="d-flex justify-content-between align-items-center" bis_skin_checked="1">
+                            <div class="bg-soft-danger rounded p-3" bis_skin_checked="1">
+                                <svg class="icon-24" width="24" viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M12.3 8.93L9.88 6.5H15.5V10H17V5H9.88L12.3 2.57L11.24 1.5L7 5.75L11.24 10L12.3 8.93M12 14A3 3 0 1 0 15 17A3 3 0 0 0 12 14M3 11V23H21V11M19 19A2 2 0 0 0 17 21H7A2 2 0 0 0 5 19V15A2 2 0 0 0 7 13H17A2 2 0 0 0 19 15Z" />
+                                </svg>
+                            </div>
+                            <div class="text-end" bis_skin_checked="1">
+                                <h2 class="counter" style="visibility: visible;">{{numAspPaymentPending}}</h2>
+                                Faltantes por pagar
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
 
         </div>
     </div>
@@ -98,64 +159,88 @@
                             <!-- Barra de búsqueda y filtro -->
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <div class="d-flex">
-                                    <div class="input-group me-2">
-                                        <input id="searchInput" type="text" class="form-control" placeholder="Buscar">
+
+                                    <!-- <div class="input-group me-2">
+                                        <div class="input-group search-input">
+                                            <span class="input-group-text" id="search-input">
+                                                <svg class="icon-18" width="18" viewBox="0 0 24 24" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <circle cx="11.7669" cy="11.7666" r="8.98856" stroke="currentColor"
+                                                        stroke-width="1.5" stroke-linecap="round"
+                                                        stroke-linejoin="round"></circle>
+                                                    <path d="M18.0186 18.4851L21.5426 22" stroke="currentColor"
+                                                        stroke-width="1.5" stroke-linecap="round"
+                                                        stroke-linejoin="round"></path>
+                                                </svg>
+                                            </span>
+                                            <input id="searchInput" type="search" class="form-control"
+                                                placeholder="Buscar...">
+                                        </div>
                                         <select id="filterSelect" class="form-select">
                                             <option value="numero_solicitud">Número de Solicitud</option>
                                             <option value="nombre">Nombre</option>
                                         </select>
                                         <button id="searchButton" class="btn btn-primary">Buscar</button>
-                                    </div>
+                                    </div>-->
+
+
+
                                 </div>
+                                <!-- <div class="col-lg-4 text-end p-2 filtro-estatus">
+
+                                    <select id="filtroSelect" class="form-select ">
+                                        <option value="" selected>Todos</option>
+                                        <option value="Pagado">Pagado</option>
+                                        <option value="Pendiente">Pendiente</option>
+                                    </select>
+                                </div> -->
 
                             </div>
 
                             <!-- Tabla de datos -->
                             <div class="table-responsive">
-                                <table id="dataTable" class="table table-striped">
+                                <table id="datatable" class="table table-striped">
                                     <thead>
                                         <tr>
-                                            <th>Número de Solicitud</th>
-                                            <th>Nombre</th>
-                                            <th>Correo Electrónico</th>
-                                            <th>Estatus de pago</th>
+                                            <th data-column-id="id" data-visible="false" data-sortable="false">id</th>
+                                            <th data-column-id="numero_solicitud" data-sortable="false">Número de
+                                                Solicitud</th>
+                                            <th data-column-id="nombre" data-sortable="false">Nombre</th>
+                                            <th data-column-id="email" data-searchable="false" data-sortable="false">
+                                                Correo electronico</th>
+                                            <th data-column-id="estatus_pago" data-searchable="false"
+                                                data-formatter="button_status">Estado de pago
+                                            </th>
+                                            <!-- Otros encabezados de columna -->
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <p>{{dump(aspirantes)}}</p>
-                                        {% for aspirante in aspirantes %}
+                                        {% for aspirante in aspirantesTodos %}
                                         <tr>
+                                            <td>{{ aspirante.id}}</td>
                                             <td>{{ aspirante.noSolicitude }}</td>
                                             <td>{{ aspirante.name }}</td>
                                             <td>{{ aspirante.email }}</td>
-                                            <td>
-                                                <button
-                                                    class="btn {% if aspirante.estatus_pago == '0' %}btn-success{% else %}btn-warning{% endif %}"
-                                                    onclick="mostrarConfirmacion('{{ aspirante.user_id }}')">
-                                                    {{ aspirante.estatus_pago }}
-                                                </button>
-
-
+                                            <td>{{ aspirante.status_pago }}</td>
                                         </tr>
                                         {% endfor %}
-
                                     </tbody>
                                 </table>
                             </div>
 
-                            <!-- Paginación -->
+                            <!-- Paginación 
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <select class="form-select">
+                                    <select id="pageSizeSelect" class="form-select">
                                         <option value="10">Mostrar 10 registros</option>
                                         <option value="20">Mostrar 20 registros</option>
                                     </select>
                                 </div>
-                                <div>
-                                    <button class="btn btn-secondary">Anterior</button>
-                                    <button class="btn btn-secondary">Siguiente</button>
+                                <div class="col-lg-6 text-end p-2">
+                                    <button id="prevPageButton" class="btn btn-secondary">Anterior</button>
+                                    <button id="nextPageButton" class="btn btn-secondary">Siguiente</button>
                                 </div>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                 </div>
@@ -175,8 +260,14 @@
 <!-- SweetAlert -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<!-- Bootgrid -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.min.js"
+    integrity="sha512-ut+jq2MDKjyWKK7rpEbyHjJ2kDBDO58DLFw4xJobqvS2kUgx4DJbj3OLjwk4F0pKtcxUoUIRS6esQVhh4fmWNA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
 <script>
-    function mostrarConfirmacion(user_id) {
+    function mostrarConfirmacion(user_id, status_pago) {
         Swal.fire({
             title: 'Cambiar el estado de pago',
             text: '¿Seguro/a que quiere cambiar el estado de pago?',
@@ -188,19 +279,24 @@
             cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.isConfirmed) {
-                cambiarEstado(user_id);
+                nuevo_estado = status_pago === '1' ? '0' : '1';
+                cambiarEstado(user_id, nuevo_estado);
             }
         });
     }
 </script>
 
 <script>
-    function cambiarEstado(user_id) {
+    function cambiarEstado(user_id, status_pago) {
         // Realiza una llamada AJAX para actualizar el estado de pago en el servidor
         $.ajax({
             type: 'POST',
-            url: '/Aspirantes/ListarAspirantes/cambiarEstadoPago',
-            data: { 'user_id': user_id },
+            dataType: 'json',
+            url: '{{base_url("aspirantes/change-status-payment")}}',
+            data: {
+                'idAspirante': user_id,
+                'status': status_pago
+            },
             success: function (response) {
                 if (response.success) {
                     var btn = $('.btn[data-user-id="' + user_id + '"]');
@@ -215,10 +311,139 @@
                 }
             },
             error: function () {
-                Swal.fire('Error', 'Hubo un problema de conexión.', 'error');
+                Swal.fire('Error', 'Hubo un problema', 'error');
             }
         });
     }
+</script>
+
+<script>
+    $(document).ready(function () {
+        /*// Función para realizar la búsqueda y filtrado en la tabla
+        $("#searchInput").on("input", function () {
+            var searchText = $(this).val().toLowerCase();
+
+            if (searchText.length > 2) {
+                $("#datatable tbody tr").each(function () {
+                    var numeroSolicitud = $(this).find("td:nth-child(1)").text().toLowerCase();
+                    var nombre = $(this).find("td:nth-child(2)").text().toLowerCase();
+
+                    if (numeroSolicitud.includes(searchText) || nombre.includes(searchText)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            } else {
+                updateDisplayedRecords();
+            }
+        });
+
+        $("#filterStatus").change(function () {
+            var selectedStatus = $(this).val();
+
+            if (selectedStatus === "todos") {
+                $("#datatable tbody tr").show(); // Muestra todos los elementos
+            } else {
+                $("#datatable tbody tr").each(function () {
+                    var rowStatus = $(this).find("td:nth-child(4)").text().toLowerCase();
+                    if ((selectedStatus === "pagados" && rowStatus.includes("pagado")) ||
+                        (selectedStatus === "pendientes" && rowStatus.includes("pendiente"))) {
+
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            }
+
+        });
+
+
+
+        var currentPage = 1; // Pagina Actual
+        var recordsPerPage = 10; // Numero de registros por default
+
+        function updateDisplayedRecords() {
+            var startIndex = (currentPage - 1) * recordsPerPage;
+            var endIndex = startIndex + recordsPerPage;
+
+            $("#datatable tbody tr").each(function (index) {
+                if (index >= startIndex && index < endIndex) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        }
+
+        $("#pageSizeSelect").change(function () {
+            recordsPerPage = parseInt($(this).val(), 10);
+            currentPage = 1;
+            updateDisplayedRecords();
+        });
+
+        $("#prevPageButton").click(function () {
+            if (currentPage > 1) {
+                currentPage--;
+                updateDisplayedRecords();
+            }
+        });
+
+        $("#nextPageButton").click(function () {
+            var totalRecords = $("#datatable tbody tr").length;
+            var totalPages = Math.ceil(totalRecords / recordsPerPage);
+
+            if (currentPage < totalPages) {
+                currentPage++;
+                updateDisplayedRecords();
+            }
+        });
+
+        // Actulizacion inicial
+        updateDisplayedRecords();*/
+
+
+        var $tabla = $("#datatable").bootgrid({
+            caseSensitive: false,
+            ajax: false, // Desactivamos la solicitud AJAX
+            labels: {
+                noResults: "No hay resultados",
+                loading: "Cargando...",
+                infos: "Mostrando {{ctx.start}} al {{'{{ctx.end}}'}} de {{'{{ctx.total}}'}} registros",
+                search: "Buscar",
+                refresh: "Recarga",
+
+            },
+            pagination: true,
+            rowCount: 10,
+            sort: true,
+            searchSettings: {
+                delay: 100,
+                characters: 3,
+                searchOnEnterKey: true,
+                searchOnKeyPress: true,
+            },
+            formatters: {
+                'button_status': function (col, row) {
+                    const estado = row.estatus_pago;
+                    return ` 
+                    <button
+                        class="custom-button btn ${estado ? 'btn-success' : 'btn-warning'}"
+                        onclick="mostrarConfirmacion('${row.id}','${estado}')">
+                        ${estado ? 'Pagado' : 'Pendiente'}
+                    </button>
+                    `
+                }
+
+            },
+
+
+        });
+
+
+    });
+
 </script>
 
 

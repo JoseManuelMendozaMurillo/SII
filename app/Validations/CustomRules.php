@@ -35,27 +35,4 @@ class CustomRules
 
         return false;
     }
-
-    /**
-     * Regla para validar que un catalogo sea valido
-     *
-     */
-    protected $db;
-
-    public function __construct()
-    {
-        $this->db = db_connect();
-    }
-
-    public function checkCatalog($value, string $field, array $data): bool
-    {
-        list($table, $column) = explode('.', $field);
-
-        $query = $this->db->table($table)
-                          ->select($column)
-                          ->where($column, $value)
-                          ->get();
-
-        return $query->getNumRows() > 0;
-    }
 }

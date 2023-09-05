@@ -270,7 +270,7 @@ class Aspirantes extends RegisterController
                 throw new Exception('El registro no se pudo actualizar', 500);
             }
 
-            return $this->response->setStatusCode(200);
+            return $this->response->setStatusCode(200)->setJSON(['success' => true]);
         } catch (Exception $e) {
             return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
         }

@@ -1,0 +1,1 @@
+UPDATE aspirantes SET fecha_nacimiento2 = DATE(fecha_nacimiento);

@@ -51,6 +51,16 @@ $routes->group(
     }
 );
 
+// Rutas Accounts
+$routes->group(
+    'accounts',
+    ['namespace' => 'App\Controllers\Accounts'],
+    function ($routes) {
+        $routes->get('profile', 'Profile::profile');
+        $routes->post('change-password', 'Profile::changePassword');
+    }
+);
+
 // Rutas aspirantes
 $routes->group(
     'aspirantes',
@@ -93,7 +103,7 @@ $routes->group(
     ['namespace' => 'App\Controllers\Financieros'],
     // 'filter' => 'group:financieros'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
     function ($routes) {
-        $routes->get('nuevos/aspirantes', 'Financieros::nuevosAspirantes');
+        $routes->get('nuevos/aspirantes', 'Financieros::listAspirantes');
     }
 );
 
