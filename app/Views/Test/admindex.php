@@ -10,6 +10,7 @@
     <h1>Meep Meep</h1>
     <div> <?= esc($loggedIn) ?> </div>
     <div> User ID: <?= esc($user) ?> </div>
+  
     <div> Permisos:</div>
     <ul>
         <?php foreach ($permissions as $permission) : ?>
@@ -25,6 +26,10 @@
     <h2>Utilidades</h2>
     <div>Usuarios</div>
     <ul>
+        <li><a href="<?= base_url('/pruebas/login/superadmin')?>">Superadmin</a></li>
+        <li><a href="<?= base_url('/pruebas/login/recursos_financieros')?>">Recursos financieros</a></li>
+        <li><a href="<?= base_url('/pruebas/login/desarrollo_academico')?>">Desarrollo academico</a></li>
+        <li><a href="<?= base_url('/pruebas/login/servicios_escolares')?>">Servicios escolares</a></li>
         <li><a href="<?= base_url('/pruebas/superadmin')?>">Conviertete en superadmin, pa</a></li>
         <!-- <li><a href="<?= base_url('/pruebas/newuser')?>">Crea un nuevo usuario</a></li> -->
         <li>Crea un nuevo usuario yendo a /pruebas/newuser/nombreDelUsurio</li>
