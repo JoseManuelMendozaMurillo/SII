@@ -5,6 +5,8 @@ namespace App\Controllers\Accounts;
 use App\Controllers\BaseController;
 use App\Entities\Aspirantes\Aspirante;
 use App\Models\Aspirantes\AspiranteModel;
+use App\Models\Personal\PersonalModel;
+use App\Models\Alumnos\AlumnoModel;
 use App\Models\ServiciosEscolares\CarrerasModel;
 use Exception;
 
@@ -22,10 +24,6 @@ class Profile extends BaseController
         // TODO: CAMBIAR MODELO SEGUN USUARIO
         $this->user = auth()->user();
         $this->users = auth()->getProvider();
-
-        if ($this->user->inGroup('admins')) {
-        }
-        $this->model = new AspiranteModel();
         $this->tables = config('Auth')->tables;
         $this->db = db_connect();
     }
@@ -36,21 +34,47 @@ class Profile extends BaseController
         // y lo convertimos en array para poder trabajar con ellos
         // TODO: CAMBIAR EL 7 POR $this->user->id PARA OBTENER EL ID DEL USUARIO LEGGEADO
         $user_data = $this->model->where('user_id', 7)->find()[0]->toArray();
-        $carrera = new CarrerasModel();
+
+        $job = '';
+        $department = '';
+        $carrera = '';
+
+        // Seleccion de roles
+        if ($this->user->inGroup('personal')) {
+            $this->model = new PersonalModel();
+            $job = 'Personal del instituto'; // Aqui va el puesto segun su rol, por mejorar
+            $department = 'Departamento';
+            $departmentassociated = 'Departamento de Ciencias Básicas'; // Aqui va el departamento al que esta asociado
+        }
+
+        if ($this->user->inGroup('alumnos')) {
+            $this->model = new AlumnoModel();
+            $carrera = new CarrerasModel();
+            $job = 'Alumno'; // Aqui va el puesto segun su rol, por mejorar
+            $department = 'Carrera';
+            $departmentassociated = $carrera->getNameById($user_data['carrera_primera_opcion']); // Aqui va la carrera
+        }
+
+        // Rol de aspirantes no tiene esta vista, solo es de prueba
+        if ($this->user->inGroup('aspirantes')) {
+            $this->model = new AspiranteModel();
+        }
+
         $data = [
             'aspirante.foto' => config('Paths')->accessPhotosAspirantes . '/' . 'test.png',
             'fullName' => $user_data['nombre'] . ' '
                         . $user_data['apellido_paterno'] . ' '
                         . $user_data['apellido_materno'] . ' ',
-            'position' => 'Puesto',
-            'job' => 'Aspirante',
-            'identifier' => '19630314', // No. de control para estudiantes, RFC para personal
-            'department' => 'Carrera',
-
-            'departmentassociated' => $carrera->getNameById($user_data['carrera_primera_opcion']), // Carrera o departamente asociado
             'email' => $this->user->getEmail(),
+
+            'identifier' => '19630314', // No. de control para estudiantes, RFC para personal
+
+            'position' => 'Puesto',
+            'job' => $job,
+            'department' => $department,
+            'departmentassociated' => $departmentassociated, // Carrera o departamente asociado
+
         ];
-        // dd($data);
 
         $this->twig->display('Perfil/perfil', $data);
     }

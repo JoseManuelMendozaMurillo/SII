@@ -38,7 +38,11 @@ class AuthGroups extends ShieldAuthGroups
         ],
         'aspirante' => [
             'title' => 'Aspirante',
-            'description' => 'Aspirante a estudiante del TecNM Campus Ocotlan',
+            'description' => 'Aspirante a estudiante del TecNM Campus Ocotlán',
+        ],
+        'alumnos' => [
+            'title' => 'Alumnos',
+            'description' => 'Alumnos del TecNM Campus Ocotlán',
         ],
         'recursos_financieros' => [
             'title' => 'Recursos Financieros',
@@ -54,7 +58,7 @@ class AuthGroups extends ShieldAuthGroups
         ],
         'personal' => [
             'title' => 'Personal',
-            'description' => 'Personal del TecNM Campus Ocotlan',
+            'description' => 'Personal del TecNM Campus Ocotlán',
         ],
     ];
 
