@@ -180,7 +180,6 @@ class UserModel extends BaseModel
         // Email is stored in an identity so remove that here
         $email = $credentials['email'] ?? null;
         unset($credentials['email']);
-
         if ($email === null && $credentials === []) {
             return null;
         }
@@ -203,8 +202,8 @@ class UserModel extends BaseModel
                     'LOWER(' . $this->db->protectIdentifiers($this->tables['identities'] . '.secret') . ')',
                     strtolower($email)
                 )
-                ->asArray()
-                ->first();
+                    ->asArray()
+                    ->first();
 
             if ($data === null) {
                 return null;

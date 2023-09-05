@@ -120,29 +120,29 @@ $(document).ready(function () {
 			);
 		}
 
-		// Validamos la extensión del archivo
-		const allowedExtensions = ['jpg', 'jpeg', 'png'];
-		const fileExtension = file.name.split('.').pop().toLowerCase();
-		if (!allowedExtensions.includes(fileExtension)) {
-			showError(
-				'Seleccione un archivo con una extensión válida (jpg, jpeg o png).',
-			);
-			return;
-		}
+		// // Validamos la extensión del archivo
+		// const allowedExtensions = ['jpg', 'jpeg', 'png'];
+		// const fileExtension = file.name.split('.').pop().toLowerCase();
+		// if (!allowedExtensions.includes(fileExtension)) {
+		// 	showError(
+		// 		'Seleccione un archivo con una extensión válida (jpg, jpeg o png).',
+		// 	);
+		// 	return;
+		// }
 
-		// Validamos el tamaño del archivo (en bytes)
-		const maxSizeInBytes = 5 * 1024 * 1024; // 5 MB
-		if (file.size > maxSizeInBytes) {
-			showError(
-				'El archivo es demasiado grande. El tamaño máximo permitido es de 5 MB.',
-			);
-			return;
-		}
+		// // Validamos el tamaño del archivo (en bytes)
+		// const maxSizeInBytes = 5 * 1024 * 1024; // 5 MB
+		// if (file.size > maxSizeInBytes) {
+		// 	showError(
+		// 		'El archivo es demasiado grande. El tamaño máximo permitido es de 5 MB.',
+		// 	);
+		// 	return;
+		// }
 
-		// Si todo salio bien, ocultamos el mensaje de error
-		if (!$('#containerErrorInputImg').hasClass('d-none')) {
-			$('#containerErrorInputImg').addClass('d-none');
-		}
+		// // Si todo salio bien, ocultamos el mensaje de error
+		// if (!$('#containerErrorInputImg').hasClass('d-none')) {
+		// 	$('#containerErrorInputImg').addClass('d-none');
+		// }
 
 		// Obtenemos el nombre del archivo de la foto y lo mostramos
 		const fileName = e.target.files[0].name;

@@ -17,13 +17,14 @@ class Login extends ShieldLogin
 
     public function loginAction(): RedirectResponse
     {
+        // Se deben ajustar las reglas para el inicio de sesion de los aspirantes
         // Validate here first, since some things,
         // like the password, can only be validated properly here.
-        $rules = $this->getValidationRules();
+        // $rules = $this->getValidationRules();
 
-        if (!$this->validateData($this->request->getPost(), $rules, [], config('Auth')->DBGroup)) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-        }
+        // if (!$this->validateData($this->request->getPost(), $rules, [], config('Auth')->DBGroup)) {
+        //     return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        // }
 
         /** @var array $credentials */
         $credentials = $this->request->getPost(setting('Auth.validFields')) ?? [];
@@ -36,6 +37,7 @@ class Login extends ShieldLogin
 
         // Attempt to login
         $result = $authenticator->remember($remember)->attempt($credentials);
+
         if (!$result->isOK()) {
             return redirect()->route('auth/login')->withInput()->with('error', $result->reason());
         }

@@ -35,4 +35,13 @@ class CustomRules
 
         return false;
     }
+
+    /**
+     * Regla para validar que un campo solo contenga letras y espacios utf8
+     *
+     */
+    public function alphaSpaceAccent($value, string $params = null, array $data = null, string &$error = null): bool
+    {
+        return (bool) preg_match('/^[a-zA-záéíóúÁÉÍÓÚñÑ\s]*$/', $value);
+    }
 }

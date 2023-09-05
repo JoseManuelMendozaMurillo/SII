@@ -98,15 +98,14 @@ class Aspirantes extends RegisterController
      */
     public function post()//: RedirectResponse
     {
-        // dd($this->request->getPost());
-        // // Validamos el formulario
-        // $dataAspirante = $this->request->getPost();
-        // if (!$this->validation->run($dataAspirante, 'registerFormAspirantes')) {
-        //     dd($this->validation->getErrors());
+        // Validamos el formulario
+        $dataAspirante = $this->request->getPost();
+        if (!$this->validation->run($dataAspirante, 'registerFormAspirantes')) {
+            dd($this->validation->getErrors());
 
-        //     return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
-        // }
-
+            return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
+        }
+        dd('Paso');
         // Iniciamos una transaccion para crear el nuevo registro
         $this->db->transStart();
 
