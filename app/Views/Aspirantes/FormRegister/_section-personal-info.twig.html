@@ -17,15 +17,14 @@
                             class="img-thumbnail" style="height: 120px; width: 120px; border-radius: 70px;">
                     </div>
                     <div class="form-group">
-                        <input type="file" name="foto" id="foto" class="file" data-parsley-type="image/*"
-                            accept=".jpg, .jpeg, .png" required>
                         <div class="input-group my-3">
                             <input type="text" class="form-control" disabled placeholder="Cargar imagen" id="nameImg"
-                                required>
+                                required data-parsley-excluded="true">
                             <div class="input-group-append">
                                 <button type="button" id="btnSearchImg" class="browse btn btn-primary">Buscar</button>
                             </div>
                         </div>
+                        <input type="file" name="foto" id="foto" class="file" accept=".jpg, .jpeg, .png" required>
                     </div>
                     <div class="w-100 ps-1 pe-1 mb-3 d-none" id="containerErrorInputImg">
                         <span class="parsley-errors-list filled p-0 m-0" id="txtErrorInputImg">
@@ -134,13 +133,14 @@
                     <div class="form-group">
                         <label class="form-label">Número exterior: *</label>
                         <input type="text" class="form-control upper-case" name="numExterior" placeholder="80"
-                            data-validation="num" />
+                            data-parsley-type="digits" data-parsley-minlength="1" data-parsley-maxlength="5"
+                            data-parsley-trigger="keyup" required />
                     </div>
                     <div class="form-group">
                         <label class="form-label">Letra exterior: </label>
-                        <input type="text" class="form-control upper-case" name="letraInterior" placeholder="A"
-                            data-validation="oneLetter" data-parsley-pattern="^[a-zA]{1,4}$"
-                            data-parsley-error-message="Solo pueden ingresar hasta cuatro letras" required />
+                        <input type="text" class="form-control upper-case" name="letraExterior" placeholder="A"
+                            data-parsley-pattern="^[a-zA-Z]{1,4}$" data-parsley-trigger="keyup"
+                            data-parsley-error-message="Solo pueden ingresar hasta cuatro letras" />
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -158,13 +158,14 @@
                     <div class="form-group">
                         <label class="form-label">Número interior: </label>
                         <input type="text" class="form-control upper-case" name="numInterior" placeholder="80"
-                            data-validation="num" />
+                            data-parsley-type="digits" data-parsley-minlength="1" data-parsley-maxlength="5"
+                            data-parsley-trigger="keyup" />
                     </div>
                     <div class="form-group">
                         <label class="form-label">Letra interior: </label>
-                        <input type="text" class="form-control upper-case" name="letraExterior" placeholder="A"
-                            data-validation="oneLetter" data-parsley-pattern="^[a-zA]{1,4}$"
-                            data-parsley-error-message="Solo pueden ingresar hasta cuatro letras" required />
+                        <input type="text" class="form-control upper-case" name="letraInterior" placeholder="A"
+                            data-parsley-pattern="^[a-zA-Z]{1,4}$" data-parsley-trigger="keyup"
+                            data-parsley-error-message="Solo pueden ingresar hasta cuatro letras" />
                     </div>
                 </div>
                 <div class="col-md-4">

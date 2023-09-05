@@ -81,6 +81,7 @@ $routes->group(
                 $routes->get('send-email', 'AspirantesTest::sendEmail');
                 $routes->get('export-pdf', 'AspirantesTest::exportPdf');
                 $routes->get('export-excel', 'AspirantesTest::exportExcel');
+                $routes->get('final-registro', 'AspirantesTest::finalizacionAspirantes');
             }
         );
     }

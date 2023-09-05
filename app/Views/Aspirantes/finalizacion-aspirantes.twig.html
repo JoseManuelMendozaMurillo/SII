@@ -11,7 +11,8 @@
 <link rel="stylesheet" href="{{base_url('Vendor/Template/assets/css/switches.css')}}" />
 
 <!-- Css personalizado para esta pagina -->
-<link rel="stylesheet" href="{{base_url('Vendor/Template/assets/css/switches.css')}}" />
+<link rel="stylesheet" href="{{base_url('Css/Aspirantes/finalizacion-aspirantes.css')}}" />
+
 {% endblock %}
 
 
@@ -74,20 +75,20 @@
                                 style="border-radius: 10px; box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.2);">
                                 <div class="text-center pt-4">
                                     <h3><strong>¡Terminado con éxito!</strong></h3>
-                                    <h5 class="text-success pt-4"><strong>¡Muchas felicidades por inscribirte como
-                                            aspirante al
-                                            Instituto Tecnológico de Ocotlán!</strong></h5>
-                                    <h5 class="text-success pt-2 hidden-text-mobile"><strong>Nos llena de orgullo que
-                                            hayas considerado
-                                            nuestra
-                                            institución</strong></h5>
-                                    <h5 class="text-success pt-2 hidden-text-mobile"><strong>Te deseamos un gran éxito
-                                            en tu
-                                            camino</strong></h5>
+                                    <p class="h5 pt-4 font-weight-bold text-gray">
+                                        ¡Muchas felicidades por inscribirte como aspirante al
+                                        Instituto Tecnológico de Ocotlán!
+                                        <br>
+                                        <span class="hidden-text-mobile">
+                                            Nos llena de orgullo que hayas considerado nuestra
+                                            institución.
+                                            <br>
+                                            Te deseamos un gran éxito en tu camino
+                                        </span>
+                                    </p>
                                 </div>
                                 <div class="text-center pt-5">
-                                    <img src="{{base_url()}}{{foto}}" alt=""
-                                        class="img-fluid rounded-circle img-aspirante">
+                                    <img src="{{base_url()}}{{foto}}" alt="" class="img-fluid rounded-circle">
                                 </div>
                                 <div class="pt-4 text-center">
                                     <div class="pb-2">
@@ -124,15 +125,18 @@
                                 <div class="text-center pt-4">
                                     <h6 class="text-danger">Guarda tus datos antes de cerrar esta pantalla</h6>
                                 </div>
-                                <div class="align-btns pt-4 pb-2">
+                                <div class="pt-4 pb-2 align-btns">
                                     <a href="{{ base_url('auth/login') }}"
                                         class="btn justify-content-center btn-primary">
                                         Volver al login
                                     </a>
+                                    <form target="_blank" action="{{base_url('aspirantes/ficha')}}" method="post">
+                                        <input type="hidden" name="id" id="id" value="{{idUser}}">
+                                        <button type="submit" class="btn btn-primary float-center">
+                                            Imprimir ficha
+                                        </button>
+                                    </form>
 
-                                    <button type="button" name="" id="congrats" class="btn btn-primary float-center">
-                                        Imprimir ficha
-                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -149,5 +153,6 @@
 
 <!-- Js para esta pagina -->
 <script src="{{ base_url('Js/Aspirantes/finalizacion-aspirantes.js')}}" type="module"></script>
+
 
 {% endblock %}

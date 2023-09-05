@@ -282,4 +282,23 @@ class AspirantesTest extends BaseController
                     ->setHeader('Content-Disposition', 'attachment;filename="example.xlsx"')
                     ->setHeader('Cache-Control', 'max-age=0');
     }
+
+    /**
+     * finalizacionAspirantes
+     * Vista para ver la pantalla de finalizacion de registro completo un aspirante
+     */
+    public function finalizacionAspirantes()
+    {
+        $pathPhoto = config('Paths')->accessPhotosAspirantes . '/' . '31' . '/thumbs//' . 'FotoAspirante_64f6549e8087a.jpeg';
+
+        $data = [
+            'nombre' => 'Jose Manuel Mendoza Murillo',
+            'curp' => 'MEMM011201HJCNRNA1',
+            'carrera' => 'Ingenieria en Sistemas Computacionales',
+            'foto' => $pathPhoto,
+            'idUser' => '31',
+        ];
+
+        $this->twig->display('Aspirantes/finalizacion-aspirantes', $data);
+    }
 }

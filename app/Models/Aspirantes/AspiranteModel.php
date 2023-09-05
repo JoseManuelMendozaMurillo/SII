@@ -296,4 +296,22 @@ class AspiranteModel extends Model
         // Ejecutamos la consulta y retornamos el resultado
         return $getData->get()->getResultArray();
     }
+
+    /**
+     * getByUserId
+     * Función para obetener a un aspirante por medio de su user id (id del shield)
+     *
+     * @param string $userId -> Id de usuario
+     *
+     * @return Aspirante -> Entidad con los datos del aspirante con user_id =  $userId
+     */
+    public function findByUserId(string $userId): Aspirante
+    {
+        $idAspirante = $this->select('id_aspirante')
+                            ->where('user_id', $userId)
+                            ->get()->
+                            getResultArray()[0]['id_aspirante'];
+
+        return $this->find($idAspirante);
+    }
 }

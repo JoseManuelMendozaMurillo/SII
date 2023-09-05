@@ -98,13 +98,14 @@ class Aspirantes extends RegisterController
      */
     public function post()//: RedirectResponse
     {
-        // Validamos el formulario
-        $dataAspirante = $this->request->getPost();
-        if (!$this->validation->run($dataAspirante, 'registerFormAspirantes')) {
-            dd($this->validation->getErrors());
+        // dd($this->request->getPost());
+        // // Validamos el formulario
+        // $dataAspirante = $this->request->getPost();
+        // if (!$this->validation->run($dataAspirante, 'registerFormAspirantes')) {
+        //     dd($this->validation->getErrors());
 
-            return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
-        }
+        //     return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
+        // }
 
         // Iniciamos una transaccion para crear el nuevo registro
         $this->db->transStart();
@@ -161,11 +162,14 @@ class Aspirantes extends RegisterController
                     $dataAspirante['apellido_materno'],
                 ]
             );
+            $pathPhoto = config('Paths')->accessPhotosAspirantes . '/' . $user->id .
+                                            '/thumbs//' . $dataAspirante['imagen'];
             $data = [
                 'nombre' => $nombre,
                 'curp' => $dataAspirante['curp'],
                 'carrera' => $carrerasModel->getNameById($idCarrera),
                 'foto' => $pathPhoto,
+                'idUser' => $user->id,
             ];
 
             $this->twig->display('Aspirantes/finalizacion-aspirantes', $data);
@@ -513,7 +517,7 @@ class Aspirantes extends RegisterController
         // Creamos el thumb y guardamos la imagen
         $dirImg = config('Paths')->photoAspiranteDirectory . '/' . $userId . '/';
         $thumbs = new Thumbs($dirImg);
-        if (!$thumbs->createThumbs($pathPhoto, $namePhoto, $typePhoto)) {
+        if (!$thumbs->createThumbs($pathPhoto, $namePhoto, $typePhoto, 200, 200, 200)) {
             throw new Exception('No se pudo crear el thumb para la foto del aspirante');
         }
 
@@ -639,9 +643,9 @@ class Aspirantes extends RegisterController
      */
     public function getFichaAspirante()
     {
-        $id = $this->request->getPost('id');
+        $id = (string) $this->request->getPost('id');
 
-        $user = $this->aspirantesModel->find($id)->toArray();
+        $user = $this->aspirantesModel->findByUserId($id)->toArray();
         $carrera = new CarrerasModel();
 
         $data = [
@@ -652,12 +656,12 @@ class Aspirantes extends RegisterController
             'noSolicitude' => $user['no_solicitud'],
             'nip' => $user['nip'],
             'firstOption' => $carrera->getNameById($user['carrera_primera_opcion']),
-            'pathPhoto' => config('Paths')->accessPhotosAspirantes . '/' . $user['id_aspirante'] .
+            'pathPhoto' => config('Paths')->accessPhotosAspirantes . '/' . $user['user_id'] .
                            '/' . $user['imagen'],
         ];
 
         $template = 'Aspirantes/pdf_templates/pdf_aspirantes';
-        $fileName = 'ficha_' . $user['no_solicitud'];
+        $fileName = 'ficha_' . $user['no_solicitud'] . '.pdf';
 
         return $this->exportPdf($template, $data, $fileName);
     }
