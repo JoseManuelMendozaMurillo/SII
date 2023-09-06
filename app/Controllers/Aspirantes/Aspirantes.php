@@ -126,18 +126,15 @@ class Aspirantes extends RegisterController
      * post
      * Funcion para guardar en la base de datos los datos de los aspirantes
      *
-     * @return RedirectResponse
      */
-    public function post()//: RedirectResponse
+    public function post()
     {
         // Validamos el formulario
         $dataAspirante = $this->request->getPost();
         if (!$this->validation->run($dataAspirante, 'registerFormAspirantes')) {
-            dd($this->validation->getErrors());
-
             return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
         }
-        dd('Paso');
+
         // Iniciamos una transaccion para crear el nuevo registro
         $this->db->transStart();
 

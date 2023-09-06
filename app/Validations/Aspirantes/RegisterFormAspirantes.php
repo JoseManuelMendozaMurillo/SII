@@ -32,18 +32,45 @@ class RegisterFormAspirantes
             'rules' => 'required|alpha_numeric|is_unique[aspirantes.curp]
             |regex_match[/^[A-Z]{4}[0-9]{6}[A-Z]{6}[0-9A-Z]{2}$/]',
             'errors' => [
+                'alpha_numeric' => 'Este campo solo puede contener números y letras',
                 'required' => 'El campo CURP es obligatorio',
                 'is_unique' => 'Esta CURP ya está en uso',
             ],
         ],
-        'nombre' => 'required|alphaSpaceAccent[nombre]',
-        'apellidoPaterno' => 'required|alphaSpaceAccent[apellidoPaterno]',
-        'apellidoMaterno' => 'required|alphaSpaceAccent[apellidoMaterno]',
-        'fechaNacimiento' => 'required',
-        'genero' => 'required',
-        'estadoCivil' => 'required',
-        'paisNacimiento' => 'required',
-        'tel' => 'required|numeric|regex_match[/^[0-9]{10}$/]',
+        'nombre' => [
+            'rules' => 'required|alphaSpaceAccent[nombre]',
+            'errors' => [
+                'alphaSpaceAccent' => 'El nombre solo puede contener letras y espacios',
+            ],
+        ],
+        'apellidoPaterno' => [
+            'rules' => 'required|alphaSpaceAccent[apellidoPaterno]',
+            'errors' => [
+                'alphaSpaceAccent' => 'El apellido paterno solo puede contener letras y espacios',
+            ],
+        ],
+        'apellidoMaterno' => [
+            'rules' => 'required|alphaSpaceAccent[apellidoMaterno]',
+            'errors' => [
+                'alphaSpaceAccent' => 'El apellido materno solo puede contener letras y espacios',
+            ],
+        ],
+        'fechaNacimiento' => 'required', // Validar que sea menor a la fecha actual
+        'genero' => 'required|in_list[MASCULINO,FEMENINO,OTRO]',
+        'estadoCivil' => 'required|is_not_unique[estado_civil.id_estado_civil]',
+        'paisNacimiento' => [
+            'rules' => 'required|alphaSpaceAccent[paisNacimiento]', // Validar en una lista de paises
+            'errors' => [
+                'alphaSpaceAccent' => 'El nombre del pais solo puede contener letras y espacios',
+            ],
+        ],
+        'tel' => [
+            'rules' => 'required|numeric|regex_match[/^[0-9]{10}$/]',
+            'errors' => [
+                'numeric' => 'El teléfono solo debe contener números',
+                'regex_match' => 'Ingresa un número de teléfono válido de 10 dígitos',
+            ],
+        ],
         'correo' => [
             'rules' => 'required|valid_email|is_unique[aspirantes.email]', //campo de prueba
             'errors' => [
@@ -55,20 +82,85 @@ class RegisterFormAspirantes
         'confirmCorreo' => 'required|matches[correo]',
 
         //Domicilio actual
-        'calle' => 'required',
-        'colonia' => 'required',
-        'numExterior' => 'required|numeric',
-        'numInterior' => 'permit_empty|numeric',
-        'letraExterior' => 'permit_empty|alphaSpaceAccent[letraExterior]',
-        'letraInterior' => 'permit_empty|alphaSpaceAccent[letraInterior]',
-        'cp' => 'required|numeric|regex_match[/^[0-9]{5}$/]',
-        'municipioResidencia' => 'required|alphaSpaceAccent[municipioResidencia]',
-        'estadoResidencia' => 'required|alphaSpaceAccent[estadoResidencia]',
-        'entreCalles' => 'required',
+        'calle' => [
+            'rules' => 'required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9\\.]+(\\s[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9]+)*$/]',
+            'errors' => [
+                'regex_match' => 'Ingresa una calle válida.',
+            ],
+        ],
+        'colonia' => [
+            'rules' => 'required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9\\.]+(\\s+[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9]+\\.?)*$/]',
+            'errors' => [
+                'regex_match' => 'Ingresa una colonia válida',
+            ],
+        ],
+        'numExterior' => [
+            'rules' => 'required|numeric|max_length[5]',
+            'errors' => [
+                'numeric' => 'Este campo solo puede contener números',
+                'max_length' => 'Este campo no puede contener mas de 5 números',
+            ],
+        ],
+        'numInterior' => [
+            'rules' => 'permit_empty|numeric|max_length[5]',
+            'errors' => [
+                'numeric' => 'Este campo solo puede contener números',
+                'max_length' => 'Este campo no puede contener mas de 5 números',
+            ],
+        ],
+        'letraExterior' => [
+            'rules' => 'permit_empty|alpha|max_length[4]',
+            'errors' => [
+                'alpha' => 'Este campo solo puede contener letras',
+                'max_length' => 'Este campo no puede contener mas de 4 letras',
+            ],
+        ],
+        'letraInterior' => [
+            'rules' => 'permit_empty|alpha|max_length[4]',
+            'errors' => [
+                'alpha' => 'Este campo solo puede contener letras',
+                'max_length' => 'Este campo no puede contener mas de 4 letras',
+            ],
+        ],
+        'cp' => [
+            'rules' => 'required|numeric|regex_match[/^[0-9]{5}$/]',
+            'errors' => [
+                'numeric' => 'Este campo solo puede contener números',
+                'regex_match' => 'Ingresa un código postal válido de 5 dígitos.',
+            ],
+        ],
+        'municipioResidencia' => [
+            'rules' => 'required|alphaSpaceAccent[municipioResidencia]', // Validar que el municipios sea valido
+            'errors' => [
+                'alphaSpaceAccent' => 'El nombre del municipio solo puede contener letras y espacios',
+            ],
+        ],
+        'estadoResidencia' => [
+            'rules' => 'required|alphaSpaceAccent[estadoResidencia]', // Validar que el estado sea valido
+            'errors' => [
+                'alphaSpaceAccent' => 'El nombre del estado solo puede contener letras y espacios',
+            ],
+        ],
+        'entreCalles' => [
+            'rules' => 'required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9\\.]+(\\s[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9]+\\.*)*$/]',
+            'errors' => [
+                'regex_match' => 'Ingresa un valor válido (opcionalmente números y puntos al final de cada palabra)',
+            ],
+        ],
 
         //Datos complementarios
-        'nombreTutor' => 'required|alphaSpaceAccent[nombreTutor]',
-        'estadoProcedencia' => 'required',
+        'nombreTutor' => [
+            'rules' => 'required|alphaSpaceAccent[nombreTutor]',
+            'errors' => [
+                'alphaSpaceAccent' => 'El nombre del tutor solo puede contener letras y espacios',
+            ],
+        ],
+        'estadoProcedencia' => [
+            'rules' => 'required|alphaSpaceAccent[estadoProcedencia]', // Validar que el estado sea valido
+            'errors' => [
+                'alphaSpaceAccent' => 'El nombre del estado solo puede contener letras y espacios',
+            ],
+        ],
         'comunidadIndigena' => [
             'rules' => 'required|is_not_unique[comunidades_indigenas.id_comunidad_indigena]',
             'errors' => [
@@ -83,7 +175,12 @@ class RegisterFormAspirantes
                 'is_not_unique' => 'El tipo de sangre seleccionado no es válido',
             ],
         ],
-        'discapacidad' => 'required',
+        'discapacidad' => [
+            'rules' => 'required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+(\\s[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+)*$/]',
+            'errors' => [
+                'regex_match' => 'Ingresa un valor valido (Sin numeros y/o caracteres especiales)',
+            ],
+        ],
         'lenguaIndigena' => [
             'rules' => 'required|is_not_unique[lenguas_indigenas.id_lengua_indigena]',
             'errors' => [
@@ -91,20 +188,57 @@ class RegisterFormAspirantes
                 'is_not_unique' => 'La opcion seleccionada no es válida',
             ],
         ],
-        'telTutor' => 'required|numeric',
+        'telTutor' => [
+            'rules' => 'required|numeric|regex_match[/^[0-9]{10}$/]',
+            'errors' => [
+                'numeric' => 'El teléfono solo debe contener números',
+                'regex_match' => 'Ingresa un número de teléfono válido de 10 dígitos',
+            ],
+        ],
 
         //Escuela de procedencia
-        'nombreEscuela' => 'required',
-        'estadoEscuela' => 'required',
-        'anoEgreso' => 'required|numeric|regex_match[/^[0-9]{4}$/]',
-        'promedio' => 'required|decimal|regex_match[/^(?:100|[0-9]?[0-9](?:\\.[0-9]{1,2})?)$/]',
-        'municipioEscuela' => 'required',
+        'estadoEscuela' => [
+            'rules' => 'required|alphaSpaceAccent[estadoEscuela]', // Validar que el estado sea valido
+            'errors' => [
+                'alphaSpaceAccent' => 'El nombre del estado solo puede contener letras y espacios',
+            ],
+        ],
+        'municipioEscuela' => [
+            'rules' => 'required|alphaSpaceAccent[municipioEscuela]', // Validar que el municipios sea valido
+            'errors' => [
+                'alphaSpaceAccent' => 'El nombre del municipio solo puede contener letras y espacios',
+            ],
+        ],
+        'nombreEscuela' => [
+            'rules' => 'required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9\\.]+(\\s[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9]+\\.*)*$/]',
+            'errors' => [
+                'regex_match' => 'Ingresa un valor válido (opcionalmente números y puntos al final de cada palabra)',
+            ],
+        ],
+        'anoEgreso' => [
+            'rules' => 'required|numeric|regex_match[/^[0-9]{4}$/]',
+            'errors' => [
+                'numeric' => 'Este campo solo puede contener números',
+                'regex_match' => 'Ingresa un año válido (formato: YYYY)',
+            ],
+        ],
+        'promedio' => [
+            'rules' => 'required|decimal|regex_match[/^(?:100|[0-9]?[0-9](?:\\.[0-9]{1,2})?)$/]',
+            'errors' => [
+                'regex_match' => 'Ingresa un promedio válido (por ejemplo, 95.5)',
+            ],
+        ],
 
         //---------------------------------------Solicitud del aspirante-----------------------------------------------
-        'primeraOpcionIngreso' => 'required',
-        'segundaOpcionIngreso' => 'required',
-        'turno' => 'required',
-        'primeraOpcion' => 'required',
+        'primeraOpcionIngreso' => 'required|is_not_unique[carreras.id_carrera]',
+        'segundaOpcionIngreso' => [
+            'rules' => 'required|is_not_unique[carreras.id_carrera]|differs[primeraOpcionIngreso]',
+            'errors' => [
+                'differs' => 'La segunda opción debe ser diferente de la primera',
+            ],
+        ],
+        'turno' => 'required|in_list[CUALQUIERA,MATUTINO,VESPERTINO]',
+        'primeraOpcion' => 'required|in_list[SÍ,NO,PREFIERO NO DECIRLO]',
         'motivoIngreso' => [
             'rules' => 'required|is_not_unique[motivos_ingreso.id_motivo_ingreso]',
             'errors' => [
@@ -157,11 +291,6 @@ class RegisterFormAspirantes
                 'is_not_unique' => 'El tipo de vivienda seleccionado no es válido',
             ],
         ],
-        'cantidadCuartos' => 'required|numeric',
-        'cantidadCohabitantes' => 'required|numeric',
-        'cantidadBanos' => 'required|numeric',
-        'regaderas' => 'required',
-        'cantidadFocos' => 'required|numeric',
         'tipoPiso' => [
             'rules' => 'required|is_not_unique[tipos_piso.id_tipo_piso]',
             'errors' => [
@@ -169,8 +298,41 @@ class RegisterFormAspirantes
                 'is_not_unique' => 'El tipo de piso seleccionado no es válido',
             ],
         ],
-        'cantidadAutos' => 'required|numeric',
-        'estufa' => 'required',
+
+        'cantidadCuartos' => [
+            'rules' => 'required|numeric',
+            'errors' => [
+                'numeric' => 'Este campo solo puede contener números',
+            ],
+        ],
+        'cantidadCohabitantes' => [
+            'rules' => 'required|numeric',
+            'errors' => [
+                'numeric' => 'Este campo solo puede contener números',
+            ],
+        ],
+        'cantidadBanos' => [
+            'rules' => 'required|numeric',
+            'errors' => [
+                'numeric' => 'Este campo solo puede contener números',
+            ],
+        ],
+        'cantidadAutos' => [
+            'rules' => 'required|numeric',
+            'errors' => [
+                'numeric' => 'Este campo solo puede contener números',
+            ],
+        ],
+        'cantidadFocos' => [
+            'rules' => 'required|numeric',
+            'errors' => [
+                'numeric' => 'Este campo solo puede contener números',
+            ],
+        ],
+
+        'regaderas' => 'required|in_list[0,1]',
+        'estufa' => 'required|in_list[S,N]',
+
     ];
 
     /**
