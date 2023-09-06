@@ -87,11 +87,13 @@
                     <div class="card">
                         <div class="card-body">
                             <form action="{{ base_url('aspirantes/insert') }}" method="post" id="form-wizard1"
-                                class="mt-3 text-center" enctype="multipart/form-data">
+                                class="mt-3 text-center" enctype="multipart/form-data" novalidate>
                                 {% include 'Aspirantes/FormRegister/_items-sections.twig.html' %}
 
                                 {% include 'Aspirantes/FormRegister/_section-personal-info.twig.html' %}
+
                                 {% include 'Aspirantes/FormRegister/_section-solicitude-info.twig.html' %}
+
                                 {% include 'Aspirantes/FormRegister/_section-socioeconomic-info.twig.html' %}
 
                                 <div id="spinner" class="spinner-border text-primary d-none" role="status"

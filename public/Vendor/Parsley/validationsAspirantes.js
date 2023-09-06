@@ -42,7 +42,7 @@ export function customValidation() {
           $input.attr('data-parsley-pattern', '^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9\\.]+(\\s[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9]+)*$');
           $input.attr('data-parsley-error-message', 'Ingresa una calle válida.');
           break;
-        case 'num':
+        case 'num': // No se usa
           $input.attr('data-parsley-pattern', '^\\d+(?:[a-zA-Z]{1,2})?$');
           $input.attr('data-parsley-error-message', 'Ingresa un valor válido (números con opcionalmente una o dos letras al final).');
           break;

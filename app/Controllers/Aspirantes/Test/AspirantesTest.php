@@ -289,14 +289,14 @@ class AspirantesTest extends BaseController
      */
     public function finalizacionAspirantes()
     {
-        $pathPhoto = config('Paths')->accessPhotosAspirantes . '/' . '31' . '/thumbs//' . 'FotoAspirante_64f6549e8087a.jpeg';
+        $pathPhoto = config('Paths')->accessPhotosAspirantes . '/' . '34' . '/thumbs//' . 'FotoAspirante_64f7baa932cca.png';
 
         $data = [
             'nombre' => 'Jose Manuel Mendoza Murillo',
             'curp' => 'MEMM011201HJCNRNA1',
             'carrera' => 'Ingenieria en Sistemas Computacionales',
             'foto' => $pathPhoto,
-            'idUser' => '31',
+            'idUser' => '34',
         ];
 
         $this->twig->display('Aspirantes/finalizacion-aspirantes', $data);

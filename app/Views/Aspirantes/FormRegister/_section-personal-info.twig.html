@@ -24,84 +24,103 @@
                                 <button type="button" id="btnSearchImg" class="browse btn btn-primary">Buscar</button>
                             </div>
                         </div>
-                        <input type="file" name="foto" id="foto" class="file" accept=".jpg, .jpeg, .png" required>
+                        <input type="file" name="foto" id="foto" class="file" required>
                     </div>
-                    <div class="w-100 ps-1 pe-1 mb-3 d-none" id="containerErrorInputImg">
+                    <div class="w-100 ps-1 pe-1 mb-3" id="containerErrorInputImg">
                         <span class="parsley-errors-list filled p-0 m-0" id="txtErrorInputImg">
-                            Error
+                            {{session('errors.foto')}}
                         </span>
                     </div>
                     <h6 class="text-danger">Esta imagen será utilizada para tu
                         identificación oficial del instituto.</h6>
-
                     <br>
                     <div class="form-group">
                         <label class="form-label">CURP: *</label>
                         <input type="text" class="form-control upper-case" name="curp" placeholder="LOXA880921HMCLNR05"
-                            data-validation="curp" required />
+                            data-validation="curp" required value="{{old('curp')}}" />
+                        <p class="parsley-errors-list filled">{{session('errors.curp')}}</p>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-label">Apellido paterno: *</label>
                         <input type="text" class="form-control upper-case" name="apellidoPaterno"
-                            data-validation="fullName" placeholder="PEREZ" required />
+                            data-validation="fullName" placeholder="PEREZ" required
+                            value="{{old('apellidoPaterno')}}" />
+                        <p class=" parsley-errors-list filled">{{session('errors.apellidoPaterno')}}</p>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Apellido materno: *</label>
                         <input type="text" class="form-control upper-case" name="apellidoMaterno"
-                            data-validation="fullName" placeholder="LÓPEZ" required />
+                            data-validation="fullName" placeholder="LÓPEZ" required
+                            value="{{old('apellidoMaterno')}}" />
+                        <p class=" parsley-errors-list filled">{{session('errors.apellidoMaterno')}}</p>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Nombre(s): *</label>
                         <input id="name" class="form-control upper-case" name="nombre" placeholder="JUAN"
-                            data-validation="fullName" required />
+                            data-validation="fullName" required value="{{old('nombre')}}" />
+                        <p class=" parsley-errors-list filled">{{session('errors.nombre')}}</p>
+
                     </div>
                     <div class="form-group">
                         <label class="form-label">Fecha de nacimiento: *</label>
                         <input type="date" class="form-control" name="fechaNacimiento" placeholder="03/05/2005"
-                            data-validation="birthdate" required />
+                            data-validation="birthdate" required value="{{old('fechaNacimiento')}}" />
+                        <p class=" parsley-errors-list filled">{{session('errors.fechaNacimiento')}}</p>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Género: *</label>
                         <select class="form-select" name="genero" id="exampleFormControlSelect1">
-                            <option selected>MASCULINO</option>
-                            <option>FEMENINO</option>
-                            <option>OTRO</option>
+                            <option {{old('genero')=='MASCULINO' ? 'selected' : '' }}>
+                                MASCULINO
+                            </option>
+                            <option {{old('genero')=='FEMENINO' ? 'selected' : '' }}>FEMENINO</option>
+                            <option {{old('genero')=='OTRO' ? 'selected' : '' }}>OTRO</option>
                         </select>
+                        <p class="parsley-errors-list filled">{{session('errors.genero')}}</p>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-label">Estado civil: *</label>
                         <select class="form-select" name="estadoCivil" id="exampleFormControlSelect1">
+
                             {% for estadoCivil in estadoCivil %}
-                            <option value="{{ estadoCivil['id_estado_civil'] }}">
+                            <option value="{{ estadoCivil['id_estado_civil'] }}"
+                                {{old('estadoCivil')==estadoCivil['id_estado_civil'] ? 'selected' : '' }}>
                                 {{ estadoCivil['estado_civil'] | upper }}
                             </option>
                             {%endfor%}
                         </select>
+                        <p class="parsley-errors-list filled">{{session('errors.genero')}}</p>
                     </div>
                     <div class="form-group">
                         <label class="form-label">País de nacimiento: *</label>
                         <select class="form-select" name="paisNacimiento" id="countrySelect">
                         </select>
+                        <p class="parsley-errors-list filled">{{session('errors.paisNacimiento')}}</p>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Teléfono: *</label>
                         <input type="text" class="form-control" name="tel" placeholder="3923451289"
-                            data-validation="phone" required />
+                            data-validation="phone" required value="{{old('tel')}}" />
+                        <p class=" parsley-errors-list filled">{{session('errors.tel')}}</p>
+
                     </div>
                     <div class="form-group">
                         <label class="form-label">Correo electrónico: *</label>
                         <input type="text" class="form-control" name="correo" id="email" placeholder="ejemplo@gmail.com"
-                            data-validation="emailB" required />
+                            data-validation="emailB" required value="{{old('correo')}}" />
+                        <p class=" parsley-errors-list filled">{{session('errors.correo')}}</p>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Confirmar correo: *</label>
                         <input type="text" class="form-control" name="confirmCorreo" placeholder="ejemplo@gmail.com"
                             data-parsley-equalto="#email" data-parsley-trigger="keyup"
-                            data-parsley-error-message="Los correos electrónicos no coinciden." required />
+                            data-parsley-error-message="Los correos electrónicos no coinciden." required
+                            value="{{old('confirmCorreo')}}" />
+                        <p class=" parsley-errors-list filled">{{session('errors.confirmCorreo')}}</p>
                     </div>
                 </div>
             </div>
@@ -124,24 +143,30 @@
                         <select type="text" class="form-select upper-case" name="estadoResidencia" placeholder="JALISCO"
                             id="estado">
                         </select>
-
+                        <p class="parsley-errors-list filled">{{session('errors.estadoResidencia')}}</p>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Calle: *</label>
                         <input type="text" class="form-control upper-case" name="calle" placeholder="LÓPEZ MATEOS"
-                            data-validation="calle" />
+                            data-validation="calle" value="{{old('calle')}}" />
+                        <p class="parsley-errors-list filled">{{session('errors.calle')}}</p>
+
                     </div>
                     <div class="form-group">
                         <label class="form-label">Número exterior: *</label>
                         <input type="text" class="form-control upper-case" name="numExterior" placeholder="80"
                             data-parsley-type="digits" data-parsley-minlength="1" data-parsley-maxlength="5"
-                            data-parsley-trigger="keyup" required />
+                            data-parsley-trigger="keyup" required value="{{old('numExterior')}}" />
+                        <p class="parsley-errors-list filled">{{session('errors.numExterior')}}</p>
+
                     </div>
                     <div class="form-group">
                         <label class="form-label">Letra exterior: </label>
                         <input type="text" class="form-control upper-case" name="letraExterior" placeholder="A"
                             data-parsley-pattern="^[a-zA-Z]{1,4}$" data-parsley-trigger="keyup"
-                            data-parsley-error-message="Solo pueden ingresar hasta cuatro letras" />
+                            data-parsley-error-message="Solo pueden ingresar hasta cuatro letras"
+                            value="{{old('letraExterior')}}" />
+                        <p class="parsley-errors-list filled">{{session('errors.letraExterior')}}</p>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -150,36 +175,44 @@
                         <select type="text" class="form-select upper-case" name="municipioResidencia" id="municipio"
                             placeholder="OCOTLÁN">
                         </select>
-                        <!-- <p class="parsley-custom-error message">{}</p> -->
+                        <p class="parsley-errors-list filled">{{session('errors.municipioResidencia')}}</p>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Colonia: *</label>
                         <input type="text" class="form-control upper-case" name="colonia" placeholder="LA PRIMAVERA"
-                            id="colonia" data-validation="col" />
+                            id="colonia" data-validation="col" value="{{old('colonia')}}" />
+                        <p class="parsley-errors-list filled">{{session('errors.colonia')}}</p>
+
                     </div>
                     <div class="form-group">
                         <label class="form-label">Número interior: </label>
                         <input type="text" class="form-control upper-case" name="numInterior" placeholder="80"
                             data-parsley-type="digits" data-parsley-minlength="1" data-parsley-maxlength="5"
-                            data-parsley-trigger="keyup" />
+                            data-parsley-trigger="keyup" value="{{old('numInterior')}}" />
+                        <p class="parsley-errors-list filled">{{session('errors.numInterior')}}</p>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Letra interior: </label>
                         <input type="text" class="form-control upper-case" name="letraInterior" placeholder="A"
                             data-parsley-pattern="^[a-zA-Z]{1,4}$" data-parsley-trigger="keyup"
-                            data-parsley-error-message="Solo pueden ingresar hasta cuatro letras" />
+                            data-parsley-error-message="Solo pueden ingresar hasta cuatro letras"
+                            value="{{old('letraInterior')}}" />
+                        <p class="parsley-errors-list filled">{{session('errors.letraInterior')}}</p>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-label">Código postal: *</label>
                         <input type="text" class="form-control upper-case" name="cp" placeholder="47829"
-                            data-validation="cp" />
+                            data-validation="cp" value="{{old('cp')}}" />
+                        <p class="parsley-errors-list filled">{{session('errors.cp')}}</p>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Entre calles: *</label>
                         <input type="text" class="form-control upper-case" name="entreCalles"
-                            placeholder="LIMÓN Y TABACHIN" data-validation="entreCalles" />
+                            placeholder="LIMÓN Y TABACHIN" data-validation="entreCalles"
+                            value="{{old('entreCalles')}}" />
+                        <p class="parsley-errors-list filled">{{session('errors.entreCalles')}}</p>
                     </div>
                 </div>
             </div>
@@ -200,23 +233,27 @@
                     <div class="form-group">
                         <label class="form-label">Padre o tutor: *</label>
                         <input type="text" class="form-control upper-case" name="nombreTutor" placeholder="JUAN PABLO"
-                            data-validation="fullName" />
+                            data-validation="fullName" value="{{old('nombreTutor')}}" />
+                        <p class="parsley-errors-list filled">{{session('errors.nombreTutor')}}</p>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Tipo de sangre: *</label>
                         <select type="text" class="form-select upper-case" name="tipoSangre" placeholder="O-">
                             {% for tipoSangre in tiposSangre %}
-                            <option value="{{ tipoSangre['id_tipo_sangre'] }}">
+                            <option value="{{ tipoSangre['id_tipo_sangre'] }}"
+                                {{old('tipoSangre')==tipoSangre['id_tipo_sangre'] ? 'selected' : '' }}>
                                 {{ tipoSangre['tipo'] }}
                             </option>
                             {%endfor%}
                         </select>
+                        <p class="parsley-errors-list filled">{{session('errors.tipoSangre')}}</p>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Teléfono de contacto del tutor:
                             *</label>
                         <input type="text" class="form-control upper-case" name="telTutor" placeholder="3921232143"
-                            data-validation="phone" />
+                            data-validation="phone" value="{{old('telTutor')}}" />
+                        <p class="parsley-errors-list filled">{{session('errors.telTutor')}}</p>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -225,12 +262,14 @@
                         <select type="text" class="form-select upper-case" name="estadoProcedencia"
                             id="estadoProcedencia" placeholder="JALISCO">
                         </select>
+                        <p class="parsley-errors-list filled">{{session('errors.estadoProcedencia')}}</p>
                     </div>
                     <div class="form-group">
                         <label class="form-label">¿Tiene alguna discapacidad?:
                         </label>
                         <input type="text" class="form-control upper-case" name="discapacidad" placeholder="PARAPLEJÍA"
-                            data-validation="discapacidad" required />
+                            data-validation="discapacidad" required value="{{old('discapacidad')}}" />
+                        <p class="parsley-errors-list filled">{{session('errors.discapacidad')}}</p>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -239,22 +278,27 @@
                             indígena?:</label>
                         <select class="form-select upper-case" name="comunidadIndigena" id="exampleFormControlSelect1">
                             {% for comunidadIndigena in comunidadesIndigenas %}
-                            <option value="{{ comunidadIndigena['id_comunidad_indigena'] }}">
+                            <option value="{{ comunidadIndigena['id_comunidad_indigena'] }}"
+                                {{old('comunidadIndigena')==comunidadIndigena['id_comunidad_indigena'] ? 'selected' : ''
+                                }}>
                                 {{ comunidadIndigena['comunidad']|upper }}
                             </option>
                             {%endfor%}
                         </select>
+                        <p class="parsley-errors-list filled">{{session('errors.comunidadIndigena')}}</p>
                     </div>
                     <div class="form-group">
                         <label class="form-label">¿Habla alguna lengua
                             indígena?:</label>
                         <select class="form-select" name="lenguaIndigena" id="exampleFormControlSelect1">
                             {% for lenguaIndigena in lenguasIndigenas %}
-                            <option value="{{ lenguaIndigena['id_lengua_indigena'] }}">
+                            <option value="{{ lenguaIndigena['id_lengua_indigena'] }}"
+                                {{old('lenguaIndigena')==lenguaIndigena['id_lengua_indigena'] ? 'selected' : '' }}>
                                 {{ lenguaIndigena['lengua']|upper }}
                             </option>
                             {%endfor%}
                         </select>
+                        <p class="parsley-errors-list filled">{{session('errors.lenguaIndigena')}}</p>
                     </div>
                 </div>
             </div>
@@ -277,34 +321,38 @@
                         <select type="text" class="form-select upper-case" name="estadoEscuela" placeholder="JALISCO"
                             id="estadoEscuela">
                         </select>
+                        <p class="parsley-errors-list filled">{{session('errors.estadoEscuela')}}</p>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Municipio: *</label>
                         <select type="text" class="form-select upper-case" name="municipioEscuela" placeholder="OCOTLÁN"
                             id="municipioEscuela">
-
                         </select>
+                        <p class="parsley-errors-list filled">{{session('errors.municipioEscuela')}}</p>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="form-label">Nombre de la escuela: *</label>
                         <input type="text" class="form-control upper-case" name="nombreEscuela" placeholder="CBTIS 49"
-                            data-validation="entreCalles" />
+                            data-validation="entreCalles" value="{{old('nombreEscuela')}}" />
+                        <p class="parsley-errors-list filled">{{session('errors.nombreEscuela')}}</p>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="form-label">Año de egreso: *</label>
                         <input type="text" id="anioEgreso" class="form-control upper-case" name="anoEgreso"
-                            placeholder="2024" data-validation="egreso" />
+                            placeholder="2024" data-validation="egreso" value="{{old('anoEgreso')}}" />
+                        <p class="parsley-errors-list filled">{{session('errors.anoEgreso')}}</p>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="form-label">Promedio general: *</label>
                         <input type="text" class="form-control upper-case" name="promedio" placeholder="90"
-                            data-validation="promedio" />
+                            data-validation="promedio" value="{{old('promedio')}}" />
+                        <p class="parsley-errors-list filled">{{session('errors.promedio')}}</p>
                     </div>
                 </div>
             </div>

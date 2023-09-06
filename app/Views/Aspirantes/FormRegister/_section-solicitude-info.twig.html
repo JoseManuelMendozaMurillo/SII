@@ -23,19 +23,25 @@
                                 </option>
                                 {%endfor%}
                             </select>
+                            <p class="parsley-errors-list filled">{{session('errors.primeraOpcionIngreso')}}</p>
                         </div>
                         <div class="form-group">
                             <label class="form-label">¿Cuál es su segunda opción a ingresar?:
                                 *</label>
-                            <select class="form-select" name="segundaOpcionIngreso" id="segundaOpcionIngreso"></select>
+                            <select class="form-select" name="segundaOpcionIngreso" id="segundaOpcionIngreso">
+                            </select>
+                            <p class="parsley-errors-list filled">{{session('errors.segundaOpcionIngreso')}}</p>
                         </div>
                         <div class="form-group">
                             <label class="form-label">¿Cuál turno desea preferentemente?: *</label>
                             <select class="form-select" name="turno" id="exampleFormControlSelect1">
-                                <option selected>CUALQUIERA</option>
-                                <option>MATUTINO</option>
-                                <option>VESPERTINO</option>
+                                <option {{old('turno')=='CUALQUIERA' ? 'selected' : '' }}>
+                                    CUALQUIERA
+                                </option>
+                                <option {{old('turno')=='MATUTINO' ? 'selected' : '' }}>MATUTINO</option>
+                                <option {{old('turno')=='VESPERTINO' ? 'selected' : '' }}>VESPERTINO</option>
                             </select>
+                            <p class="parsley-errors-list filled">{{session('errors.turno')}}</p>
                             <br />
                             <h6 class="text-danger">
                                 Nota: es posible que algunas carreras no se
@@ -48,10 +54,12 @@
                             <label class="form-label">¿Somos tu primera opción para cursar sus
                                 estudios?: *</label>
                             <select class="form-select" name="primeraOpcion" id="exampleFormControlSelect1">
-                                <option selected>SÍ</option>
-                                <option>NO</option>
-                                <option>PREFIERO NO DECIRLO</option>
+                                <option {{old('turno')=='SÍ' ? 'selected' : '' }}>SÍ</option>
+                                <option {{old('turno')=='NO' ? 'selected' : '' }}>NO</option>
+                                <option {{old('turno')=='PREFIERO NO DECIRLO' ? 'selected' : '' }}>PREFIERO NO DECIRLO
+                                </option>
                             </select>
+                            <p class="parsley-errors-list filled">{{session('errors.primeraOpcion')}}</p>
                         </div>
                         <div class="form-group">
                             <label class="form-label">¿Cuál es su motivo de seleccionar nuestra
@@ -60,18 +68,22 @@
                             <select type="text" class="form-select upper-case" name="motivoIngreso"
                                 placeholder="POR PRESTIGIO">
                                 {% for motivoIngreso in motivosIngreso %}
-                                <option value="{{ motivoIngreso['id_motivo_ingreso'] }}">
+                                <option value="{{ motivoIngreso['id_motivo_ingreso'] }}"
+                                    {{old('motivoIngreso')==motivoIngreso['id_motivo_ingreso'] ? 'selected' : '' }}>
                                     {{ motivoIngreso['motivo']|upper }}
                                 </option>
                                 {%endfor%}
                             </select>
+                            <p class="parsley-errors-list filled">{{session('errors.motivoIngreso')}}</p>
                         </div>
                         <div class="form-group">
                             <label class="form-label">¿Cuál es su motivo de seleccionar este plan
                                 de estudios?:
                             </label>
                             <textarea name="motivoSeleccionPlanEstudio" id="" cols="5" rows="5"
-                                class="form-control upper-case"></textarea>
+                                class="form-control upper-case"
+                                value="{{old('motivoSeleccionPlanEstudio')}}"></textarea>
+                            <p class="parsley-errors-list filled">{{session('errors.motivoIngreso')}}</p>
                         </div>
                     </div>
                 </div>
