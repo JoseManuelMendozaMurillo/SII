@@ -73,6 +73,7 @@ $routes->group(
         $routes->post('change-status-payment', 'Aspirantes::changeStatusPayment'); // Esta ruta no debe ser publica
         $routes->post('ficha', 'Aspirantes::getfichaAspirante');
         $routes->get('data', 'Aspirantes::getDatosAspirante');
+        $routes->get('recibo', 'Aspirantes::getReciboAspirante');
         $routes->group(
             '',
             ['namespace' => 'App\Controllers\Aspirantes'],
