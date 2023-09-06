@@ -41,11 +41,43 @@ class Aspirantes extends RegisterController
      */
     public function index(): void
     {
-        $esAcreditado = false;
+        $banco = new InfoBancariaModel();
+        $user = $this->aspirantesModel->find(user_id())->toArray();
+        // dd($user);
 
-        $this->twig->display('Aspirantes/modulo-aspirantes', [
-            'esAcreditado' => $esAcreditado,
-        ]);
+        $banco = new InfoBancariaModel();
+        $banco = $banco->getData();
+
+        $date = $user['fecha_nacimiento'];
+        $date_aux = substr($date, 2, 2) . substr($date, 5, 2) . substr($date, 8, 2);
+        $referencia = 'ITOCO'
+        . $user['no_solicitud']
+        . $user['apellido_paterno']
+        . $user['nombre']
+        . $date_aux;
+        $referencia = strtoupper($referencia);
+        $data = [
+            'fullName' => $user['nombre'] . ' '
+                        . $user['apellido_paterno'] . ' '
+                        . $user['apellido_materno'],
+
+            'noSolicitude' => $user['no_solicitud'],
+            'pathPhoto' => config('Paths')->accessPhotosAspirantes . '/' . 'test.png',
+
+            'banco' => $banco['banco'],
+            'sucursal' => $banco['sucursal'],
+            'cuenta' => $banco['cuenta'],
+
+            'montoPagar' => $banco['costo_examen'] . '.00',
+
+            'referencia' => $referencia,
+            'esAcreditado' => false, //$user['estatus_pago'],
+
+        ];
+
+        // dd($data);
+
+        $this->twig->display('Aspirantes/modulo-aspirantes', $data);
     }
 
     /**
@@ -657,6 +689,41 @@ class Aspirantes extends RegisterController
 
         $template = 'Aspirantes/pdf_templates/pdf_aspirantes';
         $fileName = 'ficha_' . $user['no_solicitud'] . '.pdf';
+
+        return $this->exportPdf($template, $data, $fileName);
+    }
+
+    public function getReciboAspirante()
+    {
+        $banco = new InfoBancariaModel();
+        $user = $this->aspirantesModel->find(user_id())->toArray();
+        // dd($user);
+
+        $banco = new InfoBancariaModel();
+        $banco = $banco->getData();
+
+        $date = $user['fecha_nacimiento'];
+        $date_aux = substr($date, 2, 2) . substr($date, 5, 2) . substr($date, 8, 2);
+        $referencia = 'ITOCO'
+        . $user['no_solicitud']
+        . $user['apellido_paterno']
+        . $user['nombre']
+        . $date_aux;
+        $referencia = strtoupper($referencia);
+        $data = [
+
+            'banco' => $banco['banco'],
+            'sucursal' => $banco['sucursal'],
+            'cuenta' => $banco['cuenta'],
+
+            'montoPagar' => '$' . $banco['costo_examen'] . '.00',
+
+            'referencia' => $referencia,
+
+        ];
+
+        $template = 'Aspirantes/pdf_templates/pdf_recibo_pago';
+        $fileName = 'recibo_' . $user['no_solicitud'] . '.pdf';
 
         return $this->exportPdf($template, $data, $fileName);
     }
