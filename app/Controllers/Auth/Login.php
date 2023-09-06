@@ -37,7 +37,6 @@ class Login extends ShieldLogin
 
         // Attempt to login
         $result = $authenticator->remember($remember)->attempt($credentials);
-
         if (!$result->isOK()) {
             return redirect()->route('auth/login')->withInput()->with('error', $result->reason());
         }

@@ -24,7 +24,7 @@
                                 <button type="button" id="btnSearchImg" class="browse btn btn-primary">Buscar</button>
                             </div>
                         </div>
-                        <input type="file" name="foto" id="foto" class="file" required>
+                        <input type="file" name="foto" id="foto" class="file" accept=".png, .jpg, .jpeg" required>
                     </div>
                     <div class="w-100 ps-1 pe-1 mb-3" id="containerErrorInputImg">
                         <span class="parsley-errors-list filled p-0 m-0" id="txtErrorInputImg">
@@ -268,7 +268,7 @@
                         <label class="form-label">¿Tiene alguna discapacidad?:
                         </label>
                         <input type="text" class="form-control upper-case" name="discapacidad" placeholder="PARAPLEJÍA"
-                            data-validation="discapacidad" required value="{{old('discapacidad')}}" />
+                            data-validation="discapacidad" value="{{old('discapacidad')}}" />
                         <p class="parsley-errors-list filled">{{session('errors.discapacidad')}}</p>
                     </div>
                 </div>

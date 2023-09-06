@@ -176,7 +176,7 @@ class RegisterFormAspirantes
             ],
         ],
         'discapacidad' => [
-            'rules' => 'required|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+(\\s[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+)*$/]',
+            'rules' => 'permit_empty|regex_match[/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+(\\s[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+)*$/]',
             'errors' => [
                 'regex_match' => 'Ingresa un valor valido (Sin numeros y/o caracteres especiales)',
             ],

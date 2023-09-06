@@ -42,8 +42,7 @@ class Aspirantes extends RegisterController
     public function index(): void
     {
         $banco = new InfoBancariaModel();
-        $user = $this->aspirantesModel->find(user_id())->toArray();
-        // dd($user);
+        $user = $this->aspirantesModel->findByUserId(user_id())->toArray();
 
         $banco = new InfoBancariaModel();
         $banco = $banco->getData();
@@ -53,17 +52,18 @@ class Aspirantes extends RegisterController
         $referencia = 'ITOCO'
         . $user['no_solicitud']
         . $user['apellido_paterno']
-        . $user['nombre']
+        . str_replace(' ', '', $user['nombre'])
         . $date_aux;
         $referencia = strtoupper($referencia);
+        $estatusPago = $user['estatus_pago'] == '1' ? true : false;
         $data = [
             'fullName' => $user['nombre'] . ' '
                         . $user['apellido_paterno'] . ' '
                         . $user['apellido_materno'],
 
             'noSolicitude' => $user['no_solicitud'],
-            'pathPhoto' => config('Paths')->accessPhotosAspirantes . '/' . 'test.png',
-
+            // 'pathPhoto' => config('Paths')->accessPhotosAspirantes . '/205//thumbs/' . 'FotoAspirante_64f827c7cbe2d.jpeg',
+            'pathPhoto' => config('Paths')->accessPhotosAspirantes . '/test.png',
             'banco' => $banco['banco'],
             'sucursal' => $banco['sucursal'],
             'cuenta' => $banco['cuenta'],
@@ -71,11 +71,14 @@ class Aspirantes extends RegisterController
             'montoPagar' => $banco['costo_examen'] . '.00',
 
             'referencia' => $referencia,
-            'esAcreditado' => false, //$user['estatus_pago'],
-
+            'estatusPago' => $estatusPago,
         ];
 
-        // dd($data);
+        if ($estatusPago) {
+            $this->twig->display('Aspirantes/modulo_pagado', $data);
+
+            return;
+        }
 
         $this->twig->display('Aspirantes/modulo-aspirantes', $data);
     }
@@ -696,8 +699,7 @@ class Aspirantes extends RegisterController
     public function getReciboAspirante()
     {
         $banco = new InfoBancariaModel();
-        $user = $this->aspirantesModel->find(user_id())->toArray();
-        // dd($user);
+        $user = $this->aspirantesModel->findByUserId(user_id())->toArray();
 
         $banco = new InfoBancariaModel();
         $banco = $banco->getData();
@@ -707,7 +709,7 @@ class Aspirantes extends RegisterController
         $referencia = 'ITOCO'
         . $user['no_solicitud']
         . $user['apellido_paterno']
-        . $user['nombre']
+        . str_replace(' ', '', $user['nombre'])
         . $date_aux;
         $referencia = strtoupper($referencia);
         $data = [

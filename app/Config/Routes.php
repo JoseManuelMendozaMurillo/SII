@@ -76,8 +76,8 @@ $routes->group(
         $routes->get('recibo', 'Aspirantes::getReciboAspirante');
         $routes->group(
             '',
-            ['namespace' => 'App\Controllers\Aspirantes'],
-            //'filter' => 'group:aspirante',// LINEA COMENTADA PARA PERMITIR EL ACCESO
+            ['namespace' => 'App\Controllers\Aspirantes',
+                'filter' => 'group:aspirante'],// LINEA COMENTADA PARA PERMITIR EL ACCESO
             function ($routes) {
                 $routes->get('', 'Aspirantes::index');
             }
@@ -101,8 +101,8 @@ $routes->group(
 // Rutas de servicios financieros
 $routes->group(
     'financieros',
-    ['namespace' => 'App\Controllers\Financieros'],
-    // 'filter' => 'group:financieros'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
+    ['namespace' => 'App\Controllers\Financieros',
+        'filter' => 'group:recursos_financieros'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
     function ($routes) {
         $routes->get('aspirantes', 'Financieros::listAspirantes');
         $routes->get('aspirantes-pagados', 'Financieros::listAspirantesPagados');
@@ -113,13 +113,14 @@ $routes->group(
 // Desarrollo academico
 $routes->group(
     'des-academico',
-    ['namespace' => 'App\Controllers\DesarrolloAcademico'],
-    // 'filter' => 'group:desarrollo_academico'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
+    ['namespace' => 'App\Controllers\DesarrolloAcademico',
+        'filter' => 'group:desarrollo_academico'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
     function ($routes) {
         // Rutas para trabajar con los aspirantes dentro de desarrollo academico
         $routes->group(
             'aspirantes',
-            ['namespace' => 'App\Controllers\DesarrolloAcademico'],
+            ['namespace' => 'App\Controllers\DesarrolloAcademico',
+                'filter' => 'group:desarrollo_academico'],
             function ($routes) {
                 // ¿Seria bueno crear un controller aspirantes para el area de desarrollo academico?
                 $routes->get('lista', 'DesarrolloAcademico::listAspirantes');

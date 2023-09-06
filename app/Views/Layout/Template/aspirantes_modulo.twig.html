@@ -121,10 +121,9 @@
                                 <h1>Información del pago</h1>
                                 <div class="pt-3 d-flex align-items-center justify-content-start">
                                     <p class="pt-2">Pago: </p>
-                                    {% if aspirante.estatus_pago == 'Acreditado' %}
+                                    {% if estatusPago %}
                                     <span class="d-inline-block ms-4" tabindex="0" data-bs-toggle="popover"
-                                        data-bs-trigger="hover focus"
-                                        data-bs-content="Se ha acreditado tu pago correctamente">
+                                        data-bs-trigger="hover focus" data-bs-content="Se ha acreditado tu pago">
                                         <button class="btn btn-success" type="button">Acreditado</button>
                                     </span>
                                     {% else %}
