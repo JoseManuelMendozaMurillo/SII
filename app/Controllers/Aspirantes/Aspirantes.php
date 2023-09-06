@@ -2,7 +2,6 @@
 
 namespace App\Controllers\Aspirantes;
 
-use App\Database\Migrations\InformacionBancaria;
 use CodeIgniter\HTTP\Response;
 use App\Entities\Aspirantes\Aspirante;
 use CodeIgniter\Shield\Entities\User;
