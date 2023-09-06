@@ -1,0 +1,1 @@
+drop table alumno_inf_academica;
