@@ -26,7 +26,7 @@ class Database extends Config
      */
     public array $default = [
         'DSN' => '',
-        'hostname' => 'db_correcaminos_dev',
+        'hostname' => 'db_mysql_correcaminos_dev',
         'username' => 'root',
         'password' => '19630306',
         'database' => 'sii_test',
@@ -50,7 +50,7 @@ class Database extends Config
      */
     public array $tests = [
         'DSN' => '',
-        'hostname' => 'db_correcaminos_dev',
+        'hostname' => 'db_mysql_correcaminos_dev',
         'username' => 'root',
         'password' => '19630306',
         'database' => 'sii_test',
