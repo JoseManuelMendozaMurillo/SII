@@ -1,0 +1,42 @@
+.file {
+    visibility: hidden;
+    position: absolute;
+}
+
+.iq-navbar-header {
+    height: 200px;
+    /* Altura predeterminada para pantallas más grandes */
+}
+
+.align-btns {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2vh;
+}
+
+@media (max-width: 920px) {
+
+    /* Modifica la clase para pantallas más pequeñas con un ancho máximo de 920px */
+    .iq-navbar-header {
+        height: 220px;
+    }
+}
+
+@media (max-width: 520px) {
+
+    /* Modifica la clase para pantallas más pequeñas con un ancho máximo de 520px */
+    .iq-navbar-header {
+        height: 260px;
+    }
+}
+
+@media (max-width: 343px) {
+    .hidden-text-mobile {
+        display: none;
+    }
+
+    .align-btns {
+        flex-direction: column;
+    }
+}
