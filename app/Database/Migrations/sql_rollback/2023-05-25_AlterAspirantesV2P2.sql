@@ -1,0 +1,1 @@
+ UPDATE aspirantes SET fecha_nacimiento2 = CONCAT(fecha_nacimiento,' 00:00:00');

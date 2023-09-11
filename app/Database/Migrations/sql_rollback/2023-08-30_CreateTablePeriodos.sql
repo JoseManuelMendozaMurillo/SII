@@ -1,0 +1,1 @@
+drop table periodos_escolares;

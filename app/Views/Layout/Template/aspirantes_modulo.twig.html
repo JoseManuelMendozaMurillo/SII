@@ -52,7 +52,7 @@
                                 </svg>
                                 <span class="bg-danger dots"></span>
                             </a>
-                            <div class="p-0 sub-drop dropdown-menu dropdown-menu-end"
+                            <!-- <div class="p-0 sub-drop dropdown-menu dropdown-menu-end"
                                 aria-labelledby="notification-drop">
                                 <div class="m-0 shadow-none card">
                                     <div class="py-3 card-header d-flex justify-content-between bg-primary">
@@ -64,8 +64,7 @@
                                         <a href="#" class="iq-sub-card">
                                             <div class="d-flex align-items-center">
                                                 <img class="p-1 avatar-40 rounded-pill bg-soft-primary"
-                                                    src="{{base_url('Vendor/Template/assets/images/shapes/01.png')}}"
-                                                    alt="">
+                                                    src="{{pathPhoto}}" alt="">
                                                 <div class="ms-3 w-100">
                                                     <h6 class="mb-0 ">Pago pendiente</h6>
                                                     <div class="d-flex justify-content-between align-items-center">
@@ -82,34 +81,19 @@
                                         </a>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </li>
                         <li class="nav-item dropdown">
                             <a class="py-0 nav-link d-flex align-items-center" href="#" id="navbarDropdown"
                                 role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="{{base_url('Vendor/Template/assets/images/avatars/01.png')}}"
-                                    alt="User-Profile"
+                                <img src="{{pathPhoto}}" alt="User-Profile"
                                     class="theme-color-default-img img-fluid avatar avatar-50 avatar-rounded">
-                                <img src="{{base_url('Vendor/Template/assets/images/avatars/01.png')}}"
-                                    alt="User-Profile"
-                                    class="theme-color-purple-img img-fluid avatar avatar-50 avatar-rounded">
-                                <img src="{{base_url('Vendor/Template/assets/images/avatars/02.png')}}"
-                                    alt="User-Profile"
-                                    class="theme-color-blue-img img-fluid avatar avatar-50 avatar-rounded">
-                                <img src="{{base_url('Vendor/Template/assets/images/avatars/04.png')}}"
-                                    alt="User-Profile"
-                                    class="theme-color-green-img img-fluid avatar avatar-50 avatar-rounded">
-                                <img src="{{base_url('Vendor/Template/assets/images/avatars/05.png')}}"
-                                    alt="User-Profile"
-                                    class="theme-color-yellow-img img-fluid avatar avatar-50 avatar-rounded">
-                                <img src="{{base_url('Vendor/Template/assets/images/avatars/03.png')}}"
-                                    alt="User-Profile"
-                                    class="theme-color-pink-img img-fluid avatar avatar-50 avatar-rounded">
+
                                 <div class="caption ms-3 d-none d-md-block ">
-                                    <h6 class="mb-0 caption-title">Juan Perez</h6>
+                                    <h6 class="mb-0 caption-title">{{fullName}}</h6>
                                     <div class="d-flex">
                                         <p class="mb-0 caption-sub-title">Aspirante: </p>
-                                        <p class="mb-0 caption-sub-title">7219</p>
+                                        <p class="mb-0 caption-sub-title">{{noSolicitude}}</p>
                                     </div>
                                 </div>
                             </a>
@@ -120,7 +104,7 @@
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>-->
-                                <li><a class="dropdown-item" href="../dashboard/auth/sign-in.html">Cerrar Sesión</a>
+                                <li><a class="dropdown-item" href="{{base_url('auth/logout')}}">Cerrar Sesión</a>
                                 </li>
                             </ul>
                         </li>
@@ -137,10 +121,9 @@
                                 <h1>Información del pago</h1>
                                 <div class="pt-3 d-flex align-items-center justify-content-start">
                                     <p class="pt-2">Pago: </p>
-                                    {% if esAcreditado %}
+                                    {% if estatusPago %}
                                     <span class="d-inline-block ms-4" tabindex="0" data-bs-toggle="popover"
-                                        data-bs-trigger="hover focus"
-                                        data-bs-content="Se ha acreditado tu pago correctamente">
+                                        data-bs-trigger="hover focus" data-bs-content="Se ha acreditado tu pago">
                                         <button class="btn btn-success" type="button">Acreditado</button>
                                     </span>
                                     {% else %}
@@ -154,7 +137,7 @@
                                 </div>
                             </div>
                             <div>
-                                <a href="" class="btn btn-link btn-soft-light">
+                                <a href="{{ site_url('preguntas') }}" class="btn btn-link btn-soft-light">
                                     <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path

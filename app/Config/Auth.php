@@ -415,10 +415,10 @@ class Auth extends ShieldAuth
         }
         // Redireccion a desarrollo academico
         if (auth()->user()->inGroup('desarrollo_academico')) {
-            return $this->getUrl('des-academico');
+            return $this->getUrl('des-academico/aspirantes/lista');
         }
-        if (auth()->user()->inGroup('financieros')) {
-            return $this->getUrl('financieros');
+        if (auth()->user()->inGroup('recursos_financieros')) {
+            return $this->getUrl('financieros/aspirantes-pendientes');
         }
         $url = setting('Auth.redirects')['login'];
 

@@ -239,7 +239,6 @@ class User extends Entity
         }
 
         /* Codigo customizado */
-        $identity->type = 'noSolicitud_nip';
         $identity->name = $this->name;
         /* Codigo customizado */
 

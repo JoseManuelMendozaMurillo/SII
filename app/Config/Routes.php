@@ -51,22 +51,33 @@ $routes->group(
     }
 );
 
+// Rutas Accounts
+$routes->group(
+    'accounts',
+    ['namespace' => 'App\Controllers\Accounts'],
+    function ($routes) {
+        $routes->get('profile', 'Profile::profile');
+        $routes->post('change-password', 'Profile::changePassword');
+    }
+);
+
 // Rutas aspirantes
 $routes->group(
     'aspirantes',
     ['namespace' => 'App\Controllers\Aspirantes'],
     function ($routes) {
         $routes->get('registro', 'Aspirantes::formRegister');
-        $routes->get('finalizacion', 'Aspirantes::finalizacionAspirantes'); //Ruta de finalizacion del aspirantes
         $routes->get('acreditado', 'Aspirantes::pagadoModulo'); //Ruta de pago acreditado
         $routes->post('insert', 'Aspirantes::post');
         $routes->get('delete/(:num)', 'Aspirantes::delete/$1'); // Esta ruta no debe ser publica (eliminado logico)
         $routes->post('change-status-payment', 'Aspirantes::changeStatusPayment'); // Esta ruta no debe ser publica
-
+        $routes->post('ficha', 'Aspirantes::getfichaAspirante');
+        $routes->get('data', 'Aspirantes::getDatosAspirante');
+        $routes->get('recibo', 'Aspirantes::getReciboAspirante');
         $routes->group(
             '',
-            ['namespace' => 'App\Controllers\Aspirantes'],
-            //'filter' => 'group:aspirante',// LINEA COMENTADA PARA PERMITIR EL ACCESO
+            ['namespace' => 'App\Controllers\Aspirantes',
+                'filter' => 'group:aspirante'],// LINEA COMENTADA PARA PERMITIR EL ACCESO
             function ($routes) {
                 $routes->get('', 'Aspirantes::index');
             }
@@ -81,6 +92,7 @@ $routes->group(
                 $routes->get('send-email', 'AspirantesTest::sendEmail');
                 $routes->get('export-pdf', 'AspirantesTest::exportPdf');
                 $routes->get('export-excel', 'AspirantesTest::exportExcel');
+                $routes->get('final-registro', 'AspirantesTest::finalizacionAspirantes');
             }
         );
     }
@@ -89,23 +101,26 @@ $routes->group(
 // Rutas de servicios financieros
 $routes->group(
     'financieros',
-    ['namespace' => 'App\Controllers\Financieros'],
-    // 'filter' => 'group:financieros'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
+    ['namespace' => 'App\Controllers\Financieros',
+        'filter' => 'group:recursos_financieros'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
     function ($routes) {
-        $routes->get('nuevos/aspirantes', 'Financieros::nuevosAspirantes');
+        $routes->get('aspirantes', 'Financieros::listAspirantes');
+        $routes->get('aspirantes-pagados', 'Financieros::listAspirantesPagados');
+        $routes->get('aspirantes-pendientes', 'Financieros::listAspirantesPendientes');
     }
 );
 
 // Desarrollo academico
 $routes->group(
     'des-academico',
-    ['namespace' => 'App\Controllers\DesarrolloAcademico'],
-    // 'filter' => 'group:desarrollo_academico'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
+    ['namespace' => 'App\Controllers\DesarrolloAcademico',
+        'filter' => 'group:desarrollo_academico'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
     function ($routes) {
         // Rutas para trabajar con los aspirantes dentro de desarrollo academico
         $routes->group(
             'aspirantes',
-            ['namespace' => 'App\Controllers\DesarrolloAcademico'],
+            ['namespace' => 'App\Controllers\DesarrolloAcademico',
+                'filter' => 'group:desarrollo_academico'],
             function ($routes) {
                 // ¿Seria bueno crear un controller aspirantes para el area de desarrollo academico?
                 $routes->get('lista', 'DesarrolloAcademico::listAspirantes');
@@ -151,6 +166,17 @@ $routes->group(
         $routes->get('addgroup/(:any)/(:any)', 'Pruebas::addgroup/$1/$2');
         $routes->get('allusers', 'Pruebas::allusers');
         $routes->get('superadmin', 'Pruebas::superadmin');
+
+        $routes->get('testpost', 'Pruebas::testpost');
+    }
+);
+
+// Rutas de preguntas
+$routes->group(
+    'preguntas',
+    ['namespace' => 'App\Controllers'],
+    function ($routes) {
+        $routes->get('', 'Preguntas::preguntasFrecuentes');
     }
 );
 

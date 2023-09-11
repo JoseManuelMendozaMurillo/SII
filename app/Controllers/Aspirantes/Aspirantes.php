@@ -15,7 +15,10 @@ use App\Models\Aspirantes\AspiranteModel;
 use App\Libraries\Files;
 use App\Libraries\Thumbs;
 use App\Libraries\Emails;
+use App\Models\RecursosFinancieros\InfoBancariaModel;
 use Exception;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class Aspirantes extends RegisterController
 {
@@ -38,11 +41,46 @@ class Aspirantes extends RegisterController
      */
     public function index(): void
     {
-        $esAcreditado = false;
+        $banco = new InfoBancariaModel();
+        $user = $this->aspirantesModel->findByUserId(user_id())->toArray();
 
-        $this->twig->display('Aspirantes/modulo-aspirantes', [
-            'esAcreditado' => $esAcreditado,
-        ]);
+        $banco = new InfoBancariaModel();
+        $banco = $banco->getData();
+
+        $date = $user['fecha_nacimiento'];
+        $date_aux = substr($date, 2, 2) . substr($date, 5, 2) . substr($date, 8, 2);
+        $referencia = 'ITOCO'
+        . $user['no_solicitud']
+        . $user['apellido_paterno']
+        . str_replace(' ', '', $user['nombre'])
+        . $date_aux;
+        $referencia = strtoupper($referencia);
+        $estatusPago = $user['estatus_pago'] == '1' ? true : false;
+        $data = [
+            'fullName' => $user['nombre'] . ' '
+                        . $user['apellido_paterno'] . ' '
+                        . $user['apellido_materno'],
+
+            'noSolicitude' => $user['no_solicitud'],
+            // 'pathPhoto' => config('Paths')->accessPhotosAspirantes . '/205//thumbs/' . 'FotoAspirante_64f827c7cbe2d.jpeg',
+            'pathPhoto' => config('Paths')->accessPhotosAspirantes . '/test.png',
+            'banco' => $banco['banco'],
+            'sucursal' => $banco['sucursal'],
+            'cuenta' => $banco['cuenta'],
+
+            'montoPagar' => $banco['costo_examen'] . '.00',
+
+            'referencia' => $referencia,
+            'estatusPago' => $estatusPago,
+        ];
+
+        if ($estatusPago) {
+            $this->twig->display('Aspirantes/modulo_pagado', $data);
+
+            return;
+        }
+
+        $this->twig->display('Aspirantes/modulo-aspirantes', $data);
     }
 
     /**
@@ -90,15 +128,12 @@ class Aspirantes extends RegisterController
      * post
      * Funcion para guardar en la base de datos los datos de los aspirantes
      *
-     * @return RedirectResponse
      */
-    public function post(): RedirectResponse
+    public function post()
     {
         // Validamos el formulario
         $dataAspirante = $this->request->getPost();
         if (!$this->validation->run($dataAspirante, 'registerFormAspirantes')) {
-            dd($this->validation->getErrors());
-
             return redirect()->back()->withInput()->with('errors', $this->validation->getErrors());
         }
 
@@ -148,8 +183,26 @@ class Aspirantes extends RegisterController
             // Si todo está bien, confirmar la transacción
             $this->db->transCommit();
 
-            // Retornar la vista de exito
-            d('Aspirante creado');
+            // Mostramos la vista de exito
+            $nombre = implode(
+                ' ',
+                [
+                    $dataAspirante['nombre'],
+                    $dataAspirante['apellido_paterno'],
+                    $dataAspirante['apellido_materno'],
+                ]
+            );
+            $pathPhoto = config('Paths')->accessPhotosAspirantes . '/' . $user->id .
+                                            '/thumbs//' . $dataAspirante['imagen'];
+            $data = [
+                'nombre' => $nombre,
+                'curp' => $dataAspirante['curp'],
+                'carrera' => $carrerasModel->getNameById($idCarrera),
+                'foto' => $pathPhoto,
+                'idUser' => $user->id,
+            ];
+
+            $this->twig->display('Aspirantes/finalizacion-aspirantes', $data);
         } catch (Exception $e) {
             // Si hay un error se realizara un rollback
             $this->db->transRollback();
@@ -161,8 +214,7 @@ class Aspirantes extends RegisterController
                 $files->deleteDir($dirPhotosAspirantes);
             }
 
-            // Retornar vista de error en el back
-            dd('Error: ' . $e->getMessage());
+            $this->twig->display('errors/error500');
         }
     }
 
@@ -248,7 +300,7 @@ class Aspirantes extends RegisterController
                 throw new Exception('El registro no se pudo actualizar', 500);
             }
 
-            return $this->response->setStatusCode(200);
+            return $this->response->setStatusCode(200)->setJSON(['success' => true]);
         } catch (Exception $e) {
             return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
         }
@@ -415,7 +467,7 @@ class Aspirantes extends RegisterController
             'escuela_procedencia' => $this->request->getPost('nombreEscuela'),
             'estado_escuela' => $this->request->getPost('estadoEscuela'),
             'municipio_escuela' => $this->request->getPost('municipioEscuela'),
-            'ano_egreso' => $this->request->getPost('anioEgreso'),
+            'ano_egreso' => $this->request->getPost('anoEgreso'),
             'promedio_general' => $this->request->getPost('promedio'),
             'carrera_primera_opcion' => $this->request->getPost('primeraOpcionIngreso'),
             'carrera_segunda_opcion' => $this->request->getPost('segundaOpcionIngreso'),
@@ -454,7 +506,7 @@ class Aspirantes extends RegisterController
             'no_focos' => $this->request->getPost('cantidadFocos'),
             'tipo_piso' => $this->request->getPost('tipoPiso'),
             'no_automoviles' => $this->request->getPost('cantidadAutos'),
-            'estufa' => $this->request->getPost('estufa'),
+            'estufa' => $this->request->getPost('estufa') == 'S' ? 1 : 0,
         ];
 
         $aspirante = new Aspirante($data);
@@ -495,7 +547,7 @@ class Aspirantes extends RegisterController
         // Creamos el thumb y guardamos la imagen
         $dirImg = config('Paths')->photoAspiranteDirectory . '/' . $userId . '/';
         $thumbs = new Thumbs($dirImg);
-        if (!$thumbs->createThumbs($pathPhoto, $namePhoto, $typePhoto)) {
+        if (!$thumbs->createThumbs($pathPhoto, $namePhoto, $typePhoto, 200, 200, 200)) {
             throw new Exception('No se pudo crear el thumb para la foto del aspirante');
         }
 
@@ -578,11 +630,6 @@ class Aspirantes extends RegisterController
         ];
     }
 
-    public function finalizacionAspirantes(): void
-    {
-        $this->twig->display('Aspirantes/finalizacion_aspirantes');
-    }
-
     public function pagadoModulo(): void
     {
         $esAcreditado = true; // Puedes cambiar esto según tu lógica\
@@ -590,5 +637,137 @@ class Aspirantes extends RegisterController
         $this->twig->display('Aspirantes/modulo_pagado', [
             'esAcreditado' => $esAcreditado,
         ]);
+    }
+
+    /**
+     * exportPdf
+     * Función para exportar documentos HTML a PDF
+     *
+     * @return Response
+     */
+    public function exportPdf($template, $data, $fileName)
+    {
+        $options = new Options();
+        $options->setChroot(FCPATH);
+        $options->setDefaultFont('Inter');
+        $options->setIsRemoteEnabled(true);
+
+        $html = $this->twig->render($template, $data);
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($html);
+        $dompdf->render();
+
+        $pdfContent = $dompdf->output();
+
+        // Enviar la respuesta al cliente
+        return $this->response->setStatusCode(200)
+                              ->setBody($pdfContent)
+                              ->setHeader('Content-Type', 'application/pdf')
+                              ->setHeader('Content-Disposition', 'inline; filename="' . $fileName . '"')
+                              ->setHeader('Cache-Control', 'max-age=0');
+    }
+
+    /**
+     * getFichaAspirante
+     * Genera un PDF con los los datos de la ficha de solicitud del aspirante
+     */
+    public function getFichaAspirante()
+    {
+        $id = (string) $this->request->getPost('id');
+
+        $user = $this->aspirantesModel->findByUserId($id)->toArray();
+        $carrera = new CarrerasModel();
+
+        $data = [
+            'fullName' => $user['nombre'] . ' '
+                        . $user['apellido_paterno'] . ' '
+                        . $user['apellido_materno'],
+            'curp' => $user['curp'],
+            'noSolicitude' => $user['no_solicitud'],
+            'nip' => $user['nip'],
+            'firstOption' => $carrera->getNameById($user['carrera_primera_opcion']),
+            'pathPhoto' => config('Paths')->accessPhotosAspirantes . '/' . $user['user_id'] .
+                           '/' . $user['imagen'],
+        ];
+
+        $template = 'Aspirantes/pdf_templates/pdf_aspirantes';
+        $fileName = 'ficha_' . $user['no_solicitud'] . '.pdf';
+
+        return $this->exportPdf($template, $data, $fileName);
+    }
+
+    public function getReciboAspirante()
+    {
+        $banco = new InfoBancariaModel();
+        $user = $this->aspirantesModel->findByUserId(user_id())->toArray();
+
+        $banco = new InfoBancariaModel();
+        $banco = $banco->getData();
+
+        $date = $user['fecha_nacimiento'];
+        $date_aux = substr($date, 2, 2) . substr($date, 5, 2) . substr($date, 8, 2);
+        $referencia = 'ITOCO'
+        . $user['no_solicitud']
+        . $user['apellido_paterno']
+        . str_replace(' ', '', $user['nombre'])
+        . $date_aux;
+        $referencia = strtoupper($referencia);
+        $data = [
+
+            'banco' => $banco['banco'],
+            'sucursal' => $banco['sucursal'],
+            'cuenta' => $banco['cuenta'],
+
+            'montoPagar' => '$' . $banco['costo_examen'] . '.00',
+
+            'referencia' => $referencia,
+
+        ];
+
+        $template = 'Aspirantes/pdf_templates/pdf_recibo_pago';
+        $fileName = 'recibo_' . $user['no_solicitud'] . '.pdf';
+
+        return $this->exportPdf($template, $data, $fileName);
+    }
+
+    /**
+     * getDatosASpirante
+     * Manda datos a la vista de de aspirante
+     */
+    public function getDatosAspirante()
+    {
+        // PENDIENTE: Asignar el id por medio de post y mandar datos a la vista
+
+        // $id = $this->request->getPost('id');
+        $user = $this->aspirantesModel->find(1)->toArray();
+
+        $banco = new InfoBancariaModel();
+        $banco = $banco->getData();
+
+        $date = $user['fecha_nacimiento'];
+        $date_aux = substr($date, 2, 2) . substr($date, 5, 2) . substr($date, 8, 2);
+        $data = [
+            'fullName' => $user['nombre'] . ' '
+                        . $user['apellido_paterno'] . ' '
+                        . $user['apellido_materno'],
+
+            'noSolicitude' => $user['no_solicitud'],
+            'pathPhoto' => config('Paths')->accessPhotosAspirantes . '/' . 'test.png',
+
+            'banco' => $banco['banco'],
+            'sucursal' => $banco['sucursal'],
+            'cuenta' => $banco['cuenta'],
+
+            'costo_examen' => $banco['costo_examen'],
+
+            'referencia' => 'ITOCO'
+                            . $user['no_solicitud']
+                            . $user['apellido_paterno']
+                            . $user['nombre']
+                            . $date_aux,
+
+        ];
+
+        d($data);
     }
 }

@@ -10,33 +10,9 @@
 <link rel="stylesheet" href="{{base_url('Vendor/Parsley/parsley.css')}}">
 <link rel="stylesheet" href="{{base_url('Vendor/Template/assets/css/switches.css')}}" />
 
-<style>
-    .file {
-        visibility: hidden;
-        position: absolute;
-    }
+<!-- Css personalizado para esta pagina -->
+<link rel="stylesheet" href="{{base_url('Css/Aspirantes/finalizacion-aspirantes.css')}}" />
 
-    .iq-navbar-header {
-        height: 200px;
-        /* Altura predeterminada para pantallas más grandes */
-    }
-
-    @media (max-width: 920px) {
-
-        /* Modifica la clase para pantallas más pequeñas con un ancho máximo de 920px */
-        .iq-navbar-header {
-            height: 220px;
-        }
-    }
-
-    @media (max-width: 520px) {
-
-        /* Modifica la clase para pantallas más pequeñas con un ancho máximo de 520px */
-        .iq-navbar-header {
-            height: 260px;
-        }
-    }
-</style>
 {% endblock %}
 
 
@@ -51,12 +27,14 @@
                             <div class="flex-grow-1">
                                 <h1>Instituto Tecnológico de Ocotlán</h1>
                                 <p>
-                                    ¡Forma parte de nuestro plantel! Estamos encantados de
-                                    recibirte en nuestra institución.
+                                    ¡Forma parte de nuestro plantel!
+                                    <span class="hidden-text-mobile">
+                                        Estamos encantados de recibirte en nuestra institución.
+                                    </span>
                                 </p>
                             </div>
                             <div>
-                                <a href="" class="btn btn-link btn-soft-light">
+                                <a href="{{ site_url('preguntas') }}" class="btn btn-link btn-soft-light">
                                     <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path
@@ -90,38 +68,40 @@
         </div>
         <div class="conatiner-fluid content-inner mt-n5 py-0">
             <div class="">
-                <div class="row pe-5 ps-5">
+                <div class="row pe-md-5 ps-md-5">
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body"
                                 style="border-radius: 10px; box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.2);">
                                 <div class="text-center pt-4">
                                     <h3><strong>¡Terminado con éxito!</strong></h3>
-                                    <h5 class="text-success pt-4"><strong>¡Muchas felicidades por inscribirte como
-                                            aspirante al
-                                            Instituto Tecnológico de Ocotlán!</strong></h5>
-                                    <h5 class="text-success pt-2"><strong>Nos llena de orgullo que hayas considerado
-                                            nuestra
-                                            institución</strong></h5>
-                                    <h5 class="text-success pt-2"><strong>Te deseamos un gran éxito en tu
-                                            camino</strong></h5>
+                                    <p class="h5 pt-4 font-weight-bold text-gray">
+                                        ¡Muchas felicidades por inscribirte como aspirante al
+                                        Instituto Tecnológico de Ocotlán!
+                                        <br>
+                                        <span class="hidden-text-mobile">
+                                            Nos llena de orgullo que hayas considerado nuestra
+                                            institución.
+                                            <br>
+                                            Te deseamos un gran éxito en tu camino
+                                        </span>
+                                    </p>
                                 </div>
                                 <div class="text-center pt-5">
-                                    <img src="{{base_url('Vendor/Template/assets/images/avatars/avtar_4.png')}}" alt=""
-                                        class="rounded-circle">
+                                    <img src="{{base_url()}}{{foto}}" alt="" class="img-fluid rounded-circle">
                                 </div>
                                 <div class="pt-4 text-center">
                                     <div class="pb-2">
                                         <h6 class=""><strong>Nombre del aspirante: </strong></h6>
-                                        <h6 class="text-gray ps-2">Juan Perez Lopez</h6>
+                                        <h6 class="text-gray ps-2">{{nombre}}</h6>
                                     </div>
                                     <div class="pb-2">
                                         <h6 class=""><strong>CURP: </strong></h6>
-                                        <h6 class="text-gray ps-2">PEGJ850315HJCRRN07</h6>
+                                        <h6 class="text-gray ps-2">{{curp}}</h6>
                                     </div>
                                     <div class="pb-2">
                                         <h6 class=""><strong>Opción de carrera: </strong></h6>
-                                        <h6 class="text-gray ps-2">Ingeniería en Sistemas Computacionales</h6>
+                                        <h6 class="text-gray ps-2">{{carrera}}</h6>
                                     </div>
                                 </div>
                                 <div class="pt-4">
@@ -129,12 +109,13 @@
                                         <h6>Únete al grupo de WhatsApp de aspirantes</h6>
                                     </div>
                                     <div class="row pt-2">
-                                        <div class="col text-end">
-                                            <a href="#"><img
-                                                    src="{{base_url('Vendor/Template/assets/images/brands/whatsapp.png')}}"
-                                                    alt="li" style="width: 120px; height: 120px" /></a>
+                                        <div class=" col-md-6 text-md-end col-sm-12 text-center">
+                                            <a href="#">
+                                                <img src="{{base_url('Vendor/Template/assets/images/brands/whatsapp.png')}}"
+                                                    alt="li" style="width: 120px; height: 120px" />
+                                            </a>
                                         </div>
-                                        <div class="col text-start">
+                                        <div class="col-md-6 text-md-start col-sm-12 text-center pt-md-0 pt-2">
                                             <a href="#"><img
                                                     src="{{base_url('Vendor/Template/assets/images/brands/qr.png')}}"
                                                     alt="li" style="width: 120px; height: 120px" /></a>
@@ -144,17 +125,18 @@
                                 <div class="text-center pt-4">
                                     <h6 class="text-danger">Guarda tus datos antes de cerrar esta pantalla</h6>
                                 </div>
-                                <div class="d-flex text-center justify-content-center pt-4 pb-2">
-                                    <div class="d-flex justify-content-center">
-                                        <a href="{{ base_url('auth/login') }}"
-                                            class="btn justify-content-center btn-primary">Volver
-                                            al login </a>
-                                    </div>
-                                    <div class="p-3"></div>
-                                    <button type="button" name="" id="congrats"
-                                        class="btn btn-primary next action-button float-center" value="">
-                                        Imprimir ficha
-                                    </button>
+                                <div class="pt-4 pb-2 align-btns">
+                                    <a href="{{ base_url('auth/login') }}"
+                                        class="btn justify-content-center btn-primary">
+                                        Volver al login
+                                    </a>
+                                    <form target="_blank" action="{{base_url('aspirantes/ficha')}}" method="post">
+                                        <input type="hidden" name="id" id="id" value="{{idUser}}">
+                                        <button type="submit" class="btn btn-primary float-center">
+                                            Imprimir ficha
+                                        </button>
+                                    </form>
+
                                 </div>
                             </div>
                         </div>
@@ -169,6 +151,8 @@
 
 {% block script %}
 
-<script src="{{ base_url('Js/Aspirantes/aspirantes.js')}}"></script>
+<!-- Js para esta pagina -->
+<script src="{{ base_url('Js/Aspirantes/finalizacion-aspirantes.js')}}" type="module"></script>
+
 
 {% endblock %}

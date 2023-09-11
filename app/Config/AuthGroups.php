@@ -38,15 +38,27 @@ class AuthGroups extends ShieldAuthGroups
         ],
         'aspirante' => [
             'title' => 'Aspirante',
-            'description' => 'Aspirante a estudiante del TecNM Campus Ocotlan',
+            'description' => 'Aspirante a estudiante del TecNM Campus Ocotlán',
         ],
-        'financieros' => [
-            'title' => 'Servicios financieros',
+        'alumnos' => [
+            'title' => 'Alumnos',
+            'description' => 'Alumnos del TecNM Campus Ocotlán',
+        ],
+        'recursos_financieros' => [
+            'title' => 'Recursos Financieros',
             'description' => 'Administrativo del area de servicios financieros',
         ],
         'desarrollo_academico' => [
             'title' => 'Desarrollo Academico',
             'description' => 'Administrativo del area de desarrollo academico',
+        ],
+        'servicios_escolares' => [
+            'title' => 'Servicios Escolares',
+            'description' => 'Administrativo del area de Servicios Escolares',
+        ],
+        'personal' => [
+            'title' => 'Personal',
+            'description' => 'Personal del TecNM Campus Ocotlán',
         ],
     ];
 
@@ -80,9 +92,13 @@ class AuthGroups extends ShieldAuthGroups
     public array $matrix = [
         'superadmin' => [
             'admin.*',
+            'personal.*',
             'aspirantes.*',
             'financieros.*',
             'desarrollo.academico.*',
+        ],
+        'personal' => [
+            'personal.*',
         ],
         'aspirante' => [
             'aspirante.*',

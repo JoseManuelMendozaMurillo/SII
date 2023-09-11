@@ -3,7 +3,7 @@ export function customValidation() {
     $('.form-control.validation-email').each(function () {
       var $input = $(this);
       $input.attr('data-parsley-trigger','keyup');
-      $input.attr('data-parsley-pattern','^[A-Za-z0-9]+@(itocotlan\.com)$');
+      $input.attr('data-parsley-pattern','^[A-Za-z0-9_]+@(itocotlan\.com)$');
       $input.attr('data-parsley-error-message','El correo electrónico debe tener un dominio itocotlan.com');
     });
 
@@ -24,7 +24,7 @@ export function customValidation() {
     $('.form-control.validation-nip').each(function () {
       var $input = $(this);
       $input.attr('data-parsley-trigger','keyup');
-      $input.attr('data-parsley-minlength','8');
+      $input.attr('data-parsley-minlength','4');
       $input.attr('data-parsley-minlength-message','La contraseña debe tener al menos 8 caracteres');
     });
   

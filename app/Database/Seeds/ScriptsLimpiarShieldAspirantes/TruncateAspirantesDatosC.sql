@@ -1,0 +1,1 @@
+TRUNCATE table aspirantes_datos_complementarios ; 

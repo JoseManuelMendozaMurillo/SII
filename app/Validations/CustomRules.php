@@ -37,25 +37,11 @@ class CustomRules
     }
 
     /**
-     * Regla para validar que un catalogo sea valido
+     * Regla para validar que un campo solo contenga letras y espacios utf8
      *
      */
-    protected $db;
-
-    public function __construct()
+    public function alphaSpaceAccent($value, string $params = null, array $data = null, string &$error = null): bool
     {
-        $this->db = db_connect();
-    }
-
-    public function checkCatalog($value, string $field, array $data): bool
-    {
-        list($table, $column) = explode('.', $field);
-
-        $query = $this->db->table($table)
-                          ->select($column)
-                          ->where($column, $value)
-                          ->get();
-
-        return $query->getNumRows() > 0;
+        return (bool) preg_match('/^[a-zA-záéíóúÁÉÍÓÚñÑ\s]*$/', $value);
     }
 }

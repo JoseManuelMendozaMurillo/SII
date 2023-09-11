@@ -37,14 +37,14 @@ class Session implements AuthenticatorInterface
 
     // Identity types
     public const ID_TYPE_EMAIL_PASSWORD = 'email_password';
-    public const ID_TYPE_MAGIC_LINK     = 'magic-link';
-    public const ID_TYPE_EMAIL_2FA      = 'email_2fa';
+    public const ID_TYPE_MAGIC_LINK = 'magic-link';
+    public const ID_TYPE_EMAIL_2FA = 'email_2fa';
     public const ID_TYPE_EMAIL_ACTIVATE = 'email_activate';
 
     // User states
-    private const STATE_UNKNOWN   = 0; // Not checked yet.
+    private const STATE_UNKNOWN = 0; // Not checked yet.
     private const STATE_ANONYMOUS = 1;
-    private const STATE_PENDING   = 2; // 2FA or Activation required.
+    private const STATE_PENDING = 2; // 2FA or Activation required.
     private const STATE_LOGGED_IN = 3;
 
     /**
@@ -66,7 +66,6 @@ class Session implements AuthenticatorInterface
      * Should the user be remembered?
      */
     protected bool $shouldRemember = false;
-
     protected LoginModel $loginModel;
     protected RememberModel $rememberModel;
     protected UserIdentityModel $userIdentityModel;
@@ -77,8 +76,8 @@ class Session implements AuthenticatorInterface
 
         $this->provider = $provider;
 
-        $this->loginModel        = model(LoginModel::class);
-        $this->rememberModel     = model(RememberModel::class);
+        $this->loginModel = model(LoginModel::class);
+        $this->rememberModel = model(RememberModel::class);
         $this->userIdentityModel = model(UserIdentityModel::class);
 
         $this->checkSecurityConfig();
@@ -130,7 +129,7 @@ class Session implements AuthenticatorInterface
         $result = $this->check($credentials);
 
         // Credentials mismatch.
-        if (! $result->isOK()) {
+        if (!$result->isOK()) {
             // Always record a login attempt, whether success or not.
             $this->recordLoginAttempt($credentials, false, $ipAddress, $userAgent);
 
@@ -152,7 +151,7 @@ class Session implements AuthenticatorInterface
 
             return new Result([
                 'success' => false,
-                'reason'  => $user->getBanMessage() ?? lang('Auth.bannedUser'),
+                'reason' => $user->getBanMessage() ?? lang('Auth.bannedUser'),
             ]);
         }
 
@@ -173,7 +172,7 @@ class Session implements AuthenticatorInterface
 
         $this->issueRememberMeToken();
 
-        if (! $this->hasAction()) {
+        if (!$this->hasAction()) {
             $this->completeLogin($user);
         }
 
@@ -284,10 +283,10 @@ class Session implements AuthenticatorInterface
 
         $field = array_pop($field);
 
-        if (! in_array($field, ['email', 'username'], true)) {
+        if (!in_array($field, ['email', 'username'], true)) {
             $idType = $field;
         } else {
-            $idType = (! isset($credentials['email']) && isset($credentials['username']))
+            $idType = (!isset($credentials['email']) && isset($credentials['username']))
                 ? self::ID_TYPE_USERNAME
                 : self::ID_TYPE_EMAIL_PASSWORD;
         }
@@ -314,7 +313,7 @@ class Session implements AuthenticatorInterface
         if (empty($credentials['password']) || count($credentials) < 2) {
             return new Result([
                 'success' => false,
-                'reason'  => lang('Auth.badAttempt'),
+                'reason' => lang('Auth.badAttempt'),
             ]);
         }
 
@@ -329,7 +328,7 @@ class Session implements AuthenticatorInterface
         if ($user === null) {
             return new Result([
                 'success' => false,
-                'reason'  => lang('Auth.badAttempt'),
+                'reason' => lang('Auth.badAttempt'),
             ]);
         }
 
@@ -340,14 +339,14 @@ class Session implements AuthenticatorInterface
         $needsRehash = false;
 
         // Now, try matching the passwords.
-        if (! $passwords->verify($givenPassword, $user->password_hash)) {
+        if (!$passwords->verify($givenPassword, $user->password_hash)) {
             if (
-                ! setting('Auth.supportOldDangerousPassword')
-                || ! $passwords->verifyDanger($givenPassword, $user->password_hash) // @phpstan-ignore-line
+                !setting('Auth.supportOldDangerousPassword')
+                || !$passwords->verifyDanger($givenPassword, $user->password_hash) // @phpstan-ignore-line
             ) {
                 return new Result([
                     'success' => false,
-                    'reason'  => lang('Auth.invalidPassword'),
+                    'reason' => lang('Auth.invalidPassword'),
                 ]);
             }
 
@@ -365,7 +364,7 @@ class Session implements AuthenticatorInterface
         }
 
         return new Result([
-            'success'   => true,
+            'success' => true,
             'extraInfo' => $user,
         ]);
     }
@@ -521,7 +520,7 @@ class Session implements AuthenticatorInterface
     private function getActionTypes(): array
     {
         $actions = setting('Auth.actions');
-        $types   = [];
+        $types = [];
 
         foreach ($actions as $actionClass) {
             if ($actionClass === null) {
@@ -529,7 +528,7 @@ class Session implements AuthenticatorInterface
             }
 
             /** @var ActionInterface $action */
-            $action  = Factories::actions($actionClass);  // @phpstan-ignore-line
+            $action = Factories::actions($actionClass);  // @phpstan-ignore-line
             $types[] = $action->getType();
         }
 
@@ -716,7 +715,7 @@ class Session implements AuthenticatorInterface
      */
     private function setSessionKey(string $key, $value): void
     {
-        $sessionUserInfo       = $this->getSessionUserInfo();
+        $sessionUserInfo = $this->getSessionUserInfo();
         $sessionUserInfo[$key] = $value;
         session()->set(setting('Auth.sessionConfig')['field'], $sessionUserInfo);
     }
@@ -829,7 +828,7 @@ class Session implements AuthenticatorInterface
         // Destroy the session data - but ensure a session is still
         // available for flash messages, etc.
         /** @var \CodeIgniter\Session\Session $session */
-        $session     = session();
+        $session = session();
         $sessionData = $session->get();
         if (isset($sessionData)) {
             foreach (array_keys($sessionData) as $key) {
@@ -846,7 +845,7 @@ class Session implements AuthenticatorInterface
         // Trigger logout event
         Events::trigger('logout', $this->user);
 
-        $this->user      = null;
+        $this->user = null;
         $this->userState = self::STATE_ANONYMOUS;
     }
 
@@ -896,7 +895,7 @@ class Session implements AuthenticatorInterface
      */
     public function recordActiveDate(): void
     {
-        if (! $this->user instanceof User) {
+        if (!$this->user instanceof User) {
             throw new InvalidArgumentException(
                 __METHOD__ . '() requires logged in user before calling.'
             );
@@ -915,9 +914,9 @@ class Session implements AuthenticatorInterface
      */
     protected function rememberUser(User $user): void
     {
-        $selector  = bin2hex(random_bytes(12));
+        $selector = bin2hex(random_bytes(12));
         $validator = bin2hex(random_bytes(20));
-        $expires   = $this->calcExpires();
+        $expires = $this->calcExpires();
 
         $rawToken = $selector . ':' . $validator;
 
@@ -972,7 +971,7 @@ class Session implements AuthenticatorInterface
         $validator = bin2hex(random_bytes(20));
 
         $token->hashedValidator = $this->hashValidator($validator);
-        $token->expires         = $this->calcExpires();
+        $token->expires = $this->calcExpires();
 
         $this->rememberModel->updateRememberValidator($token);
 
