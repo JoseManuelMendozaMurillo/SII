@@ -182,42 +182,7 @@
                             <!-- Barra de búsqueda y filtro -->
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <div class="d-flex">
-
-                                    <!-- <div class="input-group me-2">
-                                        <div class="input-group search-input">
-                                            <span class="input-group-text" id="search-input">
-                                                <svg class="icon-18" width="18" viewBox="0 0 24 24" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <circle cx="11.7669" cy="11.7666" r="8.98856" stroke="currentColor"
-                                                        stroke-width="1.5" stroke-linecap="round"
-                                                        stroke-linejoin="round"></circle>
-                                                    <path d="M18.0186 18.4851L21.5426 22" stroke="currentColor"
-                                                        stroke-width="1.5" stroke-linecap="round"
-                                                        stroke-linejoin="round"></path>
-                                                </svg>
-                                            </span>
-                                            <input id="searchInput" type="search" class="form-control"
-                                                placeholder="Buscar...">
-                                        </div>
-                                        <select id="filterSelect" class="form-select">
-                                            <option value="numero_solicitud">Número de Solicitud</option>
-                                            <option value="nombre">Nombre</option>
-                                        </select>
-                                        <button id="searchButton" class="btn btn-primary">Buscar</button>
-                                    </div>-->
-
-
-
                                 </div>
-                                <!-- <div class="col-lg-4 text-end p-2 filtro-estatus">
-
-                                    <select id="filtroSelect" class="form-select ">
-                                        <option value="" selected>Todos</option>
-                                        <option value="Pagado">Pagado</option>
-                                        <option value="Pendiente">Pendiente</option>
-                                    </select>
-                                </div> -->
-
                             </div>
                             <div class="form-group">
                                 <label for="estadoPago">Filtrar por Estado de Pago:</label>
@@ -256,15 +221,6 @@
         integrity="sha512-ut+jq2MDKjyWKK7rpEbyHjJ2kDBDO58DLFw4xJobqvS2kUgx4DJbj3OLjwk4F0pKtcxUoUIRS6esQVhh4fmWNA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/ag-grid-enterprise@30.1.0/dist/ag-grid-enterprise.min.js"></script>
-
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-
-    <script src="https://cdn.datatables.net/fixedcolumns/4.3.0/js/dataTables.fixedColumns.min.js"></script>
-
-    <!-- <script src="{{ base_url('Js/RecursosFinancieros/grid.js')}}"></script> -->
-    <script src="https://cdn.jsdelivr.net/npm/ag-grid-enterprise@30.1.0/dist/ag-grid-enterprise.min.js">
-    </script>
     <script>
         function mostrarConfirmacion(user_id, status_pago) {
             Swal.fire({
@@ -278,7 +234,9 @@
                 cancelButtonText: 'Cancelar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    nuevo_estado = status_pago === '1' ? '0' : '1';
+                    // 0 = Pendiente
+                    // 1 = Pagado
+                    nuevo_estado = status_pago === '1' ? '0' : status_pago === 'true' ? '0' : '1';
                     cambiarEstado(user_id, nuevo_estado);
                 }
             });
@@ -286,8 +244,14 @@
     </script>
 
     <script>
+        var $tabla;
+        var aspirantesTodos = {{ aspirantesTodos| json_encode | raw}};
+        var aspirantesPago = {{ aspirantesPago| json_encode | raw }};
+        var aspirantesNoPago = {{ aspirantesNoPago| json_encode | raw }};
+
         function cambiarEstado(user_id, status_pago) {
             // Realiza una llamada AJAX para actualizar el estado de pago en el servidor
+            console.log(status_pago);
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
@@ -298,13 +262,65 @@
                 },
                 success: function (response) {
                     if (response.success) {
-                        var btn = $('.btn[data-user-id="' + user_id + '"]');
-                        if (response.nuevo_estado === 'Pendiente') {
-                            btn.removeClass('btn-success').addClass('btn-warning').text('Pendiente');
-                        } else {
-                            btn.removeClass('btn-warning').addClass('btn-success').text('Pagado');
+                        var estadoPagoSelect = $('#estadoPago').val();
+                        switch (estadoPagoSelect) {
+                            case 'todos':
+                                var btn = $('.btn[data-user-id="' + user_id + '"]');
+                                var aspirante;
+                                aspirantesTodos.forEach(element => {
+                                    if (element.id == user_id) {
+                                        aspirante = element;
+                                    }
+                                });
+                                if (status_pago === '0') {
+                                    btn.removeClass('btn-success').addClass('btn-warning').text('Pendiente');
+                                    aspirantesPago.splice(aspirantesPago.indexOf(aspirante), 1);
+                                    aspirante.status_pago = false;
+                                    aspirantesNoPago.unshift(aspirante);
+                                } else {
+                                    btn.removeClass('btn-warning').addClass('btn-success').text('Pagado');
+                                    aspirantesNoPago.splice(aspirantesNoPago.indexOf(aspirante), 1);
+                                    aspirante.status_pago = true;
+                                    aspirantesPago.unshift(aspirante);
+                                }
+                                $tabla.bootgrid('clear');
+                                $tabla.bootgrid('append', aspirantesTodos);
+                                Swal.fire('¡Listo!', 'El estado de pago ha sido cambiado.', 'success');
+
+                                break;
+                            case 'pagados':
+                                var aspirante;
+                                aspirantesPago.forEach(element => {
+                                    if (element.id == user_id) {
+                                        aspirante = element;
+                                    }
+                                });
+                                aspirantesPago.splice(aspirantesPago.indexOf(aspirante), 1);
+                                aspirante.status_pago = false;
+                                aspirantesNoPago.unshift(aspirante);
+
+                                $tabla.bootgrid('clear');
+                                $tabla.bootgrid('append', aspirantesPago);
+                                Swal.fire('¡Listo!', 'El estado de pago ha sido cambiado.', 'success');
+                                break;
+                            case 'pendientes':
+                                var aspirante;
+                                aspirantesNoPago.forEach(element => {
+                                    if (element.id == user_id) {
+                                        aspirante = element;
+                                    }
+                                });
+                                aspirantesNoPago.splice(aspirantesNoPago.indexOf(aspirante), 1);
+                                aspirante.status_pago = true;
+                                aspirantesPago.unshift(aspirante);
+
+                                $tabla.bootgrid('clear');
+                                $tabla.bootgrid('append', aspirantesNoPago);
+                                Swal.fire('¡Listo!', 'El estado de pago ha sido cambiado.', 'success');
+                                break;
+                            default:
+                                break;
                         }
-                        Swal.fire('¡Listo!', 'El estado de pago ha sido cambiado.', 'success');
                     } else {
                         Swal.fire('Error', 'Hubo un problema al cambiar el estado de pago.', 'error');
                     }
@@ -319,7 +335,7 @@
     <script>
         $(document).ready(function () {
             var estadoPagoSelect = $('#estadoPago');
-            var $tabla;
+
 
             $tabla = $("#datatable").bootgrid({
                 caseSensitive: false,
@@ -348,6 +364,7 @@
                         return `
                     <button
                         class="custom-button btn ${estado ? 'btn-success' : 'btn-warning'}"
+                        data-user-id="${row.id}" 
                         onclick="mostrarConfirmacion('${row.id}','${estado}')">
                         ${estado ? 'Pagado' : 'Pendiente'}
                     </button>`
@@ -355,162 +372,22 @@
                 },
             });
 
-            var aspirantesTodos = {{ aspirantesTodos| json_encode | raw
-        }};
-        var aspirantesPago = {{ aspirantesPago| json_encode | raw }};
-        var aspirantesNoPago = {{ aspirantesNoPago| json_encode | raw }};
+            estadoPagoSelect.on('change', function () {
+                var estadoPago = estadoPagoSelect.val();
+                // Actualizar los datos de la tabla según el estado de pago seleccionado
+                if (estadoPago === 'todos') {
+                    $tabla.bootgrid('clear');
+                    $tabla.bootgrid('append', aspirantesTodos);
+                } else if (estadoPago === 'pagados') {
+                    $tabla.bootgrid('clear');
+                    $tabla.bootgrid('append', aspirantesPago);
+                } else if (estadoPago === 'pendientes') {
+                    $tabla.bootgrid('clear');
+                    $tabla.bootgrid('append', aspirantesNoPago);
+                }
 
-
-        estadoPagoSelect.on('change', function () {
-            var estadoPago = estadoPagoSelect.val();
-            // Actualizar los datos de la tabla según el estado de pago seleccionado
-            if (estadoPago === 'todos') {
-                $tabla.bootgrid('clear');
-                $tabla.bootgrid('append', aspirantesTodos);
-            } else if (estadoPago === 'pagados') {
-                $tabla.bootgrid('clear');
-                $tabla.bootgrid('append', aspirantesPago);
-            } else if (estadoPago === 'pendientes') {
-                $tabla.bootgrid('clear');
-                $tabla.bootgrid('append', aspirantesNoPago);
-            }
+            });
 
         });
-
-    });
     </script>
-
-    <!-- <script>
-        $(document).ready(function () {
-            var table = $('#example').DataTable({
-                orderCellsTop: true,
-                fixedHeader: true,
-                columns: [
-                    null,
-                    null,
-                    null,
-                    null,
-                    // Otras columnas
-                    {
-                        data: 'estatus_pago',
-                        render: function (data, type, row) {
-                            var estado = row.estatus_pago;
-                            return `
-                        <button
-                            class="custom-button btn ${estado ? 'btn-success' : 'btn-warning'}"
-                            onclick="mostrarConfirmacion('${row.id}','${estado}')">
-                            ${estado ? 'Pagado' : 'Pendiente'}
-                        </button>`;
-                        }
-                    }
-                ],
-            });
-            //Creamos una fila en el head de la tabla y lo clonamos para cada columna
-            $('#example thead tr').clone(true).appendTo('#example thead');
-
-            $('#example thead tr:eq(1) th').each(function (i) {
-
-                if (i === 3) { // Verifica si es la última columna
-                    // Agrega una lista desplegable en lugar de un cuadro de búsqueda
-                    var select = $('<select><option value="">Todos</option><option value="1">Pagado</option><option value="0">Pendiente</option></select>')
-                        .appendTo(this)
-                        .on('change', function () {
-                            var val = $.fn.dataTable.util.escapeRegex(
-                                $(this).val()
-                            );
-
-                            table.column(i).search(val === '' ? '' : '^' + val + '$', true, false).draw(); // Aquí cambiamos i + 1 a i
-                        });
-
-                    select.click(function (e) {
-                        e.stopPropagation(); // Evita que el clic en la lista desplegable active la búsqueda
-                    });
-                } else {
-                    // Agrega un cuadro de búsqueda en las otras columnas
-                    $(this).html('<input type="text" placeholder="Search..." />');
-
-                    $('input', this).on('keyup change', function () {
-                        if (table.column(i + 1).search() !== this.value) {
-                            table
-                                .column(i + 1)
-                                .search(this.value)
-                                .draw();
-                        }
-                    });
-                }
-            });
-
-
-        });
-
-
-    </script> -->
-
-    <!-- <script>
-        var filterParams = {
-            comparator: (filterLocalDateAtMidnight, cellValue) => {
-                var dateAsString = cellValue;
-                if (dateAsString == null) return -1;
-                var dateParts = dateAsString.split('/');
-                var cellDate = new Date(
-                    Number(dateParts[2]),
-                    Number(dateParts[1]) - 1,
-                    Number(dateParts[0])
-                );
-
-                if (filterLocalDateAtMidnight.getTime() === cellDate.getTime()) {
-                    return 0;
-                }
-
-                if (cellDate < filterLocalDateAtMidnight) {
-                    return -1;
-                }
-
-                if (cellDate > filterLocalDateAtMidnight) {
-                    return 1;
-                }
-                return 0;
-            },
-        };
-
-        /** @type {(import('ag-grid-community').ColDef | import('ag-grid-community').ColGroupDef )[]} */
-        const columnDefs = [
-            { field: 'athlete' },
-            { field: 'age', filter: 'agNumberColumnFilter', maxWidth: 100 },
-            {
-                field: 'date',
-                filter: 'agDateColumnFilter',
-                filterParams: filterParams,
-            },
-            { field: 'country', filter: 'agSetColumnFilter' },
-            { field: 'sport', filter: 'agMultiColumnFilter' },
-            { field: 'gold', filter: 'agNumberColumnFilter' },
-            { field: 'silver', filter: 'agNumberColumnFilter' },
-            { field: 'bronze', filter: 'agNumberColumnFilter' },
-            { field: 'total', filter: false },
-        ];
-
-        /** @type {import('ag-grid-community').GridOptions} */
-        const gridOptions = {
-            columnDefs: columnDefs,
-            defaultColDef: {
-                flex: 1,
-                minWidth: 150,
-                filter: 'agTextColumnFilter',
-                menuTabs: ['filterMenuTab'],    
-            },
-        };
-
-        // setup the grid after the page has finished loading
-        document.addEventListener('DOMContentLoaded', function () {
-            var gridDiv = document.querySelector('#myGrid');
-            new agGrid.Grid(gridDiv, gridOptions);
-
-            fetch('https://www.ag-grid.com/example-assets/olympic-winners.json')
-                .then((response) => () => { response.json(); console.log(response.json()) })
-                .then((data) => gridOptions.api.setRowData(data));
-        });
-    </script> -->
-
-
     {% endblock %}
