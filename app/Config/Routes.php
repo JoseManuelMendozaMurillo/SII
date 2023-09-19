@@ -105,8 +105,6 @@ $routes->group(
         'filter' => 'group:recursos_financieros'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
     function ($routes) {
         $routes->get('aspirantes', 'Financieros::listAspirantes');
-        $routes->get('aspirantes-pagados', 'Financieros::listAspirantesPagados');
-        $routes->get('aspirantes-pendientes', 'Financieros::listAspirantesPendientes');
     }
 );
 
