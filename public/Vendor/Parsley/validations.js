@@ -25,7 +25,7 @@ export function customValidation() {
       var $input = $(this);
       $input.attr('data-parsley-trigger','keyup');
       $input.attr('data-parsley-minlength','4');
-      $input.attr('data-parsley-minlength-message','La contraseña debe tener al menos 8 caracteres');
+      $input.attr('data-parsley-minlength-message','La contraseña debe tener al menos 4 caracteres');
     });
   
   }

@@ -69,7 +69,7 @@ class Financieros extends BaseController
             return strcmp($a['name'], $b['name']);
         });
 
-        $percent = (float) 100 * $numAspPaymentPaid / ($numTotalAsp);
+        $percent = number_format(((100 * $numAspPaymentPaid) / $numTotalAsp), 2);
 
         $data = [
             'nombreModulo' => 'Recursos Financieros',
