@@ -152,8 +152,6 @@ $routes->group(
         $routes->get('curl', 'Pruebas::curl');
         $routes->post('getPokemon', 'Pruebas::getDataPokemon');
 
-        $routes->get('pdf', 'Pruebas::pdf');
-
         // Indice para administradores, para mayor conveniencia de usted y mia wink wink
         $routes->get('admindex', 'Pruebas::admindex');
 
@@ -168,6 +166,7 @@ $routes->group(
         $routes->get('superadmin', 'Pruebas::superadmin');
 
         $routes->get('testpost', 'Pruebas::testpost');
+        $routes->get('reticulas', 'Pruebas::reticulas');
     }
 );
 
