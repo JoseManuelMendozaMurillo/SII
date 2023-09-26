@@ -13,25 +13,40 @@ use CodeIgniter\HTTP\RedirectResponse;
 use App\Models\ServiciosEscolares\CarrerasModel;
 use App\Models\Aspirantes\AspiranteModel;
 use App\Libraries\Files;
-use App\Libraries\Thumbs;
 use App\Libraries\Emails;
+use App\Libraries\ExportPdf;
 use App\Models\RecursosFinancieros\InfoBancariaModel;
 use Exception;
-use Dompdf\Dompdf;
-use Dompdf\Options;
 
 class Aspirantes extends RegisterController
 {
     protected $aspirantesModel;
+    protected $user;
+    protected $bancoModel;
+    protected $bancoData;
+    protected $carrerasModel;
     protected $db;
+    protected $pdf;
     private array $tables;
+    private $aspirantesAux;
 
     public function __construct()
     {
         $this->aspirantesModel = new AspiranteModel();
+        $this->user = user_id(); // Toma el usuario logeado del servicio de autenticacion
+        $this->bancoModel = new InfoBancariaModel();
+        $this->bancoData = $this->bancoModel->getData();
+        $this->carrerasModel = new CarrerasModel();
+        $this->pdf = new ExportPdf();
         $this->tables = config('Auth')->tables;
         $this->db = db_connect();
+
+        $this->aspirantesAux = new AspirantesAux(
+            $this->aspirantesModel
+        );
     }
+
+    // PARA VIEWS
 
     /**
      * index
@@ -41,40 +56,22 @@ class Aspirantes extends RegisterController
      */
     public function index(): void
     {
-        $banco = new InfoBancariaModel();
-        $user = $this->aspirantesModel->findByUserId(user_id())->toArray();
-
-        $banco = new InfoBancariaModel();
-        $banco = $banco->getData();
-
-        $date = $user['fecha_nacimiento'];
-        $date_aux = substr($date, 2, 2) . substr($date, 5, 2) . substr($date, 8, 2);
-        $referencia = 'ITOCO'
-        . $user['no_solicitud']
-        . $user['apellido_paterno']
-        . str_replace(' ', '', $user['nombre'])
-        . $date_aux;
-        $referencia = strtoupper($referencia);
-        $estatusPago = $user['estatus_pago'] == '1' ? true : false;
+        $user_data = $this->aspirantesModel->getDataForIndex($this->user);
         $data = [
-            'fullName' => $user['nombre'] . ' '
-                        . $user['apellido_paterno'] . ' '
-                        . $user['apellido_materno'],
+            'fullName' => $user_data['fullname'],
+            'noSolicitude' => $user_data['no_solicitud'],
+            'pathPhoto' => $user_data['path_photo'],
+            'referencia' => $user_data['reference'],
+            'estatusPago' => $user_data['payment_status'],
 
-            'noSolicitude' => $user['no_solicitud'],
-            // 'pathPhoto' => config('Paths')->accessPhotosAspirantes . '/205//thumbs/' . 'FotoAspirante_64f827c7cbe2d.jpeg',
-            'pathPhoto' => config('Paths')->accessPhotosAspirantes . '/test.png',
-            'banco' => $banco['banco'],
-            'sucursal' => $banco['sucursal'],
-            'cuenta' => $banco['cuenta'],
+            'banco' => $this->bancoData['banco'],
+            'sucursal' => $this->bancoData['sucursal'],
+            'cuenta' => $this->bancoData['cuenta'],
+            'montoPagar' => $this->bancoData['costo_examen'] . '.00',
 
-            'montoPagar' => $banco['costo_examen'] . '.00',
-
-            'referencia' => $referencia,
-            'estatusPago' => $estatusPago,
         ];
 
-        if ($estatusPago) {
+        if ($user_data['payment_status']) {
             $this->twig->display('Aspirantes/modulo_pagado', $data);
 
             return;
@@ -82,6 +79,115 @@ class Aspirantes extends RegisterController
 
         $this->twig->display('Aspirantes/modulo-aspirantes', $data);
     }
+
+    /**
+     * getFichaAspirante
+     * Genera un PDF con los los datos de la ficha de solicitud del aspirante
+     */
+    public function getFichaAspirante()
+    {
+        $id = (string) $this->request->getPost('id');
+
+        // $user = $this->aspirantesModel->findByUserId($id)->toArray();
+        $user_data = $this->aspirantesModel->getDataForFicha($id);
+
+        $carrera = new CarrerasModel();
+
+        $data = [
+            'fullName' => $user_data['fullname'],
+            'curp' => $user_data['curp'],
+            'noSolicitude' => $user_data['no_solicitud'],
+            'nip' => $user_data['nip'],
+            'firstOption' => $carrera->getNameById($user_data['first_option']),
+            'pathPhoto' => $user_data['path_photo'],
+        ];
+
+        $template = 'Aspirantes/pdf_templates/pdf_aspirantes';
+        $fileName = 'ficha_' . $user_data['no_solicitud'] . '.pdf';
+
+        $pdfContent = $this->pdf->exportPdf($template, $data, $fileName);
+
+        // Enviar la respuesta al cliente
+        return $this->response->setStatusCode(200)
+                              ->setBody($pdfContent)
+                              ->setHeader('Content-Type', 'application/pdf')
+                              ->setHeader('Content-Disposition', 'inline; filename="' . $fileName . '"')
+                              ->setHeader('Cache-Control', 'max-age=0');
+    }
+
+    /**
+     * getReciboAspirante
+     * Genera un PDF con los los datos del recibo del aspirante
+     */
+    public function getReciboAspirante()
+    {
+        $user_data = $this->aspirantesModel->getDataForRecibo($this->user);
+
+        $data = [
+
+            'banco' => $this->bancoData['banco'],
+            'sucursal' => $this->bancoData['sucursal'],
+            'cuenta' => $this->bancoData['cuenta'],
+            'montoPagar' => '$' . $this->bancoData['costo_examen'] . '.00',
+
+            'referencia' => $user_data['reference'],
+
+        ];
+
+        $template = 'Aspirantes/pdf_templates/pdf_recibo_pago';
+        $fileName = 'recibo_' . $user_data['no_solicitud'] . '.pdf';
+
+        $pdfContent = $this->pdf->exportPdf($template, $data, $fileName);
+
+        // Enviar la respuesta al cliente
+        return $this->response->setStatusCode(200)
+                              ->setBody($pdfContent)
+                              ->setHeader('Content-Type', 'application/pdf')
+                              ->setHeader('Content-Disposition', 'inline; filename="' . $fileName . '"')
+                              ->setHeader('Cache-Control', 'max-age=0');
+    }
+
+    /**
+     * getDatosASpirante
+     * Manda datos a la vista de de aspirante
+     */
+    public function getDatosAspirante()
+    {
+        // PENDIENTE: Asignar el id por medio de post y mandar datos a la vista
+
+        // $id = $this->request->getPost('id');
+        $user_data = $this->aspirantesModel->getData($this->user);
+
+        // $user = $this->aspirantesModel->find(1)->toArray();
+
+        $banco = new InfoBancariaModel();
+        $banco = $banco->getDataForIndex();
+        $data = [
+            'fullName' => $user_data['fullname'],
+            'noSolicitude' => $user_data['no_solicitud'],
+            'pathPhoto' => $user_data['path_photo'],
+            'referencia' => $user_data['reference'],
+
+            'banco' => $this->bancoData['banco'],
+            'sucursal' => $this->bancoData['sucursal'],
+            'cuenta' => $this->bancoData['cuenta'],
+            'costo_examen' => $this->bancoData['costo_examen'],
+
+        ];
+
+        d($data);
+    }
+
+    public function pagadoModulo(): void
+    {
+        $esAcreditado = true; // Puedes cambiar esto según tu lógica\
+
+        $this->twig->display('Aspirantes/modulo_pagado', [
+            'esAcreditado' => $esAcreditado,
+        ]);
+    }
+
+    // OPERACIONES EN DB
 
     /**
      * formRegister
@@ -143,10 +249,10 @@ class Aspirantes extends RegisterController
         try {
             // Generamos un número de solicutud para el nuevo registro
             $lastNoSolicitude = $this->aspirantesModel->getLastNoSolicutude();
-            $newNoSolicitude = $this->createNoSolicitude($lastNoSolicitude);
+            $newNoSolicitude = $this->aspirantesAux->createNoSolicitude($lastNoSolicitude);
 
             // Generamos un nip para el nuevo registro
-            $newNip = $this->createNip();
+            $newNip = $this->aspirantesAux->createNip();
 
             // Creamos un usuario para el aspirante
             $user = $this->createUserAspirante($newNoSolicitude, $newNip);
@@ -156,7 +262,6 @@ class Aspirantes extends RegisterController
 
             // Enviamos el correo con la informacion de inicio sesion al aspirante
             // Obtención de datos para generar el correo
-            $carrerasModel = new CarrerasModel();
             $idCarrera = $dataAspirante['carrera_primera_opcion'];
             $pathPhoto = config('Paths')->accessPhotosAspirantes . '/' . $user->id . '/' . $dataAspirante['imagen'];
             $dataEmail = [
@@ -167,10 +272,12 @@ class Aspirantes extends RegisterController
                     'noSolicitude' => $newNoSolicitude,
                     'nip' => $newNip,
                     'foto' => $pathPhoto,
-                    'carrera' => $carrerasModel->getNameById($idCarrera),
+                    'carrera' => $this->carrerasModel->getNameById($idCarrera),
                     'anoIngreso' => date('Y'),
                 ],
             ];
+
+            // TODO: Convertir esto en libreria para poder reutilizarlo
             // Enviamos el correo
             $emails = new Emails();
             $addressee = $dataAspirante['email'];
@@ -197,7 +304,7 @@ class Aspirantes extends RegisterController
             $data = [
                 'nombre' => $nombre,
                 'curp' => $dataAspirante['curp'],
-                'carrera' => $carrerasModel->getNameById($idCarrera),
+                'carrera' => $this->carrerasModel->getNameById($idCarrera),
                 'foto' => $pathPhoto,
                 'idUser' => $user->id,
             ];
@@ -307,70 +414,6 @@ class Aspirantes extends RegisterController
     }
 
     /**
-     * createNoSolicitude
-     * Funcion para crear un nuevo numero de solicitud
-     *
-     * @param string $lastNoSolicitude -> Ultimo numero de solicitud
-     *
-     * @throws Exception -> Se lanzan si $lastNoSolicitude no es un número
-     *                   -> o si el nuevo número de solicitud excede el formato de 4 numeros
-     *
-     * @return string $newNoSolicitude -> Nuevo número de solicitud
-     */
-    private function createNoSolicitude(string $lastNoSolicitude): string
-    {
-        // Verificamos que la cadena sea un número
-        if (!is_numeric($lastNoSolicitude)) {
-            throw new Exception('El ultimo numero de solicitud no es un número');
-        }
-
-        // Convertirmos a int la cadena
-        $lastNoSolicitude = (int) $lastNoSolicitude;
-
-        // Creamos el nuevo número de solicitud
-        $newNoSolicitude = $lastNoSolicitude + 1;
-
-        // Verificamos que el nuevo numero de solicitud no exceda el formato de 4 números
-        if ($newNoSolicitude > 9999) {
-            throw new Exception('El nuevo número de solicutud excede el formato de 4 números');
-        }
-
-        // Le damos formato de 4 numeros al nuevo número de solicitud}
-        $newNoSolicitude = str_pad($newNoSolicitude, 4, '0', STR_PAD_LEFT);
-
-        // Hace falta asegurarse de que no el no solicitud sea unico
-        return $newNoSolicitude;
-    }
-
-    /**
-     * createNip
-     * Funcion para crear un nuevo nip
-     *
-     * @return string $newNip -> Nuevo nip
-     */
-    private function createNip(): string
-    {
-        // Crear un arreglo con los números del 0 al 9
-        $nums = range(0, 9);
-
-        // Obtener una lista con todos los nips
-        $listNips = $this->aspirantesModel->getListNips();
-
-        do {
-            // Barajar el arreglo
-            shuffle($nums);
-
-            // Obtenemos los indices desde los cuales se tomaran los numeros para el nuevo nip
-            $index = rand(0, 6);
-
-            // Crear el nip
-            $newNip = implode(array_slice($nums, $index, 4));
-        } while (in_array($newNip, $listNips));
-
-        return $newNip;
-    }
-
-    /**
      * createUserAspirante
      * Funcion para crear y registrar el usuario del nuevo aspirante para que pueda iniciar sesion
      *
@@ -445,7 +488,7 @@ class Aspirantes extends RegisterController
      */
     private function insertDataAspirante(User $user, string $noSolicitude, string $nip): array
     {
-        $namePhoto = $this->createThumbPhotoAspirante($user->id);
+        $namePhoto = $this->aspirantesAux->createThumbPhotoAspirante($user->id, $this->request->getFile('foto'));
 
         // Creamos el arreglo de datos con la información del aspirante que se insertara
         $data = [
@@ -518,41 +561,7 @@ class Aspirantes extends RegisterController
         return $data;
     }
 
-    /**
-     * createThumbPhotoAspirante
-     * Función para guardar la foto del aspirante y crear un thumb de ella
-     *
-     * @param string $userId -> Se utiliza como nombre de la carpeta donde estaran todas las fotos
-     *
-     * @throws Exception -> Se lanza si el archivo que subio el usuario como foto no es un archivo de imagen
-     *                   -> Se lanza si hay un error al guardar la imagen o crear el thumb de esta
-     *
-     * @return string $fullNamePhoto -> Retorna el nombre de la foto junto con la extension de la imagen
-     */
-    private function createThumbPhotoAspirante(string $userId): string
-    {
-        // Obtenemos el archivo
-        $photoAspirante = $this->request->getFile('foto');
-
-        // Verificamos que el archivo sea valido
-        if (!$photoAspirante->isValid()) {
-            throw new Exception('La foto del aspirante no tiene el formato valido');
-        }
-
-        // Obtenemos información de la imagen
-        $pathPhoto = $photoAspirante->getTempName();
-        $typePhoto = $photoAspirante->getExtension();
-        $namePhoto = uniqid('FotoAspirante_');
-
-        // Creamos el thumb y guardamos la imagen
-        $dirImg = config('Paths')->photoAspiranteDirectory . '/' . $userId . '/';
-        $thumbs = new Thumbs($dirImg);
-        if (!$thumbs->createThumbs($pathPhoto, $namePhoto, $typePhoto, 200, 200, 200)) {
-            throw new Exception('No se pudo crear el thumb para la foto del aspirante');
-        }
-
-        return $namePhoto . '.' . $typePhoto;
-    }
+    // UTILIDADES DEL CONTROLLER
 
     /**
      * Returns the User provider
@@ -628,146 +637,5 @@ class Aspirantes extends RegisterController
                 ],
             ],
         ];
-    }
-
-    public function pagadoModulo(): void
-    {
-        $esAcreditado = true; // Puedes cambiar esto según tu lógica\
-
-        $this->twig->display('Aspirantes/modulo_pagado', [
-            'esAcreditado' => $esAcreditado,
-        ]);
-    }
-
-    /**
-     * exportPdf
-     * Función para exportar documentos HTML a PDF
-     *
-     * @return Response
-     */
-    public function exportPdf($template, $data, $fileName)
-    {
-        $options = new Options();
-        $options->setChroot(FCPATH);
-        $options->setDefaultFont('Inter');
-        $options->setIsRemoteEnabled(true);
-
-        $html = $this->twig->render($template, $data);
-        $dompdf = new Dompdf($options);
-        $dompdf->loadHtml($html);
-        $dompdf->render();
-
-        $pdfContent = $dompdf->output();
-
-        // Enviar la respuesta al cliente
-        return $this->response->setStatusCode(200)
-                              ->setBody($pdfContent)
-                              ->setHeader('Content-Type', 'application/pdf')
-                              ->setHeader('Content-Disposition', 'inline; filename="' . $fileName . '"')
-                              ->setHeader('Cache-Control', 'max-age=0');
-    }
-
-    /**
-     * getFichaAspirante
-     * Genera un PDF con los los datos de la ficha de solicitud del aspirante
-     */
-    public function getFichaAspirante()
-    {
-        $id = (string) $this->request->getPost('id');
-
-        $user = $this->aspirantesModel->findByUserId($id)->toArray();
-        $carrera = new CarrerasModel();
-
-        $data = [
-            'fullName' => $user['nombre'] . ' '
-                        . $user['apellido_paterno'] . ' '
-                        . $user['apellido_materno'],
-            'curp' => $user['curp'],
-            'noSolicitude' => $user['no_solicitud'],
-            'nip' => $user['nip'],
-            'firstOption' => $carrera->getNameById($user['carrera_primera_opcion']),
-            'pathPhoto' => config('Paths')->accessPhotosAspirantes . '/' . $user['user_id'] .
-                           '/' . $user['imagen'],
-        ];
-
-        $template = 'Aspirantes/pdf_templates/pdf_aspirantes';
-        $fileName = 'ficha_' . $user['no_solicitud'] . '.pdf';
-
-        return $this->exportPdf($template, $data, $fileName);
-    }
-
-    public function getReciboAspirante()
-    {
-        $banco = new InfoBancariaModel();
-        $user = $this->aspirantesModel->findByUserId(user_id())->toArray();
-
-        $banco = new InfoBancariaModel();
-        $banco = $banco->getData();
-
-        $date = $user['fecha_nacimiento'];
-        $date_aux = substr($date, 2, 2) . substr($date, 5, 2) . substr($date, 8, 2);
-        $referencia = 'ITOCO'
-        . $user['no_solicitud']
-        . $user['apellido_paterno']
-        . str_replace(' ', '', $user['nombre'])
-        . $date_aux;
-        $referencia = strtoupper($referencia);
-        $data = [
-
-            'banco' => $banco['banco'],
-            'sucursal' => $banco['sucursal'],
-            'cuenta' => $banco['cuenta'],
-
-            'montoPagar' => '$' . $banco['costo_examen'] . '.00',
-
-            'referencia' => $referencia,
-
-        ];
-
-        $template = 'Aspirantes/pdf_templates/pdf_recibo_pago';
-        $fileName = 'recibo_' . $user['no_solicitud'] . '.pdf';
-
-        return $this->exportPdf($template, $data, $fileName);
-    }
-
-    /**
-     * getDatosASpirante
-     * Manda datos a la vista de de aspirante
-     */
-    public function getDatosAspirante()
-    {
-        // PENDIENTE: Asignar el id por medio de post y mandar datos a la vista
-
-        // $id = $this->request->getPost('id');
-        $user = $this->aspirantesModel->find(1)->toArray();
-
-        $banco = new InfoBancariaModel();
-        $banco = $banco->getData();
-
-        $date = $user['fecha_nacimiento'];
-        $date_aux = substr($date, 2, 2) . substr($date, 5, 2) . substr($date, 8, 2);
-        $data = [
-            'fullName' => $user['nombre'] . ' '
-                        . $user['apellido_paterno'] . ' '
-                        . $user['apellido_materno'],
-
-            'noSolicitude' => $user['no_solicitud'],
-            'pathPhoto' => config('Paths')->accessPhotosAspirantes . '/' . 'test.png',
-
-            'banco' => $banco['banco'],
-            'sucursal' => $banco['sucursal'],
-            'cuenta' => $banco['cuenta'],
-
-            'costo_examen' => $banco['costo_examen'],
-
-            'referencia' => 'ITOCO'
-                            . $user['no_solicitud']
-                            . $user['apellido_paterno']
-                            . $user['nombre']
-                            . $date_aux,
-
-        ];
-
-        d($data);
     }
 }

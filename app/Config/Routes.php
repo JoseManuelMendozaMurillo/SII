@@ -101,8 +101,8 @@ $routes->group(
 // Rutas de servicios financieros
 $routes->group(
     'financieros',
-    ['namespace' => 'App\Controllers\Financieros',
-        'filter' => 'group:recursos_financieros'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
+    ['namespace' => 'App\Controllers\Financieros'],
+    // 'filter' => 'group:recursos_financieros'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
     function ($routes) {
         $routes->get('aspirantes', 'Financieros::listAspirantes');
         $routes->get('aspirantes-pagados', 'Financieros::listAspirantesPagados');
