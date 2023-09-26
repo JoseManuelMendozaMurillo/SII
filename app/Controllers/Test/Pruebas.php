@@ -278,6 +278,6 @@ class Pruebas extends BaseController
 
     public function reticulas()
     {
-        $this->twig->display('Test/reticulas');
+        $this->twig->display('Test/Reticulas/reticulas');
     }
 }
