@@ -5,8 +5,6 @@ namespace App\Controllers\Aspirantes;
 use CodeIgniter\HTTP\Response;
 use App\Entities\Aspirantes\Aspirante;
 use CodeIgniter\Shield\Entities\User;
-use App\Models\Aspirantes\UserModelAspirantes;
-use CodeIgniter\Shield\Models\UserModel;
 use CodeIgniter\Shield\Exceptions\ValidationException;
 use CodeIgniter\Shield\Controllers\RegisterController;
 use CodeIgniter\HTTP\RedirectResponse;
@@ -42,7 +40,8 @@ class Aspirantes extends RegisterController
         $this->db = db_connect();
 
         $this->aspirantesAux = new AspirantesAux(
-            $this->aspirantesModel
+            $this->aspirantesModel,
+            $this->tables,
         );
     }
 
@@ -108,6 +107,7 @@ class Aspirantes extends RegisterController
         $pdfContent = $this->pdf->exportPdf($template, $data, $fileName);
 
         // Enviar la respuesta al cliente
+
         return $this->response->setStatusCode(200)
                               ->setBody($pdfContent)
                               ->setHeader('Content-Type', 'application/pdf')
@@ -335,32 +335,7 @@ class Aspirantes extends RegisterController
      */
     public function delete(string $userId): void
     {
-        // Iniciamos una transacción
-        $this->db->transStart();
-
-        try {
-            $users = auth()->getProvider();
-
-            //Borrar el aspirante de la BD
-            $aspirante = $this->aspirantesModel->where('user_id', $userId)->first();
-            $this->aspirantesModel->delete($aspirante->id_aspirante);
-
-            if (!$users->delete($userId)) {
-                throw new Exception('Hubo un error al intentar eliminar al aspirante de las tablas de usuarios');
-            }
-
-            // Si todo salio bien, confirmamos la transacción
-            $this->db->transCommit();
-
-            // Retornamos vista de exito
-            d('Aspirante eliminado');
-        } catch (Exception $e) {
-            // Hacemos un rollback para no romper la integridad de los datos
-            $this->db->transRollback();
-
-            // Mostrar la vista de error en el back
-            dd('Error: ' . $e->getMessage());
-        }
+        $this->aspirantesModel->deleteAspirante($userId);
     }
 
     /**
@@ -426,7 +401,7 @@ class Aspirantes extends RegisterController
      */
     private function createUserAspirante(string $noSolicitude, string $nip): User
     {
-        $users = $this->getUserProvider();
+        $users = $this->aspirantesAux->getUserProvider();
 
         // Obtener datos necesarios para crear al usuario como aspirante
         $name = $this->request->getPost('nombre');
@@ -441,7 +416,7 @@ class Aspirantes extends RegisterController
         ];
 
         // Obtenemos las reglas de validacion
-        $rules = $this->getValidationRules();
+        $rules = $this->aspirantesAux->getValidationRules();
 
         // Si los datos no pasan la validación salta una excepción
         if (!$this->validateData($dataAspirante, $rules, [], config('Auth')->DBGroup)) {
@@ -562,80 +537,4 @@ class Aspirantes extends RegisterController
     }
 
     // UTILIDADES DEL CONTROLLER
-
-    /**
-     * Returns the User provider
-     */
-    protected function getUserProvider(): UserModelAspirantes
-    {
-        $provider = new UserModelAspirantes();
-
-        assert($provider instanceof UserModel, 'Config Auth.userProvider is not a valid UserProvider.');
-
-        return $provider;
-    }
-
-    /**
-     * getValidationRules
-     * Función que devuelve un array con una lista de reglas para validar los datos para crear el nuevo usuario del
-     * aspirante
-     *
-     * @return array<string, array<string, array<string>|string>>
-     */
-    protected function getValidationRules(): array
-    {
-        $registrationUsernameRules = array_merge(
-            config('AuthSession')->usernameValidationRules,
-            [sprintf('is_unique[%s.username]', $this->tables['users'])]
-        );
-        $registrationNoSolicitude = array_merge(
-            config('AuthSession')->noSolicitudeValidationRules,
-            [sprintf('is_unique[%s.secret]', $this->tables['identities'])]
-        );
-
-        return setting('Validation.registration') ?? [
-            'username' => [
-                'label' => 'Auth.username',
-                'rules' => $registrationUsernameRules,
-                'errors' => [
-                    'required' => 'El nombre de usuario es requerido',
-                    'max_length' => 'El nombre de usuario no puede tener más de 30 caracteres',
-                    'min_length' => 'El nombre de usuario no puede tener menos de 3 caracteres',
-                    'regex_match' => 'El nombre de usuario contiene caracteres inválidos',
-                    'is_unique' => 'El nombre de usuario ya está en uso',
-                ],
-            ],
-            // Número de solicitud
-            'email' => [
-                'label' => 'Auth.noSolicitud',
-                'rules' => $registrationNoSolicitude,
-                'errors' => [
-                    'required' => 'El número de solicitud es requerido',
-                    'numeric' => 'El número de solicitud solo puede contener dígitos',
-                    'exact_length' => 'El número de solicitud debe tener 4 dígitos',
-                    'is_unique' => 'El número de solicitud ya está en uso',
-                ],
-            ],
-            // Nip
-            'password' => [
-                'label' => 'Auth.nip',
-                'rules' => 'required|exact_length[4]|numeric',
-                'errors' => [
-                    'max_byte' => 'Auth.errorPasswordTooLongBytes',
-                    'required' => 'El nip es requerido',
-                    'numeric' => 'El nip solo puede contener dígitos',
-                    'exact_length' => 'El nip debe tener 4 dígitos',
-                ],
-            ],
-            // Confirmar nip
-            'password_confirm' => [
-                'label' => 'Auth.nipConfirm',
-                'rules' => 'required|matches[password]',
-                'errors' => [
-                    'required' => 'Debe repetir el campo nip',
-                    'matches' => 'El nip no coincide',
-                ],
-            ],
-        ];
-    }
 }

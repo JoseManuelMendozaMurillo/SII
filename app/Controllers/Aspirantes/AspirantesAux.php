@@ -5,16 +5,23 @@ namespace App\Controllers\Aspirantes;
 use Exception;
 // use CodeIgniter\Shield\Entities\User;
 use App\Libraries\Thumbs;
+use App\Models\Aspirantes\UserModelAspirantes;
+use CodeIgniter\Shield\Models\UserModel;
 
+// Clase auxiliar para el controller de Aspirantes
+// Funciones que no interactuan con la base de datos necesariamente, ahorramos espacion en
+// el controller
 class AspirantesAux
 {
     private $model;
     private $validationRules;
     private $userProvider;
+    private $tables;
 
-    public function __construct($model)
+    public function __construct($model, $tables)
     {
         $this->model = $model;
+        $this->tables = $tables;
     }
 
     /**
@@ -115,5 +122,81 @@ class AspirantesAux
         }
 
         return $namePhoto . '.' . $typePhoto;
+    }
+
+    /**
+     * getValidationRules
+     * Función que devuelve un array con una lista de reglas para validar los datos para crear el nuevo usuario del
+     * aspirante
+     *
+     * @return array<string, array<string, array<string>|string>>
+     */
+    public function getValidationRules(): array
+    {
+        $registrationUsernameRules = array_merge(
+            config('AuthSession')->usernameValidationRules,
+            [sprintf('is_unique[%s.username]', $this->tables['users'])]
+        );
+        $registrationNoSolicitude = array_merge(
+            config('AuthSession')->noSolicitudeValidationRules,
+            [sprintf('is_unique[%s.secret]', $this->tables['identities'])]
+        );
+
+        return setting('Validation.registration') ?? [
+            'username' => [
+                'label' => 'Auth.username',
+                'rules' => $registrationUsernameRules,
+                'errors' => [
+                    'required' => 'El nombre de usuario es requerido',
+                    'max_length' => 'El nombre de usuario no puede tener más de 30 caracteres',
+                    'min_length' => 'El nombre de usuario no puede tener menos de 3 caracteres',
+                    'regex_match' => 'El nombre de usuario contiene caracteres inválidos',
+                    'is_unique' => 'El nombre de usuario ya está en uso',
+                ],
+            ],
+            // Número de solicitud
+            'email' => [
+                'label' => 'Auth.noSolicitud',
+                'rules' => $registrationNoSolicitude,
+                'errors' => [
+                    'required' => 'El número de solicitud es requerido',
+                    'numeric' => 'El número de solicitud solo puede contener dígitos',
+                    'exact_length' => 'El número de solicitud debe tener 4 dígitos',
+                    'is_unique' => 'El número de solicitud ya está en uso',
+                ],
+            ],
+            // Nip
+            'password' => [
+                'label' => 'Auth.nip',
+                'rules' => 'required|exact_length[4]|numeric',
+                'errors' => [
+                    'max_byte' => 'Auth.errorPasswordTooLongBytes',
+                    'required' => 'El nip es requerido',
+                    'numeric' => 'El nip solo puede contener dígitos',
+                    'exact_length' => 'El nip debe tener 4 dígitos',
+                ],
+            ],
+            // Confirmar nip
+            'password_confirm' => [
+                'label' => 'Auth.nipConfirm',
+                'rules' => 'required|matches[password]',
+                'errors' => [
+                    'required' => 'Debe repetir el campo nip',
+                    'matches' => 'El nip no coincide',
+                ],
+            ],
+        ];
+    }
+
+    /**
+    * Returns the User provider
+    */
+    public function getUserProvider(): UserModelAspirantes
+    {
+        $provider = new UserModelAspirantes();
+
+        assert($provider instanceof UserModel, 'Config Auth.userProvider is not a valid UserProvider.');
+
+        return $provider;
     }
 }

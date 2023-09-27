@@ -355,9 +355,15 @@ class AspiranteModel extends Model
 
     public function getPhotoPath(Aspirante $aspirante): string
     {
-        $pathPhotos = config('Paths')->accessPhotosAspirantes . '/';
+        $pathPhotos = config('Paths')->accessPhotosAspirantes
+        . '/'
+        . $aspirante->user_id
+        . '/'
+        . $aspirante->imagen;
 
-        return $pathPhotos . $aspirante->user_id;
+        // dd($pathPhotos);
+
+        return $pathPhotos;
     }
 
     public function getCurp(Aspirante $aspirante): string
@@ -419,5 +425,35 @@ class AspiranteModel extends Model
         ];
 
         return $data;
+    }
+
+    public function deleteAspirante($userId)
+    {
+        // Iniciamos una transacción
+        $this->db->transStart();
+
+        try {
+            $users = auth()->getProvider();
+
+            //Borrar el aspirante de la BD
+            $aspirante = $this->aspirantesModel->where('user_id', $userId)->first();
+            $this->aspirantesModel->delete($aspirante->id_aspirante);
+
+            if (!$users->delete($userId)) {
+                throw new Exception('Hubo un error al intentar eliminar al aspirante de las tablas de usuarios');
+            }
+
+            // Si todo salio bien, confirmamos la transacción
+            $this->db->transCommit();
+
+            // Retornamos vista de exito
+            d('Aspirante eliminado');
+        } catch (Exception $e) {
+            // Hacemos un rollback para no romper la integridad de los datos
+            $this->db->transRollback();
+
+            // Mostrar la vista de error en el back
+            dd('Error: ' . $e->getMessage());
+        }
     }
 }
