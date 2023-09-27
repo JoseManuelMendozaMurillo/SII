@@ -20,11 +20,13 @@ class Aspirantes extends RegisterController
 {
     protected $aspirantesModel;
     protected $user;
+    protected $userId;
     protected $bancoModel;
     protected $bancoData;
     protected $carrerasModel;
     protected $db;
     protected $pdf;
+    protected $emails;
     private array $tables;
     private $aspirantesAux;
 
@@ -36,6 +38,7 @@ class Aspirantes extends RegisterController
         $this->bancoData = $this->bancoModel->getData();
         $this->carrerasModel = new CarrerasModel();
         $this->pdf = new ExportPdf();
+        $this->emails = new Emails();
         $this->tables = config('Auth')->tables;
         $this->db = db_connect();
 
@@ -105,6 +108,8 @@ class Aspirantes extends RegisterController
         $fileName = 'ficha_' . $user_data['no_solicitud'] . '.pdf';
 
         $pdfContent = $this->pdf->exportPdf($template, $data, $fileName);
+        $message = 'Aspirant application PDF file generated {"user_id": "' . $id . '"}';
+        log_message('info', $message);
 
         // Enviar la respuesta al cliente
 
@@ -138,6 +143,9 @@ class Aspirantes extends RegisterController
         $fileName = 'recibo_' . $user_data['no_solicitud'] . '.pdf';
 
         $pdfContent = $this->pdf->exportPdf($template, $data, $fileName);
+
+        $message = 'Aspirant bank record PDF file generated {"user_id": "' . $this->user . '"}';
+        log_message('info', $message);
 
         // Enviar la respuesta al cliente
         return $this->response->setStatusCode(200)
@@ -279,16 +287,24 @@ class Aspirantes extends RegisterController
 
             // TODO: Convertir esto en libreria para poder reutilizarlo
             // Enviamos el correo
-            $emails = new Emails();
+
             $addressee = $dataAspirante['email'];
             $subject = '¡Felicidades por inscribirte al Tecnológico de Ocotlán!';
             $htmlEmail = $this->twig->render('Correos/email', $dataEmail);
-            if (!$emails->sendHtmlEmail($addressee, $subject, $htmlEmail)) {
+            if (!$this->emails->sendHtmlEmail($addressee, $subject, $htmlEmail)) {
+                $message = 'Aspirant registration email failed to be sent {"user_id": "' . $this->userId . '"}';
+                log_message('error', $message);
+
+                // TODO: Crear excepcion custom para correos
                 throw new Exception('Ha ocurrido un error al intentar enviar el correo');
             }
+            $message = 'Aspirant registration email sent successfully {"user_id": "' . $this->userId . '", "email": "' . $addressee . '"}';
+            log_message('info', $message);
 
             // Si todo está bien, confirmar la transacción
             $this->db->transCommit();
+            $message = 'Aspirant successfull registration in DB {"user_id": "' . $this->userId . '"}';
+            log_message('info', $message);
 
             // Mostramos la vista de exito
             $nombre = implode(
@@ -313,12 +329,16 @@ class Aspirantes extends RegisterController
         } catch (Exception $e) {
             // Si hay un error se realizara un rollback
             $this->db->transRollback();
+            $message = 'Aspirant unsuccessful registration in DB, rolling back {"user_id": "' . $this->user . '"}';
+            log_message('error', $message);
 
             // Eliminar las fotos del aspirante si no se termino el proceso
             if (isset($user)) {
                 $dirPhotosAspirantes = config('Paths')->photoAspiranteDirectory . '/' . $user->id;
                 $files = new Files();
                 $files->deleteDir($dirPhotosAspirantes);
+                $message = 'Aspirant photo deletion because unsuccessfull registration {"user_id": "' . $this->user . '", "path": "' . $dirPhotosAspirantes . '"}';
+                log_message('error', $message);
             }
 
             $this->twig->display('errors/error500');
@@ -336,6 +356,8 @@ class Aspirantes extends RegisterController
     public function delete(string $userId): void
     {
         $this->aspirantesModel->deleteAspirante($userId);
+        $message = 'Aspirant deletion from DB {"user_id": "' . $userId . '"}';
+        log_message('info', $message);
     }
 
     /**
@@ -380,7 +402,11 @@ class Aspirantes extends RegisterController
             if (!$this->aspirantesModel->changeStatusPayment($idAspirante, $status)) {
                 // Si el registro no se actualizo, lanzamos una excepcion
                 throw new Exception('El registro no se pudo actualizar', 500);
+                $message = 'Aspirant payment status couldnt be changed {"user_id": "' . $idAspirante . '", "payment_status": "' . $status . '"}';
+                log_message('error', $message);
             }
+            $message = 'Aspirant payment status changed {"user_id": "' . $idAspirante . '", "payment_status": "' . $status . '"}';
+            log_message('info', $message);
 
             return $this->response->setStatusCode(200)->setJSON(['success' => true]);
         } catch (Exception $e) {
@@ -431,8 +457,13 @@ class Aspirantes extends RegisterController
 
         try {
             $users->save($user);
+            $this->userId = $users->getInsertID();
+            $message = 'New user for aspirant created successfully {"user_id": "' . $this->userId . '"}';
+            log_message('info', $message);
         } catch (ValidationException $e) {
             $errors = $users->errors();
+            $message = 'User couldnt be created {"error": "' . $errors . '"}';
+            log_message('error', $message);
 
             throw new Exception($errors[array_key_first($errors)]);
         }
@@ -442,9 +473,13 @@ class Aspirantes extends RegisterController
 
         // Agregamos al nuevo usuario al grupo aspirantes
         $user->addGroup('aspirante');
+        $message = 'User added to "aspirantes" group {"user_id": "' . $user->id . '"}';
+        log_message('info', $message);
 
         // Activamos el nuevo usuario
         $user->activate();
+        $message = 'User activated {"user_id": "' . $user->id . '"}';
+        log_message('info', $message);
 
         return $user;
     }
@@ -530,8 +565,14 @@ class Aspirantes extends RegisterController
         $aspirante = new Aspirante($data);
 
         if (!$this->aspirantesModel->save($aspirante)) {
+            $message = 'User data couldnt be saved {"user_id": "' . $user->id . '"}';
+            log_message('error', $message);
+
             throw new Exception('Hubo un error al intentar guardar los datos del aspirante en la base de datos');
         }
+
+        $message = 'User data saved successfully {"user_id": "' . $user->id . '"}';
+        log_message('error', $message);
 
         return $data;
     }

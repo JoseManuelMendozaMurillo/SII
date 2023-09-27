@@ -118,8 +118,13 @@ class AspirantesAux
         $dirImg = config('Paths')->photoAspiranteDirectory . '/' . $userId . '/';
         $thumbs = new Thumbs($dirImg);
         if (!$thumbs->createThumbs($pathPhoto, $namePhoto, $typePhoto, 200, 200, 200)) {
+            $message = 'Aspirant photo couldnt be uploaded nor thumb generated {"user_id": "' . $userId . '"}, {"path_photo: "' . $dirImg . '"}';
+            log_message('error', $message);
+
             throw new Exception('No se pudo crear el thumb para la foto del aspirante');
         }
+        $message = 'Aspirant photo uploaded and thumb generated {"user_id": "' . $userId . '"}, {"path_photo: "' . $dirImg . '"}';
+        log_message('info', $message);
 
         return $namePhoto . '.' . $typePhoto;
     }
