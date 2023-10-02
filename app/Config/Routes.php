@@ -188,6 +188,18 @@ $routes->group(
     }
 );
 
+// Rutas para modulo de reticulas (test, dev)
+$routes->group(
+    'reticulas',
+    ['namespace' => 'App\Controllers\Reticulas'],
+    function ($routes) {
+        $routes->get('reticula', 'Reticulas::reticulas');
+        $routes->get('asignatura', 'Asignaturas::asignatura');
+        $routes->get('especialidad', 'Especialidades::especialidad');
+        $routes->get('carrera', 'Carreras::carrera');
+    }
+);
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing
