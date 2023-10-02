@@ -3,15 +3,21 @@
 namespace App\Controllers\Reticulas;
 
 use App\Controllers\BaseController;
-use App\Models\Aspirantes\AspiranteModel;
-use CodeIgniter\HTTP\Response;
-use PHPUnit\Framework\MockObject\Stub\ReturnReference;
+use App\Models\Reticulas\AsignaturaModel;
 
 class Asignaturas extends BaseController
 {
+    protected $asignaturaModel;
+
+    public function __construct()
+    {
+        $this->asignaturaModel = new AsignaturaModel();
+    }
+
     public function asignatura()
     {
-        return 'hola asignaturas';
+        $asignatura = $this->asignaturaModel->find();
+        dd($asignatura);
     }
 
     public function index()
