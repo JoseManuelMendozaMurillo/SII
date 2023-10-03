@@ -1,0 +1,22 @@
+[0;1;32m●[0m docker.service - Docker Application Container Engine
+     Loaded: loaded (/lib/systemd/system/docker.service; enabled; vendor preset: enabled)
+     Active: [0;1;32mactive (running)[0m since Mon 2023-09-11 22:01:39 CST; 19min ago
+TriggeredBy: [0;1;32m●[0m docker.socket
+       Docs: https://docs.docker.com
+   Main PID: 1879 (dockerd)
+      Tasks: 14
+     Memory: 97.4M
+        CPU: 358ms
+     CGroup: /system.slice/docker.service
+             └─1879 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+
+sep 11 22:01:39 mike-IdeaPad dockerd[1879]: time="2023-09-11T22:01:39.346918086-06:00" level=info msg="Starting up"
+sep 11 22:01:39 mike-IdeaPad dockerd[1879]: time="2023-09-11T22:01:39.349844786-06:00" level=info msg="detected 127.0.0.53 nameserver, assuming systemd-resolved, so using resolv.conf: /run/systemd/resolve/resolv.conf"
+sep 11 22:01:39 mike-IdeaPad dockerd[1879]: time="2023-09-11T22:01:39.388357742-06:00" level=info msg="[graphdriver] using prior storage driver: overlay2"
+sep 11 22:01:39 mike-IdeaPad dockerd[1879]: time="2023-09-11T22:01:39.389096533-06:00" level=info msg="Loading containers: start."
+sep 11 22:01:39 mike-IdeaPad dockerd[1879]: time="2023-09-11T22:01:39.801606083-06:00" level=info msg="Default bridge (docker0) is assigned with an IP address 172.17.0.0/16. Daemon option --bip can be used to set a preferred IP address"
+sep 11 22:01:39 mike-IdeaPad dockerd[1879]: time="2023-09-11T22:01:39.839541950-06:00" level=info msg="Loading containers: done."
+sep 11 22:01:39 mike-IdeaPad dockerd[1879]: time="2023-09-11T22:01:39.857826632-06:00" level=info msg="Docker daemon" commit=1a79695 graphdriver=overlay2 version=24.0.6
+sep 11 22:01:39 mike-IdeaPad dockerd[1879]: time="2023-09-11T22:01:39.857949142-06:00" level=info msg="Daemon has completed initialization"
+sep 11 22:01:39 mike-IdeaPad dockerd[1879]: time="2023-09-11T22:01:39.873111466-06:00" level=info msg="API listen on /run/docker.sock"
+sep 11 22:01:39 mike-IdeaPad systemd[1]: Started Docker Application Container Engine.
