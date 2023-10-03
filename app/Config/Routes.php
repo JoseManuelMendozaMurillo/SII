@@ -210,6 +210,18 @@ $routes->group(
                 $routes->get('testid', 'Asignaturas::testID');
             }
         );
+        $routes->group(
+            'carrera',
+            ['namespace' => 'App\Controllers\Reticulas'],
+            function ($routes) {
+                $routes->get('', 'Carreras::carrera');
+                $routes->get('new', 'Carreras::formCarrera');
+                $routes->post('update', 'Carreras::formCarrera');
+                $routes->post('save', 'Carreras::saveCarrera');
+                $routes->post('delete', 'Carreras::deleteCarrera');
+                $routes->get('testid', 'Carreras::testID');
+            }
+        );
     }
 );
 

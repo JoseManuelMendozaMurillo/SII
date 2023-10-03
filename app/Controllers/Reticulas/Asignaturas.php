@@ -36,19 +36,14 @@ class Asignaturas extends BaseController
     // Test/Dev method
     public function testID()
     {
-        return view('Reticulas/testid');
+        $data = [
+            'route' => '',
+        ];
+
+        return view('Reticulas/testid', $data);
     }
 
     // DB operations
-    public function updateAsignatura()
-    {
-        $id = $this->request->getPost('id');
-
-        $asignaturaData = $this->asignaturaModel->find($id);
-        dd($asignaturaData);
-        $asignatura = new Asignatura();
-    }
-
     public function deleteAsignatura()
     {
         $id = $this->request->getPost('id');
