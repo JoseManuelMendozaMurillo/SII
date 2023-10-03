@@ -236,6 +236,19 @@ $routes->group(
                 $routes->get('get/(:num)', 'Especialidades::getByID/$1');
             }
         );
+        $routes->group(
+            'reticula',
+            ['namespace' => 'App\Controllers\Reticulas'],
+            function ($routes) {
+                $routes->get('show', 'Reticulas::show');
+                $routes->get('new', 'Reticulas::form');
+                $routes->post('update', 'Reticulas::form');
+                $routes->post('save', 'Reticulas::save');
+                $routes->post('delete', 'Reticulas::delete');
+                $routes->get('testid', 'Reticulas::testID');
+                $routes->get('get/(:num)', 'Reticulas::getByID/$1');
+            }
+        );
     }
 );
 
