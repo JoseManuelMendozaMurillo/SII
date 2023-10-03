@@ -76,7 +76,7 @@ class CrudController extends BaseController
 
     // UTILItY / TEST
 
-    // Returns all records as especialidad Entity
+    // Returns all records as Entity
     public function show()
     {
         $data = $this->model->find();

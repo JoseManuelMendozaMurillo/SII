@@ -194,7 +194,6 @@ $routes->group(
     ['namespace' => 'App\Controllers\Reticulas'],
     function ($routes) {
         $routes->get('reticula', 'Reticulas::reticulas');
-        // $routes->get('asignatura', 'Asignaturas::asignatura');
         $routes->get('especialidad', 'Especialidades::especialidad');
         $routes->get('carrera', 'Carreras::carrera');
         // Asignatura
