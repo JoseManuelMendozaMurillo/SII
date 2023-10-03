@@ -1,5 +1,7 @@
 <?php
 
+// Asignatura model
+
 namespace App\Models\Reticulas;
 
 use CodeIgniter\Model;

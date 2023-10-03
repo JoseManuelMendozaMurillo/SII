@@ -194,9 +194,22 @@ $routes->group(
     ['namespace' => 'App\Controllers\Reticulas'],
     function ($routes) {
         $routes->get('reticula', 'Reticulas::reticulas');
-        $routes->get('asignatura', 'Asignaturas::asignatura');
+        // $routes->get('asignatura', 'Asignaturas::asignatura');
         $routes->get('especialidad', 'Especialidades::especialidad');
         $routes->get('carrera', 'Carreras::carrera');
+        // Asignatura
+        $routes->group(
+            'asignatura',
+            ['namespace' => 'App\Controllers\Reticulas'],
+            function ($routes) {
+                $routes->get('', 'Asignaturas::asignatura');
+                $routes->get('new', 'Asignaturas::formAsignatura');
+                $routes->post('update', 'Asignaturas::formAsignatura');
+                $routes->post('save', 'Asignaturas::saveAsignatura');
+                $routes->post('delete', 'Asignaturas::deleteAsignatura');
+                $routes->get('testid', 'Asignaturas::testID');
+            }
+        );
     }
 );
 
