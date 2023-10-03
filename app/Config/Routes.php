@@ -202,11 +202,11 @@ $routes->group(
             'asignatura',
             ['namespace' => 'App\Controllers\Reticulas'],
             function ($routes) {
-                $routes->get('', 'Asignaturas::asignatura');
-                $routes->get('new', 'Asignaturas::formAsignatura');
-                $routes->post('update', 'Asignaturas::formAsignatura');
-                $routes->post('save', 'Asignaturas::saveAsignatura');
-                $routes->post('delete', 'Asignaturas::deleteAsignatura');
+                $routes->get('show', 'Asignaturas::show');
+                $routes->get('new', 'Asignaturas::form');
+                $routes->post('update', 'Asignaturas::form');
+                $routes->post('save', 'Asignaturas::save');
+                $routes->post('delete', 'Asignaturas::delete');
                 $routes->get('testid', 'Asignaturas::testID');
             }
         );
@@ -214,11 +214,11 @@ $routes->group(
             'carrera',
             ['namespace' => 'App\Controllers\Reticulas'],
             function ($routes) {
-                $routes->get('', 'Carreras::carrera');
-                $routes->get('new', 'Carreras::formCarrera');
-                $routes->post('update', 'Carreras::formCarrera');
-                $routes->post('save', 'Carreras::saveCarrera');
-                $routes->post('delete', 'Carreras::deleteCarrera');
+                $routes->get('show', 'Carreras::show');
+                $routes->get('new', 'Carreras::form');
+                $routes->post('update', 'Carreras::form');
+                $routes->post('save', 'Carreras::save');
+                $routes->post('delete', 'Carreras::delete');
                 $routes->get('testid', 'Carreras::testID');
             }
         );
@@ -226,11 +226,11 @@ $routes->group(
             'especialidad',
             ['namespace' => 'App\Controllers\Reticulas'],
             function ($routes) {
-                $routes->get('', 'Especialidades::especialidad');
-                $routes->get('new', 'Especialidades::formEspecialidad');
-                $routes->post('update', 'Especialidades::formEspecialidad');
-                $routes->post('save', 'Especialidades::saveEspecialidad');
-                $routes->post('delete', 'Especialidades::deleteEspecialidad');
+                $routes->get('show', 'Especialidades::show');
+                $routes->get('new', 'Especialidades::form');
+                $routes->post('update', 'Especialidades::form');
+                $routes->post('save', 'Especialidades::save');
+                $routes->post('delete', 'Especialidades::delete');
                 $routes->get('testid', 'Especialidades::testID');
             }
         );
