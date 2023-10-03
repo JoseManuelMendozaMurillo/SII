@@ -1,22 +1,27 @@
 version: '3.9'
 
 services:
+
   correcaminos_dev:
     build: 
       context: .
       dockerfile: dockerfile.dev
+    container_name: sii_dev
     ports:
       - "443:443"
     links:
-      - db_correcaminos_dev
+      - db_mysql_correcaminos_dev
+      - db_mongo_correcaminos_dev
     volumes:
       - .:/var/www/html/
       - ./config/php-dev/php:/usr/local/etc/php
     user: root
-  db_correcaminos_dev:
+
+  db_mysql_correcaminos_dev:
     build:
       context: .
       dockerfile: dockerfile.mysql
+    container_name: mysqldb_dev
     ports:
       - "3309:3306"
     environment:
@@ -24,25 +29,55 @@ services:
       - MYSQL_DATABASE=sii_test
       - MYSQL_SSL_MODE=REQUIRED
     volumes:
-      - data-db-test-correcaminos:/var/lib/mysql
+      - data-db-test-mysql-correcaminos:/var/lib/mysql
+
   phpmyadmin_dev:
     build: 
       context: .
       dockerfile: dockerfile.phpmyadmin
+    container_name: phpmyadmin_dev
     ports:
       - "8443:443"
     links:
-      - db_correcaminos_dev
+      - db_mysql_correcaminos_dev
     environment:
-      - PMA_HOST=db_correcaminos_dev
+      - PMA_HOST=db_mysql_correcaminos_dev
+
+  db_mongo_correcaminos_dev:
+    image: mongo:7.0.1
+    container_name: mongodb_dev
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=19630306
+      - MONGO_INITDB_DATABASE=sii_test
+    volumes:
+      - data-db-test-mongo-correcaminos:/data/db
+
+  mongo_express_dev: # Cliente web mongo
+    image: mongo-express:1.0.0-alpha.4
+    container_name: mongo_express_dev
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=db_mongo_correcaminos_dev
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=root
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=19630306
+      - ME_CONFIG_MONGODB_PORT=27017
+      - ME_CONFIG_BASICAUTH_USERNAME=root
+      - ME_CONFIG_BASICAUTH_PASSWORD=19630306
+    links:
+      - db_mongo_correcaminos_dev
+    ports:
+      - "8081:8081"
+
   smtpserver_dev:
     image: mailhog/mailhog:v1.0.1
     restart: always
-    container_name: mailhog  # Nombre personalizado del contenedor
+    container_name: mailhog
     ports:
       - "1025:1025"  # Puerto para SMTP
       - "8025:8025"  # Puerto para interfaz web
 
-
 volumes:
-  data-db-test-correcaminos:
+  data-db-test-mysql-correcaminos:
+  data-db-test-mongo-correcaminos:

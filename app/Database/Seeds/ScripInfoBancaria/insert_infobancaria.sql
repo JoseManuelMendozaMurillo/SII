@@ -1,7 +1,7 @@
 INSERT INTO
     informacion_bancaria
 VALUES
-(
+    (
         0,
         'BANAMEX',
         '7006',
@@ -10,5 +10,11 @@ VALUES
         1750,
         750,
         50,
-        15000
+        15000,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
     );

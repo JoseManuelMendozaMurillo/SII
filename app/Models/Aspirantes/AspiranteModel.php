@@ -6,6 +6,7 @@ use App\Entities\Aspirantes\Aspirante;
 use App\Models\Aspirantes\ComplementAspiranteModel;
 use CodeIgniter\Model;
 use Exception;
+use PhpParser\Node\Expr\Cast\String_;
 
 class AspiranteModel extends Model
 {
@@ -313,5 +314,146 @@ class AspiranteModel extends Model
                             getResultArray()[0]['id_aspirante'];
 
         return $this->find($idAspirante);
+    }
+
+    public function getBankReference(Aspirante $aspirante): string
+    {
+        // Recibe un objeto aspirante para evitar hacer mas consultas de las necesarias a la bd
+
+        $date = $aspirante->fecha_nacimiento;
+        $date_aux = substr($date, 2, 2) . substr($date, 5, 2) . substr($date, 8, 2);
+        $referencia = 'ITOCO'
+        . $aspirante->no_solicitud
+        . $aspirante->apellido_paterno
+        . str_replace(' ', '', $aspirante->nombre)
+        . $date_aux;
+        $referencia = strtoupper($referencia);
+
+        return $referencia;
+    }
+
+    public function getPaymentStatus(Aspirante $aspirante): bool
+    {
+        return $aspirante->estatus_pago == '1' ? true : false;
+    }
+
+    public function getFullName(Aspirante $aspirante): string
+    {
+        // $aspirante = $aspirante->toArray();
+        $fullName = $aspirante->nombre . ' '
+                        . $aspirante->apellido_paterno . ' '
+                        . $aspirante->apellido_materno;
+
+        return $fullName;
+    }
+
+    public function getApplicationNumber(Aspirante $aspirante)
+    {
+        // return $aspirante['no_solicitud'];
+        return $aspirante->no_solicitud;
+    }
+
+    public function getPhotoPath(Aspirante $aspirante): string
+    {
+        $pathPhotos = config('Paths')->accessPhotosAspirantes
+        . '/'
+        . $aspirante->user_id
+        . '/'
+        . $aspirante->imagen;
+
+        // dd($pathPhotos);
+
+        return $pathPhotos;
+    }
+
+    public function getCurp(Aspirante $aspirante): string
+    {
+        return $aspirante->curp;
+    }
+
+    public function getFirstOption(Aspirante $aspirante): string
+    {
+        return $aspirante->carrera_primera_opcion;
+    }
+
+    public function getNip(Aspirante $aspirante): string
+    {
+        return $aspirante->nip;
+    }
+
+    public function getDataForRecibo($id)
+    {
+        $aspirante = $this->findByUserId($id);
+
+        $data = [
+            'reference' => $this->getBankReference($aspirante),
+            'no_solicitud' => $this->getApplicationNumber($aspirante),
+        ];
+
+        return $data;
+    }
+
+    public function getDataForIndex($id)
+    {
+        $aspirante = $this->findByUserId($id);
+
+        $data = [
+            'fullname' => $this->getFullName($aspirante),
+            'no_solicitud' => $this->getApplicationNumber($aspirante),
+            'path_photo' => $this->getPhotoPath($aspirante),
+            'payment_status' => $this->getPaymentStatus($aspirante),
+            'reference' => $this->getBankReference($aspirante),
+        ];
+
+        return $data;
+    }
+
+    public function getDataForFicha($id)
+    {
+        $aspirante = $this->findByUserId($id);
+
+        $data = [
+            'fullname' => $this->getFullName($aspirante),
+            'curp' => $this->getCurp($aspirante),
+            'no_solicitud' => $this->getApplicationNumber($aspirante),
+            'nip' => $this->getNip($aspirante),
+            'first_option' => $this->getFirstOption($aspirante),
+            'path_photo' => $this->getPhotoPath($aspirante),
+            // 'payment_status' => $this->getPaymentStatus($aspirante),
+            // 'reference' => $this->getBankReference($aspirante),
+
+        ];
+
+        return $data;
+    }
+
+    public function deleteAspirante($userId)
+    {
+        // Iniciamos una transacción
+        $this->db->transStart();
+
+        try {
+            $users = auth()->getProvider();
+
+            //Borrar el aspirante de la BD
+            $aspirante = $this->aspirantesModel->where('user_id', $userId)->first();
+            $this->aspirantesModel->delete($aspirante->id_aspirante);
+
+            if (!$users->delete($userId)) {
+                throw new Exception('Hubo un error al intentar eliminar al aspirante de las tablas de usuarios');
+            }
+
+            // Si todo salio bien, confirmamos la transacción
+            $this->db->transCommit();
+
+            // Retornamos vista de exito
+            d('Aspirante eliminado');
+        } catch (Exception $e) {
+            // Hacemos un rollback para no romper la integridad de los datos
+            $this->db->transRollback();
+
+            // Mostrar la vista de error en el back
+            dd('Error: ' . $e->getMessage());
+        }
     }
 }

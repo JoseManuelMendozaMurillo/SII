@@ -101,8 +101,8 @@ $routes->group(
 // Rutas de servicios financieros
 $routes->group(
     'financieros',
-    ['namespace' => 'App\Controllers\Financieros',
-        'filter' => 'group:recursos_financieros'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
+    ['namespace' => 'App\Controllers\Financieros'],
+    // 'filter' => 'group:recursos_financieros'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
     function ($routes) {
         $routes->get('aspirantes', 'Financieros::listAspirantes');
     }
@@ -150,8 +150,6 @@ $routes->group(
         $routes->get('curl', 'Pruebas::curl');
         $routes->post('getPokemon', 'Pruebas::getDataPokemon');
 
-        $routes->get('pdf', 'Pruebas::pdf');
-
         // Indice para administradores, para mayor conveniencia de usted y mia wink wink
         $routes->get('admindex', 'Pruebas::admindex');
 
@@ -166,6 +164,7 @@ $routes->group(
         $routes->get('superadmin', 'Pruebas::superadmin');
 
         $routes->get('testpost', 'Pruebas::testpost');
+        $routes->get('reticulas', 'Pruebas::reticulas');
     }
 );
 
@@ -184,6 +183,70 @@ $routes->group(
     ['namespace' => 'App\Controllers\ServiciosEscolares'],
     function ($routes) {
         $routes->get('crear', 'ServiciosEscolares::crearReticula');
+    }
+);
+
+// Rutas para modulo de reticulas (test, dev)
+$routes->group(
+    'reticulas',
+    ['namespace' => 'App\Controllers\Reticulas'],
+    function ($routes) {
+        $routes->get('reticula', 'Reticulas::reticulas');
+        $routes->get('especialidad', 'Especialidades::especialidad');
+        $routes->get('carrera', 'Carreras::carrera');
+        // Asignatura
+        $routes->group(
+            'asignatura',
+            ['namespace' => 'App\Controllers\Reticulas'],
+            function ($routes) {
+                $routes->get('show', 'Asignaturas::show');
+                $routes->get('new', 'Asignaturas::form');
+                $routes->post('update', 'Asignaturas::form');
+                $routes->post('save', 'Asignaturas::save');
+                $routes->post('delete', 'Asignaturas::delete');
+                $routes->get('testid', 'Asignaturas::testID');
+                $routes->get('get/(:num)', 'Asignaturas::getByID/$1');
+            }
+        );
+        $routes->group(
+            'carrera',
+            ['namespace' => 'App\Controllers\Reticulas'],
+            function ($routes) {
+                $routes->get('show', 'Carreras::show');
+                $routes->get('new', 'Carreras::form');
+                $routes->post('update', 'Carreras::form');
+                $routes->post('save', 'Carreras::save');
+                $routes->post('delete', 'Carreras::delete');
+                $routes->get('testid', 'Carreras::testID');
+                $routes->get('get/(:num)', 'Carreras::getByID/$1');
+            }
+        );
+        $routes->group(
+            'especialidad',
+            ['namespace' => 'App\Controllers\Reticulas'],
+            function ($routes) {
+                $routes->get('show', 'Especialidades::show');
+                $routes->get('new', 'Especialidades::form');
+                $routes->post('update', 'Especialidades::form');
+                $routes->post('save', 'Especialidades::save');
+                $routes->post('delete', 'Especialidades::delete');
+                $routes->get('testid', 'Especialidades::testID');
+                $routes->get('get/(:num)', 'Especialidades::getByID/$1');
+            }
+        );
+        $routes->group(
+            'reticula',
+            ['namespace' => 'App\Controllers\Reticulas'],
+            function ($routes) {
+                $routes->get('show', 'Reticulas::show');
+                $routes->get('new', 'Reticulas::form');
+                $routes->post('update', 'Reticulas::form');
+                $routes->post('save', 'Reticulas::save');
+                $routes->post('delete', 'Reticulas::delete');
+                $routes->get('testid', 'Reticulas::testID');
+                $routes->get('get/(:num)', 'Reticulas::getByID/$1');
+            }
+        );
     }
 );
 
