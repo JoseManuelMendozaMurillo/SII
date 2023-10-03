@@ -2,6 +2,8 @@
 
 namespace App\Controllers\Reticulas;
 
+// Asignaturas controller
+
 use App\Controllers\BaseController;
 use App\Models\Reticulas\AsignaturaModel;
 use App\Entities\Reticulas\Asignatura;
