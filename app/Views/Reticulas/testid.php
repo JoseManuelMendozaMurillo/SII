@@ -7,7 +7,7 @@
 </head>
 <body>
 <?php helper('form'); ?>
-<!-- USED TO SEND id_asignatura ID VIA POST TO SPECIFIED ROUTE -->
+<!-- USED TO SEND OBJECT's ID VIA POST TO SPECIFIED ROUTE -->
     <?php echo form_open('reticulas/' . $route) ?>
     <?php echo form_input('id') ?>
     <?php echo form_submit() ?>

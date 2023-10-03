@@ -222,6 +222,18 @@ $routes->group(
                 $routes->get('testid', 'Carreras::testID');
             }
         );
+        $routes->group(
+            'especialidad',
+            ['namespace' => 'App\Controllers\Reticulas'],
+            function ($routes) {
+                $routes->get('', 'Especialidades::especialidad');
+                $routes->get('new', 'Especialidades::formEspecialidad');
+                $routes->post('update', 'Especialidades::formEspecialidad');
+                $routes->post('save', 'Especialidades::saveEspecialidad');
+                $routes->post('delete', 'Especialidades::deleteEspecialidad');
+                $routes->get('testid', 'Especialidades::testID');
+            }
+        );
     }
 );
 
