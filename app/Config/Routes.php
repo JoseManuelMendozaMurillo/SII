@@ -208,6 +208,7 @@ $routes->group(
                 $routes->post('save', 'Asignaturas::save');
                 $routes->post('delete', 'Asignaturas::delete');
                 $routes->get('testid', 'Asignaturas::testID');
+                $routes->get('get/(:num)', 'Asignaturas::getByID/$1');
             }
         );
         $routes->group(
@@ -220,6 +221,7 @@ $routes->group(
                 $routes->post('save', 'Carreras::save');
                 $routes->post('delete', 'Carreras::delete');
                 $routes->get('testid', 'Carreras::testID');
+                $routes->get('get/(:num)', 'Carreras::getByID/$1');
             }
         );
         $routes->group(
@@ -232,6 +234,7 @@ $routes->group(
                 $routes->post('save', 'Especialidades::save');
                 $routes->post('delete', 'Especialidades::delete');
                 $routes->get('testid', 'Especialidades::testID');
+                $routes->get('get/(:num)', 'Especialidades::getByID/$1');
             }
         );
     }

@@ -68,11 +68,23 @@ class CrudController extends BaseController
         d($this->model->getInsertID());
     }
 
+    public function getByID($id)
+    {
+        $data = $this->model->find($id)->toArray();
+        dd($data);
+    }
+
     // UTILItY / TEST
 
     // Returns all records as especialidad Entity
     public function show()
     {
-        dd($this->model->find());
+        $data = $this->model->find();
+
+        $array = [];
+        foreach ($data as $obj) {
+            array_push($array, $obj->toArray());
+        }
+        dd($array);
     }
 }
