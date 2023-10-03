@@ -2,6 +2,8 @@
 
 namespace App\Models\Reticulas;
 
+// Carrera model
+
 use CodeIgniter\Model;
 
 class CarreraModel extends Model
