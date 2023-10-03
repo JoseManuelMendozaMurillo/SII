@@ -2,6 +2,8 @@
 
 namespace App\Models\Reticulas;
 
+// Especialidad Model
+
 use App\Models\ServiciosEscolares\CarrerasModel;
 use CodeIgniter\Model;
 
