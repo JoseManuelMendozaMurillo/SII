@@ -34,7 +34,7 @@ class CarreraValidation
         ],
         'siglas' => [
             'label' => 'Siglas',
-            'rules' => '',
+            'rules' => 'required',
             'errors' => [
 
             ],
@@ -58,7 +58,7 @@ class CarreraValidation
         ],
         'fecha_inicio' => [
             'label' => 'Fecha de inicio',
-            'rules' => '',
+            'rules' => 'required',
             'errors' => [
 
             ],
@@ -66,14 +66,14 @@ class CarreraValidation
         // TODO: Validad fechas
         'fecha_termino' => [
             'label' => 'Fecha de termino',
-            'rules' => '',
+            'rules' => 'required',
             'errors' => [
 
             ],
         ],
         'id_area_carr' => [
-            'label' => '',
-            'rules' => '',
+            'label' => 'ID area carrera',
+            'rules' => 'required',
             'errors' => [
 
             ],
@@ -88,7 +88,7 @@ class CarreraValidation
             ],
         ],
         'id_sub_area_carr' => [
-            'label' => '',
+            'label' => 'ID sub area carrera',
             'rules' => 'required|in_list[1,2]',
             'errors' => [
                 'required' => 'El ID de sub area de carrera es obligatorio',
@@ -96,7 +96,7 @@ class CarreraValidation
             ],
         ],
         'nivel' => [
-            'label' => '',
+            'label' => 'Nivel',
             'rules' => 'required',
             'errors' => [
                 'required' => 'El nivel escolar es obligatorio',

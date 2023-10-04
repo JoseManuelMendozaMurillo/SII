@@ -42,28 +42,28 @@ class EspecialidadValidation
         ],
         'nombre_reducido' => [
             'label' => 'Nombre reducido',
-            'rules' => '',
+            'rules' => 'required',
             'errors' => [
 
             ],
         ],
         'siglas' => [
             'label' => 'Siglas',
-            'rules' => '',
+            'rules' => 'required',
             'errors' => [
 
             ],
         ],
         'fecha_inicio' => [
             'label' => 'Fecha de inicio',
-            'rules' => '',
+            'rules' => 'required',
             'errors' => [
 
             ],
         ],
         'fecha_termino' => [
             'label' => 'Fecha de termino',
-            'rules' => '',
+            'rules' => 'required',
             'errors' => [
 
             ],

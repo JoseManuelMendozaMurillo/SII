@@ -15,24 +15,24 @@ $nombre_carrera = [
     'name' => 'nombre_carrera',
     'id' => 'nombre_carrera',
     'value' => isset($nombre_carrera) ? $nombre_carrera : '',
-    'maxlength' => '100',
-    'required' => true,
+    // 'maxlength' => '100',
+    // 'required' => true,
 ];
 
 $clave_oficial = [
     'name' => 'clave_oficial',
     'id' => 'clave_oficial',
     'value' => isset($clave_oficial) ? $clave_oficial : '',
-    'maxlength' => '25',
-    'required' => true,
+    // 'maxlength' => '25',
+    // 'required' => true,
 ];
 
 $clave = [
     'name' => 'clave',
     'id' => 'clave',
     'value' => isset($clave) ? $clave : '',
-    'maxlength' => '25',
-    'required' => true,
+    // 'maxlength' => '25',
+    // 'required' => true,
 ];
 
 $siglas = [
@@ -40,72 +40,72 @@ $siglas = [
     'id' => 'siglas',
     'value' => isset($siglas) ? $siglas : '',
     // 'value' => 'johndoe',
-    'maxlength' => '25',
-    'required' => true,
+    // 'maxlength' => '25',
+    // 'required' => true,
 ];
 
 $creditos_totales = [
     'name' => 'creditos_totales',
     'id' => 'creditos_totales',
     'value' => isset($creditos_totales) ? $creditos_totales : '',
-    'maxlength' => '25',
-    'required' => true,
+    // 'maxlength' => '25',
+    // 'required' => true,
 ];
 
 $id_nivel_escolar = [
     'name' => 'id_nivel_escolar',
     'id' => 'id_nivel_escolar',
     'value' => isset($id_nivel_escolar) ? $id_nivel_escolar : '',
-    'maxlength' => '25',
-    'required' => true,
+    // 'maxlength' => '25',
+    // 'required' => true,
 ];
 
 $fecha_inicio = [
     'name' => 'fecha_inicio',
     'id' => 'fecha_inicio',
     'value' => isset($fecha_inicio) ? $fecha_inicio : '',
-    'maxlength' => '25',
-    'required' => true,
+    // 'maxlength' => '25',
+    // 'required' => true,
 ];
 
 $fecha_termino = [
     'name' => 'fecha_termino',
     'id' => 'fecha_termino',
     'value' => isset($fecha_termino) ? $fecha_termino : '',
-    'maxlength' => '25',
-    'required' => true,
+    // 'maxlength' => '25',
+    // 'required' => true,
 ];
 
 $id_area_carr = [
     'name' => 'id_area_carr',
     'id' => 'id_area_carr',
     'value' => isset($id_area_carr) ? $id_area_carr : '',
-    'maxlength' => '25',
-    'required' => true,
+    // 'maxlength' => '25',
+    // 'required' => true,
 ];
 
 $id_nivel_carr = [
     'name' => 'id_nivel_carr',
     'id' => 'id_nivel_carr',
     'value' => isset($id_nivel_carr) ? $id_nivel_carr : '',
-    'maxlength' => '25',
-    'required' => true,
+    // 'maxlength' => '25',
+    // 'required' => true,
 ];
 
 $id_sub_area_carr = [
     'name' => 'id_sub_area_carr',
     'id' => 'id_sub_area_carr',
     'value' => isset($id_sub_area_carr) ? $id_sub_area_carr : '',
-    'maxlength' => '25',
-    'required' => true,
+    // 'maxlength' => '25',
+    // 'required' => true,
 ];
 
 $nivel = [
     'name' => 'nivel',
     'id' => 'nivel',
     'value' => isset($nivel) ? $nivel : '',
-    'maxlength' => '25',
-    'required' => true,
+    // 'maxlength' => '25',
+    // 'required' => true,
 ];
 
 if (isset($id_carrera)) {
