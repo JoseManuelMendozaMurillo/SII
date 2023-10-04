@@ -184,8 +184,8 @@
                                 <div class="d-flex">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="estadoPago">Filtrar por Estado de Pago:</label>
+                            <div class="form-group col-md-4">
+                                <label class="mb-3" for="estadoPago">Filtrar por Estado de Pago:</label>
                                 <select id="estadoPago" class="form-control">
                                     <option value="todos">Todos</option>
                                     <option value="pagados">Pagados</option>
@@ -279,7 +279,6 @@
 
         function cambiarEstado(user_id, status_pago) {
             // Realiza una llamada AJAX para actualizar el estado de pago en el servidor
-            console.log(status_pago);
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
@@ -294,6 +293,7 @@
                         switch (estadoPagoSelect) {
                             case 'todos':
                                 var btn = $('.btn[data-user-id="' + user_id + '"]');
+
                                 var aspirante;
                                 aspirantesTodos.forEach(element => {
                                     if (element.id == user_id) {
@@ -363,8 +363,6 @@
     <script>
         $(document).ready(function () {
             var estadoPagoSelect = $('#estadoPago');
-
-
             $tabla = $("#datatable").bootgrid({
                 caseSensitive: false,
                 ajax: false, // Desactivamos la solicitud AJAX

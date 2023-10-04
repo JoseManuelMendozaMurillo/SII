@@ -1,0 +1,173 @@
+{% extends "Layout/Template/carreras_menu.twig.html" %}
+
+{% block title %} Lista carreras {% endblock %}
+
+{% block styles %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.min.css"
+    integrity="sha512-WBBdLBZSQGm9JN1Yut45Y9ijfFANbcOX3G+/A5+oO8W2ZWASp3NkPrG8mgr8QvGviyLoAz8y09l7SJ1dt0as7g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+    .custom-height {
+        min-height: 25vh;
+        border-radius: 10px;
+        box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.082);
+    }
+
+    .custom-button {
+        min-width: 17vh;
+    }
+
+    /* Estilo para la barra de búsqueda */
+    .actionBar {
+        display: flex;
+        align-items: center;
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        padding: 5px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    /* Estilo para el campo de entrada de búsqueda */
+    .search-field input[type="text"] {
+        flex-grow: 1;
+        border: none;
+        padding: 5px;
+        outline: none;
+    }
+
+    .dropdown-toggle {
+        visibility: hidden;
+    }
+
+    .pagination {
+        display: flex;
+        align-items: center;
+        /* Alinea verticalmente los elementos dentro del contenedor de paginación */
+    }
+
+    /* Estilo para los botones de paginación */
+    .button {
+        margin-right: 5px;
+        padding: 5px 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    /* Estilo para el botón de página activa */
+    .active {
+        background-color: #0056b3;
+    }
+
+    .btn-primary svg {
+        font-size: 80px;
+    }
+</style>
+
+
+{% endblock %}
+
+{% block content %}
+
+<div class="conatiner-fluid content-inner mt-n5 py-0 ">
+    <div>
+        <div class="row">
+
+        </div>
+        <!-- Tarjeta de Aspirantes que han hecho su pago-->
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card" style="border-radius: 10px; box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.082);">
+                    <div class="card-body">
+                        <h5 class="card-title">Lista de carreras</h5>
+                        <!-- Barra de búsqueda y filtro -->
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <select class="form-control">
+                                        <option value="activo">Activo</option>
+                                        <option value="inactivo">Inactivo</option>
+                                        <option value="borrador">Borrador</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <button class="btn btn-primary">Crear Carrera</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<p></p>-->
+                        <div class="table-responsive">
+                            <!-- Tabla de datos -->
+                            <table id="datatable" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th data-column-id="id" data-visible="false">id
+                                        </th>
+                                        <th data-column-id="clave" data-sortable="false">Clave</th>
+                                        <th data-column-id="nombre">Nombre</th>
+                                        <th data-column-id="estatus" data-searchable="false" data-sortable="false">
+                                            Estatus</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for carrera in carreras %}
+                                    <tr>
+                                        <td>{{ carrera.id}}</td>
+                                        <td>{{ carrera.clave }}</td>
+                                        <td>{{ carrera.nombre }}</td>
+                                        <td>{{ carrera.estatus }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<!-- JQuery -->
+<script src="{{base_url('Vendor/Parsley/jquery-3.7.0.min.js')}}"></script>
+
+<!-- Bootgrid -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.min.js"
+    integrity="sha512-ut+jq2MDKjyWKK7rpEbyHjJ2kDBDO58DLFw4xJobqvS2kUgx4DJbj3OLjwk4F0pKtcxUoUIRS6esQVhh4fmWNA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+<script>
+    $(document).ready(function () {
+        var $tabla = $("#datatable").bootgrid({
+            caseSensitive: false,
+            ajax: false, // Desactivamos la solicitud AJAX
+            labels: {
+                noResults: "No hay resultados",
+                loading: "Cargando...",
+                infos: "Mostrando {{ctx.start}} al {{'{{ctx.end}}'}} de {{'{{ctx.total}}'}} registros",
+                search: "Buscar",
+                refresh: "Recarga",
+
+            },
+            pagination: true,
+            rowCount: 10,
+            searchSettings: {
+                delay: 100,
+                characters: 3,
+                searchOnEnterKey: true,
+                searchOnKeyPress: true,
+            },
+        });
+    });
+
+</script>
+{% endblock %}
