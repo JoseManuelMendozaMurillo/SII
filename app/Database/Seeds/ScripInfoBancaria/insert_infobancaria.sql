@@ -20,5 +20,11 @@ VALUES
         1750,
         750,
         50,
-        15000
+        15000,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL
     );

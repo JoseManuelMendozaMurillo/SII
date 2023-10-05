@@ -23,7 +23,9 @@
 	"forwardPorts": [443],
 
 	// Uncomment the next line if you want start specific services in your Docker Compose config.
-	"runServices": ["db_correcaminos_dev", "phpmyadmin_dev", "smtpserver_dev"],
+	"runServices": ["db_mysql_correcaminos_dev", "phpmyadmin_dev", 
+					"db_mongo_correcaminos_dev", "mongo_express_dev", 
+					"smtpserver_dev"],
 
 	// Uncomment the next line if you want to keep your containers running after VS Code shuts down.
 	// "shutdownAction": "none",

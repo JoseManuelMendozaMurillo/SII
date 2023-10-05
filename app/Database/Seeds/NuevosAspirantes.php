@@ -171,7 +171,7 @@ class NuevosAspirantes extends Seeder
             }
             $nip = '1234';
             $estatus_pago = $faker->boolean();
-            $imagen = '';
+            $imagen = 'test.png';
             $apellido_paterno = $faker->lastName();
             $apellido_materno = $faker->lastName();
             $nombre = $faker->firstName();

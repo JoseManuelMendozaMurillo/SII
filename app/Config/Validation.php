@@ -8,6 +8,10 @@ use CodeIgniter\Validation\StrictRules\FileRules;
 use CodeIgniter\Validation\StrictRules\FormatRules;
 use CodeIgniter\Validation\StrictRules\Rules;
 use App\Validations\Aspirantes\RegisterFormAspirantes;
+use App\Validations\Reticulas\AsignaturaValidation;
+use App\Validations\Reticulas\CarreraValidation;
+use App\Validations\Reticulas\EspecialidadValidation;
+use App\Validations\Reticulas\ReticulaValidation;
 use App\Validations\CustomRules;
 
 class Validation extends BaseConfig
@@ -50,10 +54,24 @@ class Validation extends BaseConfig
     public $registerFormAspirantes;
     public $rulesChageStatusPaymentAspirante;
 
+    /* Reticulas */
+    public $asignatura;
+    public $carrera;
+    public $especialidad;
+    public $reticula;
+
     public function __construct()
     {
         parent::__construct();
+
+        // Aspirantes
         $this->registerFormAspirantes = (new RegisterFormAspirantes())->rulesRegisterFormAspirante;
         $this->rulesChageStatusPaymentAspirante = (new RegisterFormAspirantes())->rulesChageStatusPaymentAspirante;
+
+        // Reticulas
+        $this->asignatura = (new AsignaturaValidation())->rules;
+        $this->carrera = (new CarreraValidation())->rules;
+        $this->especialidad = (new EspecialidadValidation())->rules;
+        $this->reticula = (new ReticulaValidation())->rules;
     }
 }

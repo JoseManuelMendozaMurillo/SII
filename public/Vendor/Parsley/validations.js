@@ -18,14 +18,14 @@ export function customValidation() {
       var $input = $(this);
       $input.attr('data-parsley-trigger','keyup');
       $input.attr('data-parsley-pattern','^[0-9]{4}$');
-      $input.attr('data-parsley-error-message','El numero de solicitud debe tener 4 digitos');
+      $input.attr('data-parsley-error-message','El número de solicitud debe tener 4 dígitos');
     });
 
     $('.form-control.validation-nip').each(function () {
       var $input = $(this);
       $input.attr('data-parsley-trigger','keyup');
       $input.attr('data-parsley-minlength','4');
-      $input.attr('data-parsley-minlength-message','La contraseña debe tener al menos 8 caracteres');
+      $input.attr('data-parsley-minlength-message','La contraseña debe tener al menos 4 caracteres');
     });
   
   }
