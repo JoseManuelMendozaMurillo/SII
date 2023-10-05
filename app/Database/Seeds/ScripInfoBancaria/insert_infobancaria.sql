@@ -8,7 +8,13 @@ INSERT INTO
         costo_semestre,
         costo_examen,
         costo_constancias,
-        costo_verano
+        costo_verano,
+        created_at,
+        updated_at,
+        deleted_at,
+        created_by,
+        updated_by,
+        deleted_by
     )
 VALUES
     (
