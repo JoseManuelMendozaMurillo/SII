@@ -1,5 +1,15 @@
 INSERT INTO
-    informacion_bancaria
+    informacion_bancaria (
+        id_banco,
+        banco,
+        sucursal,
+        cuenta,
+        rfc,
+        costo_semestre,
+        costo_examen,
+        costo_constancias,
+        costo_verano
+    )
 VALUES
     (
         0,
