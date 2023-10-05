@@ -14,24 +14,24 @@ $nombre_asignatura = [
     'name' => 'nombre_asignatura',
     'id' => 'nombre_asignatura',
     'value' => isset($nombre_asignatura) ? $nombre_asignatura : '',
-    'maxlength' => '100',
-    'required' => true,
+    // 'maxlength' => '100',
+    // 'required' => true,
 ];
 
 $nombre_abreviado_asignatura = [
     'name' => 'nombre_abreviado_asignatura',
     'id' => 'nombre_abreviado_asignatura',
     'value' => isset($nombre_abreviado_asignatura) ? $nombre_abreviado_asignatura : '',
-    'maxlength' => '25',
-    'required' => true,
+    // 'maxlength' => '25',
+    // 'required' => true,
 ];
 
 $id_tipo_asignatura = [
     'name' => 'id_tipo_asignatura',
     'id' => 'id_tipo_asignatura',
     'value' => isset($id_tipo_asignatura) ? $id_tipo_asignatura : '',
-    'maxlength' => '1',
-    'required' => true,
+    // 'maxlength' => '1',
+    // 'required' => true,
 ];
 
 $id_nivel_escolar = [
@@ -39,32 +39,32 @@ $id_nivel_escolar = [
     'id' => 'id_nivel_escolar',
     'value' => isset($id_nivel_escolar) ? $id_nivel_escolar : '',
     // 'value' => 'johndoe',
-    'maxlength' => '1',
-    'required' => true,
+    // 'maxlength' => '1',
+    // 'required' => true,
 ];
 
 $clave_asignatura = [
     'name' => 'clave_asignatura',
     'id' => 'clave_asignatura',
     'value' => isset($clave_asignatura) ? $clave_asignatura : '',
-    'maxlength' => '1',
-    'required' => true,
+    // 'maxlength' => '1',
+    // 'required' => true,
 ];
 
 $horas_teoricas = [
     'name' => 'horas_teoricas',
     'id' => 'horas_teoricas',
     'value' => isset($horas_teoricas) ? $horas_teoricas : '',
-    'maxlength' => '2',
-    'required' => true,
+    // 'maxlength' => '2',
+    // 'required' => true,
 ];
 
 $horas_practicas = [
     'name' => 'horas_practicas',
     'id' => 'horas_practicas',
     'value' => isset($horas_practicas) ? $horas_practicas : '',
-    'maxlength' => '2',
-    'required' => true,
+    // 'maxlength' => '2',
+    // 'required' => true,
 ];
 
 if (isset($id_asignatura)) {

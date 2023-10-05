@@ -35,7 +35,7 @@ class CrudController extends BaseController
     public function testID()
     {
         $data = [
-            'route' => $this->name . '/delete',
+            'route' => $this->name . '/update',
         ];
 
         return view('Reticulas/testid', $data);
@@ -56,6 +56,16 @@ class CrudController extends BaseController
     // Otherwise, an insert is performed
     public function save()
     {
+        if (!$this->validate($this->name)) {
+            // The validation failed.
+            return view('Reticulas/testid', [
+                'errors' => $this->validator->getErrors(),
+                'route' => $this->name . '/update',
+            ]);
+        }
+
+        // The validation was successful.
+
         $data = $this->request->getPost();
 
         $entity = new $this->entity();

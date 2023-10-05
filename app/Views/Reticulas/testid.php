@@ -6,6 +6,11 @@
     <title>Test ID</title>
 </head>
 <body>
+    <?php if (isset($errors)) {
+        foreach ($errors as $error) {
+            echo '<div>' . $error . '</div>';
+        }
+    } ?>
 <?php helper('form'); ?>
 <!-- USED TO SEND OBJECT's ID VIA POST TO SPECIFIED ROUTE -->
     <?php echo form_open('reticulas/' . $route) ?>
