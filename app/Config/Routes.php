@@ -182,7 +182,7 @@ $routes->group(
     'servicios',
     ['namespace' => 'App\Controllers\ServiciosEscolares'],
     function ($routes) {
-        $routes->get('crear', 'ServiciosEscolares::crearReticula');
+        $routes->get('carreras', 'Carreras::listCarreras');
     }
 );
 
