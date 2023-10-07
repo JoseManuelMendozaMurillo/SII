@@ -383,6 +383,8 @@
                 formatters: {
                     'button_status': function (col, row) {
                         const estado = row.status_pago;
+                        console.log(col.id);
+                        console.log(row.id);
                         return `
                     <button
                         class="custom-button btn ${estado ? 'btn-success' : 'btn-warning'}"
