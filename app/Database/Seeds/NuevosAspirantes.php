@@ -311,7 +311,7 @@ class NuevosAspirantes extends Seeder
                 'updated_by' => null,
                 'deleted_by' => null,
             ];
-            $this->db->table('aspirantes_datos_complementarios')->insert($data);
+            $this->db->table('datos_complementarios')->insert($data);
         }
     }
 
