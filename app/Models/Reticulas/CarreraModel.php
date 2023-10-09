@@ -29,6 +29,7 @@ class CarreraModel extends Model
         'id_nivel_carr',
         'id_sub_area_carr',
         'nivel',
+        'estatus',
     ];
 
     // Dates

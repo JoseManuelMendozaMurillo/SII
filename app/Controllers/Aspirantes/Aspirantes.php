@@ -379,11 +379,10 @@ class Aspirantes extends RegisterController
     public function changeStatusPayment(): Response
     {
         // Nos aseguramos de solo recibir peticiones ajax
-        if (!$this->request->isAJAX()) {
-            throw new Exception('No se encontró el recurso', 404);
-        }
-
         try {
+            if (!$this->request->isAJAX()) {
+                throw new Exception('No se encontró el recurso', 404);
+            }
             // Validacion de datos
             $data = $this->request->getPost();
             if (!$this->validation->run($data, 'rulesChageStatusPaymentAspirante')) {
