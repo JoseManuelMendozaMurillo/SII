@@ -17,6 +17,7 @@ class Asignaturas extends CrudController
     private $asignaturaEspecialidadModel;
     private $carreraModel;
     private $especialidadModel;
+    private $auxAsignaturas;
 
     public function __construct()
     {
@@ -30,77 +31,25 @@ class Asignaturas extends CrudController
         $this->asignaturaEspecialidadModel = new AsignaturaEspecialidadModel();
         $this->carreraModel = new CarreraModel();
         $this->especialidadModel = new EspecialidadModel();
+        $this->auxAsignaturas = new AuxAsignaturas();
     }
 
     public function getAsignaturas()
     {
         try {
-            if (!$this->request->isAJAX()) {
-                throw new Exception('No se encontró el recurso', 404);
-            }
+            // if (!$this->request->isAJAX()) {
+            //     throw new Exception('No se encontró el recurso', 404);
+            // }
 
-            $asignaturaCarreraRelationship = $this->asigntauraCarreraModel->find();
-            $asignaturaEspecialidadRelationship = $this->asignaturaEspecialidadModel->find();
-            $asignaturasData = $this->model->getAsArray();
-
-            $asignaturasBasicas = [];
-            $asignaturasGenericas = [];
-            $asignaturasEspecificas = [];
-
-            // id_tipo_asignatura
-            // 1 - Basica
-            // 2 - Generica
-            // 3 - Especifica
-            foreach ($asignaturasData as $asignatura) {
-                if ($asignatura['id_tipo_asignatura'] == 1) {
-                    $data = [
-                        'id_asignatura' => $asignatura['id_asignatura'],
-                        'nombre_asignatura' => $asignatura['nombre_asignatura'],
-                    ];
-
-                    array_push($asignaturasBasicas, $data);
-                }
-            }
-
-            foreach ($asignaturaCarreraRelationship as $relationship) {
-                $asignatura = $this->model->find($relationship['id_asignatura']);
-                $carrera = $this->carreraModel->find($relationship['id_carrera']);
-
-                $data = [
-                    'id_asignatura' => $asignatura->id_asignatura,
-                    'nombre_asignatura' => $asignatura->nombre_asignatura,
-                    'id_carrera' => $carrera->id_carrera,
-                    'nombre_carrera' => $carrera->nombre_carrera,
-
-                ];
-                array_push($asignaturasGenericas, $data);
-            }
-
-            foreach ($asignaturaEspecialidadRelationship as $relationship) {
-                // d($relationship);
-                $asignatura = $this->model->find($relationship['id_asignatura']);
-
-                $especialidad = $this->especialidadModel->find($relationship['id_especialidad']);
-                $carrera = $this->carreraModel->find($especialidad->id_carrera);
-
-                $data = [
-                    'id_asignatura' => $asignatura->id_asignatura,
-                    'nombre_asignatura' => $asignatura->nombre_asignatura,
-                    'id_carrera' => $carrera->id_carrera,
-                    'nombre_carrera' => $carrera->nombre_carrera,
-                    'id_especialidad' => $especialidad->id_especialidad,
-                    'nombre_especialidad' => $especialidad->nombre_especialidad,
-
-                ];
-
-                array_push($asignaturasEspecificas, $data);
-            }
+            $basicas = $this->auxAsignaturas->getAsignaturasBasicas();
+            $genericas = $this->auxAsignaturas->getAsignaturasByCarrera();
+            $especificas = $this->auxAsignaturas->getAsignaturasByEspecialidad();
 
             $allData = [];
 
-            array_push($allData, $asignaturasBasicas);
-            array_push($allData, $asignaturasGenericas);
-            array_push($allData, $asignaturasEspecificas);
+            array_push($allData, $basicas);
+            array_push($allData, $genericas);
+            array_push($allData, $especificas);
 
             dd($allData);
 
