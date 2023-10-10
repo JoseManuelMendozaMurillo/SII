@@ -37,9 +37,9 @@ class Asignaturas extends CrudController
     public function getAsignaturas()
     {
         try {
-            // if (!$this->request->isAJAX()) {
-            //     throw new Exception('No se encontró el recurso', 404);
-            // }
+            if (!$this->request->isAJAX()) {
+                throw new Exception('No se encontró el recurso', 404);
+            }
 
             $basicas = $this->auxAsignaturas->getAsignaturasBasicas();
             $genericas = $this->auxAsignaturas->getAsignaturasByCarrera();
@@ -50,8 +50,6 @@ class Asignaturas extends CrudController
             array_push($allData, $basicas);
             array_push($allData, $genericas);
             array_push($allData, $especificas);
-
-            dd($allData);
 
             return $this->response->setStatusCode(200)->setJSON([
                 'success' => true,
