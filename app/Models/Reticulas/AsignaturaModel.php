@@ -23,6 +23,7 @@ class AsignaturaModel extends Model
         'clave_asignatura',
         'horas_teoricas',
         'horas_practicas',
+        'estatus',
     ];
 
     // Dates
@@ -51,24 +52,15 @@ class AsignaturaModel extends Model
         $this->tipoAsignaturaModel = new TipoAsignaturaModel();
     }
 
-    public function createMateria($data)
+    public function getAsArray()
     {
-        $datos = [
-            'nombreMateria' => $data['nombreMateria'],
-            'nombreAbreviado' => $data['nombreAbreviado'],
-            'tipoAsignatura' => $data['tipoAsignatura'],
-            'nivelEscolar' => $data['nivelEscolar'],
-            'claveValue' => $data['claveValue'],
-            'horasTeoricas' => $data['horasTeoricas'],
-            'horasPracticas' => $data['horasPracticas'],
-        ];
+        $data = $this->find();
 
-        $this->db->table('asignaturas')->insert($datos);
-
-        if ($this->db->affectedRows() > 0) {
-            return true;
-        } else {
-            return false;
+        $array = [];
+        foreach ($data as $obj) {
+            array_push($array, $obj->toArray());
         }
+
+        return $array;
     }
 }

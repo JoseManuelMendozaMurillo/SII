@@ -3,6 +3,9 @@
 namespace App\Controllers\Reticulas;
 
 use App\Controllers\BaseController;
+use Exception;
+
+use function PHPSTORM_META\type;
 
 class CrudController extends BaseController
 {
@@ -44,11 +47,22 @@ class CrudController extends BaseController
     // DB operations
     public function delete()
     {
-        $id = $this->request->getPost('id');
-
-        $this->model->delete($id);
-
         dd('Registro eliminado: ' . $this->name);
+
+        try {
+            if (!$this->request->isAJAX()) {
+                throw new Exception('No se encontró el recurso', 404);
+            }
+            // $data = $this->request->getPost();
+
+            $id = $this->request->getPost('id');
+
+            $this->model->delete($id);
+
+            return $this->response->setStatusCode(200)->setJSON(['success' => true]);
+        } catch (Exception $e) {
+            return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
+        }
     }
 
     // Model's save method performs both insert and update
@@ -56,26 +70,37 @@ class CrudController extends BaseController
     // Otherwise, an insert is performed
     public function save()
     {
-        if (!$this->validate($this->name)) {
-            // The validation failed.
-            return view('Reticulas/testid', [
-                'errors' => $this->validator->getErrors(),
-                'route' => $this->name . '/update',
-            ]);
-        }
-
         // The validation was successful.
 
-        $data = $this->request->getPost();
+        try {
+            if (!$this->request->isAJAX()) {
+                throw new Exception('No se encontró el recurso', 404);
+            }
+            $data = $this->request->getPost();
+            $info = '';
+            foreach ($data as $item) {
+                $info = $info . ' ' . $item;
+            }
 
-        $entity = new $this->entity();
-        $entity->fill($data);
+            //throw new Exception($info, 200);
+            if (!$this->validation->run($data, $this->name)) {
+                // The validation failed.
+                $errors = $this->validation->getErrors();
+
+                throw new Exception($errors[array_key_first($errors)], 400);
+            }
+            $entity = new $this->entity();
+            $entity->fill($data);
+            $this->model->save($entity);
+
+            return $this->response->setStatusCode(200)->setJSON(['success' => true]);
+        } catch (Exception $e) {
+            return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
+        }
 
         // dd($especialidad);
 
-        $this->model->save($entity);
-
-        d($this->model->getInsertID());
+       // d($this->model->getInsertID());
     }
 
     public function getByID($id)

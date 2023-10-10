@@ -29,6 +29,7 @@ class CarreraModel extends Model
         'id_nivel_carr',
         'id_sub_area_carr',
         'nivel',
+        'estatus',
     ];
 
     // Dates
@@ -55,5 +56,17 @@ class CarreraModel extends Model
     protected function initialize()
     {
         $this->nivelEscolarModel = new NivelEscolarModel();
+    }
+
+    public function getAsArray()
+    {
+        $data = $this->find();
+
+        $array = [];
+        foreach ($data as $obj) {
+            array_push($array, $obj->toArray());
+        }
+
+        return $array;
     }
 }

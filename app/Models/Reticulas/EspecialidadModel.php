@@ -28,6 +28,7 @@ class EspecialidadModel extends Model
         'fecha_inicio',
         'fecha_termino',
         'id_nivel_escolar',
+        'estatus',
 
     ];
 
@@ -55,5 +56,17 @@ class EspecialidadModel extends Model
     protected function initialize()
     {
         $this->carreraModel = new CarrerasModel();
+    }
+
+    public function getAsArray()
+    {
+        $data = $this->find();
+
+        $array = [];
+        foreach ($data as $obj) {
+            array_push($array, $obj->toArray());
+        }
+
+        return $array;
     }
 }

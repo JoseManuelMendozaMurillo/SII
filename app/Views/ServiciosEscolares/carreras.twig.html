@@ -207,7 +207,36 @@
          })
          if (formValues) {
             console.log(formValues);
-            Swal.fire(JSON.stringify(formValues));
+            $.ajax({
+               type: 'POST',
+               dataType: 'json',
+               url: '{{base_url("reticulas/carrera/save")}}',
+               data: {
+                  'nombre_carrera': formValues[1],
+                  'clave_oficial': formValues[0],
+                  'clave': 'tre',
+                  'siglas': 'yaaaa',
+                  'creditos_totales': '2',
+                  'id_nivel_escolar': '1',
+                  'fecha_inicio': formValues[3],
+                  'fecha_termino': formValues[4],
+                  'id_area_carr': '1',
+                  'id_nivel_carr': '1',
+                  'id_sub_area_carr': '1',
+                  'nivel': 1,
+                  'estatus': 1
+               },
+               success: function (response) {
+
+                  Swal.fire('paso');
+                  console.log(response);
+               },
+               errors: function (error) {
+                  console.log(error);
+               }
+
+            });
+
          }
 
       })()
@@ -249,7 +278,6 @@
          formatters: {
             'button_status': function (col, row) {
                const estado = row.estatus;
-               console.log(estado);
 
                let buttonHTML = '';
 
@@ -272,7 +300,7 @@
                      break;
                   case '3':
                      buttonHTML = `
-                      <button class="custom-button btn btn-warning" data-user-id="${row.id}" onclick="mostrarConfirmacion('${row.id}','${estado}')">Inactivo</button>
+                      <button class="custom-button btn btn-warning" data-user-id="${row.id}" >Inactivo</button>
                      `;
                      break;
                   case '4':
