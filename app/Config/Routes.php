@@ -207,6 +207,7 @@ $routes->group(
                 $routes->get('testid', 'Asignaturas::testID');
                 $routes->get('get/(:num)', 'Asignaturas::getByID/$1');
                 $routes->get('all', 'Asignaturas::getAsignaturas');
+                $routes->get('get-clave/(:any)', 'Asignaturas::getByClave/$1');
             }
         );
         $routes->group(

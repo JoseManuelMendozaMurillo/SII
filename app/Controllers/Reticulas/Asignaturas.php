@@ -13,10 +13,6 @@ use Exception;
 
 class Asignaturas extends CrudController
 {
-    private $asigntauraCarreraModel;
-    private $asignaturaEspecialidadModel;
-    private $carreraModel;
-    private $especialidadModel;
     private $auxAsignaturas;
 
     public function __construct()
@@ -27,10 +23,6 @@ class Asignaturas extends CrudController
             'asignatura'
         );
 
-        $this->asigntauraCarreraModel = new AsignaturaCarreraModel();
-        $this->asignaturaEspecialidadModel = new AsignaturaEspecialidadModel();
-        $this->carreraModel = new CarreraModel();
-        $this->especialidadModel = new EspecialidadModel();
         $this->auxAsignaturas = new AuxAsignaturas();
     }
 
@@ -57,5 +49,10 @@ class Asignaturas extends CrudController
         } catch (Exception $e) {
             return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
         }
+    }
+
+    public function getByClave($clave)
+    {
+        dd($this->auxAsignaturas->getByClave($clave));
     }
 }

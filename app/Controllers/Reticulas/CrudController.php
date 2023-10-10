@@ -73,13 +73,19 @@ class CrudController extends BaseController
         // The validation was successful.
 
         try {
-            if (!$this->request->isAJAX()) {
-                throw new Exception('No se encontró el recurso', 404);
-            }
+            // if (!$this->request->isAJAX()) {
+            //     throw new Exception('No se encontró el recurso', 404);
+            // }
             $data = $this->request->getPost();
-            $info = '';
-            foreach ($data as $item) {
-                $info = $info . ' ' . $item;
+
+            // Update
+            if (isset($data['id_' . $this->name])) {
+                dd('Tiene ID ' . $data['id_' . $this->name]);
+
+                // TODO: Update validations
+            } else {
+                // TODO: Insert validations
+                dd('No tiene ID');
             }
 
             //throw new Exception($info, 200);
@@ -97,10 +103,6 @@ class CrudController extends BaseController
         } catch (Exception $e) {
             return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
         }
-
-        // dd($especialidad);
-
-       // d($this->model->getInsertID());
     }
 
     public function getByID($id)
