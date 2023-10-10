@@ -57,4 +57,16 @@ class EspecialidadModel extends Model
     {
         $this->carreraModel = new CarrerasModel();
     }
+
+    public function getAsArray()
+    {
+        $data = $this->find();
+
+        $array = [];
+        foreach ($data as $obj) {
+            array_push($array, $obj->toArray());
+        }
+
+        return $array;
+    }
 }

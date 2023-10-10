@@ -57,4 +57,16 @@ class CarreraModel extends Model
     {
         $this->nivelEscolarModel = new NivelEscolarModel();
     }
+
+    public function getAsArray()
+    {
+        $data = $this->find();
+
+        $array = [];
+        foreach ($data as $obj) {
+            array_push($array, $obj->toArray());
+        }
+
+        return $array;
+    }
 }

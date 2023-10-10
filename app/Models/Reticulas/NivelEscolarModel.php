@@ -12,4 +12,16 @@ class NivelEscolarModel extends Model
     protected $allowedFields = [
         'nombre_nivel_escolar',
     ];
+
+    public function getAsArray()
+    {
+        $data = $this->find();
+
+        $array = [];
+        foreach ($data as $obj) {
+            array_push($array, $obj->toArray());
+        }
+
+        return $array;
+    }
 }

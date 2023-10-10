@@ -51,4 +51,16 @@ class AsignaturaModel extends Model
     {
         $this->tipoAsignaturaModel = new TipoAsignaturaModel();
     }
+
+    public function getAsArray()
+    {
+        $data = $this->find();
+
+        $array = [];
+        foreach ($data as $obj) {
+            array_push($array, $obj->toArray());
+        }
+
+        return $array;
+    }
 }

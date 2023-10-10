@@ -206,6 +206,7 @@ $routes->group(
                 $routes->post('delete', 'Asignaturas::delete');
                 $routes->get('testid', 'Asignaturas::testID');
                 $routes->get('get/(:num)', 'Asignaturas::getByID/$1');
+                $routes->get('all', 'Asignaturas::getAsignaturas');
             }
         );
         $routes->group(

@@ -41,4 +41,16 @@ class AsignaturaEspecialidadModel extends Model
         $this->especialidadModel = new EspecialidadModel();
         $this->asignaturaModel = new AsignaturaModel();
     }
+
+    public function getAsArray()
+    {
+        $data = $this->find();
+
+        $array = [];
+        foreach ($data as $obj) {
+            array_push($array, $obj->toArray());
+        }
+
+        return $array;
+    }
 }
