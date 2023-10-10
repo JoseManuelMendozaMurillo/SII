@@ -41,4 +41,11 @@ class AsignaturaCarreraModel extends Model
         $this->carreraModel = new CarreraModel();
         $this->asignaturaModel = new AsignaturaModel();
     }
+
+    public function getByCarrera($id_carrera)
+    {
+        $data = $this->where('id_carrera', $id_carrera)->findAll();
+
+        return $data;
+    }
 }
