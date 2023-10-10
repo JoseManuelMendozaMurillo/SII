@@ -183,6 +183,7 @@ $routes->group(
     ['namespace' => 'App\Controllers\ServiciosEscolares'],
     function ($routes) {
         $routes->get('carreras', 'Carreras::listCarreras');
+        $routes->get('materias', 'Asignaturas::listMaterias');
     }
 );
 
