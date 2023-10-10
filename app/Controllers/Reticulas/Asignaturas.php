@@ -20,7 +20,8 @@ class Asignaturas extends CrudController
         parent::__construct(
             'App\Models\Reticulas\AsignaturaModel',
             'App\Entities\Reticulas\Asignatura',
-            'asignatura'
+            'asignatura',
+            'App\OperationValidators\Reticulas\AsignaturaValidator',
         );
 
         $this->auxAsignaturas = new AuxAsignaturas();

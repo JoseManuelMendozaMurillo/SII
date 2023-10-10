@@ -9,7 +9,8 @@ class Reticulas extends CrudController
         parent::__construct(
             'App\Models\Reticulas\ReticulaModel',
             'App\Entities\Reticulas\Reticula',
-            'reticula'
+            'reticula',
+            'App\OperationValidators\Reticulas\ReticulaValidator',
         );
     }
 }

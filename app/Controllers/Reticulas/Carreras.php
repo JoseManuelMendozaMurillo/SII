@@ -9,7 +9,8 @@ class Carreras extends CrudController
         parent::__construct(
             'App\Models\Reticulas\CarreraModel',
             'App\Entities\Reticulas\Carrera',
-            'carrera'
+            'carrera',
+            'App\OperationValidators\Reticulas\CarreraValidator',
         );
     }
 }

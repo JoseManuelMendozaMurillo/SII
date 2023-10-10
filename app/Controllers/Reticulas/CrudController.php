@@ -12,12 +12,14 @@ class CrudController extends BaseController
     protected $model;
     protected $entity;
     protected $name;
+    protected $operationValidator;
 
-    public function __construct($model, $entity, $name)
+    public function __construct($model, $entity, $name, $operationValidator)
     {
         $this->model = new $model();
         $this->entity = $entity;
         $this->name = $name;
+        $this->operationValidator = new $operationValidator();
     }
 
     // Displays a form to add/update
@@ -57,6 +59,8 @@ class CrudController extends BaseController
 
             $id = $this->request->getPost('id');
 
+            dd($this->operationValidator->canDelete($this->model->find($id)));
+
             $this->model->delete($id);
 
             return $this->response->setStatusCode(200)->setJSON(['success' => true]);
@@ -80,11 +84,16 @@ class CrudController extends BaseController
 
             // Update
             if (isset($data['id_' . $this->name])) {
-                dd('Tiene ID ' . $data['id_' . $this->name]);
+                // dd('Tiene ID ' . $data['id_' . $this->name]);
+                $object = $this->model->find($data['id_' . $this->name]);
 
                 // TODO: Update validations
+                d($object);
+
+                dd($this->operationValidator->canUpdate($object));
             } else {
                 // TODO: Insert validations
+                // dd($this->operationValidator->canInsert($object));
                 dd('No tiene ID');
             }
 
