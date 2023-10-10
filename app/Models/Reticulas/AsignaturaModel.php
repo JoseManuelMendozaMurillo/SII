@@ -23,6 +23,7 @@ class AsignaturaModel extends Model
         'clave_asignatura',
         'horas_teoricas',
         'horas_practicas',
+        'estatus',
     ];
 
     // Dates

@@ -28,6 +28,7 @@ class EspecialidadModel extends Model
         'fecha_inicio',
         'fecha_termino',
         'id_nivel_escolar',
+        'estatus',
 
     ];
 

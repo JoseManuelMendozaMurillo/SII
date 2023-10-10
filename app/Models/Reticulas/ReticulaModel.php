@@ -20,6 +20,7 @@ class ReticulaModel extends Model
         'nombre_reticula',
         'id_carrera',
         'id_especialidad',
+        'estatus',
     ];
 
     // Dates
