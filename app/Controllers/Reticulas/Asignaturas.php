@@ -2,11 +2,6 @@
 
 namespace App\Controllers\Reticulas;
 
-use App\Entities\Reticulas\Especialidad;
-use App\Models\Reticulas\AsignaturaCarreraModel;
-use App\Models\Reticulas\AsignaturaEspecialidadModel;
-use App\Models\Reticulas\CarreraModel;
-use App\Models\Reticulas\EspecialidadModel;
 use Exception;
 
 // Asignaturas controller
