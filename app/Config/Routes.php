@@ -193,26 +193,33 @@ $routes->group(
     ['namespace' => 'App\Controllers\Reticulas'],
     function ($routes) {
         $routes->get('reticula', 'Reticulas::reticulas');
-        $routes->get('especialidad', 'Especialidades::especialidad');
-        $routes->get('carrera', 'Carreras::carrera');
-        // Asignatura
+
+        // ASIGNTATURAS
         $routes->group(
-            'asignatura',
+            'asignaturas',
             ['namespace' => 'App\Controllers\Reticulas'],
             function ($routes) {
-                $routes->get('show', 'Asignaturas::show');
+                // Return views
                 $routes->get('new', 'Asignaturas::form');
                 $routes->post('update', 'Asignaturas::form');
-                $routes->post('save', 'Asignaturas::save');
+
+                // CRUD endpoints
+                $routes->post('create', 'Asignaturas::create');
+                $routes->post('update', 'Asignaturas::update');
                 $routes->post('delete', 'Asignaturas::delete');
-                $routes->get('testid', 'Asignaturas::testID');
                 $routes->get('get/(:num)', 'Asignaturas::getByID/$1');
-                $routes->get('all', 'Asignaturas::getAsignaturas');
+                $routes->get('get-all', 'Asignaturas::getAsignaturas');
+
+                // TEST routes
+                $routes->get('testid', 'Asignaturas::testID');
                 $routes->get('get-clave/(:any)', 'Asignaturas::getByClave/$1');
+                $routes->get('show', 'Asignaturas::show');
             }
         );
+
+        // CARRERAS
         $routes->group(
-            'carrera',
+            'carreras',
             ['namespace' => 'App\Controllers\Reticulas'],
             function ($routes) {
                 $routes->get('show', 'Carreras::show');
@@ -224,8 +231,10 @@ $routes->group(
                 $routes->get('get/(:num)', 'Carreras::getByID/$1');
             }
         );
+
+        //ESPECIALIDADES
         $routes->group(
-            'especialidad',
+            'especialidades',
             ['namespace' => 'App\Controllers\Reticulas'],
             function ($routes) {
                 $routes->get('show', 'Especialidades::show');
@@ -237,8 +246,10 @@ $routes->group(
                 $routes->get('get/(:num)', 'Especialidades::getByID/$1');
             }
         );
+
+        // RETICULAS
         $routes->group(
-            'reticula',
+            'reticulas',
             ['namespace' => 'App\Controllers\Reticulas'],
             function ($routes) {
                 $routes->get('show', 'Reticulas::show');
