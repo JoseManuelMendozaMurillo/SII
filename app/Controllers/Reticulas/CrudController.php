@@ -3,18 +3,23 @@
 namespace App\Controllers\Reticulas;
 
 use App\Controllers\BaseController;
+use Exception;
+
+use function PHPSTORM_META\type;
 
 class CrudController extends BaseController
 {
     protected $model;
     protected $entity;
     protected $name;
+    protected $operationValidator;
 
-    public function __construct($model, $entity, $name)
+    public function __construct($model, $entity, $name, $operationValidator)
     {
         $this->model = new $model();
         $this->entity = $entity;
         $this->name = $name;
+        $this->operationValidator = new $operationValidator();
     }
 
     // Displays a form to add/update
@@ -44,11 +49,24 @@ class CrudController extends BaseController
     // DB operations
     public function delete()
     {
-        $id = $this->request->getPost('id');
-
-        $this->model->delete($id);
-
         dd('Registro eliminado: ' . $this->name);
+
+        try {
+            if (!$this->request->isAJAX()) {
+                throw new Exception('No se encontró el recurso', 404);
+            }
+            // $data = $this->request->getPost();
+
+            $id = $this->request->getPost('id');
+
+            dd($this->operationValidator->canDelete($this->model->find($id)));
+
+            $this->model->delete($id);
+
+            return $this->response->setStatusCode(200)->setJSON(['success' => true]);
+        } catch (Exception $e) {
+            return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
+        }
     }
 
     // Model's save method performs both insert and update
@@ -56,26 +74,44 @@ class CrudController extends BaseController
     // Otherwise, an insert is performed
     public function save()
     {
-        if (!$this->validate($this->name)) {
-            // The validation failed.
-            return view('Reticulas/testid', [
-                'errors' => $this->validator->getErrors(),
-                'route' => $this->name . '/update',
-            ]);
-        }
-
         // The validation was successful.
 
-        $data = $this->request->getPost();
+        try {
+            // if (!$this->request->isAJAX()) {
+            //     throw new Exception('No se encontró el recurso', 404);
+            // }
+            $data = $this->request->getPost();
 
-        $entity = new $this->entity();
-        $entity->fill($data);
+            // Update
+            if (isset($data['id_' . $this->name])) {
+                // dd('Tiene ID ' . $data['id_' . $this->name]);
+                $object = $this->model->find($data['id_' . $this->name]);
 
-        // dd($especialidad);
+                // TODO: Update validations
+                d($object);
 
-        $this->model->save($entity);
+                dd($this->operationValidator->canUpdate($object));
+            } else {
+                // TODO: Insert validations
+                // dd($this->operationValidator->canInsert($object));
+                dd('No tiene ID');
+            }
 
-        d($this->model->getInsertID());
+            //throw new Exception($info, 200);
+            if (!$this->validation->run($data, $this->name)) {
+                // The validation failed.
+                $errors = $this->validation->getErrors();
+
+                throw new Exception($errors[array_key_first($errors)], 400);
+            }
+            $entity = new $this->entity();
+            $entity->fill($data);
+            $this->model->save($entity);
+
+            return $this->response->setStatusCode(200)->setJSON(['success' => true]);
+        } catch (Exception $e) {
+            return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
+        }
     }
 
     public function getByID($id)

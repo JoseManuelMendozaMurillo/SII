@@ -183,6 +183,7 @@ $routes->group(
     ['namespace' => 'App\Controllers\ServiciosEscolares'],
     function ($routes) {
         $routes->get('carreras', 'Carreras::listCarreras');
+        $routes->get('materias', 'Asignaturas::listMaterias');
     }
 );
 
@@ -206,6 +207,8 @@ $routes->group(
                 $routes->post('delete', 'Asignaturas::delete');
                 $routes->get('testid', 'Asignaturas::testID');
                 $routes->get('get/(:num)', 'Asignaturas::getByID/$1');
+                $routes->get('all', 'Asignaturas::getAsignaturas');
+                $routes->get('get-clave/(:any)', 'Asignaturas::getByClave/$1');
             }
         );
         $routes->group(

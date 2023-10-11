@@ -23,6 +23,7 @@ class AsignaturaModel extends Model
         'clave_asignatura',
         'horas_teoricas',
         'horas_practicas',
+        'estatus',
     ];
 
     // Dates
@@ -49,5 +50,17 @@ class AsignaturaModel extends Model
     protected function initialize()
     {
         $this->tipoAsignaturaModel = new TipoAsignaturaModel();
+    }
+
+    public function getAsArray()
+    {
+        $data = $this->find();
+
+        $array = [];
+        foreach ($data as $obj) {
+            array_push($array, $obj->toArray());
+        }
+
+        return $array;
     }
 }

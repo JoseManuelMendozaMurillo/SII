@@ -9,18 +9,17 @@ class CarreraValidation
             'label' => 'Nombre carrera',
             'rules' => 'required|max_length[255]|alpha_space',
             'errors' => [
-                'required' => 'El nombre de la asignatura es obligatorio',
-                'max_length' => 'El nombre de la asignatura no puede ser mayor a 255 caracteres',
-                'alpha_space' => 'El nombre de la asignatura solo puede contener letras',
+                'required' => 'El nombre de la carrera es obligatorio',
+                'max_length' => 'El nombre de la carrera no puede ser mayor a 255 caracteres',
+                'alpha_space' => 'El nombre de la carrera solo puede contener letras',
             ],
         ],
         'clave_oficial' => [
             'label' => 'Clave oficial',
-            'rules' => 'required|max_length[255]|alpha_numeric',
+            'rules' => 'required|max_length[255]',
             'errors' => [
                 'required' => 'La clave oficial es obligatoria',
                 'max_length' => 'La clave oficial no puede ser mayor a 255 caracteres',
-                'alpha_numeric' => 'El nombre abreviado de la asignatura solo puede contener caracteres alfanumericos',
             ],
         ],
         'clave' => [

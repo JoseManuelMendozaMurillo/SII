@@ -20,6 +20,7 @@ class ReticulaModel extends Model
         'nombre_reticula',
         'id_carrera',
         'id_especialidad',
+        'estatus',
     ];
 
     // Dates
@@ -47,5 +48,17 @@ class ReticulaModel extends Model
     {
         $this->carreraModel = new CarrerasModel();
         $this->especialidadModel = new EspecialidadModel();
+    }
+
+    public function getAsArray()
+    {
+        $data = $this->find();
+
+        $array = [];
+        foreach ($data as $obj) {
+            array_push($array, $obj->toArray());
+        }
+
+        return $array;
     }
 }
