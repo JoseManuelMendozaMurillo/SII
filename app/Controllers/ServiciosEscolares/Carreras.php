@@ -26,21 +26,4 @@ class Carreras extends BaseController
 
         $this->twig->display('ServiciosEscolares/carreras', $datos);
     }
-
-    // public function getData()
-    // {
-    //     // Cargar la biblioteca de entrada
-    //     $this->load->library('input');
-
-    //     // Obtener los datos enviados en la solicitud POST
-    //     $id_carrera = $this->input->post('id_carrera');
-
-    //     // Hacer algo con los datos (por ejemplo, imprimirlos)
-    //     echo 'ID de Carrera: ' . $id_carrera;
-
-    //     // Enviar una respuesta JSON al cliente
-    //     $response = ['message' => 'Datos recibidos exitosamente', 'id_carrera' => $id_carrera];
-    //     $this->output->set_content_type('application/json');
-    //     $this->output->set_output(json_encode($response));
-    // }
 }

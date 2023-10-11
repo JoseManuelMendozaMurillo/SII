@@ -90,7 +90,7 @@
                   <div class="container">
                      <div class="row justify-content-between">
                         <div class="col-md-4">
-                           <select id="estadoCarrera" class="form-control">
+                           <select id="estadoCarrera" class="form-select">
                               <option value="activo">Activo</option>
                               <option value="inactivo">Inactivo</option>
                               <option value="borrador">Borrador</option>
@@ -206,7 +206,6 @@
 
          })
          if (formValues) {
-            console.log(formValues);
             $.ajax({
                type: 'POST',
                dataType: 'json',
@@ -227,12 +226,12 @@
                   'estatus': 1
                },
                success: function (response) {
-
-                  Swal.fire('paso');
-                  console.log(response);
+                  Swal.fire('¡Listo!', 'La carrera ha sido agregada', 'success');
+                  $('#datatable').bootgrid('reload');
+                  console.log($('#datatable').bootgrid('reload'));
                },
-               errors: function (error) {
-                  console.log(error);
+               error: function (error) {
+                  Swal.fire('Error', 'Hubo un problema', 'error');
                }
 
             });
