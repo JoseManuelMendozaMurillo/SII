@@ -15,11 +15,20 @@ class ReticulaValidator implements OperationValidator
 
     public function canUpdate($entity)
     {
-        if ($entity->estatus == 1) {
-            return true;
+        if (!$entity->estatus == 1) {
+            return false;
         }
 
-        return false;
+        return true;
+    }
+
+    public function canUpdateStatus($entity)
+    {
+        if (!$entity->id_tipo_asignatura == 1) {
+            return false;
+        }
+
+        return true;
     }
 
     public function canDelete($entity)
