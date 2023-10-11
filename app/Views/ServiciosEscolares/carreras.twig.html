@@ -197,6 +197,8 @@
                const fechaInicioValue = document.getElementById('fechaInicio').value;
                const fechaTerminoValue = document.getElementById('fechaTermino').value;
 
+               //ToDO: Validaciones Parsley
+
                if (claveValue === "" || nombreValue === "" || nivelValue === "" || fechaInicioValue === "" || fechaTerminoValue === "") {
                   Swal.showValidationMessage('Todos los campos son obligatorios');
                }
@@ -222,8 +224,8 @@
                   'id_area_carr': '1',
                   'id_nivel_carr': '1',
                   'id_sub_area_carr': '1',
-                  'nivel': 1,
-                  'estatus': 1
+                  'nivel': '1',
+                  'estatus': 1 //generar por backend
                },
                success: function (response) {
                   Swal.fire('¡Listo!', 'La carrera ha sido agregada', 'success');

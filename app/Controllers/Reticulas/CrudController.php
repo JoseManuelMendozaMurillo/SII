@@ -216,7 +216,7 @@ class CrudController extends BaseController
             $entity->fill($data);
             $this->model->save($entity);
 
-            return $this->response->setStatusCode(200)->setJSON(['success' => true]);
+            return $this->response->setStatusCode(201)->setJSON(['success' => true]);
         } catch (Exception $e) {
             return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
         }
