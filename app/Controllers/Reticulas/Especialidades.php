@@ -11,7 +11,8 @@ class Especialidades extends CrudController
         parent::__construct(
             'App\Models\Reticulas\EspecialidadModel',
             'App\Entities\Reticulas\Especialidad',
-            'especialidad'
+            'especialidad',
+            'App\OperationValidators\Reticulas\EspecialidadValidator',
         );
     }
 }

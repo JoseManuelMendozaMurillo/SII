@@ -110,4 +110,9 @@ class AuxAsignaturas
 
         return $asignaturasEspecificas;
     }
+
+    public function getByClave($clave)
+    {
+        return $this->asignaturaModel->where('clave_asignatura', $clave)->find()[0]->toArray();
+    }
 }
