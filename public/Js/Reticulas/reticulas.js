@@ -14,7 +14,7 @@ $(document).ready(function () {
 
 	const asignaturas = new Asignaturas();
 	const basicas = async () => {
-		const result = await asignaturas.getByEspecialidad(3);
+		const result = await asignaturas.getByClave('INC-1025');
 		console.log(result);
 	};
 	basicas();

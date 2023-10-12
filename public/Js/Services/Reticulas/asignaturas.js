@@ -8,6 +8,7 @@ export default class Asignaturas {
 	urlGetBasicas;
 	urlGetByCarrera;
 	urlGetByEspecialidad;
+	urlGetByClave;
 
 	constructor() {
 		// Creamos las rutas
@@ -18,6 +19,7 @@ export default class Asignaturas {
 		this.urlGetByEspecialidad = config.BASE_URL(
 			'reticulas/asignaturas/get-by-especialidad',
 		);
+		this.urlGetByClave = config.BASE_URL('reticulas/asignaturas/get-by-clave');
 	}
 
 	/**
@@ -147,7 +149,21 @@ export default class Asignaturas {
 		const asigEspecialidad = await this.__request(this.urlGetByEspecialidad, {
 			id: idEspecialidad,
 		});
-		return asigEspecialidad;
+		return asigEspecialidad.data;
+	};
+
+	/**
+	 * @name getByClave
+	 * @description Función para obtener una asignaturas por su clave
+	 *
+	 * @param {String} asigClave - Clave de la asignatura
+	 * @returns {Promise<Array>}
+	 */
+	getByClave = async (asigClave) => {
+		const asig = await this.__request(this.urlGetByClave, {
+			clave: asigClave,
+		});
+		return asig.data;
 	};
 
 	/* Metodos privados */

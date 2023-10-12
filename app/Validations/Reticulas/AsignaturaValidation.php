@@ -92,4 +92,14 @@ class AsignaturaValidation
             ],
         ],
     ];
+    public array $requestGetByClave = [
+        'clave' => [
+            'label' => 'clave',
+            'rules' => 'required|is_not_unique[asignaturas.clave_asignatura]',
+            'errors' => [
+                'required' => 'La clave de la materia es requerida',
+                'is_not_unique' => 'La clave de la materia no existe',
+            ],
+        ],
+    ];
 }

@@ -142,8 +142,32 @@ class Asignaturas extends CrudController
         }
     }
 
-    public function getByClave($clave)
+    public function getByClave()
     {
-        dd($this->auxAsignaturas->getByClave($clave));
+        try {
+            if (!$this->request->isAJAX()) {
+                throw new Exception('No se encontró el recurso', 404);
+            }
+
+            // Validamos que la clave sea valida
+            $data = $this->request->getPost();
+            if (!$this->validation->run($data, 'requestGetByClave')) {
+                $errors = $this->validation->getErrors();
+
+                throw new Exception($errors[array_key_first($errors)], 400);
+            }
+
+            // Obtenemos la clave de la especialidad
+            $clave = $this->request->getPost('clave');
+
+            // Obtenemos la asignatura segun la clave
+            $asignatura = $this->auxAsignaturas->getByClave($clave);
+
+            return $this->response->setStatusCode(200)->setJSON([
+                'success' => true,
+                'data' => $asignatura, ]);
+        } catch (Exception $e) {
+            return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
+        }
     }
 }

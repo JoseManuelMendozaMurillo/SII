@@ -213,10 +213,10 @@ $routes->group(
                 $routes->post('get-basicas', 'Asignaturas::getAsignaturasBasicas');
                 $routes->post('get-by-carrera', 'Asignaturas::getAsignaturasByCarrera');
                 $routes->post('get-by-especialidad', 'Asignaturas::getAsignaturasByEspecialidad');
+                $routes->post('get-by-clave', 'Asignaturas::getByClave');
 
                 // TEST routes
                 $routes->get('testid', 'Asignaturas::testID');
-                $routes->get('get-clave/(:any)', 'Asignaturas::getByClave/$1');
                 $routes->get('show', 'Asignaturas::show');
             }
         );
