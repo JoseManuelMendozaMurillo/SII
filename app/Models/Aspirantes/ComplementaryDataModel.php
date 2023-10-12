@@ -4,14 +4,15 @@ namespace App\Models\Aspirantes;
 
 use CodeIgniter\Model;
 
-class ComplementAspiranteModel extends Model
+class ComplementaryDataModel extends Model
 {
     // Configuracion del modelo
-    protected $table = 'aspirantes_datos_complementarios';
+    protected $table = 'datos_complementarios';
     protected $returnType = 'array';
     protected $useSoftDeletes = true;
     protected $allowedFields = [
         'id_aspirante',
+        'id_alumno',
         'calle_domicilio',
         'no_exterior',
         'no_interior',

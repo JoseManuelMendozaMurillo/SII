@@ -17,7 +17,6 @@ class AsignaturaModel extends Model
     protected $useSoftDeletes = true;
     protected $allowedFields = [
         'nombre_asignatura',
-        'nombre_abreviado_asignatura',
         'id_tipo_asignatura',
         'id_nivel_escolar',
         'clave_asignatura',
