@@ -1,8 +1,100 @@
-insert into especialidades
-values
-(0,3,'GESTIÓN INTEGRAL DE LAS OPERACIONES','IINE-GIO-2021-01','IINE-GIO-2021-01',15,'IINE-GIO','IINE',SYSDATE(),DATE_ADD(SYSDATE(),INTERVAL 3 YEAR),1,SYSDATE(),SYSDATE(),NULL, 'mike', 'mike',NULL),
-(0,4,'EFICIENCIA ENERGÉTICA SUSTENTABLE EN SISTEMAS ELECTROMECÁNICOS','IEME-EES-2020-01','IEME-EES-2020-01',15,'IEME-EES','IEME',SYSDATE(),DATE_ADD(SYSDATE(),INTERVAL 3 YEAR),1,SYSDATE(),SYSDATE(),NULL, 'mike', 'mike',NULL),
-(0,6,'FINANZAS CORPORATIVAS','COPE-FIC-2018-01','COPE-FIC-2018-01',15,'COPE-FIC','COPE',SYSDATE(),DATE_ADD(SYSDATE(),INTERVAL 3 YEAR),1,SYSDATE(),SYSDATE(),NULL, 'mike', 'mike',NULL),
-(0,2,'LOGÍSTICA INTEGRAL','ILOE-LOI-2018-01','ILOE-LOI-2018-01',15,'ILOE-LOI','ILOE',SYSDATE(),DATE_ADD(SYSDATE(),INTERVAL 3 YEAR),1,SYSDATE(),SYSDATE(),NULL, 'mike', 'mike',NULL),
-(0,1,'DESARROLLO PARA LA WEB Y APLICACIONES PARA DISPOSITIVOS MOVILES','ISIE-DWA-2020-01','ISIE-DWA-2020-01',15,'ISIE-DWA','ISIE',SYSDATE(),DATE_ADD(SYSDATE(),INTERVAL 3 YEAR),1,SYSDATE(),SYSDATE(),NULL, 'mike', 'mike',NULL),
-(0,5,'EMPRENDIMIENTO Y GESTIÓN EMPRESARIAL','IGEE-EGE-2017-01','IGEE-EGE-2017-01',15,'IGEE-EGE','IGEE',SYSDATE(),DATE_ADD(SYSDATE(),INTERVAL 3 YEAR),1,SYSDATE(),SYSDATE(),NULL, 'mike', 'mike',NULL);
+INSERT INTO
+    especialidades(
+        id_especialidad,
+        id_carrera,
+        nombre_especialidad,
+        clave_especialidad,
+        fecha_inicio,
+        id_nivel_escolar,
+        created_at,
+        updated_at,
+        deleted_at,
+        created_by,
+        updated_by,
+        deleted_by
+    )
+VALUES
+    (
+        0,
+        3,
+        'GESTIÓN INTEGRAL DE LAS OPERACIONES',
+        'IINE-GIO-2021-01',
+        SYSDATE(),
+        1,
+        SYSDATE(),
+        SYSDATE(),
+        NULL,
+        'mike',
+        'mike',
+        NULL
+    ),
+    (
+        0,
+        4,
+        'EFICIENCIA ENERGÉTICA SUSTENTABLE EN SISTEMAS ELECTROMECÁNICOS',
+        'IEME-EES-2020-01',
+        SYSDATE(),
+        1,
+        SYSDATE(),
+        SYSDATE(),
+        NULL,
+        'mike',
+        'mike',
+        NULL
+    ),
+    (
+        0,
+        6,
+        'FINANZAS CORPORATIVAS',
+        'COPE-FIC-2018-01',
+        SYSDATE(),
+        1,
+        SYSDATE(),
+        SYSDATE(),
+        NULL,
+        'mike',
+        'mike',
+        NULL
+    ),
+    (
+        0,
+        2,
+        'LOGÍSTICA INTEGRAL',
+        'ILOE-LOI-2018-01',
+        SYSDATE(),
+        1,
+        SYSDATE(),
+        SYSDATE(),
+        NULL,
+        'mike',
+        'mike',
+        NULL
+    ),
+    (
+        0,
+        1,
+        'DESARROLLO PARA LA WEB Y APLICACIONES PARA DISPOSITIVOS MOVILES',
+        'ISIE-DWA-2020-01',
+        SYSDATE(),
+        1,
+        SYSDATE(),
+        SYSDATE(),
+        NULL,
+        'mike',
+        'mike',
+        NULL
+    ),
+    (
+        0,
+        5,
+        'EMPRENDIMIENTO Y GESTIÓN EMPRESARIAL',
+        'IGEE-EGE-2017-01',
+        SYSDATE(),
+        1,
+        SYSDATE(),
+        SYSDATE(),
+        NULL,
+        'mike',
+        'mike',
+        NULL
+    );

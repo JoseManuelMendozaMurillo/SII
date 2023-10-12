@@ -418,7 +418,7 @@ class Auth extends ShieldAuth
             return $this->getUrl('des-academico/aspirantes/lista');
         }
         if (auth()->user()->inGroup('recursos_financieros')) {
-            return $this->getUrl('financieros/aspirantes-pendientes');
+            return $this->getUrl('financieros/aspirantes');
         }
         $url = setting('Auth.redirects')['login'];
 

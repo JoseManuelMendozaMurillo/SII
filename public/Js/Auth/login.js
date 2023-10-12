@@ -18,7 +18,6 @@ $(document).ready(function () {
 		radio.addEventListener('change', function () {
 			$('#email').val('');
 			$('#password').val('');
-
 			$('#email').removeAttr('data-parsley-pattern');
 			$('#email').removeAttr('data-parsley-error-message');
 			$('#password').removeAttr('data-parsley-pattern');
@@ -27,7 +26,7 @@ $(document).ready(function () {
 			if (radio.id === 'btnradio3') {
 				emailLabel.textContent = 'Número de solicitud: *';
 				passwordLabel.textContent = 'NIP: *';
-				emailInput.placeholder = '4567';
+				emailInput.placeholder = '1234';
 				passwordInput.placeholder = '****';
 				emailInput.classList.remove('validation-email');
 				emailInput.classList.add('validation-numerosolicitud');
@@ -45,8 +44,8 @@ $(document).ready(function () {
 			}
 			$('#email').parsley().reset();
 			$('#password').parsley().reset();
-			$('#email').parsley().validate();
-			$('#password').parsley().validate();
+			// $('#email').parsley().validate();
+			// $('#password').parsley().validate();
 			customValidation();
 		});
 	});

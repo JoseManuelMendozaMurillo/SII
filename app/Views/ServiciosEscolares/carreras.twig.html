@@ -1,0 +1,323 @@
+{% extends "Layout/Template/servicios_escolares.twig.html" %}
+
+{% block title %} Lista carreras {% endblock %}
+
+{% block styles %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.min.css"
+   integrity="sha512-WBBdLBZSQGm9JN1Yut45Y9ijfFANbcOX3G+/A5+oO8W2ZWASp3NkPrG8mgr8QvGviyLoAz8y09l7SJ1dt0as7g=="
+   crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+   .custom-height {
+      min-height: 25vh;
+      border-radius: 10px;
+      box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.082);
+   }
+
+   .formCarrer {
+      font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif;
+   }
+
+   .custom-button {
+      min-width: 17vh;
+   }
+
+   /* Estilo para la barra de búsqueda */
+   .actionBar {
+      display: flex;
+      align-items: center;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      padding: 5px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+   }
+
+   /* Estilo para el campo de entrada de búsqueda */
+   .search-field input[type="text"] {
+      flex-grow: 1;
+      border: none;
+      padding: 5px;
+      outline: none;
+   }
+
+   .dropdown-toggle {
+      visibility: hidden;
+   }
+
+   .pagination {
+      display: flex;
+      align-items: center;
+      /* Alinea verticalmente los elementos dentro del contenedor de paginación */
+   }
+
+   /* Estilo para los botones de paginación */
+   .button {
+      margin-right: 5px;
+      padding: 5px 10px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+   }
+
+   /* Estilo para el botón de página activa */
+   .active {
+      background-color: #0056b3;
+   }
+</style>
+
+
+{% endblock %}
+
+{% block content %}
+
+<div class="conatiner-fluid content-inner mt-n5 py-0 ">
+   <div>
+      <div class="row">
+
+      </div>
+      <!-- Tarjeta de Aspirantes que han hecho su pago-->
+
+      <div class="row">
+         <div class="col-sm-12">
+            <div class="card" style="border-radius: 10px; box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.082);">
+               <div class="card-body">
+                  <h5 class="card-title">Lista de carreras</h5>
+                  <!-- Barra de búsqueda y filtro -->
+                  <div class="container">
+                     <div class="row justify-content-between">
+                        <div class="col-md-4">
+                           <select id="estadoCarrera" class="form-control">
+                              <option value="activo">Activo</option>
+                              <option value="inactivo">Inactivo</option>
+                              <option value="borrador">Borrador</option>
+                           </select>
+                        </div>
+                        <div class="col-md-3 align-self-end">
+                           <button class="btn btn-primary" onclick="formCarrera()">Crear Carrera</button>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="table-responsive">
+                     <!-- Tabla de datos -->
+
+                     <table id="datatable" class="table table-striped">
+                        <thead>
+                           <tr>
+                              <th data-column-id="id" data-identifier="true" data-visible="false">id</th>
+                              <th data-column-id="clave" data-sortable="false">Clave</th>
+                              <th data-column-id="nombre">Nombre</th>
+                              <th data-column-id="estatus" data-searchable="false" data-sortable="false"
+                                 data-formatter="button_status">
+                                 Estatus</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           {% for carrera in carreras %}
+                           <tr>
+                              <td>{{ carrera.id_carrera}}</td>
+                              <td>{{ carrera.clave_oficial }}</td>
+                              <td>{{ carrera.nombre_carrera }}</td>
+                              <td>{{ carrera.estatus }}</td>
+                           </tr>
+                           {% endfor %}
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<!-- JQuery -->
+<script src="{{base_url('Vendor/Parsley/jquery-3.7.0.min.js')}}"></script>
+
+<!-- SweetAlert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Bootgrid -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.min.js"
+   integrity="sha512-ut+jq2MDKjyWKK7rpEbyHjJ2kDBDO58DLFw4xJobqvS2kUgx4DJbj3OLjwk4F0pKtcxUoUIRS6esQVhh4fmWNA=="
+   crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+   function formCarrera() {
+      (async () => {
+         const { value: formValues } = await Swal.fire({
+            title: 'Crear carrera',
+            icon: 'info',
+            html:
+               '<div class="form-row">' +
+               '<div class="col-md-6 mb-3">' +
+               '<label for="clave">Clave</label>' +
+               '<input type="text" class="form-control" id="clave" name="clave" required>' +
+               '</div>' +
+               '</div>' +
+
+               '<div class="form-row">' +
+               '<div class="col-md-6 mb-3">' +
+               '<label for="nombre">Nombre</label>' +
+               '<input type="text" class="form-control" id="nombreForm" name="nombre" required>' +
+               '</div>' +
+               '<div class="col-md-6 mb-3">' +
+               '<label for="nivel">Nivel Escolar</label>' +
+               '<select class="form-control" id="nivel" name="nivel" required>' +
+               '<option value="1">Licenciatura</option>' +
+               '<option value="2">Maestría</option>' +
+               '</select>' +
+               '</div>' +
+               '</div>' +
+
+               '<div class="form-row">' +
+               '<div class="col-md-6 mb-3">' +
+               '<label for="fechaInicio">Fecha de Inicio</label>' +
+               '<input type="date" class="form-control" id="fechaInicio" name="fechaInicio" required>' +
+               '</div>' +
+               '<div class="col-md-6 mb-3">' +
+               '<label for="fechaTermino">Fecha de Término</label>' +
+               '<input type="date" class="form-control" id="fechaTermino" name="fechaTermino" required>' +
+               '</div>' +
+               ' </div>',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Crear',
+            cancelButtonText: 'Cancelar',
+            preConfirm: () => {
+               const claveValue = document.getElementById('clave').value;
+               const nombreValue = document.getElementById('nombreForm').value;
+               const nivelValue = document.getElementById('nivel').value;
+               const fechaInicioValue = document.getElementById('fechaInicio').value;
+               const fechaTerminoValue = document.getElementById('fechaTermino').value;
+
+               if (claveValue === "" || nombreValue === "" || nivelValue === "" || fechaInicioValue === "" || fechaTerminoValue === "") {
+                  Swal.showValidationMessage('Todos los campos son obligatorios');
+               }
+
+               return [claveValue, nombreValue, nivelValue, fechaInicioValue, fechaTerminoValue];
+            }
+
+         })
+         if (formValues) {
+            console.log(formValues);
+            $.ajax({
+               type: 'POST',
+               dataType: 'json',
+               url: '{{base_url("reticulas/carrera/save")}}',
+               data: {
+                  'nombre_carrera': formValues[1],
+                  'clave_oficial': formValues[0],
+                  'clave': 'tre',
+                  'siglas': 'yaaaa',
+                  'creditos_totales': '2',
+                  'id_nivel_escolar': '1',
+                  'fecha_inicio': formValues[3],
+                  'fecha_termino': formValues[4],
+                  'id_area_carr': '1',
+                  'id_nivel_carr': '1',
+                  'id_sub_area_carr': '1',
+                  'nivel': 1,
+                  'estatus': 1
+               },
+               success: function (response) {
+
+                  Swal.fire('paso');
+                  console.log(response);
+               },
+               errors: function (error) {
+                  console.log(error);
+               }
+
+            });
+
+         }
+
+      })()
+   }
+
+   function mostrarConfirmacion(id, estatus) {
+
+   }
+   function editar(id) {
+
+   }
+   function eliminar(id) {
+
+   }
+</script>
+
+
+<script>
+   $(document).ready(function () {
+      var $tabla = $("#datatable").bootgrid({
+         caseSensitive: false,
+         ajax: false, // Desactivamos la solicitud AJAX
+         labels: {
+            noResults: "No hay resultados",
+            loading: "Cargando...",
+            infos: "Mostrando {{ctx.start}} al {{'{{ctx.end}}'}} de {{'{{ctx.total}}'}} registros",
+            search: "Buscar",
+            refresh: "Recarga",
+
+         },
+         pagination: true,
+         rowCount: 10,
+         searchSettings: {
+            delay: 100,
+            characters: 3,
+            searchOnEnterKey: true,
+            searchOnKeyPress: true,
+         },
+         formatters: {
+            'button_status': function (col, row) {
+               const estado = row.estatus;
+
+               let buttonHTML = '';
+
+               switch (estado) {
+                  case '1':
+                     buttonHTML = `
+                     <a class="btn btn-primary" onclick="editar(${row.id})"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                       <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                       <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                     </svg></a>
+                        <a class="btn btn-danger" onclick="eliminar(${row.id})"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                       <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+                     </svg></a>
+                     `
+                     break;
+                  case '2':
+                     buttonHTML = `
+                     <button  class="custom-button btn btn-success"  data-user-id="${row.id}" onclick="mostrarConfirmacion('${row.id}','${estado}')">Activo</button>
+                     `;
+                     break;
+                  case '3':
+                     buttonHTML = `
+                      <button class="custom-button btn btn-warning" data-user-id="${row.id}" >Inactivo</button>
+                     `;
+                     break;
+                  case '4':
+                     buttonHTML = `
+                     <button class="custom-button btn btn-secondary" data-user-id="${row.id}">Historial</button>
+                     `;
+                     break;
+                  default:
+                     buttonHTML = '';
+               }
+
+               return buttonHTML;
+            }
+         },
+
+      });
+   });
+
+</script>
+{% endblock %}
