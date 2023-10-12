@@ -209,6 +209,10 @@ $routes->group(
                 $routes->post('delete', 'Asignaturas::delete');
                 $routes->get('get/(:num)', 'Asignaturas::getByID/$1');
                 $routes->get('get-all', 'Asignaturas::getAsignaturas');
+                // Agregadas por werin
+                $routes->post('get-basicas', 'Asignaturas::getAsignaturasBasicas');
+                $routes->post('get-by-carrera', 'Asignaturas::getAsignaturasByCarrera');
+                $routes->post('get-by-especialidad', 'Asignaturas::getAsignaturasByEspecialidad');
 
                 // TEST routes
                 $routes->get('testid', 'Asignaturas::testID');

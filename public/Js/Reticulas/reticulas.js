@@ -1,5 +1,5 @@
 import Reticulas from './HerramientaReticulas/reticulas.js';
-import ComponentReticulas from './HerramientaReticulas/component-reticulas.js';
+import Asignaturas from '../Services/Reticulas/asignaturas.js';
 
 $(document).ready(function () {
 	const reticula = new Reticulas('reticula');
@@ -11,4 +11,11 @@ $(document).ready(function () {
 		semestre3: ['0007', '0008', '0010', '0011', '0012'],
 	};
 	reticula.setReticula(reticulaJson);
+
+	const asignaturas = new Asignaturas();
+	const basicas = async () => {
+		const result = await asignaturas.getByEspecialidad(3);
+		console.log(result);
+	};
+	basicas();
 });
