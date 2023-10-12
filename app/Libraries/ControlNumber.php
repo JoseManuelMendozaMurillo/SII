@@ -36,4 +36,9 @@ class ControlNumber
     {
         $this->number = $number;
     }
+
+    public function returnOne()
+    {
+        $this->number--;
+    }
 }

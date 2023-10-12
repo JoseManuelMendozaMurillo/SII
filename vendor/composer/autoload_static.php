@@ -15,8 +15,10 @@ class ComposerStaticInit03b6c41fe23e25f2a723b71f82493f16
         'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '23c18046f52bef3eea034657bafda50f' => __DIR__ . '/..' . '/symfony/polyfill-php81/bootstrap.php',
+        '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
+        '3109cb1a231dcd04bee1f9f620d46975' => __DIR__ . '/..' . '/paragonie/sodium_compat/autoload.php',
         '3f21dc9c7942b4b08e22c921761edb59' => __DIR__ . '/..' . '/codeigniter4/shield/src/Helpers/auth_helper.php',
         'd769f6a3ea016e6093cedc85aa1e205d' => __DIR__ . '/..' . '/codeigniter4/shield/src/Helpers/email_helper.php',
         '3917c79c5052b270641b5a200963dbc2' => __DIR__ . '/..' . '/kint-php/kint/init.php',
@@ -201,8 +203,8 @@ class ComposerStaticInit03b6c41fe23e25f2a723b71f82493f16
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -324,6 +326,20 @@ class ComposerStaticInit03b6c41fe23e25f2a723b71f82493f16
             'org\\bovigo\\vfs\\' => 
             array (
                 0 => __DIR__ . '/..' . '/mikey179/vfsstream/src/main/php',
+            ),
+        ),
+        'S' => 
+        array (
+            'SecurityLib' => 
+            array (
+                0 => __DIR__ . '/..' . '/ircmaxell/security-lib/lib',
+            ),
+        ),
+        'R' => 
+        array (
+            'RandomLib' => 
+            array (
+                0 => __DIR__ . '/..' . '/paragonie/random-lib/lib',
             ),
         ),
         'H' => 
@@ -4105,6 +4121,26 @@ class ComposerStaticInit03b6c41fe23e25f2a723b71f82493f16
         'Psr\\SimpleCache\\CacheException' => __DIR__ . '/..' . '/psr/simple-cache/src/CacheException.php',
         'Psr\\SimpleCache\\CacheInterface' => __DIR__ . '/..' . '/psr/simple-cache/src/CacheInterface.php',
         'Psr\\SimpleCache\\InvalidArgumentException' => __DIR__ . '/..' . '/psr/simple-cache/src/InvalidArgumentException.php',
+        'RandomLib\\AbstractMcryptMixer' => __DIR__ . '/..' . '/paragonie/random-lib/lib/RandomLib/AbstractMcryptMixer.php',
+        'RandomLib\\AbstractMixer' => __DIR__ . '/..' . '/paragonie/random-lib/lib/RandomLib/AbstractMixer.php',
+        'RandomLib\\AbstractSource' => __DIR__ . '/..' . '/paragonie/random-lib/lib/RandomLib/AbstractSource.php',
+        'RandomLib\\Factory' => __DIR__ . '/..' . '/paragonie/random-lib/lib/RandomLib/Factory.php',
+        'RandomLib\\Generator' => __DIR__ . '/..' . '/paragonie/random-lib/lib/RandomLib/Generator.php',
+        'RandomLib\\Mixer' => __DIR__ . '/..' . '/paragonie/random-lib/lib/RandomLib/Mixer.php',
+        'RandomLib\\Mixer\\Hash' => __DIR__ . '/..' . '/paragonie/random-lib/lib/RandomLib/Mixer/Hash.php',
+        'RandomLib\\Mixer\\McryptRijndael128' => __DIR__ . '/..' . '/paragonie/random-lib/lib/RandomLib/Mixer/McryptRijndael128.php',
+        'RandomLib\\Mixer\\SodiumMixer' => __DIR__ . '/..' . '/paragonie/random-lib/lib/RandomLib/Mixer/SodiumMixer.php',
+        'RandomLib\\Mixer\\XorMixer' => __DIR__ . '/..' . '/paragonie/random-lib/lib/RandomLib/Mixer/XorMixer.php',
+        'RandomLib\\Source' => __DIR__ . '/..' . '/paragonie/random-lib/lib/RandomLib/Source.php',
+        'RandomLib\\Source\\CAPICOM' => __DIR__ . '/..' . '/paragonie/random-lib/lib/RandomLib/Source/CAPICOM.php',
+        'RandomLib\\Source\\MTRand' => __DIR__ . '/..' . '/paragonie/random-lib/lib/RandomLib/Source/MTRand.php',
+        'RandomLib\\Source\\MicroTime' => __DIR__ . '/..' . '/paragonie/random-lib/lib/RandomLib/Source/MicroTime.php',
+        'RandomLib\\Source\\OpenSSL' => __DIR__ . '/..' . '/paragonie/random-lib/lib/RandomLib/Source/OpenSSL.php',
+        'RandomLib\\Source\\Rand' => __DIR__ . '/..' . '/paragonie/random-lib/lib/RandomLib/Source/Rand.php',
+        'RandomLib\\Source\\RandomBytes' => __DIR__ . '/..' . '/paragonie/random-lib/lib/RandomLib/Source/RandomBytes.php',
+        'RandomLib\\Source\\Sodium' => __DIR__ . '/..' . '/paragonie/random-lib/lib/RandomLib/Source/Sodium.php',
+        'RandomLib\\Source\\URandom' => __DIR__ . '/..' . '/paragonie/random-lib/lib/RandomLib/Source/URandom.php',
+        'RandomLib\\Source\\UniqID' => __DIR__ . '/..' . '/paragonie/random-lib/lib/RandomLib/Source/UniqID.php',
         'ReturnTypeWillChange' => __DIR__ . '/..' . '/symfony/polyfill-php81/Resources/stubs/ReturnTypeWillChange.php',
         'Sabberworm\\CSS\\CSSList\\AtRuleBlockList' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/CSSList/AtRuleBlockList.php',
         'Sabberworm\\CSS\\CSSList\\CSSBlockList' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/CSSList/CSSBlockList.php',
@@ -4345,6 +4381,16 @@ class ComposerStaticInit03b6c41fe23e25f2a723b71f82493f16
         'SebastianBergmann\\Type\\UnknownType' => __DIR__ . '/..' . '/sebastian/type/src/type/UnknownType.php',
         'SebastianBergmann\\Type\\VoidType' => __DIR__ . '/..' . '/sebastian/type/src/type/VoidType.php',
         'SebastianBergmann\\Version' => __DIR__ . '/..' . '/sebastian/version/src/Version.php',
+        'SecurityLib\\AbstractFactory' => __DIR__ . '/..' . '/ircmaxell/security-lib/lib/SecurityLib/AbstractFactory.php',
+        'SecurityLib\\BaseConverter' => __DIR__ . '/..' . '/ircmaxell/security-lib/lib/SecurityLib/BaseConverter.php',
+        'SecurityLib\\BigMath' => __DIR__ . '/..' . '/ircmaxell/security-lib/lib/SecurityLib/BigMath.php',
+        'SecurityLib\\BigMath\\BCMath' => __DIR__ . '/..' . '/ircmaxell/security-lib/lib/SecurityLib/BigMath/BCMath.php',
+        'SecurityLib\\BigMath\\GMP' => __DIR__ . '/..' . '/ircmaxell/security-lib/lib/SecurityLib/BigMath/GMP.php',
+        'SecurityLib\\BigMath\\PHPMath' => __DIR__ . '/..' . '/ircmaxell/security-lib/lib/SecurityLib/BigMath/PHPMath.php',
+        'SecurityLib\\Enum' => __DIR__ . '/..' . '/ircmaxell/security-lib/lib/SecurityLib/Enum.php',
+        'SecurityLib\\Hash' => __DIR__ . '/..' . '/ircmaxell/security-lib/lib/SecurityLib/Hash.php',
+        'SecurityLib\\Strength' => __DIR__ . '/..' . '/ircmaxell/security-lib/lib/SecurityLib/Strength.php',
+        'SecurityLib\\Util' => __DIR__ . '/..' . '/ircmaxell/security-lib/lib/SecurityLib/Util.php',
         'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
         'Svg\\CssLength' => __DIR__ . '/..' . '/phenx/php-svg-lib/src/Svg/CssLength.php',
         'Svg\\DefaultStyle' => __DIR__ . '/..' . '/phenx/php-svg-lib/src/Svg/DefaultStyle.php',
