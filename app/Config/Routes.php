@@ -262,8 +262,17 @@ $routes->group(
             }
         );
     }
+
+    // RUTAS DE ALUMNOS
 );
 
+$routes->group(
+    'alumnos',
+    ['namespace' => 'App\Controllers\Alumnos'],
+    function ($routes) {
+        $routes->get('', 'Alumnos::alumno');
+    }
+);
 /*
  * --------------------------------------------------------------------
  * Additional Routing
