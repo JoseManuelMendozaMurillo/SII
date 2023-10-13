@@ -48,6 +48,7 @@ $routes->group(
         $routes->get('login', 'Login::loginView');
         $routes->post('sing-in', 'Login::loginAction');
         $routes->get('logout', 'Login::logoutAction');
+        $routes->get('passwordreset', 'Login::passwordResetView');
     }
 );
 

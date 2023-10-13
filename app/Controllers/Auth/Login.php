@@ -5,6 +5,7 @@ namespace App\Controllers\Auth;
 use CodeIgniter\Shield\Controllers\LoginController as ShieldLogin;
 use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\Shield\Config\Auth;
+use Exception;
 
 class Login extends ShieldLogin
 {
@@ -46,6 +47,36 @@ class Login extends ShieldLogin
             return redirect()->route('auth-action-show')->withCookies();
         }
 
+        if (auth()->user()->requiresPasswordReset()) {
+            return redirect()->route('auth/passwordreset');
+        }
+
         return redirect()->to(config(Auth::class)->loginRedirect())->withCookies();
+    }
+
+    public function passwordResetView()
+    {
+    }
+
+    public function passwordReset()
+    {
+        $password = $this->request->getPost('password');
+
+        try {
+            $users = auth()->getProvider();
+            $user = auth()->user();
+            $user->fill([
+
+                'password' => $password,
+            ]);
+            $users->save($user);
+            $user->undoForcePasswordReset();
+
+            auth()->logout();
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+
+        return redirect()->to('auth/login');
     }
 }
