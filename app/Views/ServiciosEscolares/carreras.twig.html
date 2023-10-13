@@ -119,7 +119,7 @@
                            {% for carrera in carreras %}
                            <tr>
                               <td>{{ carrera.id_carrera}}</td>
-                              <td>{{ carrera.clave_oficial }}</td>
+                              <td>{{ carrera.clave_carrera }}</td>
                               <td>{{ carrera.nombre_carrera }}</td>
                               <td>{{ carrera.estatus }}</td>
                            </tr>
@@ -148,43 +148,43 @@
    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script>
+   const formulario = '<div class="d-flex flex-column justify-content-center align-items-center">' +
+      '<div class="d-flex form-row justify-content-center">' +
+      '<div class="col-md-10 mb-3">' +
+
+
+      '<label for="clave">Clave</label>' +
+      '<input type="text" class="form-control" id="clave" name="clave" required>' +
+      '<br>' +
+
+
+      '<label for="nombre">Nombre</label>' +
+      '<input type="text" class="form-control" id="nombreForm" name="nombre" required>' +
+      '<br>' +
+
+
+      '<label for="nivel">Nivel Escolar</label>' +
+      '<select class="form-select" id="nivel" name="nivel" required>' +
+      '<option value="1">Licenciatura</option>' +
+      '<option value="2">Maestría</option>' +
+      '</select>' +
+      '<br>' +
+
+
+      '<label for="fechaInicio">Fecha de Inicio</label>' +
+      '<input type="date" class="form-control" id="fechaInicio" name="fechaInicio" required>' +
+      '<br>' +
+
+
+      '</div>' +
+      '</div>' +
+      ' </div>';
    function formCarrera() {
       (async () => {
          const { value: formValues } = await Swal.fire({
             title: 'Crear carrera',
             icon: 'info',
-            html:
-               '<div class="form-row">' +
-               '<div class="col-md-6 mb-3">' +
-               '<label for="clave">Clave</label>' +
-               '<input type="text" class="form-control" id="clave" name="clave" required>' +
-               '</div>' +
-               '</div>' +
-
-               '<div class="form-row">' +
-               '<div class="col-md-6 mb-3">' +
-               '<label for="nombre">Nombre</label>' +
-               '<input type="text" class="form-control" id="nombreForm" name="nombre" required>' +
-               '</div>' +
-               '<div class="col-md-6 mb-3">' +
-               '<label for="nivel">Nivel Escolar</label>' +
-               '<select class="form-control" id="nivel" name="nivel" required>' +
-               '<option value="1">Licenciatura</option>' +
-               '<option value="2">Maestría</option>' +
-               '</select>' +
-               '</div>' +
-               '</div>' +
-
-               '<div class="form-row">' +
-               '<div class="col-md-6 mb-3">' +
-               '<label for="fechaInicio">Fecha de Inicio</label>' +
-               '<input type="date" class="form-control" id="fechaInicio" name="fechaInicio" required>' +
-               '</div>' +
-               '<div class="col-md-6 mb-3">' +
-               '<label for="fechaTermino">Fecha de Término</label>' +
-               '<input type="date" class="form-control" id="fechaTermino" name="fechaTermino" required>' +
-               '</div>' +
-               ' </div>',
+            html: formulario,
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
@@ -195,42 +195,33 @@
                const nombreValue = document.getElementById('nombreForm').value;
                const nivelValue = document.getElementById('nivel').value;
                const fechaInicioValue = document.getElementById('fechaInicio').value;
-               const fechaTerminoValue = document.getElementById('fechaTermino').value;
 
                //ToDO: Validaciones Parsley
 
-               if (claveValue === "" || nombreValue === "" || nivelValue === "" || fechaInicioValue === "" || fechaTerminoValue === "") {
+               if (claveValue === "" || nombreValue === "" || nivelValue === "" || fechaInicioValue === "") {
                   Swal.showValidationMessage('Todos los campos son obligatorios');
                }
 
-               return [claveValue, nombreValue, nivelValue, fechaInicioValue, fechaTerminoValue];
+               return [claveValue, nombreValue, nivelValue, fechaInicioValue];
             }
 
-         })
+         });
          if (formValues) {
             $.ajax({
                type: 'POST',
                dataType: 'json',
-               url: '{{base_url("reticulas/carrera/save")}}',
+               url: '{{base_url("reticulas/carreras/create")}}',
                data: {
                   'nombre_carrera': formValues[1],
-                  'clave_oficial': formValues[0],
-                  'clave': 'tre',
-                  'siglas': 'yaaaa',
-                  'creditos_totales': '2',
-                  'id_nivel_escolar': '1',
+                  'clave_carrera': formValues[0],
+                  'id_nivel_escolar': formValues[2],
                   'fecha_inicio': formValues[3],
-                  'fecha_termino': formValues[4],
-                  'id_area_carr': '1',
-                  'id_nivel_carr': '1',
-                  'id_sub_area_carr': '1',
-                  'nivel': '1',
+                  //'fecha_termino': formValues[4],
                   'estatus': 1 //generar por backend
                },
                success: function (response) {
                   Swal.fire('¡Listo!', 'La carrera ha sido agregada', 'success');
-                  $('#datatable').bootgrid('reload');
-                  console.log($('#datatable').bootgrid('reload'));
+                  loadDataAndBuildTable();
                },
                error: function (error) {
                   Swal.fire('Error', 'Hubo un problema', 'error');
@@ -247,16 +238,104 @@
 
    }
    function editar(id) {
+      $.ajax({
+         type: 'GET',
+         dataType: 'json',
+         url: '{{base_url("reticulas/carreras/get/")}}' + id,
+         data: {
+            'id': id,
+         },
+         success: function (response) {
+            const responseData = response.data;
+            const fechaInicioFormateada = new Date(responseData.fecha_inicio).toISOString().split('T')[0];
 
+            (async () => {
+               const { value: formValues } = await Swal.fire({
+                  title: 'Editar carrera',
+                  icon: 'info',
+                  html: formulario,
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Guardar',
+                  cancelButtonText: 'Cancelar',
+                  didOpen: () => {
+                     // Llena los campos del formulario después de que se muestre el modal
+                     document.getElementById('clave').value = responseData.clave_carrera;
+                     document.getElementById('nombreForm').value = responseData.nombre_carrera;
+                     document.getElementById('nivel').value = responseData.id_nivel_escolar;
+                     document.getElementById('fechaInicio').value = fechaInicioFormateada;
+                  },
+                  preConfirm: () => {
+                     const claveValue = document.getElementById('clave').value;
+                     const nombreValue = document.getElementById('nombreForm').value;
+                     const nivelValue = document.getElementById('nivel').value;
+                     const fechaInicioValue = document.getElementById('fechaInicio').value;
+
+                     //ToDO: Validaciones Parsley
+
+                     if (claveValue === "" || nombreValue === "" || nivelValue === "" || fechaInicioValue === "") {
+                        Swal.showValidationMessage('Todos los campos son obligatorios');
+                     }
+
+                     return [claveValue, nombreValue, nivelValue, fechaInicioValue];
+                  }
+
+               })
+               if (formValues) {
+                  $.ajax({
+                     type: 'POST',
+                     dataType: 'json',
+                     url: '{{base_url("reticulas/carreras/update")}}',
+                     data: {
+                        'id_carrera': id,
+                        'nombre_carrera': formValues[1],
+                        'clave_carrera': formValues[0],
+                        'id_nivel_escolar': formValues[2],
+                        'fecha_inicio': formValues[3],
+                        'estatus': 1 //generar por backend
+                     },
+                     success: function (response) {
+                        Swal.fire('¡Listo!', 'La carrera ha sido editada', 'success');
+                        loadDataAndBuildTable();
+                     },
+                     error: function (error) {
+                        Swal.fire('Error', 'Hubo un problema: ' + error.responseText, 'error');
+                        console.log(error);
+                     }
+
+                  });
+
+               }
+            })()
+
+         },
+         error: function (error, response) {
+            Swal.fire('Error', 'Hubo un problema: ' + error.responseText, 'error');
+            console.log(error);
+         }
+      });
    }
    function eliminar(id) {
+      $.ajax({
+         type: 'POST',
+         dataType: 'json',
+         url: '{{base_url("reticulas/carreras/delete")}}',
+         data: {
+            'id': id,
+         },
+         success: function (response) {
+            Swal.fire('¡Listo!', 'La carrera ha sido eliminada', 'success');
+            loadDataAndBuildTable();
+         },
+         error: function (error, response) {
+            Swal.fire('Error', 'Hubo un problema: ' + error.responseText, 'error');
+            console.log(error);
+         }
 
+      });
    }
-</script>
-
-
-<script>
-   $(document).ready(function () {
+   function buildTable() {
       var $tabla = $("#datatable").bootgrid({
          caseSensitive: false,
          ajax: false, // Desactivamos la solicitud AJAX
@@ -316,8 +395,29 @@
                return buttonHTML;
             }
          },
-
       });
+   }
+
+   function loadDataAndBuildTable() {
+      $.ajax({
+         type: 'GET',
+         dataType: 'json',
+         url: '{{base_url("reticulas/carreras/get-all")}}',
+         success: function (response) {
+            console.log(response);
+            buildTable();
+         },
+         error: function (error) {
+            console.log('Error al obtener los datos de la tabla');
+         }
+      });
+   }
+</script>
+
+
+<script>
+   $(document).ready(function () {
+      buildTable();
    });
 
 </script>

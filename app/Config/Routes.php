@@ -225,11 +225,12 @@ $routes->group(
             function ($routes) {
                 $routes->get('show', 'Carreras::show');
                 $routes->get('new', 'Carreras::form');
-                $routes->post('update', 'Carreras::form');
-                $routes->post('save', 'Carreras::save');
+                $routes->post('update', 'Carreras::update');
+                $routes->post('create', 'Carreras::create');
                 $routes->post('delete', 'Carreras::delete');
                 $routes->get('testid', 'Carreras::testID');
                 $routes->get('get/(:num)', 'Carreras::getByID/$1');
+                $routes->get('get-all', 'Carreras::getCarrerasAll');
             }
         );
 
