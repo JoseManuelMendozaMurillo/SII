@@ -43,8 +43,6 @@ class Alumnos extends BaseController
     public function alumno()
     {
         $this->newAlumnoFromAspirante();
-
-        echo $this->controlNumberGenerator->currentNumber();
     }
 
     public function newAlumnoFromAspirante()
@@ -53,7 +51,7 @@ class Alumnos extends BaseController
         // TODO: Agrega mensaje personalizado para el correo de aceptacion
 
         // Recibe el user_id de un aspirante aceptado;
-        $id_aspirante = 202;
+        $id_aspirante = 22;
         $aspirante = $this->aspiranteModel->where('id_aspirante', $id_aspirante)->find()[0];
 
         // Genera un no de control
@@ -91,7 +89,7 @@ class Alumnos extends BaseController
 
         $addressee = $personal_email;
         $subject = 'ahora eres un alumno';
-        $htmlEmail = '<h1> nice </h1>';
+        $htmlEmail = '<h1>  user: ' . $institutionalEmail . ' pass: ' . $password . '   nice </h1>';
         if (!$this->emails->sendHtmlEmail($addressee, $subject, $htmlEmail)) {
             // $message = 'Aspirant registration email failed to be sent {"user_id": "' . $this->userId . '"}';
             // log_message('error', $message);
@@ -121,6 +119,7 @@ class Alumnos extends BaseController
         $user->addGroup('alumnos');
 
         $user->deactivate();
+        $user->forcePasswordReset();
 
         return $user;
     }
