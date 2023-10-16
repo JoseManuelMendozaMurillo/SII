@@ -7,12 +7,22 @@ import ComponentSelectorMaterias from './component-selector-materias.js';
 export default class SelectorMaterias {
 	materias;
 	selectedMaterias;
+	excludeMaterias;
+	onlySelectOneMateria;
+	modal;
 	components;
 
-	constructor(materias = {}) {
+	constructor(
+		materias = {},
+		excludeMaterias = {},
+		onlySelectOneMateria = false,
+	) {
 		this.materias = materias;
-		this.selectedMaterias = {};
+		this.excludeMaterias = excludeMaterias;
+		this.onlySelectOneMateria = onlySelectOneMateria;
+		this.selectedMaterias = [];
 		this.components = new ComponentSelectorMaterias(this);
+		this.modal = null;
 	}
 
 	setMaterias = (materias) => {
@@ -23,26 +33,50 @@ export default class SelectorMaterias {
 		return this.materias;
 	};
 
+	setExcludeMaterias = (excludeMaterias) => {
+		this.excludeMaterias = excludeMaterias;
+	};
+
+	getExcludeMaterias = () => {
+		return this.excludeMaterias;
+	};
+
+	setOnlySelectOneMateria(onlySelectOneMateria) {
+		this.onlySelectOneMateria = onlySelectOneMateria;
+	}
+
+	getOnlySelectOneMateria() {
+		return this.onlySelectOneMateria;
+	}
+
 	getSelectedMaterias = () => {
 		return this.selectedMaterias;
 	};
 
-	open = (exclude = {}) => {
+	/**
+	 * @description Función para abrir el selector de materias
+	 *
+	 * @returns {Promise<Array|null>}
+	 */
+	open = () => {
 		return new Promise((resolve, reject) => {
-			Swal.fire({
+			this.modal = Swal.mixin({
 				width: '120vh',
 				title: 'Seleccionar materias',
 				html: this.components.getModal(),
 				showCancelButton: true,
+				showConfirmButton: !this.getOnlySelectOneMateria(),
 				cancelButtonText: 'Cancelar',
 				confirmButtonText: 'Agregar',
 				customClass: {
 					popup: 'custom-swal-modal', // Aplica tu clase personalizada al modal
 					actions: 'custom-swal-actions', // Aplica esta clase para alinear los botones a la derecha
 				},
-			}).then((result) => {
+			});
+			this.modal.fire().then((result) => {
 				if (result.isConfirmed) {
 					resolve(this.getSelectedMaterias());
+					this.close();
 				} else if (result.dismiss === Swal.DismissReason.cancel) {
 					this.close();
 					resolve(null);
@@ -52,35 +86,41 @@ export default class SelectorMaterias {
 	};
 
 	close = () => {
-		this.selectedMaterias = {};
-	};
-
-	serachMateria = (param, filter) => {
-		// Funcion para buscar una materia
-	};
-
-	filterMaterias = (filter) => {
-		// Funcion para filtrar materias
+		this.selectedMaterias = [];
 	};
 
 	addMateria = (itemMateria) => {
-		// Obtenemos los contenedores que necesitamos
-		const materiasAvailable = this.components.getInstanceMateriasAvailable();
-		const materiasSelected = this.components.getInstanceMateriasSelected();
+		// Agregamos los datos de la materia al arreglo
+		const type = itemMateria.getAttribute('type-asignatura');
+		const clave = itemMateria.getAttribute('clave-asignatura');
+		const name = itemMateria.children[0].textContent;
+		const materia = this.materias[type].find(
+			(materia) => materia.clave_asignatura === clave,
+		);
+		this.selectedMaterias.push(materia);
 
-		// Construimos el objeto itemMateriaSelected
-		const nameMateria = itemMateria.children[0].textContent;
-		const newItemMateriaSelected =
-			this.components.getItemMateriasSelected(nameMateria);
+		if (this.getOnlySelectOneMateria()) {
+			// Si solo se debe seleccionar una materia cerramos el modal
+			this.modal.clickConfirm();
+		} else {
+			// De lo contrario, agregamos la materia seleccionada al contenedor de materias seleccionadas
 
-		// Eliminamos el item de la materia del contenedor de materias disponibles
-		materiasAvailable.removeChild(itemMateria);
-		// Agregamos el nuevo item de la materia seleccionada al contenedor de materias seleccionadas
-		materiasSelected.append(newItemMateriaSelected);
+			// Obtenemos los contenedores que necesitamos
+			const materiasAvailable = this.components.getInstanceMateriasAvailable();
+			const materiasSelected = this.components.getInstanceMateriasSelected();
 
-		// Agregamos la clave al arreglo de materias seleccionadas
-		this.selectedMaterias['0001'] = nameMateria;
-		console.log(this.selectedMaterias);
+			// Construimos el objeto itemMateriaSelected
+			const newItemMateriaSelected = this.components.getItemMateriasSelected(
+				type,
+				name,
+				clave,
+			);
+
+			// Eliminamos el item de la materia del contenedor de materias disponibles
+			materiasAvailable.removeChild(itemMateria);
+			// Agregamos el nuevo item de la materia seleccionada al contenedor de materias seleccionadas
+			materiasSelected.append(newItemMateriaSelected);
+		}
 	};
 
 	removeMateria = (itemMateria) => {
@@ -89,17 +129,26 @@ export default class SelectorMaterias {
 		const materiasSelected = this.components.getInstanceMateriasSelected();
 
 		// Construimos el objeto itemMateriaAvailable
-		const nameMateria = itemMateria.children[0].textContent;
-		const newItemMateriaAvailable =
-			this.components.getItemMateriasAvailable(nameMateria);
+		const type = itemMateria.getAttribute('type-asignatura');
+		const name = itemMateria.children[0].textContent;
+		const clave = itemMateria.getAttribute('clave-asignatura');
+		const newItemMateriaAvailable = this.components.getItemMateriasAvailable(
+			type,
+			name,
+			clave,
+		);
 
 		// Eliminamos el item de la materia del contenedor de materias disponibles
 		materiasSelected.removeChild(itemMateria);
 		// Agregamos el nuevo item de la materia seleccionada al contenedor de materias seleccionadas
 		materiasAvailable.append(newItemMateriaAvailable);
 
-		// Eliminamos la clave al arreglo de materias seleccionadas
-		delete this.selectedMaterias['0001'];
-		console.log(this.selectedMaterias);
+		// Eliminamos la materia del arreglo de materias seleccionadas
+		const indexDelete = this.selectedMaterias.findIndex(
+			(materia) => materia.clave_asignatura === clave,
+		);
+		if (indexDelete !== -1) {
+			this.selectedMaterias.splice(indexDelete, 1);
+		}
 	};
 }

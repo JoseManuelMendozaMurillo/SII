@@ -12,6 +12,11 @@ export default class ComponentSelectorMaterias {
 	idMateriasAvailable;
 	idMateriasSelected;
 
+	// Id filters
+	idSeeker;
+	idSelect;
+	filterOptions;
+
 	constructor(instanceClassSelectorMaterias) {
 		this.selectorMaterias = instanceClassSelectorMaterias;
 		this.htmlElements = new CreateHtmlElements();
@@ -19,6 +24,13 @@ export default class ComponentSelectorMaterias {
 		// Agregamos los id de los containers
 		this.idMateriasAvailable = 'containerMateriasAvailable';
 		this.idMateriasSelected = 'containerMateriasSelected';
+
+		// Agregamos los id de los filtros
+		this.idSeeker = 'searchMateria';
+		this.idSelect = 'typeMateria';
+		// Agregamos las opciones de filtrado
+		const options = Object.keys(this.selectorMaterias.materias);
+		this.filterOptions = ['Todas', ...options];
 	}
 
 	/**
@@ -39,6 +51,24 @@ export default class ComponentSelectorMaterias {
 	 */
 	getInstanceMateriasSelected = () => {
 		return document.getElementById(this.idMateriasSelected);
+	};
+
+	/**
+	 * @description Función para obtener el valor del selector por tipo de asignatura
+	 *
+	 * @returns {String}
+	 */
+	getValSelectByTypeAsig = () => {
+		return document.getElementById(this.idSelect).value;
+	};
+
+	/**
+	 * @description Función para obtener el valor del selector por tipo de asignatura
+	 *
+	 * @returns {String}
+	 */
+	getValSeeker = () => {
+		return document.getElementById(this.idSeeker).value;
 	};
 
 	/**
@@ -98,13 +128,12 @@ export default class ComponentSelectorMaterias {
 
 		// Obtenemos los recuadros donde se muestran las materias
 		const containerMateriasAvailable = this.getContainerMateriasAvailable();
-		const containerMateriasSelected = this.getContainerMateriasSelected();
+		containerMaterias.append(containerMateriasAvailable);
 
-		// Agregamos los contenedores al contenedor de materias
-		containerMaterias.append(
-			containerMateriasAvailable,
-			containerMateriasSelected,
-		);
+		if (!this.selectorMaterias.getOnlySelectOneMateria()) {
+			const containerMateriasSelected = this.getContainerMateriasSelected();
+			containerMaterias.append(containerMateriasSelected);
+		}
 
 		return containerMaterias;
 	};
@@ -129,13 +158,23 @@ export default class ComponentSelectorMaterias {
 			htmlContent: header,
 		});
 
-		// Agregamos las materias
-		for (let index = 0; index < 20; index++) {
-			const newItemMateria =
-				this.getItemMateriasAvailable('Materia de ejemplo');
-			containerMateriasAvailable.append(newItemMateria);
-		}
-
+		// Agregamos las asignaturas
+		const tiposAsignaturas = this.filterOptions.slice(1);
+		const asignaturas = this.selectorMaterias.materias;
+		tiposAsignaturas.forEach((tipo) => {
+			asignaturas[tipo].forEach((asignatura) => {
+				const claveAsig = asignatura.clave_asignatura;
+				// Evaluamos si la materia se debe mostrar en el selector
+				if (!this.selectorMaterias.getExcludeMaterias().includes(claveAsig)) {
+					const newItemMateria = this.getItemMateriasAvailable(
+						tipo,
+						asignatura.nombre_asignatura,
+						asignatura.clave_asignatura,
+					);
+					containerMateriasAvailable.append(newItemMateria);
+				}
+			});
+		});
 		return containerMateriasAvailable;
 	};
 
@@ -173,10 +212,12 @@ export default class ComponentSelectorMaterias {
 	 * @name getItemMateriasAvailable
 	 * @description Función para crear un item de una materia disponible
 	 *
+	 * @param {String} type - Tipo de materia
 	 * @param {String} name - Nombre de la materia
+	 * @param {String} clave - Clave de la materia
 	 * @returns {HTMLElement}
 	 */
-	getItemMateriasAvailable = (name = '') => {
+	getItemMateriasAvailable = (type = '', name = '', clave = '') => {
 		// Creamos la etiqueta para el nombre de la materia
 		const nameMateria = this.htmlElements.getSpan({
 			class: 'item-materia-name',
@@ -189,6 +230,8 @@ export default class ComponentSelectorMaterias {
 		// Creamos el item
 		const containerItemMateria = this.htmlElements.getContainer({
 			class: 'item-materia available',
+			'type-asignatura': type,
+			'clave-asignatura': clave,
 			htmlContent: nameMateria.outerHTML + stringIconRowRight,
 		});
 
@@ -206,10 +249,12 @@ export default class ComponentSelectorMaterias {
 	 * @name getItemMateriasAvailable
 	 * @description Función para crear un item de una materia seleccionada
 	 *
+	 * @param {String} type - Tipo de materia
 	 * @param {String} name - Nombre de la materia
+	 * @param {String} clave - Clave de la materia
 	 * @returns {HTMLElement}
 	 */
-	getItemMateriasSelected = (name = '') => {
+	getItemMateriasSelected = (type = '', name = '', clave = '') => {
 		// Creamos la etiqueta para el nombre de la materia
 		const nameMateria = this.htmlElements.getSpan({
 			class: 'item-materia-name',
@@ -222,6 +267,8 @@ export default class ComponentSelectorMaterias {
 		// Creamos el item de la materia seleccionada
 		const containerItemMateria = this.htmlElements.getContainer({
 			class: 'item-materia selected',
+			'type-asignatura': type,
+			'clave-asignatura': clave,
 			htmlContent: nameMateria.outerHTML + stringIconRowLeft,
 		});
 
@@ -251,10 +298,12 @@ export default class ComponentSelectorMaterias {
 		const inputSeeker = this.getInputSeeker();
 
 		// Unimos los elementos del buscador para crearlo
-		return this.htmlElements.getContainer({
+		const seeker = this.htmlElements.getContainer({
 			class: 'input-group w-50',
-			htmlContent: labelSeeker.outerHTML + inputSeeker.outerHTML,
+			htmlContent: labelSeeker.outerHTML,
 		});
+		seeker.append(inputSeeker);
+		return seeker;
 	}
 
 	/**
@@ -264,32 +313,39 @@ export default class ComponentSelectorMaterias {
 	 * @returns {HTMLElement}
 	 */
 	getInputSeeker = () => {
-		return this.htmlElements.getInput({
-			id: 'searchMateria',
-			name: 'searchMateria',
+		const seeker = this.htmlElements.getInput({
+			id: this.idSeeker,
+			name: this.idSeeker,
 			class: 'form-control',
 			type: 'text',
 			placeholder: 'Buscar...',
 		});
+
+		// Agregamos el eventos para buscar asignaturas
+		const self = this;
+		seeker.addEventListener('input', function (e) {
+			self.actionInputSeeker(e);
+		});
+
+		return seeker;
 	};
 
 	/**
-	 * @name getInputSeeker
+	 * @name getSelectByTypeMaterias
 	 * @description Funcion para crear el select para el filtrado de materias por su tipo
 	 *
 	 * @returns {HTMLElement}
 	 */
 	getSelectByTypeMaterias = () => {
 		const selectTypes = this.htmlElements.getSelect({
-			id: 'typeMateria',
-			name: 'typeMateria',
+			id: this.idSelect,
+			name: this.idSelect,
 			class: 'form-select w-50',
 		});
 
 		// Agregamos las opciones al select
-		const typesMaterias = ['Todas', 'Basicas', 'Genericas', 'Especiales'];
 		let val = 1;
-		typesMaterias.forEach((type) => {
+		this.filterOptions.forEach((type) => {
 			const newOption = this.htmlElements.getOption({
 				textContent: type,
 				value: val,
@@ -297,6 +353,11 @@ export default class ComponentSelectorMaterias {
 			});
 			selectTypes.append(newOption);
 			val++;
+		});
+
+		const self = this;
+		selectTypes.addEventListener('change', function (e) {
+			self.actionChangeSelect(e);
 		});
 
 		return selectTypes;
@@ -320,8 +381,8 @@ export default class ComponentSelectorMaterias {
 			class: className,
 			viewBox: '0 0 16 16',
 			htmlContent: this.htmlElements.getPath({
-				d: 'M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z',
 				'fill-rule': 'evenodd',
+				d: 'M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z',
 			}),
 		});
 		return iconRowRight.outerHTML;
@@ -333,8 +394,8 @@ export default class ComponentSelectorMaterias {
 			class: className,
 			viewBox: '0 0 16 16',
 			htmlContent: this.htmlElements.getPath({
-				d: 'M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8zs',
 				'fill-rule': 'evenodd',
+				d: 'M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8zs',
 			}),
 		});
 		return iconRowLeft.outerHTML;
@@ -351,4 +412,108 @@ export default class ComponentSelectorMaterias {
 		});
 		return iconCheck.outerHTML;
 	};
+
+	/**
+	 * @description Función para cambiar la visualizacion de las materias disponibles segun el
+	 * 				selector
+	 *
+	 * @param {Event} e - Evento change del select de tipos materias
+	 */
+	actionChangeSelect = (e) => {
+		const val0ption = parseInt(e.target.value);
+		const option = this.filterOptions[val0ption - 1];
+		const valSeeker = this.getValSeeker();
+		const asigAvailable = this.getInstanceMateriasAvailable().children;
+
+		const showOnlyAsignaturas = (type) => {
+			for (let i = 1; i < asigAvailable.length; i++) {
+				if (asigAvailable[i].getAttribute('type-asignatura') !== type) {
+					asigAvailable[i].classList.add('hidden');
+				} else {
+					asigAvailable[i].classList.remove('hidden');
+				}
+			}
+
+			// Obtenemos las asignaturas segun la variable type
+			const shownAsig = this.getInstanceMateriasAvailable().querySelectorAll(
+				`div[type-asignatura="${type}"]`,
+			);
+			// Hacemos la busqueda de lo que habia en el buscador
+			this.__searchAsignatura(valSeeker, shownAsig);
+		};
+
+		// Mostrar todas las materias
+		if (option === 'Todas') {
+			for (let i = 1; i < asigAvailable.length; i++) {
+				asigAvailable[i].classList.remove('hidden');
+			}
+			// Obtenemos todas las asignaturas
+			const shownAsig =
+				this.getInstanceMateriasAvailable().querySelectorAll('div');
+			// Hacemos la busqueda de lo que habia en el buscador
+			this.__searchAsignatura(valSeeker, shownAsig);
+			return;
+		}
+
+		showOnlyAsignaturas(option);
+	};
+
+	/**
+	 * @description Función para buscar asignaturas
+	 *
+	 * @param {Event} e Evento input del buscardor
+	 */
+	actionInputSeeker = (e) => {
+		// Obtenemos las asignaturas visibles segun el selector de tipos de materias
+		const valOption = this.getValSelectByTypeAsig();
+		const option = this.filterOptions[valOption - 1];
+		let asigAvailable = '';
+		if (option === 'Todas') {
+			asigAvailable =
+				this.getInstanceMateriasAvailable().querySelectorAll('div');
+		} else {
+			asigAvailable = this.getInstanceMateriasAvailable().querySelectorAll(
+				`div[type-asignatura="${option}"]`,
+			);
+		}
+
+		const value = e.target.value;
+		this.__searchAsignatura(value, asigAvailable);
+	};
+
+	/**
+	 * @description Método para buscar un nombre de una asignatura dentro de una colección de
+	 * 				asignaturas
+	 *
+	 * @param {String} param - Parametro a buscar
+	 * @param {HTMLCollection} asignaturas - Asignaturas donde se debe realizar la busqueda
+	 */
+	__searchAsignatura(param, asignaturas) {
+		// Obtenemos los nombres de las asignaturas
+		const namesAsig = Array.from(asignaturas).flatMap(
+			(asig) => asig.querySelectorAll('span')[0],
+		);
+
+		// Función para normalizar textos (Elimina acentos, cambia ñ => n y convierte a mayuscula)
+		function normalizeText(texto) {
+			return texto
+				.normalize('NFD')
+				.replace(/[\u0300-\u036f]/g, '')
+				.toUpperCase();
+		}
+
+		// Realizamos la busqueda del parametro sobre cada asignatura y vamos filtrando resultados
+		for (let i = 0; i < namesAsig.length; i++) {
+			if (param === '') {
+				namesAsig[i].parentNode.classList.remove('hidden');
+				continue;
+			}
+			const nameAsig = namesAsig[i].textContent;
+			if (normalizeText(nameAsig).includes(normalizeText(param))) {
+				namesAsig[i].parentNode.classList.remove('hidden');
+			} else {
+				namesAsig[i].parentNode.classList.add('hidden');
+			}
+		}
+	}
 }

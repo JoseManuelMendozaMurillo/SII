@@ -1,5 +1,6 @@
 import SelectorMaterias from '../HerramientaSeleccionarMaterias/selector-materias.js';
 import CreateHtmlElements from '../create-html-elements.js';
+import Asignaturas from '../../Services/Reticulas/asignaturas.js';
 
 /**
  * @class
@@ -19,6 +20,13 @@ export default class ComponentReticulas {
 	selectorMaterias;
 
 	/**
+	 * Instancia del servicio asignaturas
+	 * @type {Asignaturas}
+	 */
+	asignaturas;
+	allAsignaturas;
+
+	/**
 	 * Instancia de la clase CreateHtmlElements para la creación de elementos HTML.
 	 * @type {CreateHtmlElements}
 	 */
@@ -26,8 +34,10 @@ export default class ComponentReticulas {
 
 	constructor(reticulas) {
 		this.reticulas = reticulas;
-		this.selectorMaterias = new SelectorMaterias();
 		this.htmlElements = new CreateHtmlElements();
+		this.asignaturas = new Asignaturas();
+		this.selectorMaterias = null;
+		this.allAsignaturas = null;
 	}
 
 	/**
@@ -193,7 +203,7 @@ export default class ComponentReticulas {
 	getFooter = () => {
 		const footer = this.htmlElements.getContainer({
 			id: 'footer',
-			class: 'row justify-content-end gap-3 mt-4 pe-5',
+			class: 'row justify-content-center gap-3 mt-4 pe-5',
 		});
 
 		footer.append(this.getBtnGoBack('https://localhost/public/auth/login'));
@@ -296,8 +306,9 @@ export default class ComponentReticulas {
 		});
 
 		// Agregamos la acción para agregar materias
-		itemAddMateria.addEventListener('click', async (e) => {
-			this.actionBtnAddMaterias(e);
+		const self = this;
+		itemAddMateria.addEventListener('click', async function (e) {
+			self.actionBtnAddMaterias(e, this);
 		});
 
 		return itemAddMateria;
@@ -311,12 +322,12 @@ export default class ComponentReticulas {
 	 * @param {Int} numRow - Número de fila en la que se agregara
 	 * @returns {HTMLElement}
 	 */
-	getItemMateria = (nameMateria = '', numRow = 1) => {
+	getItemMateria = (clave = '', nameMateria = '', numRow = 1) => {
 		const itemMateria = this.htmlElements.getContainer({
 			class: 'item materia',
 			name: 'row',
 			'data-row': numRow,
-			'data-clave': nameMateria,
+			'data-clave': clave,
 			htmlContent: this.htmlElements.getSpan({ textContent: nameMateria }),
 		});
 
@@ -347,7 +358,7 @@ export default class ComponentReticulas {
 
 			// Añadimos el evento click al icono para actualizar materias
 			const svgIconUpdate = containerActions.children[1];
-			svgIconUpdate.addEventListener('click', function (e) {
+			svgIconUpdate.addEventListener('click', async function (e) {
 				self.actionBtnUpdateMateria(e, this);
 			});
 
@@ -476,12 +487,34 @@ export default class ComponentReticulas {
 	 * @name actionBtnAddMaterias
 	 * @description Función para agregar materias a un semestre
 	 *
-	 * @param {Event} e - Evento click del boton
+	 * @param {Event} e - Evento click
+	 * @param {HTMLElement} itemAddMateria - Elemento html que fue clickeado
 	 */
-	actionBtnAddMaterias = async (e) => {
-		// Obtener el numero de columna
-		const result = await this.selectorMaterias.open();
-		console.log(result, 'desde reticulas');
+	actionBtnAddMaterias = async (e, itemAddMateria) => {
+		// Si aun no se inicializa el selector de materias, lo iniciamos
+		if (this.selectorMaterias === null) {
+			this.allAsignaturas = await this.__getAsignaturas();
+			this.selectorMaterias = new SelectorMaterias(this.allAsignaturas);
+		}
+
+		// Obtenemos las materias que ya fueron seleccionadas
+		const asignaturasSelected = this.__getAsignaturasSelected(
+			this.reticulas.getReticula(),
+		);
+		// Excluimos las materias que ya fueron seleccionadas en el selector de materias
+		this.selectorMaterias.setExcludeMaterias(asignaturasSelected);
+		this.selectorMaterias.setOnlySelectOneMateria(false);
+		// Abrimos el selectoe de materias y esperamos las materias que fueron seleccionadas
+		const newAsignaturas = await this.selectorMaterias.open();
+
+		// Si no se selecciono ninguna materia
+		if (newAsignaturas === null || newAsignaturas.length === 0) return;
+
+		// Obtenemos el número de semestre donde se agregaran las materias
+		const numSemestre =
+			itemAddMateria.parentNode.parentNode.getAttribute('data-num-col');
+		// Agregamos las materias
+		this.reticulas.setMaterias(newAsignaturas, numSemestre);
 	};
 
 	/**
@@ -511,8 +544,88 @@ export default class ComponentReticulas {
 	 * @param {Event} e - Evento click del boton
 	 * @param {HTMLElement} target - Elemento que fue clickeado
 	 */
-	actionBtnUpdateMateria = function (e, target) {
-		// TO DO
-		console.log('Update materia');
+	actionBtnUpdateMateria = async (e, target) => {
+		// Si aun no se inicializa el selector de materias, lo iniciamos
+		if (this.selectorMaterias === null) {
+			this.allAsignaturas = await this.__getAsignaturas();
+			this.selectorMaterias = new SelectorMaterias(this.allAsignaturas);
+		}
+
+		// Obtenemos las materias que ya fueron seleccionadas
+		const asignaturasSelected = this.__getAsignaturasSelected(
+			this.reticulas.getReticula(),
+		);
+		// Excluimos las materias que ya fueron seleccionadas en el selector de materias
+		this.selectorMaterias.setExcludeMaterias(asignaturasSelected);
+		this.selectorMaterias.setOnlySelectOneMateria(true);
+		// Abrimos el selectoe de materias y esperamos las materias que fueron seleccionadas
+		const newAsignatura = await this.selectorMaterias.open();
+
+		// Si no se selecciono ninguna materia
+		if (newAsignatura === null || newAsignatura.length === 0) return;
+
+		// Obtenemos la clave de la materia a cambiar
+		const itemMateria = target.parentNode.parentNode;
+		const clave = itemMateria.getAttribute('data-clave');
+		// Obtenemos el número de semestre donde se agregaran las materias
+		const numSemestre =
+			itemMateria.parentNode.parentNode.getAttribute('data-num-col');
+		// Cambiamos la materia
+		this.reticulas.updateMateria(numSemestre, newAsignatura[0], clave);
+	};
+
+	/* Métodos privados */
+
+	/**
+	 * @private
+	 * @description Función para obtener las asignaturas basicas, las asignaturas de la carrera y
+	 * 				de la especialidad segun la reticula
+	 *
+	 * @return {Object}
+	 */
+	async __getAsignaturas() {
+		// Obtenemos el JSON de la reticula
+		const reticula = this.reticulas.getReticula();
+
+		// Obtenemos las materias
+		const asigBasicas = await this.asignaturas.getBasicas();
+		const asigCarrera = await this.asignaturas.getGenericasByCarrera(
+			reticula.idCarrera,
+		);
+		const asigEspecialidad = await this.asignaturas.getByEspecialidad(
+			reticula.idEspecialidad,
+		);
+
+		// Contruimos el objetos con todas las materias disponibles para seleccionar
+		const allAsignaturas = {
+			Basicas: asigBasicas,
+			Genericas: asigCarrera,
+			Especiales: asigEspecialidad,
+		};
+		return allAsignaturas;
+	}
+
+	/**
+	 * @private
+	 * @description Función para obtener las claves de todas las materias que ya han sido seleccionadas
+	 *
+	 * @param {JSON} reticulaJson
+	 * @returns {Array}
+	 */
+	__getAsignaturasSelected = (reticulaJson) => {
+		const semestres = Object.keys(reticulaJson).filter((key) =>
+			key.startsWith('semestre'),
+		);
+
+		let allAsignaturas = [];
+		for (let i = 0; i < semestres.length; i++) {
+			// Comprabos si es un semestre vacio
+			if (Object.keys(reticulaJson[semestres[i]]).length === 0) continue;
+
+			const asignaturas = reticulaJson[semestres[i]].materias;
+			const clavesAsignaturas = Object.keys(asignaturas);
+			allAsignaturas = [...allAsignaturas, ...clavesAsignaturas];
+		}
+		return allAsignaturas;
 	};
 }

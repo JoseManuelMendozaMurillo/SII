@@ -17,12 +17,13 @@
         flex-direction: column;
         justify-content: start;
         align-items: center;
+        gap: 1rem;
         min-height: 100%;
     }
 
     .item {
-        height: 4rem;
-        width: 7rem;
+        height: 5rem;
+        width: 8rem;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -150,6 +151,10 @@
     .materia {
         z-index: 1;
         background-color: gray;
+        padding: 0.3rem;
+        text-align: center;
+        font-size: 0.75rem;
+        overflow: hidden;
     }
 
     .materia:hover {
@@ -281,6 +286,11 @@
         height: 1.3rem;
         fill: #000;
     }
+
+    /* Utilidades */
+    .hidden {
+        display: none;
+    }
 </style>
 
 {% endblock %}
@@ -288,7 +298,7 @@
 {% block body %}
 
 <main class="container-fluid bg-dark vh-100">
-    <div id="reticula">
+    <div id="reticula" class="bg-dark">
     </div>
 </main>
 

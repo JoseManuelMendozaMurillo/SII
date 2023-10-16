@@ -40,10 +40,6 @@ export default class RenderReticulas {
 		// Limpiamos el contenedor
 		this.container.innerHTML = '';
 
-		// Incializamos el input para cambiar el nombre y el input que indica el status
-		this.inputChangeName = null;
-		this.inputStatus = null;
-
 		// Suscribimos al container a los eventos
 		this.__subscribirContainerEventos();
 	}
@@ -82,6 +78,14 @@ export default class RenderReticulas {
 		this.container.addEventListener('removemateria', (e) => {
 			this.__removeMateria(e);
 		});
+
+		this.container.addEventListener('addmateria', (e) => {
+			this.__addMaterias(e);
+		});
+
+		this.container.addEventListener('updatemateria', (e) => {
+			this.__updateMateria(e);
+		});
 	}
 
 	/**
@@ -93,7 +97,9 @@ export default class RenderReticulas {
 	 */
 	__createReticula(e) {
 		// Creamos la reticula
-		const semestres = Object.keys(this.reticulas.reticulaJson).filter((key) =>
+		const reticulaJson = this.reticulas.getReticula();
+
+		const semestres = Object.keys(reticulaJson).filter((key) =>
 			key.startsWith('semestre'),
 		);
 
@@ -107,8 +113,15 @@ export default class RenderReticulas {
 
 			// Agregamos las materias a cada semestre
 			let numRow = 1;
-			this.reticulas.reticulaJson[semestre].forEach((materia) => {
-				const itemMateria = this.components.getItemMateria(materia, numRow);
+			const materias = reticulaJson[semestre].materias;
+			const clavesMaterias = Object.keys(materias);
+			clavesMaterias.forEach((clave) => {
+				const nameMateria = materias[clave].name;
+				const itemMateria = this.components.getItemMateria(
+					clave,
+					nameMateria,
+					numRow,
+				);
 				numRow++;
 				containerItems.append(itemMateria);
 			});
@@ -237,5 +250,68 @@ export default class RenderReticulas {
 
 		// Eliminamos la materia de la columna
 		contentRows.removeChild(itemMateriaDelete);
+	}
+
+	/**
+	 * @private
+	 * @name addMaterias
+	 * @description Función para eliminar agregar materias a un semestre de la vista
+	 *
+	 * @param {Event} e - Evento que desencadena el agregar materias.
+	 */
+	__addMaterias(e) {
+		const semestre = e.details.semestre;
+		const asignaturas = e.details.addedAsignaturas;
+
+		// Obtenemos el contenedor de materias
+		const column = this.container.querySelector(
+			`div[data-num-col = "${semestre}"]`,
+		);
+		const containerItems = column.lastChild;
+
+		// Obtenemos el item para agregar asignaturas
+		const itemAddAsignaturas = containerItems.lastChild;
+
+		// Obtenemos el número de fila
+		let numRow = itemAddAsignaturas.getAttribute('data-row');
+		numRow = parseInt(numRow) - 1;
+
+		// Agregamos las materias al semestre
+		const clavesAsignaturas = Object.keys(asignaturas);
+		clavesAsignaturas.forEach((clave) => {
+			const nameAsig = asignaturas[clave].name;
+			const itemMateria = this.components.getItemMateria(
+				clave,
+				nameAsig,
+				numRow,
+			);
+			numRow++;
+			containerItems.insertBefore(itemMateria, itemAddAsignaturas);
+		});
+	}
+
+	/**
+	 * @private
+	 * @name updateMateria
+	 * @description Función para actualizar una materia a un semestre en la vista
+	 *
+	 * @param {Event} e - Evento que desencadena el actualizar una materia.
+	 */
+	__updateMateria(e) {
+		const claveMateriaDeleted = e.details.claveAignaturaDelete;
+		const newAsignatura = e.details.nuevaAsignatura;
+		const semestre = e.details.semestre;
+
+		// Obtenemos la materia a cambiar
+		const itemMateriaChange = this.container.querySelector(
+			`div[data-clave="${claveMateriaDeleted}"]`,
+		);
+
+		// Cambiamos los datos
+		itemMateriaChange.setAttribute(
+			'data-clave',
+			newAsignatura.clave_asignatura,
+		);
+		itemMateriaChange.firstChild.textContent = newAsignatura.nombre_asignatura;
 	}
 }
