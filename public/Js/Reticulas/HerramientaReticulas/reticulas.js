@@ -67,6 +67,7 @@ export default class Reticulas {
 		reticulaJson = {
 			name: null,
 			status: 'Borrador',
+			saved: true,
 			idCarrera: null, // Creo que deberia ser por clave
 			idEspecialidad: null, // Creo que deberia ser por clave
 		},
@@ -156,10 +157,11 @@ export default class Reticulas {
 	 * @param {String} name Nombre de la reticula
 	 */
 	setName(name) {
-		// Validar la nomeclatura
-		this.reticulaJson.name = name;
-		// TO DO
 		// Implemetar validacion del nombre
+		// Validar la nomeclatura
+
+		this.reticulaJson.name = name;
+		this.setSaved(false);
 		this.notify(this.eventChangeNameReticula);
 	}
 
@@ -171,6 +173,22 @@ export default class Reticulas {
 	 */
 	getName() {
 		return this.reticulaJson.name;
+	}
+
+	/**
+	 *
+	 * @param {Boolean} isSaved
+	 */
+	setSaved(isSaved) {
+		this.reticulaJson.saved = isSaved;
+	}
+
+	/**
+	 *
+	 * @returns {Boolean}
+	 */
+	getSaved() {
+		return this.reticulaJson.saved;
 	}
 
 	/**
@@ -201,8 +219,9 @@ export default class Reticulas {
 				configurable: true,
 			});
 		}
+		this.setSaved(false);
 		this.notify(this.eventAddSemestre);
-		console.log(this.reticulaJson);
+		console.log(this.getReticula());
 	}
 
 	/**
@@ -243,8 +262,9 @@ export default class Reticulas {
 			numSemestreDelete: numSemestre,
 		};
 		this.eventRemoveSemestre.detail = details;
+		this.setSaved(false);
 		this.notify(this.eventRemoveSemestre);
-		console.log(this.reticulaJson);
+		console.log(this.getReticula());
 	}
 
 	getMateria() {
@@ -310,9 +330,9 @@ export default class Reticulas {
 			semestre: numSemestre,
 			addedAsignaturas: newAsignaturas,
 		};
+		this.setSaved(false);
 		this.notify(this.eventAddMateria);
-		console.log(this.reticulaJson[`semestre${numSemestre}`]);
-		console.log(this.reticulaJson);
+		console.log(this.getReticula());
 	}
 
 	/**
@@ -356,8 +376,9 @@ export default class Reticulas {
 			semestre: numSemestre,
 		};
 		this.eventRemoveMateria.details = details;
+		this.setSaved(false);
 		this.notify(this.eventRemoveMateria);
-		console.log(this.reticulaJson[`semestre${numSemestre}`]);
+		console.log(this.getReticula());
 	}
 
 	/**
@@ -425,20 +446,35 @@ export default class Reticulas {
 			nuevaAsignatura: newAsignatura,
 			claveAignaturaDelete: claveOldAsignatura,
 		};
+		this.setSaved(false);
 		this.notify(this.eventUpdateMateria);
-		console.log(this.reticulaJson[`semestre${numSemestre}`]);
+		console.log(this.getReticula());
 	}
 
 	/**
 	 * @description Guardar una reticula
 	 */
 	save() {
-		// TO DO
-		return new Promise((resolve, reject) => {
-			setTimeout(() => {
-				resolve('Exito');
-			}, 500);
+		// Contrumos el objeto que se guardara en BD
+		const reticulaJson = this.getReticula();
+		const reticualJsonSave = {};
+		const semestres = Object.keys(reticulaJson).filter((key) =>
+			key.startsWith('semestre'),
+		);
+
+		// Creamos el objeto que se guardara en BD
+		reticualJsonSave.name = reticulaJson.name;
+		reticualJsonSave.idCarrera = reticulaJson.idCarrera;
+		reticualJsonSave.idEspecialidad = reticulaJson.idEspecialidad;
+		reticualJsonSave.status = reticulaJson.status;
+		semestres.forEach((semestre) => {
+			const clavesMateriasBySemestre = Object.keys(
+				reticulaJson[semestre].materias,
+			);
+			reticualJsonSave[semestre] = clavesMateriasBySemestre;
 		});
+
+		return reticualJsonSave;
 	}
 
 	/**

@@ -79,6 +79,7 @@ $(document).ready(async function () {
 		idCarrera: 1,
 		idEspecialidad: 5,
 		status: 'Borrador',
+		saved: true,
 		semestre1: {
 			materias: {
 				'AED-1285': {
@@ -377,4 +378,12 @@ $(document).ready(async function () {
 		totalCreditos: 235,
 	};
 	await reticula.setReticula(reticulaJsonRenderizada);
+
+	console.log(reticulaJson, reticula.save());
+
+	// Evitar que se recargue la pagina si hay cambios sin guardar
+	window.addEventListener('beforeunload', (event) => {
+		if (!reticula.getSaved())
+			event.returnValue = 'Hay cambios sin grabar. ¿Abandonar ahora?';
+	});
 });

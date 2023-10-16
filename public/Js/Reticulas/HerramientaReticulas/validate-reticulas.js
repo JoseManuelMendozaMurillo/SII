@@ -40,7 +40,6 @@ export default class ValidateReticulas {
 		}
 
 		// Obtenemos el número de creditos que se quiere agregar
-		console.log(asignaturas);
 		let numCredits = 0;
 		asignaturas.forEach((asig) => {
 			numCredits +=
