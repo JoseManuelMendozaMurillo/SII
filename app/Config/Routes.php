@@ -48,6 +48,7 @@ $routes->group(
         $routes->get('login', 'Login::loginView');
         $routes->post('sing-in', 'Login::loginAction');
         $routes->get('logout', 'Login::logoutAction');
+        $routes->get('passwordreset', 'Login::passwordResetView');
     }
 );
 
@@ -101,8 +102,8 @@ $routes->group(
 // Rutas de servicios financieros
 $routes->group(
     'financieros',
-    ['namespace' => 'App\Controllers\Financieros'],
-    // 'filter' => 'group:recursos_financieros'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
+    ['namespace' => 'App\Controllers\Financieros',
+        'filter' => 'group:recursos_financieros'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
     function ($routes) {
         $routes->get('aspirantes', 'Financieros::listAspirantes');
     }
@@ -224,11 +225,12 @@ $routes->group(
             function ($routes) {
                 $routes->get('show', 'Carreras::show');
                 $routes->get('new', 'Carreras::form');
-                $routes->post('update', 'Carreras::form');
-                $routes->post('save', 'Carreras::save');
+                $routes->post('update', 'Carreras::update');
+                $routes->post('create', 'Carreras::create');
                 $routes->post('delete', 'Carreras::delete');
                 $routes->get('testid', 'Carreras::testID');
                 $routes->get('get/(:num)', 'Carreras::getByID/$1');
+                $routes->get('get-all', 'Carreras::getCarrerasAll');
             }
         );
 
