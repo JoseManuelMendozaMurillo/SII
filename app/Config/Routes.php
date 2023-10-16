@@ -260,6 +260,7 @@ $routes->group(
                 $routes->post('delete', 'Reticulas::delete');
                 $routes->get('testid', 'Reticulas::testID');
                 $routes->get('get/(:num)', 'Reticulas::getByID/$1');
+                $routes->get('publish', 'Reticulas::publishReticula');
             }
         );
     }
