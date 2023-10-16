@@ -22,7 +22,6 @@ class CarreraModel extends Model
         'id_nivel_escolar',
         'fecha_inicio',
         'estatus',
-
     ];
 
     // Dates

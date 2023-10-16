@@ -38,7 +38,10 @@ class AuxAsignaturas
             if ($asignatura['id_tipo_asignatura'] == 1) {
                 $data = [
                     'id_asignatura' => $asignatura['id_asignatura'],
+                    'clave_asignatura' => $asignatura['clave_asignatura'],
                     'nombre_asignatura' => $asignatura['nombre_asignatura'],
+                    'horas_teoricas' => $asignatura['horas_teoricas'],
+                    'horas_practicas' => $asignatura['horas_practicas'],
                 ];
 
                 array_push($asignaturasBasicas, $data);
@@ -48,7 +51,7 @@ class AuxAsignaturas
         return $asignaturasBasicas;
     }
 
-    public function getAsignaturasByCarrera($id = null)
+    public function getAsignaturasByCarrera($id = null, $onlyGenericas = false)
     {
         $asignaturasGenericas = [];
 
@@ -60,14 +63,22 @@ class AuxAsignaturas
 
             $data = [
                 'id_asignatura' => $asignatura->id_asignatura,
+                'clave_asignatura' => $asignatura->clave_asignatura,
                 'nombre_asignatura' => $asignatura->nombre_asignatura,
+                'horas_teoricas' => $asignatura->horas_teoricas,
+                'horas_practicas' => $asignatura->horas_practicas,
                 'id_carrera' => $carrera->id_carrera,
                 'nombre_carrera' => $carrera->nombre_carrera,
-
             ];
 
             if ($id != null) {
-                if ($id == $relationship['id_carrera']) {
+                if ($onlyGenericas && $id == $relationship['id_carrera']) {
+                    // Materias solo de la carrera (solo genericas de una carrera)
+                    if ($asignatura->id_tipo_asignatura == 2) {
+                        array_push($asignaturasGenericas, $data);
+                    }
+                } elseif ($id == $relationship['id_carrera']) {
+                    // Materias de la carrera (basicas y genericas)
                     array_push($asignaturasGenericas, $data);
                 }
             } else {
@@ -91,7 +102,10 @@ class AuxAsignaturas
 
             $data = [
                 'id_asignatura' => $asignatura->id_asignatura,
+                'clave_asignatura' => $asignatura->clave_asignatura,
                 'nombre_asignatura' => $asignatura->nombre_asignatura,
+                'horas_teoricas' => $asignatura->horas_teoricas,
+                'horas_practicas' => $asignatura->horas_practicas,
                 'id_carrera' => $carrera->id_carrera,
                 'nombre_carrera' => $carrera->nombre_carrera,
                 'id_especialidad' => $especialidad->id_especialidad,

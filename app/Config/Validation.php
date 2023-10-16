@@ -55,9 +55,19 @@ class Validation extends BaseConfig
     public $rulesChageStatusPaymentAspirante;
 
     /* Reticulas */
+    // Asignaturas
     public $asignatura;
+    public $requestGetByCarrera;
+    public $requestGetByEspecialidad;
+    public $requestGetByClave;
+
+    // Carreras
     public $carrera;
+
+    // Especialidades
     public $especialidad;
+
+    // Reticulas
     public $reticula;
 
     public function __construct()
@@ -70,6 +80,9 @@ class Validation extends BaseConfig
 
         // Reticulas
         $this->asignatura = (new AsignaturaValidation())->rules;
+        $this->requestGetByCarrera = (new AsignaturaValidation())->requestGetByCarrera;
+        $this->requestGetByEspecialidad = (new AsignaturaValidation())->requestGetByEspecialidad;
+        $this->requestGetByClave = (new AsignaturaValidation())->requestGetByClave;
         $this->carrera = (new CarreraValidation())->rules;
         $this->especialidad = (new EspecialidadValidation())->rules;
         $this->reticula = (new ReticulaValidation())->rules;

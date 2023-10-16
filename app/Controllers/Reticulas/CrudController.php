@@ -124,8 +124,7 @@ class CrudController extends BaseController
     {
         $data = $this->model->find($id)->toArray();
 
-        dd($data);
-        // return $data;
+        return $data;
     }
 
     // Returns all records as Entity
