@@ -200,10 +200,6 @@ $routes->group(
             'asignaturas',
             ['namespace' => 'App\Controllers\Reticulas'],
             function ($routes) {
-                // Return views
-                $routes->get('new', 'Asignaturas::form');
-                $routes->post('update', 'Asignaturas::form');
-
                 // CRUD endpoints
                 $routes->post('create', 'Asignaturas::create');
                 $routes->post('update', 'Asignaturas::update');

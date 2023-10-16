@@ -48,6 +48,10 @@ class CrudController extends BaseController
 
             $entity = new $this->entity();
             $entity->fill($data);
+
+            // Set estatus to 1
+            $entity->estatus = 1;
+
             $this->model->save($entity);
 
             return $this->response->setStatusCode(201)->setJSON(['success' => true]);
@@ -108,7 +112,7 @@ class CrudController extends BaseController
 
             $this->model->delete($id);
 
-            return $this->response->setStatusCode(204)->setJSON(['success' => true]);
+            return $this->response->setStatusCode(200)->setJSON(['success' => true]);
         } catch (Exception $e) {
             return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
         }
