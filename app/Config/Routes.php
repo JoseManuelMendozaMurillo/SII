@@ -208,7 +208,7 @@ $routes->group(
                 $routes->post('update', 'Asignaturas::update');
                 $routes->post('delete', 'Asignaturas::delete');
                 $routes->get('get/(:num)', 'Asignaturas::getByID/$1');
-                $routes->get('get-all', 'Asignaturas::getAsignaturas');
+                $routes->post('get-all', 'Asignaturas::getAll');
 
                 // TEST routes
                 $routes->get('testid', 'Asignaturas::testID');

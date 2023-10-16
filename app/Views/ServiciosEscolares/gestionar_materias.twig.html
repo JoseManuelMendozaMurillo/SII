@@ -90,7 +90,7 @@
                         <div class="container">
                             <div class="row justify-content-between">
                                 <div class="col-md-4">
-                                    <select id="estadoCarrera" class="form-control">
+                                    <select id="estadoCarrera" class="form-select">
                                         <option value="activo">Activo</option>
                                         <option value="inactivo">Inactivo</option>
                                         <option value="borrador">Borrador</option>
@@ -107,24 +107,16 @@
                             <table id="datatable" class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th data-column-id="id" data-identifier="true" data-visible="false">id</th>
-                                        <th data-column-id="clave" data-sortable="false">Clave</th>
-                                        <th data-column-id="nombre">Nombre</th>
+                                        <th data-column-id="id_asignatura" data-identifier="true" data-visible="false">
+                                            id</th>
+                                        <th data-column-id="clave_asignatura" data-sortable="false">Clave</th>
+                                        <th data-column-id="nombre_asignatura">Nombre</th>
                                         <th data-column-id="estatus" data-searchable="false" data-sortable="false"
                                             data-formatter="button_status">
                                             Estatus</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    {% for materia in materias %}
-                                    <tr>
-                                        <td>{{ materia.id_asignatura}}</td>
-                                        <td>{{ materia.clave_asignatura }}</td>
-                                        <td>{{ materia.nombre_asignatura }}</td>
-                                        <td>{{ materia.estatus }}</td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
+                                <tbody></tbody>
                             </table>
                         </div>
                     </div>
@@ -159,8 +151,6 @@
                     '<div class="col-md-10 mb-3">' +
                     '<label for="nombre">Nombre</label>' +
                     '<input type="text" class="form-control" id="nombre" name="nombre" placeholder="MATEMÁTICAS" required>' +
-                    '<label for="nombreAbre">Nombre abreviado</label>' +
-                    '<input type="text" class="form-control" id="nombreAbre" name="nombreAbre" placeholder="MATE" required>' +
                     '<label for="tipo-asignatura">Tipo de asignatura</label>' +
                     '<select class="form-select" id="tipo-asignatura" name="tipo-asignatura" required>' +
                     '<option value="1">Básica</option>' +
@@ -195,37 +185,50 @@
                 cancelButtonText: 'Cancelar',
                 preConfirm: () => {
                     const nombreAsignatura = document.getElementById('nombre').value;
-                    const nombreAbreviado = document.getElementById('nombreAbre').value;
                     const tipoAsignatura = document.getElementById('tipo-asignatura').value;
                     const nivelEscolar = document.getElementById('nivel-escolar').value;
                     const claveValue = document.getElementById('clave').value;
                     const horasTeoricas = document.getElementById('horasTeoricas').value;
                     const horasPracticas = document.getElementById('horasPracticas').value;
 
-                    if (nombreAsignatura === "" || nombreAbreviado === "" || tipoAsignatura === "" || nivelEscolar === ""
+                    if (nombreAsignatura === "" || tipoAsignatura === "" || nivelEscolar === ""
                         || claveValue === "" || horasTeoricas === "" || horasPracticas === "") {
                         Swal.showValidationMessage('Todos los campos son obligatorios');
                     }
 
-                    return [nombreAsignatura, nombreAbreviado, tipoAsignatura, nivelEscolar, claveValue, horasTeoricas, horasPracticas];
+                    return [nombreAsignatura, tipoAsignatura, nivelEscolar, claveValue, horasTeoricas, horasPracticas];
                 }
 
             })
             if (formValues) {
-                console.log(formValues);
                 $.ajax({
-                    url: 'Asignaturas/createMateria',
-                    method: 'POST',
+                    type: 'POST',
+                    dataType: 'json',
+                    url: '{{base_url("reticulas/asignaturas/create")}}',
                     data: {
-                        formValues,
+                        'nombre_asignatura': formValues[0],
+                        'id_tipo_asignatura': formValues[1],
+                        'id_nivel_escolar': formValues[2],
+                        'clave_asignatura': formValues[3],
+                        'horas_teoricas': formValues[4],
+                        'horas_practicas': formValues[5],
                     },
                     success: function (response) {
-                        console.log("Datos enviados correctamente" + response)
+
+                        if (response.success) {
+                            Swal.fire('¡Materia creada!', 'La materia ha sido creada correctamente.', 'success');
+
+                            $('#datatable').bootgrid('reload');
+                        } else {
+                            Swal.fire('¡Error!', 'La materia no ha sido creada.', 'error');
+                        }
+
                     },
                     error: function (error) {
                         console.error("Datos no enviados" + error)
                     }
                 });
+
             }
 
         })()
@@ -247,7 +250,15 @@
     $(document).ready(function () {
         var $tabla = $("#datatable").bootgrid({
             caseSensitive: false,
-            ajax: false, // Desactivamos la solicitud AJAX
+            ajax: true, // Activamos la solicitud AJAX
+            post: function () {
+                // To populate your AJAX request data, if needed
+                return {
+                    current: $('#datatable').bootgrid('getCurrentPage'), // Current page number
+                    rowCount: 10 // Number of rows per page
+                };
+            },
+            url: '{{base_url("/reticulas/asignaturas/get-all")}}',
             labels: {
                 noResults: "No hay resultados",
                 loading: "Cargando...",
@@ -267,7 +278,6 @@
             formatters: {
                 'button_status': function (col, row) {
                     const estado = row.estatus;
-                    console.log(estado);
 
                     let buttonHTML = '';
 
@@ -307,6 +317,7 @@
             },
 
         });
+
     });
 
 </script>
