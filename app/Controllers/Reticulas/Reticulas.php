@@ -5,7 +5,7 @@ namespace App\Controllers\Reticulas;
 use App\Models\Reticulas\AsignaturaModel;
 use App\Models\Reticulas\CarreraModel;
 use App\Models\Reticulas\EspecialidadModel;
-use App\OperationValidators\Reticulas\EspecualidadValidator;
+use App\Models\Reticulas\ReticulaModel;
 use Exception;
 
 class Reticulas extends CrudController
@@ -13,6 +13,7 @@ class Reticulas extends CrudController
     protected $asignaturaModel;
     protected $carreraModel;
     protected $especialidadModel;
+    protected $reticulaModel;
 
     public function __construct()
     {
@@ -26,6 +27,7 @@ class Reticulas extends CrudController
         $this->asignaturaModel = new AsignaturaModel();
         $this->carreraModel = new CarreraModel();
         $this->especialidadModel = new EspecialidadModel();
+        $this->reticulaModel = new ReticulaModel();
     }
 
     public function publishReticula()
@@ -88,6 +90,44 @@ class Reticulas extends CrudController
                 $num++;
                 $semestre = 'semestre' . $num;
             }
+        } catch (Exception $e) {
+            return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Función AJAX para guardar el JSON de una reticula
+     *
+     * @param idReticula - Id de la reticula
+     * @param reticulaJson - Json que representa la reticula
+     */
+    public function saveJsonReticula()
+    {
+        try {
+            // Validar que sea una peticion AJAX
+            if (!$this->request->isAJAX()) {
+                throw new Exception('No se encontró el recurso', 404);
+            }
+
+            // Validamos los datos
+            $data = $this->request->getPost();
+            if (!$this->validation->run($data, 'requestSaveJsonReticula')) {
+                $errors = $this->validation->getErrors();
+
+                throw new Exception($errors[array_key_first($errors)], 400);
+            }
+
+            // Obtenemos los datos
+            $idRet = $this->request->getPost('idReticula');
+            $jsonRet = $this->request->getPost('jsonReticula');
+
+            // Hacemos la actualizacion
+            $isUpdated = $this->reticulaModel->update($idRet, ['reticula_json' => $jsonRet]);
+            if (!$isUpdated) {
+                throw new Exception('Hubo un error al actualizar el JSON de la reticula', 500);
+            }
+
+            return $this->response->setStatusCode(200)->setJSON(['success' => true]);
         } catch (Exception $e) {
             return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
         }

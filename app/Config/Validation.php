@@ -69,6 +69,7 @@ class Validation extends BaseConfig
 
     // Reticulas
     public $reticula;
+    public $requestSaveJsonReticula;
 
     public function __construct()
     {
@@ -86,5 +87,6 @@ class Validation extends BaseConfig
         $this->carrera = (new CarreraValidation())->rules;
         $this->especialidad = (new EspecialidadValidation())->rules;
         $this->reticula = (new ReticulaValidation())->rules;
+        $this->requestSaveJsonReticula = (new ReticulaValidation())->requestSaveJsonReticula;
     }
 }

@@ -194,6 +194,7 @@ $routes->group(
     ['namespace' => 'App\Controllers\Reticulas'],
     function ($routes) {
         $routes->get('reticula', 'Reticulas::reticulas');
+        $routes->get('save-json-reticula', 'Reticulas::saveJsonReticula');
 
         // ASIGNTATURAS
         $routes->group(
