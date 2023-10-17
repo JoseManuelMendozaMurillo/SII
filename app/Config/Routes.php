@@ -206,7 +206,7 @@ $routes->group(
                 $routes->post('update', 'Asignaturas::update');
                 $routes->post('delete', 'Asignaturas::delete');
                 $routes->get('get/(:num)', 'Asignaturas::getByID/$1');
-                $routes->get('get-all', 'Asignaturas::getAsignaturas');
+                $routes->post('get-all', 'Asignaturas::getAll');
                 // Agregadas por werin
                 $routes->post('get-basicas', 'Asignaturas::getAsignaturasBasicas');
                 $routes->post('get-by-carrera', 'Asignaturas::getAsignaturasByCarrera');
