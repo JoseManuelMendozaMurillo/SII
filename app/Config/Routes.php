@@ -166,6 +166,7 @@ $routes->group(
 
         $routes->get('testpost', 'Pruebas::testpost');
         $routes->get('reticulas', 'Pruebas::reticulas');
+        $routes->get('admin', 'Pruebas::admin');
     }
 );
 
