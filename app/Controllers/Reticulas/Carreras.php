@@ -2,8 +2,12 @@
 
 namespace App\Controllers\Reticulas;
 
+use Exception;
+
 class Carreras extends CrudController
 {
+    private $auxCarreras;
+
     public function __construct()
     {
         parent::__construct(
@@ -12,5 +16,32 @@ class Carreras extends CrudController
             'carrera',
             'App\OperationValidators\Reticulas\CarreraValidator',
         );
+        $this->auxCarreras = new AuxCarreras();
+    }
+
+    public function getCarrerasAll()
+    {
+        try {
+            if (!$this->request->isAJAX()) {
+                throw new Exception('No se encontró el recurso', 404);
+            }
+
+            $borrador = $this->auxCarreras->getCarrerasBorrador();
+            $activas = $this->auxCarreras->getCarrerasActivas();
+            $inactivas = $this->auxCarreras->getCarrerasInactivas();
+
+            $carreras = $this->auxCarreras->getCarreras();
+            //$carreras = [];
+
+            // array_push($carreras, $borrador);
+            // array_push($carreras, $activas);
+            // array_push($carreras, $inactivas);
+
+            return $this->response->setStatusCode(200)->setJSON([
+                'success' => true,
+                'data' => $carreras, ]);
+        } catch (Exception $e) {
+            return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
+        }
     }
 }
