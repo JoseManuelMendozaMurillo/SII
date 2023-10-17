@@ -2,7 +2,7 @@
 
 namespace App\Controllers\Reticulas;
 
-use CodeIgniter\HTTP\Response;
+use App\Models\Reticulas\AsignaturaModel;
 use Exception;
 
 // Asignaturas controller
@@ -10,6 +10,7 @@ use Exception;
 class Asignaturas extends CrudController
 {
     private $auxAsignaturas;
+    private $asignaturaModel;
 
     public function __construct()
     {
@@ -21,15 +22,12 @@ class Asignaturas extends CrudController
         );
 
         $this->auxAsignaturas = new AuxAsignaturas();
+        $this->asignaturaModel = new AsignaturaModel();
     }
 
     public function getAsignaturas()
     {
         try {
-            if (!$this->request->isAJAX()) {
-                throw new Exception('No se encontró el recurso', 404);
-            }
-
             $basicas = $this->auxAsignaturas->getAsignaturasBasicas();
             $genericas = $this->auxAsignaturas->getAsignaturasByCarrera();
             $especificas = $this->auxAsignaturas->getAsignaturasByEspecialidad();
@@ -46,6 +44,46 @@ class Asignaturas extends CrudController
         } catch (Exception $e) {
             return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
         }
+    }
+
+    //Function to get all asignaturas paginated
+    public function getAll()
+    {
+        $current = $this->request->getPost('current');
+        $rowCount = $this->request->getPost('rowCount');
+
+        // Get all asignaturas paginated
+        $data = $this->asignaturaModel->paginate($rowCount, 'default', $current);
+
+        // Get total of asignaturas
+        $total = $this->asignaturaModel->countAll();
+
+        return $this->response->setStatusCode(200)->setJSON([
+            'current' => $current,
+            'rowCount' => $rowCount,
+            'rows' => $data,
+            'total' => $total,
+        ]);
+    }
+
+    //Function to get all asignaturas paginated
+    public function getAll()
+    {
+        $current = $this->request->getPost('current');
+        $rowCount = $this->request->getPost('rowCount');
+
+        // Get all asignaturas paginated
+        $data = $this->asignaturaModel->paginate($rowCount, 'default', $current);
+
+        // Get total of asignaturas
+        $total = $this->asignaturaModel->countAll();
+
+        return $this->response->setStatusCode(200)->setJSON([
+            'current' => $current,
+            'rowCount' => $rowCount,
+            'rows' => $data,
+            'total' => $total,
+        ]);
     }
 
     /**
