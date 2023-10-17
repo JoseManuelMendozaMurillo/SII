@@ -14,14 +14,6 @@ class AsignaturaValidation
                 'alpha_space' => 'El nombre de la asignatura solo puede contener letras',
             ],
         ],
-        'nombre_abreviado_asignatura' => [
-            'label' => 'Nombre abreviado asignatura',
-            'rules' => 'max_length[255]|alpha',
-            'errors' => [
-                'max_length' => 'El nombre abreviado no puede ser mayor a 255 caracteres',
-                'alpha' => 'El nombre abreviado de la asignatura solo puede contener letras',
-            ],
-        ],
         'id_tipo_asignatura' => [
             'label' => 'ID tipo de asignatura',
             'rules' => 'required|in_list[1,2,3]',
@@ -62,6 +54,43 @@ class AsignaturaValidation
                 'required' => 'El numero de horas practicas es obligatorio',
                 'is_natural_no_zero' => 'El numero de horas practicas debe ser un numero natural, no menor a 2',
                 'less_than' => 'El numero de horas practicas no puede exceder 10 horas',
+            ],
+        ],
+    ];
+    public array $requestGetByCarrera = [
+        'id' => [
+            'label' => 'idCarrera',
+            'rules' => 'required|is_not_unique[carreras.id_carrera]',
+            'errors' => [
+                'required' => 'El id de la carrera es requerido',
+                'is_not_unique' => 'El id de la carrera no existe',
+            ],
+        ],
+        'onlyGenericas' => [
+            'rules' => 'required|validBool[onlyGenericas]',
+            'errors' => [
+                'required' => 'El campo onlyGenericas es requerido',
+                'validBool' => 'El campo onlyGenericas debe ser booleano',
+            ],
+        ],
+    ];
+    public array $requestGetByEspecialidad = [
+        'id' => [
+            'label' => 'idEspecialidad',
+            'rules' => 'required|is_not_unique[especialidades.id_especialidad]',
+            'errors' => [
+                'required' => 'El id de la especialidad es requerido',
+                'is_not_unique' => 'El id de la especialidad no existe',
+            ],
+        ],
+    ];
+    public array $requestGetByClave = [
+        'clave' => [
+            'label' => 'clave',
+            'rules' => 'required|is_not_unique[asignaturas.clave_asignatura]',
+            'errors' => [
+                'required' => 'La clave de la materia es requerida',
+                'is_not_unique' => 'La clave de la materia no existe',
             ],
         ],
     ];
