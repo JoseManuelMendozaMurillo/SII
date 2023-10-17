@@ -266,6 +266,8 @@ $routes->group(
                 $routes->get('testid', 'Reticulas::testID');
                 $routes->get('get/(:num)', 'Reticulas::getByID/$1');
                 $routes->get('publish', 'Reticulas::publishReticula');
+                $routes->get('get-json', 'Reticulas::getReticulaJSON');
+                $routes->get('rectify', 'Reticulas::rectifyReticula');
             }
         );
     }
