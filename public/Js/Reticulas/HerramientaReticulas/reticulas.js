@@ -1,5 +1,7 @@
 import RenderReticulas from './render-reticulas.js';
 import Asignaturas from '../../Services/Reticulas/asignaturas.js';
+import ServiceReticulas from '../../Services/Reticulas/reticulas.js';
+import AlertModal from '../../Tools/alert-modal.js';
 import ValidateReticulas from './validate-reticulas.js';
 
 /**
@@ -48,6 +50,13 @@ export default class Reticulas {
 	asignaturas;
 
 	/**
+	 * Instancia del servicio reticulas encargado de gestionar los datos de una reticula
+	 * @type {ServiceReticulas};
+	 * @memberof Reticula
+	 */
+	serviceReticulas;
+
+	/**
 	 * Instancia de las clase para validar reticulas
 	 * @type {ValidateReticulas}
 	 */
@@ -74,6 +83,7 @@ export default class Reticulas {
 	) {
 		this.reticulaJson = reticulaJson;
 		this.asignaturas = new Asignaturas();
+		this.serviceReticulas = new ServiceReticulas();
 		this.validateReticulas = new ValidateReticulas(this);
 
 		/* Suscribimos una instancia de la clase render reticulas para que pueda observar 
@@ -285,7 +295,7 @@ export default class Reticulas {
 
 		// Validamos que las materias no excedan el número de creditos por semestre y reticula
 		if (!this.validateReticulas.canAddAsignaturas(asignaturas, numSemestre)) {
-			this.validateReticulas.showErrorMessage(
+			AlertModal.showError(
 				'Numero maximo de creditos excedido',
 				'Las materias exceden el número de creditos permitidos',
 			);
@@ -400,7 +410,7 @@ export default class Reticulas {
 				numSemestre,
 			)
 		) {
-			this.validateReticulas.showErrorMessage(
+			AlertModal.showError(
 				'Numero maximo de creditos excedido',
 				'Las materia que se quiere agregar excede con el número de creditos permitidos',
 			);
@@ -453,10 +463,21 @@ export default class Reticulas {
 
 	/**
 	 * @description Guardar una reticula
+	 *
+	 * @returns {Boolean}
 	 */
-	save() {
+	async save() {
+		if (!this.validateReticulas.canSave()) {
+			AlertModal.showError(
+				'No se puede guardar',
+				'La reticula no se puede guardar porque no paso las validaciones',
+			);
+			return false;
+		}
+
 		// Contrumos el objeto que se guardara en BD
 		const reticulaJson = this.getReticula();
+		const idReticula = 1;
 		const reticualJsonSave = {};
 		const semestres = Object.keys(reticulaJson).filter((key) =>
 			key.startsWith('semestre'),
@@ -474,7 +495,20 @@ export default class Reticulas {
 			reticualJsonSave[semestre] = clavesMateriasBySemestre;
 		});
 
-		return reticualJsonSave;
+		// Guardamos el JSON de la reticula en la BD
+		const isSaved = await this.serviceReticulas.saveJson(
+			idReticula,
+			reticualJsonSave,
+		);
+
+		if (isSaved) {
+			this.setSaved(true);
+			AlertModal.showSuccess('¡Los cambios se guardarón!');
+			return true;
+		}
+
+		AlertModal.showError('Upps', 'Ucurrio un error al guardar los cambios');
+		return false;
 	}
 
 	/**

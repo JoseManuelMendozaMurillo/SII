@@ -1,5 +1,6 @@
 import SelectorMaterias from '../HerramientaSeleccionarMaterias/selector-materias.js';
-import CreateHtmlElements from '../create-html-elements.js';
+import CreateHtmlElements from '../../Tools/create-html-elements.js';
+import AlertModal from '../../Tools/alert-modal.js';
 import Asignaturas from '../../Services/Reticulas/asignaturas.js';
 
 /**
@@ -166,7 +167,7 @@ export default class ComponentReticulas {
 			textContent: 'Guardar',
 		});
 
-		btnSave.addEventListener('click', (e) => {
+		btnSave.addEventListener('click', async (e) => {
 			this.actionBtnSave(e);
 		});
 
@@ -442,10 +443,15 @@ export default class ComponentReticulas {
 	 *
 	 * @param {Event} e	- Evento click del boton
 	 */
-	actionBtnSave = (e) => {
-		// TO DO
-		// Guardar el JSON
-		console.log('Guardar datos');
+	actionBtnSave = async (e) => {
+		// Verificamos que haya cambios en la estructura
+		if (this.reticulas.getSaved()) {
+			AlertModal.showInfo('No hay cambios por guardar', '');
+			return;
+		}
+
+		// Guardamos los cambios
+		this.reticulas.save();
 	};
 
 	/**
