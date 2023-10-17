@@ -195,6 +195,9 @@ $routes->group(
     function ($routes) {
         $routes->get('reticula', 'Reticulas::reticulas');
         $routes->post('save-json-reticula', 'Reticulas::saveJsonReticula');
+        $routes->post('get-json-rendered', 'Reticulas::getReticulaJSON');
+        $routes->get('publish', 'Reticulas::publishReticula');
+        $routes->get('rectify', 'Reticulas::rectifyReticula');
 
         // ASIGNTATURAS
         $routes->group(
@@ -265,9 +268,6 @@ $routes->group(
                 $routes->post('delete', 'Reticulas::delete');
                 $routes->get('testid', 'Reticulas::testID');
                 $routes->get('get/(:num)', 'Reticulas::getByID/$1');
-                $routes->get('publish', 'Reticulas::publishReticula');
-                $routes->get('get-json', 'Reticulas::getReticulaJSON');
-                $routes->get('rectify', 'Reticulas::rectifyReticula');
             }
         );
     }

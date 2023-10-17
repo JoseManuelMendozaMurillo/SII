@@ -15,6 +15,12 @@ export default class Reticulas {
 	urlSaveJson;
 
 	/**
+	 * Url para obtener el JSON de una reticula que la herramienta de reticulas comprende
+	 * @type {String}
+	 */
+	urlGetJsonRendered;
+
+	/**
 	 * Instancia de la clase especializada en hacer peticiones AJAX
 	 * @type {Requests}
 	 */
@@ -22,6 +28,7 @@ export default class Reticulas {
 
 	constructor() {
 		this.urlSaveJson = config.BASE_URL('reticulas/save-json-reticula');
+		this.urlGetJsonRendered = config.BASE_URL('reticulas/get-json-rendered');
 
 		this.requests = new Requests();
 	}
@@ -41,6 +48,23 @@ export default class Reticulas {
 		// Si la operacion fue exitosa
 		if ('success' in res) {
 			return true;
+		}
+		// Si no lo fue
+		return false;
+	};
+
+	/**
+	 *
+	 * @param {String|Int8Array} idRet - Id de la reticula a obtener el JSON
+	 * @returns {object|boolean}
+	 */
+	getJsonRendered = async (idRet) => {
+		const res = await this.requests.request(this.urlGetJsonRendered, {
+			idReticula: idRet,
+		});
+		// Si la operacion fue exitosa
+		if ('success' in res) {
+			return res.reticula;
 		}
 		// Si no lo fue
 		return false;

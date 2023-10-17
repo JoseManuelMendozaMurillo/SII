@@ -70,6 +70,7 @@ class Validation extends BaseConfig
     // Reticulas
     public $reticula;
     public $requestSaveJsonReticula;
+    public $requestGetReticulaJson;
 
     public function __construct()
     {
@@ -88,5 +89,6 @@ class Validation extends BaseConfig
         $this->especialidad = (new EspecialidadValidation())->rules;
         $this->reticula = (new ReticulaValidation())->rules;
         $this->requestSaveJsonReticula = (new ReticulaValidation())->requestSaveJsonReticula;
+        $this->requestGetReticulaJson = (new ReticulaValidation())->requestGetReticulaJson;
     }
 }

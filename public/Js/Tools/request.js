@@ -39,14 +39,35 @@ export default class Requests {
 			);
 			const response = await fetch(url, options);
 			if (!response.ok) {
-				const error = await response.json();
-				throw new Error(error.error);
+				const errorMessage = await this.__getMessageError(response);
+				throw new Error(errorMessage);
 			}
 			const data = await response.json(); // Parsear la respuesta JSON
 			return data;
 		} catch (error) {
 			console.error(error);
 			return undefined;
+		}
+	};
+
+	/**
+	 * @private
+	 * @description Función para obtener un mensaje de error en una repsuesta http mala
+	 *
+	 * @param {Response}
+	 * @returns {String}
+	 */
+	__getMessageError = async (response) => {
+		console.log(typeof response);
+		let errorMessage = 'Error en la solicitud';
+		try {
+			const errorData = await response.json();
+			if (errorData.error) {
+				errorMessage = `Error: ${errorData.error}`;
+			}
+			return errorMessage;
+		} catch (jsonError) {
+			return 'Error al parsear la respuesta JSON: ' + jsonError;
 		}
 	};
 

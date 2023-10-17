@@ -136,16 +136,33 @@ export default class Reticulas {
 	}
 
 	/**
+	 * @description Función para mostrar una reticula segun si id
+	 *
+	 * @param {string|Int8Array} idReticula - Id de la reticula a mostrar
+	 */
+	async initReticulaByID(idReticula) {
+		const reticulaJson = await this.serviceReticulas.getJsonRendered(
+			idReticula,
+		);
+		if (reticulaJson === false) {
+			AlertModal.showError(
+				'Error al obtener la reticula',
+				'Hubo un error al intentar obtener la reticula',
+			);
+			return false;
+		}
+		reticulaJson.saved = true;
+		this.setReticula(reticulaJson);
+	}
+
+	/**
 	 * @name setReticula
 	 * @description Funcion para agregar una reticula
 	 *
 	 * @param {JSON} reticula
 	 */
-	async setReticula(reticula) {
+	setReticula(reticula) {
 		this.reticulaJson = reticula;
-		// console.log('Construyendo la reticula....');
-		// await this.__renderReticula(this.reticulaJson);
-		// console.log('Reticula construida');
 		this.notify(this.eventCreateReticula);
 		console.log(this.reticulaJson);
 	}
@@ -488,12 +505,16 @@ export default class Reticulas {
 		reticualJsonSave.idCarrera = reticulaJson.idCarrera;
 		reticualJsonSave.idEspecialidad = reticulaJson.idEspecialidad;
 		reticualJsonSave.status = reticulaJson.status;
-		semestres.forEach((semestre) => {
+		for (const semestre of semestres) {
+			if (Object.keys(reticulaJson[semestre]).length === 0) {
+				reticualJsonSave[semestre] = {};
+				continue;
+			}
 			const clavesMateriasBySemestre = Object.keys(
 				reticulaJson[semestre].materias,
 			);
 			reticualJsonSave[semestre] = clavesMateriasBySemestre;
-		});
+		}
 
 		// Guardamos el JSON de la reticula en la BD
 		const isSaved = await this.serviceReticulas.saveJson(
@@ -544,103 +565,5 @@ export default class Reticulas {
 			0,
 		);
 		return numeroSemestreMasAlto;
-	}
-
-	/**
-	 * @private
-	 * @description Función para renderizar una reticula y dejarla
-	 *
-	 * @param {JSON} reticula
-	 */
-	__renderReticula = async (reticula) => {
-		// Obtenemos los semestres
-		const semestres = Object.keys(reticula).filter((key) =>
-			key.startsWith('semestre'),
-		);
-
-		// Procesamos los semestre
-		let creditosReticula = 0;
-		for (const semestre of semestres) {
-			const materiasSemestre = reticula[semestre];
-			const newSemestre = await this.__processMateriasSemestre(
-				materiasSemestre,
-			);
-
-			// Hacemos la sumatoria de creditos para la carrera
-			creditosReticula += newSemestre.totalCreditos;
-
-			// Agregamos el nuevo semestre
-			reticula[semestre] = newSemestre;
-		}
-		// Agregamos el total de creditos por semestre
-		reticula.totalCreditos = creditosReticula;
-	};
-
-	/**
-	 * @private
-	 * @description Función encargada de procesar las materias de un semestre
-	 *
-	 * @param {Array} materias - Array con las claves de materias del semestre
-	 * @returns {Object}
-	 */
-	async __processMateriasSemestre(materias) {
-		const newDataSemestre = {
-			materias: {},
-			totalCreditos: null,
-		};
-
-		// Recorremos el arreglo con las claves de materia del semestre
-		let creditosSemestre = 0;
-		for (const claveMateria of materias) {
-			// Obtenemos del backen los datos de cada materia y los transformamos
-			const dataMateria = await this.asignaturas.getByClave(claveMateria);
-			const materia = this.__transformDataMaterias(dataMateria);
-
-			// Agregamos la materia al subobjeto materias usando su clave como propiedad
-			newDataSemestre.materias[claveMateria] = materia[claveMateria];
-
-			// Hacemos la sumatoria de los creditos de cada materia para obtener el total de creditos del semestre
-			creditosSemestre +=
-				materia[claveMateria].horasTeoricas +
-				materia[claveMateria].horasPracticas;
-		}
-
-		newDataSemestre.totalCreditos = creditosSemestre;
-		return newDataSemestre;
-	}
-
-	/**
-	 * @private
-	 * @description Función para transformar los datos de una materia
-	 *
-	 * @param {Object} dataMateria - Todos los datos de la materia
-	 * @returns {Object}
-	 */
-	__transformDataMaterias = (dataMateria) => {
-		const clave = dataMateria.clave_asignatura;
-		const materia = {};
-		materia[clave] = {
-			name: dataMateria.nombre_asignatura,
-			horasTeoricas: parseInt(dataMateria.horas_teoricas),
-			horasPracticas: parseInt(dataMateria.horas_practicas),
-		};
-		return materia;
-	};
-
-	/**
-	 * @private
-	 * @description Función para calcular el número de creditos de un semestre
-	 *
-	 * @param {Object} materias - Materias del semestre
-	 * @returns {Int}
-	 */
-	__getNumCreditsBySemestre(materias) {
-		const clavesMaterias = Object.keys(materias);
-		let totalCredits = 0;
-		clavesMaterias.forEach((clave) => {
-			totalCredits +=
-				materias[clave].horasPracticas + materias[clave].horasTeoricas;
-		});
-		return totalCredits;
 	}
 }

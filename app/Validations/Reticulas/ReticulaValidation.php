@@ -45,4 +45,14 @@ class ReticulaValidation
             ],
         ],
     ];
+    public array $requestGetReticulaJson = [
+        'idReticula' => [
+            'label' => 'Id reticula',
+            'rules' => 'required|is_not_unique[reticulas.id_reticula]',
+            'errors' => [
+                'required' => 'El id de la reticula es obligatorio',
+                'is_not_unique' => 'El id de la reticula no existe',
+            ],
+        ],
+    ];
 }

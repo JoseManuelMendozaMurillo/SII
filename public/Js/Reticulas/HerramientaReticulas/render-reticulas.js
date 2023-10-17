@@ -105,6 +105,7 @@ export default class RenderReticulas {
 
 		const reticula = this.components.getContainerReticula();
 		let contColumn = 1;
+
 		semestres.forEach((semestre) => {
 			const newColumn = this.components.getColumn(contColumn);
 			const titleColumn = this.components.getTitleColumn(semestre);
@@ -114,17 +115,20 @@ export default class RenderReticulas {
 			// Agregamos las materias a cada semestre
 			let numRow = 1;
 			const materias = reticulaJson[semestre].materias;
-			const clavesMaterias = Object.keys(materias);
-			clavesMaterias.forEach((clave) => {
-				const nameMateria = materias[clave].name;
-				const itemMateria = this.components.getItemMateria(
-					clave,
-					nameMateria,
-					numRow,
-				);
-				numRow++;
-				containerItems.append(itemMateria);
-			});
+			// Si el semestre no esta vacio le agregamos sus materias
+			if (materias !== undefined) {
+				const clavesMaterias = Object.keys(materias);
+				clavesMaterias.forEach((clave) => {
+					const nameMateria = materias[clave].name;
+					const itemMateria = this.components.getItemMateria(
+						clave,
+						nameMateria,
+						numRow,
+					);
+					numRow++;
+					containerItems.append(itemMateria);
+				});
+			}
 
 			// Si el estatus de la reticula esta en borrador, agregamos la opción para agregar materias
 			if (this.reticulas.getStatus() === 'borrador') {
