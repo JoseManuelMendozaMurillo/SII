@@ -265,6 +265,7 @@ $routes->group(
                 $routes->get('publish', 'Reticulas::publishReticula');
                 $routes->get('get-json', 'Reticulas::getReticulaJSON');
                 $routes->get('rectify', 'Reticulas::rectifyReticula');
+                $routes->get('no-especialidad', 'Reticulas::getNoEspecialidadJSON');
             }
         );
     }
