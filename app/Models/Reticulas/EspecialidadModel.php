@@ -20,13 +20,8 @@ class EspecialidadModel extends Model
     protected $allowedFields = [
         'id_carrera',                   // Uses ID, CarrerasModel needed
         'nombre_especialidad',
-        'clave',
-        'clave_oficial',
-        'creditos_especialidad',
-        'nombre_reducido',
-        'siglas',
+        'clave_especialidad',
         'fecha_inicio',
-        'fecha_termino',
         'id_nivel_escolar',
         'estatus',
 

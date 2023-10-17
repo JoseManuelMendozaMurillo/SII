@@ -18,18 +18,11 @@ class CarreraModel extends Model
     protected $useSoftDeletes = true;
     protected $allowedFields = [
         'nombre_carrera',
-        'clave_oficial',
-        'clave',
-        'siglas',
-        'creditos_totales',
+        'clave_carrera',
         'id_nivel_escolar',
         'fecha_inicio',
-        'fecha_termino',
-        'id_area_carr',
-        'id_nivel_carr',
-        'id_sub_area_carr',
-        'nivel',
         'estatus',
+
     ];
 
     // Dates

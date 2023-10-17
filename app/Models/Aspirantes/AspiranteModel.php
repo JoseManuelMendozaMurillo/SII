@@ -70,7 +70,7 @@ class AspiranteModel extends Model
 
     protected function initialize()
     {
-        $this->complementAspiranteModel = new ComplementAspiranteModel();
+        $this->complementAspiranteModel = new ComplementaryDataModel();
     }
 
     /**

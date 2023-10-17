@@ -259,6 +259,8 @@ class Aspirantes extends RegisterController
             $lastNoSolicitude = $this->aspirantesModel->getLastNoSolicutude();
             $newNoSolicitude = $this->aspirantesAux->createNoSolicitude($lastNoSolicitude);
 
+            // d('Se creo el model');
+            // log_message('info', 'se creo el modelo');
             // Generamos un nip para el nuevo registro
             $newNip = $this->aspirantesAux->createNip();
 
@@ -267,6 +269,7 @@ class Aspirantes extends RegisterController
 
             // Guardamos los datos del aspirante
             $dataAspirante = $this->insertDataAspirante($user, $newNoSolicitude, $newNip);
+            // d('Se creo');
 
             // Enviamos el correo con la informacion de inicio sesion al aspirante
             // Obtención de datos para generar el correo
