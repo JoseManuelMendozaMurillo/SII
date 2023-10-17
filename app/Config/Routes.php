@@ -102,8 +102,8 @@ $routes->group(
 // Rutas de servicios financieros
 $routes->group(
     'financieros',
-    ['namespace' => 'App\Controllers\Financieros'],
-    // 'filter' => 'group:recursos_financieros'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
+    ['namespace' => 'App\Controllers\Financieros',
+        'filter' => 'group:recursos_financieros'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
     function ($routes) {
         $routes->get('aspirantes', 'Financieros::listAspirantes');
     }
@@ -166,6 +166,7 @@ $routes->group(
 
         $routes->get('testpost', 'Pruebas::testpost');
         $routes->get('reticulas', 'Pruebas::reticulas');
+        $routes->get('admin', 'Pruebas::admin');
     }
 );
 
@@ -200,16 +201,12 @@ $routes->group(
             'asignaturas',
             ['namespace' => 'App\Controllers\Reticulas'],
             function ($routes) {
-                // Return views
-                $routes->get('new', 'Asignaturas::form');
-                $routes->post('update', 'Asignaturas::form');
-
                 // CRUD endpoints
                 $routes->post('create', 'Asignaturas::create');
                 $routes->post('update', 'Asignaturas::update');
                 $routes->post('delete', 'Asignaturas::delete');
                 $routes->get('get/(:num)', 'Asignaturas::getByID/$1');
-                $routes->get('get-all', 'Asignaturas::getAsignaturas');
+                $routes->post('get-all', 'Asignaturas::getAll');
                 // Agregadas por werin
                 $routes->post('get-basicas', 'Asignaturas::getAsignaturasBasicas');
                 $routes->post('get-by-carrera', 'Asignaturas::getAsignaturasByCarrera');
@@ -229,11 +226,12 @@ $routes->group(
             function ($routes) {
                 $routes->get('show', 'Carreras::show');
                 $routes->get('new', 'Carreras::form');
-                $routes->post('update', 'Carreras::form');
-                $routes->post('save', 'Carreras::save');
+                $routes->post('update', 'Carreras::update');
+                $routes->post('create', 'Carreras::create');
                 $routes->post('delete', 'Carreras::delete');
                 $routes->get('testid', 'Carreras::testID');
                 $routes->get('get/(:num)', 'Carreras::getByID/$1');
+                $routes->get('get-all', 'Carreras::getCarrerasAll');
             }
         );
 

@@ -14,14 +14,6 @@ class AsignaturaValidation
                 'alpha_space' => 'El nombre de la asignatura solo puede contener letras',
             ],
         ],
-        'nombre_abreviado_asignatura' => [
-            'label' => 'Nombre abreviado asignatura',
-            'rules' => 'max_length[255]|alpha',
-            'errors' => [
-                'max_length' => 'El nombre abreviado no puede ser mayor a 255 caracteres',
-                'alpha' => 'El nombre abreviado de la asignatura solo puede contener letras',
-            ],
-        ],
         'id_tipo_asignatura' => [
             'label' => 'ID tipo de asignatura',
             'rules' => 'required|in_list[1,2,3]',

@@ -14,6 +14,11 @@ class Pruebas extends BaseController
         $this->twig->display('Test/PruebaImg');
     }
 
+    public function admin()
+    {
+        $this->twig->display('Admin/principal_admin');
+    }
+
     public function thumb()
     {
         // Obtenemos el archivo
