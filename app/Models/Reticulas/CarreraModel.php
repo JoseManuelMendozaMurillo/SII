@@ -61,4 +61,33 @@ class CarreraModel extends Model
 
         return $array;
     }
+
+    public function searchAndPaginate($searchPhrase, $rowCount, $start, $current)
+    {
+        $query = $this->db->table($this->table);
+
+        if (!empty($searchPhrase)) {
+            $query->like('nombre_carrera', $searchPhrase);
+        }
+
+        $query->orderBy('id_carrera', 'asc');
+
+        $rowCount = (int) $rowCount;
+        $start = (int) $start;
+
+        $query->limit($rowCount, $start);
+
+        return $query->get()->getResult();
+    }
+
+    public function countAllWithSearch($searchPhrase)
+    {
+        $query = $this->db->table($this->table);
+
+        if (!empty($searchPhrase)) {
+            $query->like('nombre_carrera', $searchPhrase);
+        }
+
+        return $query->countAllResults();
+    }
 }
