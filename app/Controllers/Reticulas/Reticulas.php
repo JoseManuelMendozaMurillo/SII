@@ -153,32 +153,35 @@ class Reticulas extends CrudController
         }
     }
 
-    public function getByCarrera()
+    public function getByCarrera($id_carrera)
     {
         // TODO: Quitar comentatio para comprobar que sea request AJAX
         // TODO: Poner el el ID de la carrera enviado por post en la variable $id_carrera
-        try {
-            // if (!$this->request->isAJAX()) {
-            //     throw new Exception('No se encontró el recurso', 404);
-            // }
+        // try {
+        //     // if (!$this->request->isAJAX()) {
+        //     //     throw new Exception('No se encontró el recurso', 404);
+        //     // }
 
-            $id_carrera = 1;
+        // $id_carrera = 1;
 
-            $reticulas = $this->model->where('id_carrera', $id_carrera)->find();
-            $data = [];
-            foreach ($reticulas as $reticula) {
-                $reticulaData = [];
-                $reticulaData['id_reticula'] = $reticula->id_reticula;
-                $reticulaData['nombre_reticula'] = $reticula->nombre_reticula;
-                $reticulaData['id_carrera'] = $reticula->id_carrera;
-                $reticulaData['id_especialidad'] = $reticula->id_especialidad;
-                $reticulaData['estatus'] = $reticula->estatus;
-                array_push($data, $reticulaData);
-            }
-            // TODO: Cambiar dd a return
-            dd($data);
-        } catch (Exception $e) {
-            return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
+        $reticulas = $this->model->where('id_carrera', $id_carrera)->find();
+        $data = [];
+        $data['reticulas'] = [];
+        foreach ($reticulas as $reticula) {
+            $reticulaData = [];
+            $reticulaData['id_reticula'] = $reticula->id_reticula;
+            $reticulaData['nombre_reticula'] = $reticula->nombre_reticula;
+            $reticulaData['id_carrera'] = $reticula->id_carrera;
+            $reticulaData['id_especialidad'] = $reticula->id_especialidad;
+            $reticulaData['estatus'] = $reticula->estatus;
+            array_push($data['reticulas'], $reticulaData);
         }
+        // TODO: Cambiar dd a return
+
+        // dd($data);
+        $this->twig->display('ServiciosEscolares/reticula_carrera', $data);
+        // } catch (Exception $e) {
+        //     return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
+        // }
     }
 }

@@ -17,13 +17,10 @@
                 <div class="card-body mx-4">
                     <h4>LISTA DE CARRERAS</h4>
                     <div class="list-group pt-4">
-                        <a href="#" class="list-group-item list-group-item-action">Ingeniería en sistemas
-                            computacionales</a>
-                        <a href="#" class="list-group-item list-group-item-action">Ingeniería industrial</a>
-                        <a href="#" class="list-group-item list-group-item-action">Ingeniería logística</a>
-                        <a href="#" class="list-group-item list-group-item-action">Ingeniería electromecanica</a>
-                        <a href="#" class="list-group-item list-group-item-action">Ingeniería gestión empresarial </a>
-                        <a href="#" class="list-group-item list-group-item-action">Contador público</a>
+                        {% for carrera in carreras %}
+                        <a href="{{ base_url('/reticulas/reticulas/by-carrera/')}}{{carrera.id_carrera}}" class="list-group-item list-group-item-action">{{ carrera.nombre_carrera }}</a>
+                        {% endfor %}
+                        
                     </div>
                 </div>
             </div>

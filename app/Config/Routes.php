@@ -266,7 +266,7 @@ $routes->group(
                 $routes->get('get-json', 'Reticulas::getReticulaJSON');
                 $routes->get('rectify', 'Reticulas::rectifyReticula');
                 $routes->get('no-especialidad', 'Reticulas::getNoEspecialidadJSON');
-                $routes->get('by-carrera', 'Reticulas::getByCarrera');
+                $routes->get('by-carrera/(:num)', 'Reticulas::getByCarrera/$1');
             }
         );
     }

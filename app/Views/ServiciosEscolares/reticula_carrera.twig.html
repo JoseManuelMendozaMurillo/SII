@@ -21,46 +21,44 @@
                             data-bs-target="#crearReticula">Crear reticula</button>
                     </div>
                     <div class="list-group pt-4">
+
+                        {% for reticula in reticulas %}
                         <a href="#"
                             class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
-                            First checkbox
-                            <div class="bg-warning p-2 d-flex align-items-center justify-content-center"
+                            {{ reticula.nombre_reticula }}
+
+                            {% if reticula.estatus == 1 %}
+                            <div class="bg-secondary p-2 d-flex align-items-center justify-content-center"
                                 style="border-radius: 10px; width: 80px; height: 35px;">
-                                <h6 class="text-white">Inactivo</h6>
+                                <h6 class="text-white">Borrador</h6>
                             </div>
-                        </a>
-                        <a href="#"
-                            class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
-                            First checkbox
-                            <div class="bg-warning p-2 d-flex align-items-center justify-content-center"
-                                style="border-radius: 10px; width: 80px; height: 35px;">
-                                <h6 class="text-white">Inactivo</h6>
-                            </div>
-                        </a>
-                        <a href="#"
-                            class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
-                            First checkbox
+                            {% endif %}
+
+                            {% if reticula.estatus == 2 %}
                             <div class="bg-success p-2 d-flex align-items-center justify-content-center"
                                 style="border-radius: 10px; width: 80px; height: 35px;">
                                 <h6 class="text-white">Activo</h6>
                             </div>
-                        </a>
-                        <a href="#"
-                            class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
-                            First checkbox
-                            <div class="bg-success p-2 d-flex align-items-center justify-content-center"
-                                style="border-radius: 10px; width: 80px; height: 35px;">
-                                <h6 class="text-white">Activo</h6>
-                            </div>
-                        </a>
-                        <a href="#"
-                            class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
-                            First checkbox
+                            {% endif %}
+
+                            {% if reticula.estatus == 3 %}
                             <div class="bg-warning p-2 d-flex align-items-center justify-content-center"
                                 style="border-radius: 10px; width: 80px; height: 35px;">
                                 <h6 class="text-white">Inactivo</h6>
                             </div>
+                            {% endif %}
+
+                            {% if reticula.estatus == 4 %}
+                            <div class="bg-dark p-2 d-flex align-items-center justify-content-center"
+                                style="border-radius: 10px; width: 80px; height: 35px;">
+                                <h6 class="text-white">Historial</h6>
+                            </div>
+                            {% endif %}
                         </a>
+                        {% endfor %}
+
+
+                        
                     </div>
                 </div>
             </div>
@@ -98,9 +96,10 @@
                         <div id="reticulaSi" class="pt=3" style="display: none;">
                             <select class="form-select pt-3" aria-label="Default select example">
                                 <option selected>Open this select menu</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                                {% for reticula in reticulas %}
+                                <option value="1">{{ reticula.nombre_reticula }}</option>
+                                {% endfor %}
+                                
                             </select>
                             <h6 class="pt-3">¿Desea utilizar tambien las materias de especialidad?</h6>
                             <div class="d-flex pt-3">
