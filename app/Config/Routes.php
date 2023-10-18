@@ -233,6 +233,8 @@ $routes->group(
                 $routes->get('get/(:num)', 'Carreras::getByID/$1');
                 $routes->post('get-all', 'Carreras::getCarrerasAll');
                 $routes->post('activar', 'Carreras::changeStatusActive');
+
+                $routes->get('inactivate', 'Carreras::changeStatusToInactive');
             }
         );
 

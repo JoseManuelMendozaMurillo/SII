@@ -3,6 +3,7 @@
 namespace App\Controllers\Reticulas;
 
 use App\Models\Reticulas\CarreraModel;
+use App\Models\Reticulas\ReticulaModel;
 use Exception;
 use CodeIgniter\HTTP\Response;
 
@@ -10,6 +11,7 @@ class Carreras extends CrudController
 {
     private $auxCarreras;
     private $carreraModel;
+    private $reticulaModel;
 
     public function __construct()
     {
@@ -21,34 +23,49 @@ class Carreras extends CrudController
         );
         $this->auxCarreras = new AuxCarreras();
         $this->carreraModel = new CarreraModel();
+        $this->reticulaModel = new ReticulaModel();
     }
 
     public function getCarrerasAll()
     {
-        // try {
-        //     if (!$this->request->isAJAX()) {
-        //         throw new Exception('No se encontró el recurso', 404);
-        //     }
-
-        $borrador = $this->auxCarreras->getCarrerasBorrador();
-        $activas = $this->auxCarreras->getCarrerasActivas();
-        $inactivas = $this->auxCarreras->getCarrerasInactivas();
-
         $data['carreras'] = $this->auxCarreras->getCarreras();
-        // dd($data);
 
         $this->twig->display('ServiciosEscolares/reticulas_carreras', $data);
-        //$carreras = [];
+    }
 
-        // array_push($carreras, $borrador);
-        // array_push($carreras, $activas);
-        // array_push($carreras, $inactivas);
+    public function changeStatusToInactive()
+    {
+        try {
+            if (!$this->request->isAJAX()) {
+                throw new Exception('No se encontró el recurso', 404);
+            }
+            $id_carrera = $this->request->getPost('id_carrer');
 
-        //     return $this->response->setStatusCode(200)->setJSON([
-        //         'success' => true,
-        //         'data' => $carreras, ]);
-        // } catch (Exception $e) {
-        //     return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
-        // }
+            $carrera = $this->model->find($id_carrera);
+            // d($carrera->estatus);
+
+            $reticulas = $this->reticulaModel->where('id_carrera', $id_carrera)->find();
+
+            foreach ($reticulas as $reticula) {
+                d($reticula->estatus);
+                if ($reticula->estatus != 1) {
+                    return $this->response->setStatusCode(304)->setJSON([
+                        'success' => true,
+                        'data' => 'Estatus de carrera no modificado', ]);
+                }
+            }
+
+            $carrera->estatus = 1;
+            $this->model->save($carrera);
+            $carrera = $this->model->find($id_carrera);
+            $message = 'Cambio de estado en una carrera {"id_carrera": "' . $carrera->id . '", "estado": "1"}';
+            log_message('info', $message);
+
+            return $this->response->setStatusCode(200)->setJSON([
+                'success' => true,
+                'data' => 'Estatus de carrera modificado', ]);
+        } catch (Exception $e) {
+            return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
+        }
     }
 }
