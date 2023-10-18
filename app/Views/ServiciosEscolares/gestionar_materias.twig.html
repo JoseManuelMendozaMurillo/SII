@@ -90,10 +90,10 @@
                         <div class="container">
                             <div class="row justify-content-between">
                                 <div class="col-md-4">
-                                    <select id="estadoCarrera" class="form-select">
-                                        <option value="activo">Activo</option>
-                                        <option value="inactivo">Inactivo</option>
-                                        <option value="borrador">Borrador</option>
+                                    <select id="estadoFilter" class="form-select">
+                                        <option value="1">Borrador</option>
+                                        <option value="2">Activo</option>
+                                        <option value="3">Inactivo</option>
                                     </select>
                                 </div>
                                 <div class="col-md-3 align-self-end">
@@ -379,6 +379,12 @@
 
 <script>
     $(document).ready(function () {
+        $('#estadoFilter').on('change', function () {
+            var selectedEstado = $(this).val();
+            $tabla.bootgrid('reload', {
+                estadoFilter: selectedEstado
+            });
+        });
         var $tabla = $("#datatable").bootgrid({
             caseSensitive: false,
             ajax: true, // Activamos la solicitud AJAX
@@ -386,7 +392,9 @@
                 // To populate your AJAX request data, if needed
                 return {
                     current: $('#datatable').bootgrid('getCurrentPage'), // Current page number
-                    rowCount: 10 // Number of rows per page
+                    rowCount: 10, // Number of rows per page
+                    searchPhrase: $('#datatable').bootgrid('getSearchPhrase'),
+                    selectedEstado: $('#estadoFilter').val() // Get the selected value from the <select> // Get the search phrase
                 };
             },
             url: '{{base_url("/reticulas/asignaturas/get-all")}}',

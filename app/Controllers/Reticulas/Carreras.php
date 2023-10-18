@@ -2,11 +2,14 @@
 
 namespace App\Controllers\Reticulas;
 
+use App\Models\Reticulas\CarreraModel;
 use Exception;
+use CodeIgniter\HTTP\Response;
 
 class Carreras extends CrudController
 {
     private $auxCarreras;
+    private $carreraModel;
 
     public function __construct()
     {
@@ -17,6 +20,7 @@ class Carreras extends CrudController
             'App\OperationValidators\Reticulas\CarreraValidator',
         );
         $this->auxCarreras = new AuxCarreras();
+        $this->carreraModel = new CarreraModel();
     }
 
     public function getCarrerasAll()

@@ -342,7 +342,7 @@ class RegisterFormAspirantes
      */
     public array $rulesChageStatusPaymentAspirante = [
         'idAspirante' => [
-            'rules' => 'required|numeric|is_not_unique[aspirantes.id_aspirante]', //campo de prueba
+            'rules' => 'required|numeric|is_not_unique[aspirantes.id_aspirante]',
             'errors' => [
                 'required' => 'El id del aspirante es requerido',
                 'numeric' => 'El id del aspirante solo puede contener números',
