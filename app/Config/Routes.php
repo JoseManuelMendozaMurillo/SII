@@ -166,6 +166,7 @@ $routes->group(
 
         $routes->get('testpost', 'Pruebas::testpost');
         $routes->get('reticulas', 'Pruebas::reticulas');
+        $routes->get('admin', 'Pruebas::admin');
     }
 );
 
@@ -207,10 +208,14 @@ $routes->group(
                 $routes->post('delete', 'Asignaturas::delete');
                 $routes->get('get/(:num)', 'Asignaturas::getByID/$1');
                 $routes->post('get-all', 'Asignaturas::getAll');
+                // Agregadas por werin
+                $routes->post('get-basicas', 'Asignaturas::getAsignaturasBasicas');
+                $routes->post('get-by-carrera', 'Asignaturas::getAsignaturasByCarrera');
+                $routes->post('get-by-especialidad', 'Asignaturas::getAsignaturasByEspecialidad');
+                $routes->post('get-by-clave', 'Asignaturas::getByClave');
 
                 // TEST routes
                 $routes->get('testid', 'Asignaturas::testID');
-                $routes->get('get-clave/(:any)', 'Asignaturas::getByClave/$1');
                 $routes->get('show', 'Asignaturas::show');
             }
         );
@@ -227,7 +232,11 @@ $routes->group(
                 $routes->post('delete', 'Carreras::delete');
                 $routes->get('testid', 'Carreras::testID');
                 $routes->get('get/(:num)', 'Carreras::getByID/$1');
-                $routes->get('get-all', 'Carreras::getCarrerasAll');
+                $routes->post('get-all', 'Carreras::getCarrerasAll');
+                $routes->post('upt-records', 'Carreras::updateCarrerasAll');
+                $routes->post('activar', 'Carreras::changeStatusActive');
+
+                $routes->post('inactivate', 'Carreras::changeStatusToInactive');
             }
         );
 
@@ -258,6 +267,11 @@ $routes->group(
                 $routes->post('delete', 'Reticulas::delete');
                 $routes->get('testid', 'Reticulas::testID');
                 $routes->get('get/(:num)', 'Reticulas::getByID/$1');
+                $routes->get('publish', 'Reticulas::publishReticula');
+                $routes->get('get-json', 'Reticulas::getReticulaJSON');
+                $routes->get('rectify', 'Reticulas::rectifyReticula');
+                $routes->get('no-especialidad', 'Reticulas::getNoEspecialidadJSON');
+                $routes->get('by-carrera/(:num)', 'Reticulas::getByCarrera/$1');
             }
         );
     }

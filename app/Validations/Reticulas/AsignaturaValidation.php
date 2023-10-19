@@ -57,4 +57,41 @@ class AsignaturaValidation
             ],
         ],
     ];
+    public array $requestGetByCarrera = [
+        'id' => [
+            'label' => 'idCarrera',
+            'rules' => 'required|is_not_unique[carreras.id_carrera]',
+            'errors' => [
+                'required' => 'El id de la carrera es requerido',
+                'is_not_unique' => 'El id de la carrera no existe',
+            ],
+        ],
+        'onlyGenericas' => [
+            'rules' => 'required|validBool[onlyGenericas]',
+            'errors' => [
+                'required' => 'El campo onlyGenericas es requerido',
+                'validBool' => 'El campo onlyGenericas debe ser booleano',
+            ],
+        ],
+    ];
+    public array $requestGetByEspecialidad = [
+        'id' => [
+            'label' => 'idEspecialidad',
+            'rules' => 'required|is_not_unique[especialidades.id_especialidad]',
+            'errors' => [
+                'required' => 'El id de la especialidad es requerido',
+                'is_not_unique' => 'El id de la especialidad no existe',
+            ],
+        ],
+    ];
+    public array $requestGetByClave = [
+        'clave' => [
+            'label' => 'clave',
+            'rules' => 'required|is_not_unique[asignaturas.clave_asignatura]',
+            'errors' => [
+                'required' => 'La clave de la materia es requerida',
+                'is_not_unique' => 'La clave de la materia no existe',
+            ],
+        ],
+    ];
 }

@@ -1,0 +1,50 @@
+{% extends "Layout/template.twig.html" %}
+
+{% block menuslider %}
+
+<aside class="sidebar sidebar-default sidebar-white sidebar-base navs-rounded-all ">
+    <div class="sidebar-header d-flex align-items-center justify-content-start">
+        <a href="#" class="navbar-brand">
+
+            <h4 class="logo-title">Tec Ocotlán</h4>
+        </a>
+        <div class="sidebar-toggle" data-toggle="sidebar" data-active="true">
+            <i class="icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4.25 12.2744L19.25 12.2744" stroke="currentColor" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M10.2998 18.2988L4.2498 12.2748L10.2998 6.24976" stroke="currentColor" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </i>
+        </div>
+    </div>
+    <div class="sidebar-body pt-0 data-scrollbar">
+        <div class="sidebar-list">
+            <!-- Sidebar Menu Start -->
+            <ul class="navbar-nav iq-main-menu" id="sidebar-menu">
+                <li class="nav-item static-item">
+                    <a class="nav-link static-item disabled" href="#" tabindex="-1">
+                        <span class="default-icon">Aspirantes</span>
+                        <span class="mini-icon">-</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{{base_url('financieros/aspirantes')}}">
+                        <i class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-person-fill" viewBox="0 0 16 16">
+                                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                            </svg>
+                        </i>
+                        <span class="item-name">Admin</span>
+                    </a>
+                </li>
+            </ul>
+            <!-- Sidebar Menu End -->
+        </div>
+    </div>
+    <div class="sidebar-footer"></div>
+</aside>
+
+{% endblock %}
