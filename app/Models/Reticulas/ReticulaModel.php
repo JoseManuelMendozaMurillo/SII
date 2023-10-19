@@ -21,6 +21,7 @@ class ReticulaModel extends Model
         'id_carrera',
         'id_especialidad',
         'estatus',
+        'reticula_json',
     ];
 
     // Dates

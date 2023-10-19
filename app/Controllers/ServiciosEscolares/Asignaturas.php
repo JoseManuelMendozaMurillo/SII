@@ -15,4 +15,13 @@ class Asignaturas extends BaseController
 
         $this->twig->display('ServiciosEscolares/gestionar_materias', $datos);
     }
+
+    public function listEspecialidades()
+    {
+        $datos = [
+            'nombreModulo' => 'Especialidades',
+        ];
+
+        $this->twig->display('ServiciosEscolares/gestionar_especialidades', $datos);
+    }
 }

@@ -1,0 +1,54 @@
+{% extends "Layout/Template/servicios_escolares.twig.html" %}
+
+{% block title %} Mostrar reticula {% endblock %}
+
+{% block styles %}
+<!-- Estilos de la herramienta reticulas -->
+<link rel="stylesheet" href="{{base_url('Css/Reticulas/HerramientaReticulas/reticulas.css')}}">
+
+<!-- Estilos de la herramienta para seleccionar materias -->
+<link rel="stylesheet"
+    href="{{base_url('Css/Reticulas/HerramientaSeleccionarMaterias/herramienta-seleccionar-materias.css')}}">
+
+<!--  Utilidades -->
+<style>
+    .hidden {
+        display: none;
+    }
+
+    .container {
+        overflow: auto;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="conatiner-fluid content-inner mt-n5 py-0 ">
+    <div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card" style="border-radius: 10px; box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.082);">
+                    <div class="card-body container">
+
+                        <!-- Contenedor para la reticula -->
+                        <div id="reticula" style=" min-width: 100%;">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<!-- JQuery -->
+<script src="{{base_url('Vendor/Parsley/jquery-3.7.0.min.js')}}"></script>
+
+<!-- SweetAlert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script type="module" src="{{base_url('Js/Reticulas/reticulas.js')}}"></script>
+
+{% endblock %}

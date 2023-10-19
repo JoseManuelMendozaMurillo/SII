@@ -113,16 +113,30 @@ export default class ValidateReticulas {
 	};
 
 	/**
-	 * @description Función para mostrar un modal de error
+	 * @description Función para validar si una reticula es apta para guardarse
 	 *
-	 * @param {String} titleMessage - Titulo del modal de error
-	 * @param {String} message - Mensaje del modal de error
+	 * @returns {boolean}
 	 */
-	showErrorMessage = (titleMessage, message) => {
-		Swal.fire({
-			icon: 'error',
-			title: titleMessage,
-			text: message,
-		});
-	};
+	canSave() {
+		// Obtenemos los semestres
+		const reticulaJson = this.reticulas.getReticula();
+		const semestres = Object.keys(reticulaJson).filter((key) =>
+			key.startsWith('semestre'),
+		);
+
+		// Validamos los creditos de cada semestre
+		for (const semestre of semestres) {
+			const creditsBySemestre = reticulaJson[semestre].totalCreditos;
+			if (creditsBySemestre > this.maxCreditsBySemestre) return false;
+			if (creditsBySemestre < this.minCreditsBySemestre) return false;
+		}
+
+		// Validamos los creditos de la reticula
+		const totalCreditsRet = reticulaJson.totalCreditos;
+		if (totalCreditsRet > this.maxCreditsByReticula) {
+			return false;
+		}
+
+		return true;
+	}
 }

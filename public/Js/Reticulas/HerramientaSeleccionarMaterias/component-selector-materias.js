@@ -1,4 +1,4 @@
-import CreateHtmlElements from '../create-html-elements.js';
+import CreateHtmlElements from '../../Tools/create-html-elements.js';
 
 /**
  * @class

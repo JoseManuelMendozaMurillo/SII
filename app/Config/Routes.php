@@ -186,6 +186,8 @@ $routes->group(
     function ($routes) {
         $routes->get('carreras', 'Carreras::listCarreras');
         $routes->get('materias', 'Asignaturas::listMaterias');
+        $routes->get('reticulas', 'Reticulas::index');
+        $routes->get('especialidades', 'Asignaturas::listEspecialidades');
     }
 );
 
@@ -195,6 +197,10 @@ $routes->group(
     ['namespace' => 'App\Controllers\Reticulas'],
     function ($routes) {
         $routes->get('reticula', 'Reticulas::reticulas');
+        $routes->post('save-json-reticula', 'Reticulas::saveJsonReticula');
+        $routes->post('get-json-rendered', 'Reticulas::getReticulaJSON');
+        $routes->get('publish', 'Reticulas::publishReticula');
+        $routes->get('rectify', 'Reticulas::rectifyReticula');
 
         // ASIGNTATURAS
         $routes->group(
@@ -232,7 +238,10 @@ $routes->group(
                 $routes->get('testid', 'Carreras::testID');
                 $routes->get('get/(:num)', 'Carreras::getByID/$1');
                 $routes->post('get-all', 'Carreras::getCarrerasAll');
+                $routes->post('upt-records', 'Carreras::updateCarrerasAll');
                 $routes->post('activar', 'Carreras::changeStatusActive');
+
+                $routes->post('inactivate', 'Carreras::changeStatusToInactive');
             }
         );
 
@@ -263,9 +272,6 @@ $routes->group(
                 $routes->post('delete', 'Reticulas::delete');
                 $routes->get('testid', 'Reticulas::testID');
                 $routes->get('get/(:num)', 'Reticulas::getByID/$1');
-                $routes->get('publish', 'Reticulas::publishReticula');
-                $routes->get('get-json', 'Reticulas::getReticulaJSON');
-                $routes->get('rectify', 'Reticulas::rectifyReticula');
                 $routes->get('no-especialidad', 'Reticulas::getNoEspecialidadJSON');
                 $routes->get('by-carrera/(:num)', 'Reticulas::getByCarrera/$1');
             }
