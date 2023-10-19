@@ -187,6 +187,7 @@ $routes->group(
         $routes->get('carreras', 'Carreras::listCarreras');
         $routes->get('materias', 'Asignaturas::listMaterias');
         $routes->get('reticulas', 'Reticulas::index');
+        $routes->get('especialidades', 'Asignaturas::listEspecialidades');
     }
 );
 
@@ -237,9 +238,10 @@ $routes->group(
                 $routes->get('testid', 'Carreras::testID');
                 $routes->get('get/(:num)', 'Carreras::getByID/$1');
                 $routes->post('get-all', 'Carreras::getCarrerasAll');
+                $routes->post('upt-records', 'Carreras::updateCarrerasAll');
                 $routes->post('activar', 'Carreras::changeStatusActive');
 
-                $routes->get('inactivate', 'Carreras::changeStatusToInactive');
+                $routes->post('inactivate', 'Carreras::changeStatusToInactive');
             }
         );
 
