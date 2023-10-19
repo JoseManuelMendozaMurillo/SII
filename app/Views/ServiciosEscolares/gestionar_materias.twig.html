@@ -90,10 +90,10 @@
                         <div class="container">
                             <div class="row justify-content-between">
                                 <div class="col-md-4">
-                                    <select id="estadoCarrera" class="form-control">
-                                        <option value="activo">Activo</option>
-                                        <option value="inactivo">Inactivo</option>
-                                        <option value="borrador">Borrador</option>
+                                    <select id="estadoFilter" class="form-select">
+                                        <option value="1">Borrador</option>
+                                        <option value="2">Activo</option>
+                                        <option value="3">Inactivo</option>
                                     </select>
                                 </div>
                                 <div class="col-md-3 align-self-end">
@@ -107,24 +107,16 @@
                             <table id="datatable" class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th data-column-id="id" data-identifier="true" data-visible="false">id</th>
-                                        <th data-column-id="clave" data-sortable="false">Clave</th>
-                                        <th data-column-id="nombre">Nombre</th>
+                                        <th data-column-id="id_asignatura" data-identifier="true" data-visible="false">
+                                            id</th>
+                                        <th data-column-id="clave_asignatura" data-sortable="false">Clave</th>
+                                        <th data-column-id="nombre_asignatura">Nombre</th>
                                         <th data-column-id="estatus" data-searchable="false" data-sortable="false"
                                             data-formatter="button_status">
                                             Estatus</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    {% for materia in materias %}
-                                    <tr>
-                                        <td>{{ materia.id_asignatura}}</td>
-                                        <td>{{ materia.clave_asignatura }}</td>
-                                        <td>{{ materia.nombre_asignatura }}</td>
-                                        <td>{{ materia.estatus }}</td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
+                                <tbody></tbody>
                             </table>
                         </div>
                     </div>
@@ -148,46 +140,47 @@
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script>
+    const formularioHTML = `
+    <div class="d-flex flex-column justify-content-center align-items-center">
+    <div class="d-flex form-row justify-content-center">
+    <div class="col-md-10 mb-3">
+    <label for="nombre">Nombre</label>
+    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="MATEMÁTICAS" required>
+    <label for="tipo-asignatura">Tipo de asignatura</label>
+    <select class="form-select" id="tipo-asignatura" name="tipo-asignatura" required>
+    <option value="1">Básica</option>
+    <option value="2">Genérica</option>
+    <option value="3">Específica</option>
+    </select>
+    <label for="nivel-escolar">Tipo de asignatura</label>
+    <select class="form-select" id="nivel-escolar" name="nivel-escolar" required>
+    <option value="1">Licenciatura</option>
+    <option value="2">Maestría</option>
+    </select>
+    <label for="clave">Clave</label>
+    <input type="text" class="form-control" id="clave" name="clave" required>
+    </div>
+    </div>
+
+    <div class="d-flex form-row justify-content-center">
+    <div class="col-md-6 mb-3">
+    <label for="horasTeoricas">Horas teóricas</label>
+    <input type="number" class="form-control" id="horasTeoricas" name="horasTeoricas" required>
+    </div>
+    <div class="col-md-6 mb-3">
+    <label for="horasPracticas">Horas prácticas</label>
+    <input type="number" class="form-control" id="horasPracticas" name="horasPracticas" required>
+    </div>
+    </div>
+    </div>
+    `;
+
     function formCarrera() {
         (async () => {
             const { value: formValues } = await Swal.fire({
                 title: 'Crear materia',
                 icon: 'info',
-                html:
-                    '<div class="d-flex flex-column justify-content-center align-items-center">' +
-                    '<div class="d-flex form-row justify-content-center">' +
-                    '<div class="col-md-10 mb-3">' +
-                    '<label for="nombre">Nombre</label>' +
-                    '<input type="text" class="form-control" id="nombre" name="nombre" placeholder="MATEMÁTICAS" required>' +
-                    '<label for="nombreAbre">Nombre abreviado</label>' +
-                    '<input type="text" class="form-control" id="nombreAbre" name="nombreAbre" placeholder="MATE" required>' +
-                    '<label for="tipo-asignatura">Tipo de asignatura</label>' +
-                    '<select class="form-select" id="tipo-asignatura" name="tipo-asignatura" required>' +
-                    '<option value="1">Básica</option>' +
-                    '<option value="2">Genérica</option>' +
-                    '<option value="3">Específica</option>' +
-                    '</select>' +
-                    '<label for="nivel-escolar">Tipo de asignatura</label>' +
-                    '<select class="form-select" id="nivel-escolar" name="nivel-escolar" required>' +
-                    '<option value="1">Licenciatura</option>' +
-                    '<option value="2">Maestría</option>' +
-                    '</select>' +
-                    '<label for="clave">Clave</label>' +
-                    '<input type="text" class="form-control" id="clave" name="clave" required>' +
-                    '</div>' +
-                    '</div>' +
-
-                    '<div class="d-flex form-row justify-content-center">' +
-                    '<div class="col-md-6 mb-3">' +
-                    '<label for="horasTeoricas">Horas teóricas</label>' +
-                    '<input type="number" class="form-control" id="horasTeoricas" name="horasTeoricas" required>' +
-                    '</div>' +
-                    '<div class="col-md-6 mb-3">' +
-                    '<label for="horasPracticas">Horas prácticas</label>' +
-                    '<input type="number" class="form-control" id="horasPracticas" name="horasPracticas" required>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>',
+                html: formularioHTML,
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
@@ -195,37 +188,50 @@
                 cancelButtonText: 'Cancelar',
                 preConfirm: () => {
                     const nombreAsignatura = document.getElementById('nombre').value;
-                    const nombreAbreviado = document.getElementById('nombreAbre').value;
                     const tipoAsignatura = document.getElementById('tipo-asignatura').value;
                     const nivelEscolar = document.getElementById('nivel-escolar').value;
                     const claveValue = document.getElementById('clave').value;
                     const horasTeoricas = document.getElementById('horasTeoricas').value;
                     const horasPracticas = document.getElementById('horasPracticas').value;
 
-                    if (nombreAsignatura === "" || nombreAbreviado === "" || tipoAsignatura === "" || nivelEscolar === ""
+                    if (nombreAsignatura === "" || tipoAsignatura === "" || nivelEscolar === ""
                         || claveValue === "" || horasTeoricas === "" || horasPracticas === "") {
                         Swal.showValidationMessage('Todos los campos son obligatorios');
                     }
 
-                    return [nombreAsignatura, nombreAbreviado, tipoAsignatura, nivelEscolar, claveValue, horasTeoricas, horasPracticas];
+                    return [nombreAsignatura, tipoAsignatura, nivelEscolar, claveValue, horasTeoricas, horasPracticas];
                 }
 
             })
             if (formValues) {
-                console.log(formValues);
                 $.ajax({
-                    url: 'Asignaturas/createMateria',
-                    method: 'POST',
+                    type: 'POST',
+                    dataType: 'json',
+                    url: '{{base_url("reticulas/asignaturas/create")}}',
                     data: {
-                        formValues,
+                        'nombre_asignatura': formValues[0],
+                        'id_tipo_asignatura': formValues[1],
+                        'id_nivel_escolar': formValues[2],
+                        'clave_asignatura': formValues[3],
+                        'horas_teoricas': formValues[4],
+                        'horas_practicas': formValues[5],
                     },
                     success: function (response) {
-                        console.log("Datos enviados correctamente" + response)
+
+                        if (response.success) {
+                            Swal.fire('¡Materia creada!', 'La materia ha sido creada correctamente.', 'success');
+
+                            $('#datatable').bootgrid('reload');
+                        } else {
+                            Swal.fire('¡Error!', 'La materia no ha sido creada.', 'error');
+                        }
+
                     },
                     error: function (error) {
                         console.error("Datos no enviados" + error)
                     }
                 });
+
             }
 
         })()
@@ -236,8 +242,136 @@
     }
     function editar(id) {
 
+        //Get asignatura by id
+        $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            url: '{{base_url("reticulas/asignaturas/get/")}}' + id,
+            data: {
+                'id': id,
+            },
+            success: function (response) {
+                const responseData = response.data;
+                (async () => {
+                    const { value: formValues } = await Swal.fire({
+                        title: 'Editar materia',
+                        icon: 'info',
+                        html: formularioHTML,
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Guardar',
+                        cancelButtonText: 'Cancelar',
+                        didOpen: () => {
+                            // Llena los campos del formulario después de que se muestre el modal
+                            const nombreAsignatura = document.getElementById('nombre').value = responseData.nombre_asignatura;
+                            const tipoAsignatura = document.getElementById('tipo-asignatura').value = responseData.id_tipo_asignatura;
+                            const nivelEscolar = document.getElementById('nivel-escolar').value = responseData.id_nivel_escolar;
+                            const claveValue = document.getElementById('clave').value = responseData.clave_asignatura;
+                            const horasTeoricas = document.getElementById('horasTeoricas').value = responseData.horas_teoricas;
+                            const horasPracticas = document.getElementById('horasPracticas').value = responseData.horas_practicas;
+                        },
+                        preConfirm: () => {
+                            const nombreAsignatura = document.getElementById('nombre').value;
+                            const tipoAsignatura = document.getElementById('tipo-asignatura').value;
+                            const nivelEscolar = document.getElementById('nivel-escolar').value;
+                            const claveValue = document.getElementById('clave').value;
+                            const horasTeoricas = document.getElementById('horasTeoricas').value;
+                            const horasPracticas = document.getElementById('horasPracticas').value;
+
+                            if (nombreAsignatura === "" || tipoAsignatura === "" || nivelEscolar === ""
+                                || claveValue === "" || horasTeoricas === "" || horasPracticas === "") {
+                                Swal.showValidationMessage('Todos los campos son obligatorios');
+                            }
+
+                            return [nombreAsignatura, tipoAsignatura, nivelEscolar, claveValue, horasTeoricas, horasPracticas];
+                        }
+
+                    })
+
+                    if (formValues) {
+                        $.ajax({
+                            type: 'POST',
+                            dataType: 'json',
+                            url: '{{base_url("reticulas/asignaturas/update")}}',
+                            data: {
+                                'id_asignatura': id,
+                                'nombre_asignatura': formValues[0],
+                                'id_tipo_asignatura': formValues[1],
+                                'id_nivel_escolar': formValues[2],
+                                'clave_asignatura': formValues[3],
+                                'horas_teoricas': formValues[4],
+                                'horas_practicas': formValues[5],
+                            },
+                            success: function (response) {
+
+                                if (response.success) {
+                                    Swal.fire('¡Materia actualizada!', 'La materia ha sido actualizada correctamente.', 'success');
+
+                                    $('#datatable').bootgrid('reload');
+                                } else {
+                                    Swal.fire('¡Error!', 'La materia no ha sido creada.', 'error');
+                                }
+
+                            },
+                            error: function (error) {
+                                Swal.fire('Error', 'Hubo un problema: ' + error.responseText, 'error');
+                                console.error("Datos no enviados" + error.responseText)
+                            }
+                        });
+
+                    }
+
+                })()
+
+            },
+            error: function (error, response) {
+                Swal.fire('Error', 'Hubo un problema: ' + error.responseText, 'error');
+                console.log(error);
+            }
+        })
+
+
     }
     function eliminar(id) {
+
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¡No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    url: '{{base_url("reticulas/asignaturas/delete")}}',
+                    data: {
+                        'id': id,
+                    },
+                    success: function (response) {
+
+                        if (response.success) {
+                            Swal.fire('¡Materia eliminada!', 'La materia ha sido eliminada correctamente.', 'success');
+
+                            $('#datatable').bootgrid('reload');
+                        } else {
+                            Swal.fire('¡Error!', 'La materia no ha sido eliminada.', 'error');
+                        }
+
+                    },
+                    error: function (error) {
+                        console.error("Datos no enviados" + error.responseText)
+                    }
+
+                });
+            }
+        })
 
     }
 </script>
@@ -245,9 +379,25 @@
 
 <script>
     $(document).ready(function () {
+        $('#estadoFilter').on('change', function () {
+            var selectedEstado = $(this).val();
+            $tabla.bootgrid('reload', {
+                estadoFilter: selectedEstado
+            });
+        });
         var $tabla = $("#datatable").bootgrid({
             caseSensitive: false,
-            ajax: false, // Desactivamos la solicitud AJAX
+            ajax: true, // Activamos la solicitud AJAX
+            post: function () {
+                // To populate your AJAX request data, if needed
+                return {
+                    current: $('#datatable').bootgrid('getCurrentPage'), // Current page number
+                    rowCount: 10, // Number of rows per page
+                    searchPhrase: $('#datatable').bootgrid('getSearchPhrase'),
+                    selectedEstado: $('#estadoFilter').val() // Get the selected value from the <select> // Get the search phrase
+                };
+            },
+            url: '{{base_url("/reticulas/asignaturas/get-all")}}',
             labels: {
                 noResults: "No hay resultados",
                 loading: "Cargando...",
@@ -267,18 +417,17 @@
             formatters: {
                 'button_status': function (col, row) {
                     const estado = row.estatus;
-                    console.log(estado);
 
                     let buttonHTML = '';
 
                     switch (estado) {
                         case '1':
                             buttonHTML = `
-                     <a class="btn btn-primary" onclick="editar(${row.id})"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                     <a class="btn btn-primary" onclick="editar(${row.id_asignatura})"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                      </svg></a>
-                        <a class="btn btn-danger" onclick="eliminar(${row.id})"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                        <a class="btn btn-danger" onclick="eliminar(${row.id_asignatura})"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
                      </svg></a>
                      `
@@ -307,6 +456,7 @@
             },
 
         });
+
     });
 
 </script>
