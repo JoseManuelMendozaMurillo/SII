@@ -1,0 +1,126 @@
+.custom-swal-modal {
+    /* Establece una altura fija para el modal */
+    height: 96vh;
+}
+
+.custom-swal-actions {
+    width: 100%;
+    padding-right: 2rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.container-modal {
+    padding: 0.5rem;
+}
+
+.container-modal-filters {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.container-modal-filters-search-icon {
+    width: 1.2rem;
+    height: 1.2rem;
+    fill: #000;
+}
+
+.container-modal-containers-materias {
+    margin-top: 1rem;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+.container-modal-materias {
+    flex: 1;
+
+    background: #F4F5F7 0% 0% no-repeat padding-box;
+    border-radius: 0.7rem;
+    padding: 1rem 0.8rem;
+
+    max-height: 22rem;
+    min-height: 22rem;
+    overflow: auto;
+}
+
+.item-materia {
+    cursor: grab;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border-radius: 0.4rem;
+    width: 100%;
+
+    margin-top: 0.8rem;
+    padding: 1rem;
+}
+
+.item-materia:hover {
+    background-color: rgba(39, 39, 39, 0.8);
+}
+
+.item-materia:hover>.item-materia-name {
+    color: #fff;
+}
+
+.item-materia:hover>.item-materia-icon {
+    fill: #fff;
+}
+
+.available {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.selected {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: start;
+    align-items: center;
+    gap: 1rem;
+}
+
+.item-materia-name {
+    flex: 10;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.item-materia-icon {
+    flex: 1;
+    width: 2.3rem;
+    height: 2.3rem;
+    fill: #000;
+    background-color: none;
+    padding: 0.5rem;
+    border-radius: 1.2rem;
+    cursor: pointer;
+    transition: background-color ease 0.2s;
+}
+
+.item-materia-icon:hover {
+    background-color: #000;
+}
+
+
+.container-title {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.container-title-text-title {
+    padding-left: 1.5rem;
+    font-size: 1.2rem;
+}
+
+.container-title-icon-title {
+    width: 1.3rem;
+    height: 1.3rem;
+    fill: #000;
+}
