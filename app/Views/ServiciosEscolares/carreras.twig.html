@@ -267,11 +267,11 @@
                },
                success: function (response) {
                   if (response.success) {
-                     Swal.fire('¡Materia desactivada!', 'La materia ha sido eliminada correctamente.', 'success');
+                     Swal.fire('Carrera desactivada!', 'La carrera ha sido desactivada correctamente.', 'success');
 
                      $('#datatable').bootgrid('reload');
                   } else {
-                     Swal.fire('¡Error!', 'La materia no se ha podido desactivar' + error.responseText, 'error');
+                     Swal.fire('¡Error!', 'La carrera no se ha podido desactivar' + error.responseText, 'error');
                   }
 
                },
@@ -385,11 +385,11 @@
                },
                success: function (response) {
                   if (response.success) {
-                     Swal.fire('¡Materia eliminada!', 'La materia ha sido eliminada correctamente.', 'success');
+                     Swal.fire('¡Carrera eliminada!', 'La carrera ha sido eliminada correctamente.', 'success');
 
                      $('#datatable').bootgrid('reload');
                   } else {
-                     Swal.fire('¡Error!', 'La materia no ha sido eliminada.', 'error');
+                     Swal.fire('¡Error!', 'La carrera no ha sido eliminada.', 'error');
                   }
 
                },

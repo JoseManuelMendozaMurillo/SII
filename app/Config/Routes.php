@@ -145,6 +145,7 @@ $routes->group(
     ['namespace' => 'App\Controllers\Test'],
     function ($routes) {
         $routes->get('correos', 'Pruebas::correo');
+        $routes->get('correo-alu', 'Pruebas::correoAlumno');
         $routes->post('sendEmail', 'Pruebas::sendEmail');
         $routes->get('imagenes', 'Pruebas::img');
         $routes->post('thumb', 'Pruebas::thumb');
