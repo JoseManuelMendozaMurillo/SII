@@ -2,7 +2,6 @@
 
 namespace App\Controllers\Reticulas;
 
-use App\Entities\Reticulas\Reticula;
 use App\Models\Reticulas\AsignaturaModel;
 use App\Models\Reticulas\CarreraModel;
 use App\Models\Reticulas\EspecialidadModel;
@@ -229,7 +228,7 @@ class Reticulas extends CrudController
                 $num++;
                 $semestre = 'semestre' . $num;
             }
-            
+
             return $this->response->setStatusCode(200)->setJSON(['success' => true, 'reticula' => $data]);
         } catch (Exception $e) {
             return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
@@ -276,19 +275,36 @@ class Reticulas extends CrudController
         }
     }
 
+    /**
+     * Función para mostrar una lista de carreras para reticulas
+     */
+    public function index()
+    {
+        // Obtenemos la lista de carreras
+        $carreras = $this->carreraModel->findAll();
+        for ($i = 0; $i < count($carreras); $i++) {
+            $carrera = $carreras[$i];
+            $carreras[$i] = $carrera->toArray();
+        }
+
+        $data = [
+            'nombreModulo' => 'Reticulas',
+            'carreras' => $carreras,
+        ];
+        $this->twig->display('ServiciosEscolares/reticulas_carreras', $data);
+    }
+
+    /**
+     * Funcion para mostrar la vista de las reticulas por carrera
+     */
     public function getByCarrera($id_carrera)
     {
-        // TODO: Quitar comentatio para comprobar que sea request AJAX
-        // TODO: Poner el el ID de la carrera enviado por post en la variable $id_carrera
-        // try {
-        //     // if (!$this->request->isAJAX()) {
-        //     //     throw new Exception('No se encontró el recurso', 404);
-        //     // }
-
-        // $id_carrera = 1;
+        // Obtener los datos de las carrera
+        $carrera = $this->carreraModel->find($id_carrera)->toArray();
+        $nameCarrera = $carrera['nombre_carrera'];
 
         $reticulas = $this->model->where('id_carrera', $id_carrera)->find();
-        $data = [];
+        $data = ['nombreModulo' => $nameCarrera];
         $data['reticulas'] = [];
         foreach ($reticulas as $reticula) {
             $reticulaData = [];
@@ -299,12 +315,7 @@ class Reticulas extends CrudController
             $reticulaData['estatus'] = $reticula->estatus;
             array_push($data['reticulas'], $reticulaData);
         }
-        // TODO: Cambiar dd a return
 
-        // dd($data);
         $this->twig->display('ServiciosEscolares/reticula_carrera', $data);
-        // } catch (Exception $e) {
-        //     return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
-        // }
     }
 }

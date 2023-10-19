@@ -186,7 +186,6 @@ $routes->group(
     function ($routes) {
         $routes->get('carreras', 'Carreras::listCarreras');
         $routes->get('materias', 'Asignaturas::listMaterias');
-        $routes->get('reticulas', 'Reticulas::index');
         $routes->get('especialidades', 'Asignaturas::listEspecialidades');
     }
 );
@@ -196,7 +195,10 @@ $routes->group(
     'reticulas',
     ['namespace' => 'App\Controllers\Reticulas'],
     function ($routes) {
+        $routes->get('', 'Reticulas::index');
+        $routes->get('by-carrera/(:num)', 'Reticulas::getByCarrera/$1');
         $routes->get('reticula', 'Reticulas::reticulas');
+
         $routes->post('save-json-reticula', 'Reticulas::saveJsonReticula');
         $routes->post('get-json-rendered', 'Reticulas::getReticulaJSON');
         $routes->get('publish', 'Reticulas::publishReticula');
@@ -273,7 +275,6 @@ $routes->group(
                 $routes->get('testid', 'Reticulas::testID');
                 $routes->get('get/(:num)', 'Reticulas::getByID/$1');
                 $routes->get('no-especialidad', 'Reticulas::getNoEspecialidadJSON');
-                $routes->get('by-carrera/(:num)', 'Reticulas::getByCarrera/$1');
             }
         );
     }

@@ -18,9 +18,9 @@
                     <h4>LISTA DE CARRERAS</h4>
                     <div class="list-group pt-4">
                         {% for carrera in carreras %}
-                        <a href="{{ base_url('/reticulas/reticulas/by-carrera/')}}{{carrera.id_carrera}}" class="list-group-item list-group-item-action">{{ carrera.nombre_carrera }}</a>
+                        <a href="{{ base_url('reticulas/by-carrera/')}}{{carrera.id_carrera}}"
+                            class="list-group-item list-group-item-action">{{ carrera.nombre_carrera }}</a>
                         {% endfor %}
-                        
                     </div>
                 </div>
             </div>
