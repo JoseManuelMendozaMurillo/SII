@@ -142,18 +142,18 @@ class CrudController extends BaseController
     }
 
     // Returns all records as Entity
-    public function show()
-    {
-        $data = $this->model->find();
+    // public function show()
+    // {
+    //     $data = $this->model->find();
 
-        $array = [];
-        foreach ($data as $obj) {
-            array_push($array, $obj->toArray());
-        }
+    //     $array = [];
+    //     foreach ($data as $obj) {
+    //         array_push($array, $obj->toArray());
+    //     }
 
-        dd($array);
-        // return $array;
-    }
+    //     dd($array);
+    //     // return $array;
+    // }
 
     ////////////////////////////////////
     //
@@ -162,28 +162,28 @@ class CrudController extends BaseController
     ////////////////////////////////////
 
     // Displays a form to add/update
-    public function form()
-    {
-        $id = $this->request->getPost('id');
-        $data = [];
+    // public function form()
+    // {
+    //     $id = $this->request->getPost('id');
+    //     $data = [];
 
-        if ($id != null) {
-            $data = $this->model->find($id)->toArray();
-        }
+    //     if ($id != null) {
+    //         $data = $this->model->find($id)->toArray();
+    //     }
 
-        return view('Reticulas/form_' . $this->name, $data);
-    }
+    //     return view('Reticulas/form_' . $this->name, $data);
+    // }
 
-    // Simple form to send id_especialidad via post
-    // Test/Dev method
-    public function testID()
-    {
-        $data = [
-            'route' => $this->name . '/update',
-        ];
+    // // Simple form to send id_especialidad via post
+    // // Test/Dev method
+    // public function testID()
+    // {
+    //     $data = [
+    //         'route' => $this->name . '/update',
+    //     ];
 
-        return view('Reticulas/testid', $data);
-    }
+    //     return view('Reticulas/testid', $data);
+    // }
 
     // DB operations
     // public function delete()
@@ -209,29 +209,29 @@ class CrudController extends BaseController
     // Model's save method performs both insert and update
     // To update, id_X must be found in $data array
     // Otherwise, an insert is performed
-    public function save()
-    {
-        // The validation was successful
-        try {
-            if (!$this->request->isAJAX()) {
-                throw new Exception('No se encontró el recurso', 404);
-            }
-            $data = $this->request->getPost();
-            if (!$this->validation->run($data, $this->name)) {
-                // The validation failed.
-                $errors = $this->validation->getErrors();
+    // public function save()
+    // {
+    //     // The validation was successful
+    //     try {
+    //         if (!$this->request->isAJAX()) {
+    //             throw new Exception('No se encontró el recurso', 404);
+    //         }
+    //         $data = $this->request->getPost();
+    //         if (!$this->validation->run($data, $this->name)) {
+    //             // The validation failed.
+    //             $errors = $this->validation->getErrors();
 
-                throw new Exception($errors[array_key_first($errors)], 400);
-            }
-            $entity = new $this->entity();
-            $entity->fill($data);
-            $this->model->save($entity);
+    //             throw new Exception($errors[array_key_first($errors)], 400);
+    //         }
+    //         $entity = new $this->entity();
+    //         $entity->fill($data);
+    //         $this->model->save($entity);
 
-            return $this->response->setStatusCode(201)->setJSON(['success' => true]);
-        } catch (Exception $e) {
-            return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
-        }
-    }
+    //         return $this->response->setStatusCode(201)->setJSON(['success' => true]);
+    //     } catch (Exception $e) {
+    //         return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
+    //     }
+    // }
 
     // public function getByID($id)
     // {

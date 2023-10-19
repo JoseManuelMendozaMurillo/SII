@@ -231,7 +231,8 @@ $routes->group(
                 $routes->post('delete', 'Carreras::delete');
                 $routes->get('testid', 'Carreras::testID');
                 $routes->get('get/(:num)', 'Carreras::getByID/$1');
-                $routes->get('get-all', 'Carreras::getCarrerasAll');
+                $routes->post('get-all', 'Carreras::getCarrerasAll');
+                $routes->post('activar', 'Carreras::changeStatusActive');
             }
         );
 
@@ -265,6 +266,8 @@ $routes->group(
                 $routes->get('publish', 'Reticulas::publishReticula');
                 $routes->get('get-json', 'Reticulas::getReticulaJSON');
                 $routes->get('rectify', 'Reticulas::rectifyReticula');
+                $routes->get('no-especialidad', 'Reticulas::getNoEspecialidadJSON');
+                $routes->get('by-carrera/(:num)', 'Reticulas::getByCarrera/$1');
             }
         );
     }
