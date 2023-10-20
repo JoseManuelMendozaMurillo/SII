@@ -198,6 +198,9 @@ $routes->group(
     function ($routes) {
         $routes->get('', 'Reticulas::index');
         $routes->get('by-carrera/(:num)', 'Reticulas::getByCarrera/$1');
+        $routes->post('create', 'Reticulas::createReticula');
+        $routes->get('show/(:num)', 'Reticulas::show/$1');
+
         $routes->get('reticula', 'Reticulas::reticulas');
 
         $routes->post('save-json-reticula', 'Reticulas::saveJsonReticula');

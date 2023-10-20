@@ -49,6 +49,23 @@
 <!-- SweetAlert -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<script type="module" src="{{base_url('Js/Reticulas/reticulas.js')}}"></script>
+<!-- Scrip para crear la reticula -->
+<script type="module">
+    import Reticulas from '{{base_url("Js/Reticulas/HerramientaReticulas/reticulas.js")}}';
+
+
+    $(document).ready(async function () {
+        // Obtenemos el json que viene desde el backend con twig
+        const jsonRet = '{{ jsonReticula | raw}}';
+        const reticula = new Reticulas('reticula');
+        reticula.setReticula(JSON.parse(jsonRet));
+
+        // Evitar que se recargue la pagina si hay cambios sin guardar
+        window.addEventListener('beforeunload', async (event) => {
+            if (!reticula.getSaved())
+                event.returnValue = 'Hay cambios sin grabar. ¿Abandonar ahora?';
+        });
+    });
+</script>
 
 {% endblock %}
