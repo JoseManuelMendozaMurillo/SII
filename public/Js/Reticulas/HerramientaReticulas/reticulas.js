@@ -163,6 +163,7 @@ export default class Reticulas {
 	 */
 	setReticula(reticula) {
 		this.reticulaJson = reticula;
+		this.reticulaJson.saved = true;
 		this.notify(this.eventCreateReticula);
 		console.log(this.reticulaJson);
 	}
@@ -494,17 +495,15 @@ export default class Reticulas {
 
 		// Contrumos el objeto que se guardara en BD
 		const reticulaJson = this.getReticula();
-		const idReticula = 1;
-		const reticualJsonSave = {};
+		const idReticula = reticulaJson.id;
+		const reticualJsonSave = {
+			name: reticulaJson.name,
+		};
 		const semestres = Object.keys(reticulaJson).filter((key) =>
 			key.startsWith('semestre'),
 		);
 
 		// Creamos el objeto que se guardara en BD
-		reticualJsonSave.name = reticulaJson.name;
-		reticualJsonSave.idCarrera = reticulaJson.idCarrera;
-		reticualJsonSave.idEspecialidad = reticulaJson.idEspecialidad;
-		reticualJsonSave.status = reticulaJson.status;
 		for (const semestre of semestres) {
 			if (Object.keys(reticulaJson[semestre]).length === 0) {
 				reticualJsonSave[semestre] = {};
