@@ -105,26 +105,33 @@ export default class RenderReticulas {
 
 		const reticula = this.components.getContainerReticula();
 		let contColumn = 1;
+
 		semestres.forEach((semestre) => {
+			const numSemestre = semestre.substring(8);
 			const newColumn = this.components.getColumn(contColumn);
-			const titleColumn = this.components.getTitleColumn(semestre);
+			const titleColumn = this.components.getTitleColumn(
+				`Semestre ${numSemestre}`,
+			);
 			const containerItems = this.components.getContainerItems();
 			contColumn++;
 
 			// Agregamos las materias a cada semestre
 			let numRow = 1;
 			const materias = reticulaJson[semestre].materias;
-			const clavesMaterias = Object.keys(materias);
-			clavesMaterias.forEach((clave) => {
-				const nameMateria = materias[clave].name;
-				const itemMateria = this.components.getItemMateria(
-					clave,
-					nameMateria,
-					numRow,
-				);
-				numRow++;
-				containerItems.append(itemMateria);
-			});
+			// Si el semestre no esta vacio le agregamos sus materias
+			if (materias !== undefined) {
+				const clavesMaterias = Object.keys(materias);
+				clavesMaterias.forEach((clave) => {
+					const nameMateria = materias[clave].name;
+					const itemMateria = this.components.getItemMateria(
+						clave,
+						nameMateria,
+						numRow,
+					);
+					numRow++;
+					containerItems.append(itemMateria);
+				});
+			}
 
 			// Si el estatus de la reticula esta en borrador, agregamos la opción para agregar materias
 			if (this.reticulas.getStatus() === 'borrador') {
@@ -154,11 +161,11 @@ export default class RenderReticulas {
 
 		// Obtenemos el input para cambiar el nombre y el input que indica el status
 		const inputChangeName = document.getElementById('nameReticula');
-		const inputStatus = document.getElementById('statusReticula');
+		const labelStatus = document.getElementById('statusReticula');
 
 		// Seteamos el nombre y el status de la reticula
 		inputChangeName.value = this.reticulas.reticulaJson.name;
-		inputStatus.value = this.reticulas.reticulaJson.status;
+		labelStatus.textContent = this.reticulas.reticulaJson.status;
 	}
 
 	/**
@@ -174,7 +181,7 @@ export default class RenderReticulas {
 
 		// Construimos la nueva columna para el semestre
 		const newColumn = this.components.getColumn(numLastSemestre);
-		const title = this.components.getTitleColumn(`Semestre${numLastSemestre}`);
+		const title = this.components.getTitleColumn(`Semestre ${numLastSemestre}`);
 		const containerItems = this.components.getContainerItems();
 		const itemAddMateria = this.components.getItemAddMateria(1);
 		containerItems.append(itemAddMateria);
@@ -300,7 +307,6 @@ export default class RenderReticulas {
 	__updateMateria(e) {
 		const claveMateriaDeleted = e.details.claveAignaturaDelete;
 		const newAsignatura = e.details.nuevaAsignatura;
-		const semestre = e.details.semestre;
 
 		// Obtenemos la materia a cambiar
 		const itemMateriaChange = this.container.querySelector(

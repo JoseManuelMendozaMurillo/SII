@@ -1,5 +1,6 @@
 import SelectorMaterias from '../HerramientaSeleccionarMaterias/selector-materias.js';
-import CreateHtmlElements from '../create-html-elements.js';
+import CreateHtmlElements from '../../Tools/create-html-elements.js';
+import AlertModal from '../../Tools/alert-modal.js';
 import Asignaturas from '../../Services/Reticulas/asignaturas.js';
 
 /**
@@ -50,7 +51,7 @@ export default class ComponentReticulas {
 		// Creamos el input
 		const inputNameReticula = this.htmlElements.getInput({
 			id: 'nameReticula',
-			class: 'form-control',
+			class: 'form-control input-name-reticula',
 			type: 'text',
 			placeholder: '0001-2221',
 		});
@@ -61,9 +62,9 @@ export default class ComponentReticulas {
 
 		// Creamos el label
 		const labelNameReticula = this.htmlElements.getLabel({
-			class: 'form-label',
+			class: 'form-label label-input-name-reticula',
 			for: 'nameReticula',
-			textContent: 'Nombre de la reticula',
+			textContent: 'Nombre de la reticula: *',
 		});
 
 		return labelNameReticula.outerHTML + inputNameReticula.outerHTML;
@@ -75,24 +76,14 @@ export default class ComponentReticulas {
 	 *
 	 * @returns {String} Html en formato string
 	 */
-	getInputStatusReticula = () => {
+	getLabelStatusReticula = () => {
 		// Creamos el input
-		const inputStatusReticula = this.htmlElements.getInput({
+		const labelStatusReticula = this.htmlElements.getContainer({
+			class: 'label-reticula',
 			id: 'statusReticula',
-			class: 'form-control',
-			type: 'text',
-			placeholder: 'Estatus',
-			disabled: true,
 		});
 
-		// Creamos el label
-		const labelStatusReticula = this.htmlElements.getLabel({
-			for: 'statusReticula',
-			class: 'form-label',
-			textContent: 'Estatus de la reticula',
-		});
-
-		return labelStatusReticula.outerHTML + inputStatusReticula.outerHTML;
+		return labelStatusReticula;
 	};
 
 	/**
@@ -105,17 +96,21 @@ export default class ComponentReticulas {
 	getHeader = () => {
 		const header = this.htmlElements.getContainer({
 			id: 'header',
-			class: 'row justify-content-center',
+			class: 'header',
 		});
 
 		const containerInputNameReticula = this.htmlElements.getContainer({
-			class: 'col-4',
-			htmlContent: this.getInputNameReticula(),
+			class: 'item-header',
+			htmlContent: this.htmlElements.getContainer({
+				class: 'container-input-name-reticula',
+				htmlContent: this.getInputNameReticula(),
+			}),
 		});
 
 		// Si el estatus es borrador, agregamos el listener para cambiar el nombre de la reticula
 		if (this.reticulas.getStatus() === 'borrador') {
-			const inputNameReticula = containerInputNameReticula.childNodes[1];
+			const inputNameReticula =
+				containerInputNameReticula.childNodes[0].childNodes[1];
 			inputNameReticula.addEventListener('input', (e) => {
 				const newName = e.target.value;
 				this.reticulas.setName(newName);
@@ -123,8 +118,8 @@ export default class ComponentReticulas {
 		}
 
 		const containerInputStatusReticula = this.htmlElements.getContainer({
-			class: 'col-4',
-			htmlContent: this.getInputStatusReticula(),
+			class: 'item-header justify-align-end',
+			htmlContent: this.getLabelStatusReticula(),
 		});
 
 		header.append(containerInputNameReticula, containerInputStatusReticula);
@@ -142,7 +137,7 @@ export default class ComponentReticulas {
 	getBtnGoBack = (goBackToURL = '') => {
 		const btnGoBack = this.htmlElements.getButton({
 			id: 'btnGoBack',
-			class: 'col-1 btn btn-danger',
+			class: 'btns btn-cancel',
 			textContent: 'Cancelar',
 		});
 
@@ -162,11 +157,11 @@ export default class ComponentReticulas {
 	getBtnSave = () => {
 		const btnSave = this.htmlElements.getButton({
 			id: 'btnSave',
-			class: 'col-1 btn btn-secondary',
+			class: 'btns btn-save',
 			textContent: 'Guardar',
 		});
 
-		btnSave.addEventListener('click', (e) => {
+		btnSave.addEventListener('click', async (e) => {
 			this.actionBtnSave(e);
 		});
 
@@ -182,7 +177,7 @@ export default class ComponentReticulas {
 	getBtnPost = () => {
 		const btnPost = this.htmlElements.getButton({
 			id: 'btnPost',
-			class: 'col-1 btn btn-primary',
+			class: 'btns btn-publicate',
 			textContent: 'Publicar',
 		});
 
@@ -203,7 +198,7 @@ export default class ComponentReticulas {
 	getFooter = () => {
 		const footer = this.htmlElements.getContainer({
 			id: 'footer',
-			class: 'row justify-content-center gap-3 mt-4 pe-5',
+			class: 'footer',
 		});
 
 		footer.append(this.getBtnGoBack('https://localhost/public/auth/login'));
@@ -286,6 +281,7 @@ export default class ComponentReticulas {
 	 */
 	getContainerItems = () => {
 		return this.htmlElements.getContainer({
+			class: 'column',
 			name: 'rows',
 		});
 	};
@@ -299,7 +295,7 @@ export default class ComponentReticulas {
 	 */
 	getItemAddMateria = (numRow = 1) => {
 		const itemAddMateria = this.htmlElements.getContainer({
-			class: 'item materia',
+			class: 'item add',
 			name: 'row',
 			'data-row': numRow,
 			htmlContent: this.getIconAdd('icon icon-add-materia'),
@@ -391,12 +387,17 @@ export default class ComponentReticulas {
 	};
 
 	getIconAdd(className = '') {
+		const path1 = this.htmlElements.getPath({
+			d: 'M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z',
+		});
+		const path2 = this.htmlElements.getPath({
+			d: 'M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z',
+		});
+
 		const iconAdd = this.htmlElements.getSvg({
 			class: className,
 			viewBox: '0 0 16 16',
-			htmlContent: this.htmlElements.getPath({
-				d: 'M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z',
-			}),
+			htmlContent: path1.outerHTML + path2.outerHTML,
 		});
 		return iconAdd.outerHTML; // Devolvemos el svg en formato string
 	}
@@ -442,10 +443,15 @@ export default class ComponentReticulas {
 	 *
 	 * @param {Event} e	- Evento click del boton
 	 */
-	actionBtnSave = (e) => {
-		// TO DO
-		// Guardar el JSON
-		console.log('Guardar datos');
+	actionBtnSave = async (e) => {
+		// Verificamos que haya cambios en la estructura
+		if (this.reticulas.getSaved()) {
+			AlertModal.showInfo('No hay cambios por guardar', '');
+			return;
+		}
+
+		// Guardamos los cambios
+		this.reticulas.save();
 	};
 
 	/**

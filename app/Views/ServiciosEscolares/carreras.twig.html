@@ -246,8 +246,41 @@
       })()
    }
 
-   function mostrarConfirmacion(id, text) {
+   function mostrarConfirmacion(id) {
+      Swal.fire({
+         title: '¿Estás seguro?',
+         text: "¡No podrás revertir esto!",
+         icon: 'warning',
+         showCancelButton: true,
+         confirmButtonColor: '#3085d6',
+         cancelButtonColor: '#d33',
+         confirmButtonText: 'Sí, desactivar',
+         cancelButtonText: 'Cancelar'
+      }).then((result) => {
+         if (result.isConfirmed) {
+            $.ajax({
+               type: 'POST',
+               dataType: 'json',
+               url: '{{base_url("reticulas/carreras/inactivate")}}',
+               data: {
+                  'id_carrera': id,
+               },
+               success: function (response) {
+                  if (response.success) {
+                     Swal.fire('¡Materia desactivada!', 'La materia ha sido eliminada correctamente.', 'success');
 
+                     $('#datatable').bootgrid('reload');
+                  } else {
+                     Swal.fire('¡Error!', 'La materia no se ha podido desactivar' + error.responseText, 'error');
+                  }
+
+               },
+               error: function (error) {
+                  console.error("Datos no enviados" + error.responseText)
+               }
+            });
+         }
+      })
 
    }
    function editar(id) {
@@ -394,7 +427,7 @@
                selectedEstado: $('#estadoFilter').val() // Get the selected value from the <select> // Get the search phrase
             };
          },
-         url: '{{base_url("reticulas/carreras/get-all")}}',
+         url: '{{base_url("reticulas/carreras/upt-records")}}',
          labels: {
             noResults: "No hay resultados",
             loading: "Cargando...",
@@ -431,7 +464,7 @@
                      break;
                   case '2':
                      buttonHTML = `
-                     <button  class="custom-button btn btn-success"  data-user-id="${row.id_carrera}" onclick="mostrarConfirmacion('${row.id_carrera}','${estado}')">Activo</button>
+                     <button  class="custom-button btn btn-success"  data-user-id="${row.id_carrera}" onclick="mostrarConfirmacion('${row.id_carrera}')">Activo</button>
                      `;
                      break;
                   case '3':

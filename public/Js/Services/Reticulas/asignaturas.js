@@ -1,3 +1,4 @@
+import Requests from '../../Tools/request.js';
 import config from '../../config.js';
 
 /**
@@ -10,6 +11,12 @@ export default class Asignaturas {
 	urlGetByEspecialidad;
 	urlGetByClave;
 
+	/**
+	 * Instancia de la clase especializada en hacer peticiones AJAX
+	 * @type {Requests}
+	 */
+	requests;
+
 	constructor() {
 		// Creamos las rutas
 		this.urlGetBasicas = config.BASE_URL('reticulas/asignaturas/get-basicas');
@@ -20,6 +27,8 @@ export default class Asignaturas {
 			'reticulas/asignaturas/get-by-especialidad',
 		);
 		this.urlGetByClave = config.BASE_URL('reticulas/asignaturas/get-by-clave');
+
+		this.requests = new Requests();
 	}
 
 	/**
@@ -29,7 +38,7 @@ export default class Asignaturas {
 	 * @returns {Promise<Array>}
 	 */
 	getBasicas = async () => {
-		const asigBasicas = await this.__request(this.urlGetBasicas);
+		const asigBasicas = await this.requests.request(this.urlGetBasicas);
 		return asigBasicas.data;
 	};
 
@@ -105,7 +114,7 @@ export default class Asignaturas {
 	 * @return {Promise<Array>}
 	 */
 	getByCarrera = async (idCarrera) => {
-		const asigCarrera = await this.__request(this.urlGetByCarrera, {
+		const asigCarrera = await this.requests.request(this.urlGetByCarrera, {
 			id: idCarrera,
 			onlyGenericas: false,
 		});
@@ -131,7 +140,7 @@ export default class Asignaturas {
 	 * @return {Promise<Array>}
 	 */
 	getGenericasByCarrera = async (idCarrera) => {
-		const asigCarrera = await this.__request(this.urlGetByCarrera, {
+		const asigCarrera = await this.requests.request(this.urlGetByCarrera, {
 			id: idCarrera,
 			onlyGenericas: true,
 		});
@@ -146,9 +155,12 @@ export default class Asignaturas {
 	 * @returns {Promise<Array>}
 	 */
 	getByEspecialidad = async (idEspecialidad) => {
-		const asigEspecialidad = await this.__request(this.urlGetByEspecialidad, {
-			id: idEspecialidad,
-		});
+		const asigEspecialidad = await this.requests.request(
+			this.urlGetByEspecialidad,
+			{
+				id: idEspecialidad,
+			},
+		);
 		return asigEspecialidad.data;
 	};
 
@@ -160,82 +172,9 @@ export default class Asignaturas {
 	 * @returns {Promise<Array>}
 	 */
 	getByClave = async (asigClave) => {
-		const asig = await this.__request(this.urlGetByClave, {
+		const asig = await this.requests.request(this.urlGetByClave, {
 			clave: asigClave,
 		});
 		return asig.data;
-	};
-
-	/* Metodos privados */
-
-	/**
-	 * @private
-	 * @name request
-	 * @description Función encargada de hacer las peticion AJAX
-	 *
-	 * @param {String} url - URL de la petición
-	 * @param {Object} params - Parametros de la peticion
-	 * @return {Promise<Array|undefined>}
-	 */
-	__request = async (url, params = {}) => {
-		try {
-			const options = this.__constructOptionsRequest(params);
-			const response = await fetch(url, options);
-			if (!response.ok) {
-				const error = await response.json();
-				throw new Error(error.error);
-			}
-			const data = await response.json(); // Parsear la respuesta JSON
-			return data;
-		} catch (error) {
-			console.error(error);
-			return undefined;
-		}
-	};
-
-	/**
-	 * @private
-	 * @name constructOptionsRequest
-	 * @description Función que permite costruir el objeto de opciones para una peticion AJAX
-	 *              utilizando la API nativa de JS fetch
-	 *
-	 * @param {Object} params - Parametros para la petición
-	 * @return {Object}
-	 */
-	__constructOptionsRequest(params = {}) {
-		const options = {
-			method: 'POST',
-			headers: {
-				'X-Requested-With': 'XMLHttpRequest',
-			},
-		};
-
-		// Si existen parametros los agregamos al objeto de opciones
-		if (Object.keys(params).length > 0) {
-			// Convertir el objeto con los parametros a una estructura de formulario
-			options.body = this.__emulateForm(params);
-		}
-		return options;
-	}
-
-	/**
-	 * @name emulateForm
-	 * @description Función para construir un formData a partir de los parametros
-	 *
-	 * @param {Object} params - Objeto con los 'inputs' del form
-	 * @returns {FormData}
-	 */
-	__emulateForm = (params = {}) => {
-		const form = new FormData();
-
-		// Si los parametros estan vacios retornamos el form vacio
-		if (Object.keys(params).length === 0) return form;
-
-		// Recorremos los parametros para crear los 'inputs' del form
-		const claves = Object.keys(params);
-		for (const clave of claves) {
-			form.append(clave, params[clave]);
-		}
-		return form;
 	};
 }
