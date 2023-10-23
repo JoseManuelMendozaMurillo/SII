@@ -212,6 +212,17 @@
     // Variables globales
     const idCarrera = '{{idCarrera | raw}}';
     const jsonDataReticulas = '{{reticulas|json_encode|raw}}';
+
+    $(document).ready(function () {
+        // Ocultar el SideBar
+        const iconSidebar = document.getElementById('iconSidebar');
+
+        iconSidebar.addEventListener('click', function (e) {
+            console.log(this);
+            //e.stopPropagation();
+            //e.preventDefault();
+        });
+    });
 </script>
 
 <script type="module" src="{{base_url('Js/Reticulas/reticula-carrera.js')}}"></script>
