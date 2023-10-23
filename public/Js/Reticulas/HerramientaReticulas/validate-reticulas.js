@@ -113,11 +113,11 @@ export default class ValidateReticulas {
 	};
 
 	/**
-	 * @description Función para validar si una reticula es apta para guardarse
+	 * @description Función para validar si una reticula es apta para publicarse
 	 *
 	 * @returns {boolean}
 	 */
-	canSave() {
+	isCanPublicate() {
 		// Obtenemos los semestres
 		const reticulaJson = this.reticulas.getReticula();
 		const semestres = Object.keys(reticulaJson).filter((key) =>

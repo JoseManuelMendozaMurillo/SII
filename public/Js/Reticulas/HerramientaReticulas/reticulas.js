@@ -163,6 +163,7 @@ export default class Reticulas {
 	 */
 	setReticula(reticula) {
 		this.reticulaJson = reticula;
+		this.reticulaJson.saved = true;
 		this.notify(this.eventCreateReticula);
 		console.log(this.reticulaJson);
 	}
@@ -484,39 +485,9 @@ export default class Reticulas {
 	 * @returns {Boolean}
 	 */
 	async save() {
-		if (!this.validateReticulas.canSave()) {
-			AlertModal.showError(
-				'No se puede guardar',
-				'La reticula no se puede guardar porque no paso las validaciones',
-			);
-			return false;
-		}
-
-		// Contrumos el objeto que se guardara en BD
-		const reticulaJson = this.getReticula();
-		const idReticula = 1;
-		const reticualJsonSave = {};
-		const semestres = Object.keys(reticulaJson).filter((key) =>
-			key.startsWith('semestre'),
-		);
-
-		// Creamos el objeto que se guardara en BD
-		reticualJsonSave.name = reticulaJson.name;
-		reticualJsonSave.idCarrera = reticulaJson.idCarrera;
-		reticualJsonSave.idEspecialidad = reticulaJson.idEspecialidad;
-		reticualJsonSave.status = reticulaJson.status;
-		for (const semestre of semestres) {
-			if (Object.keys(reticulaJson[semestre]).length === 0) {
-				reticualJsonSave[semestre] = {};
-				continue;
-			}
-			const clavesMateriasBySemestre = Object.keys(
-				reticulaJson[semestre].materias,
-			);
-			reticualJsonSave[semestre] = clavesMateriasBySemestre;
-		}
-
 		// Guardamos el JSON de la reticula en la BD
+		const reticualJsonSave = this.__constructJsonSaveable();
+		const idReticula = this.getReticula().id;
 		const isSaved = await this.serviceReticulas.saveJson(
 			idReticula,
 			reticualJsonSave,
@@ -535,9 +506,39 @@ export default class Reticulas {
 	/**
 	 * @description Publicar la reticula
 	 */
-	piblicate() {
-		// TO DO
-	}
+	publicate = async () => {
+		// Validamos si la reticula puede ser publicada
+		if (!this.validateReticulas.isCanPublicate()) {
+			AlertModal.showError(
+				'La reticula no se puede publicar',
+				'La reticula no puede publicarse porque no cumple con las reglas de validacion',
+			);
+		}
+
+		// Guardamos posibles cambios de la reticula
+		const idReticula = this.getReticula().id;
+		const reticualJsonSave = this.__constructJsonSaveable();
+		const isSaved = await this.serviceReticulas.saveJson(
+			idReticula,
+			reticualJsonSave,
+		);
+
+		if (!isSaved) {
+			AlertModal.showError('Upps', 'Ucurrio un error al guardar los cambios');
+			return;
+		}
+
+		// Publicar la reticula
+		const isPublished = await this.serviceReticulas.publish(idReticula);
+		if (!isPublished) {
+			AlertModal.showError('Upps', 'Ucurrio un error al publicar la reticula');
+			return;
+		}
+
+		await AlertModal.showSuccess('¡Los reticula se publico!');
+		// Recargar la página
+		location.reload();
+	};
 
 	/* Métodos privados */
 
@@ -566,4 +567,37 @@ export default class Reticulas {
 		);
 		return numeroSemestreMasAlto;
 	}
+
+	/**
+	 * @private
+	 * @name constructJsonSaveable
+	 * @description Función para construir el json que se guardara en BD
+	 *
+	 * @returns {JSON} - Objeto JSON que se guardara en BD
+	 */
+	__constructJsonSaveable = () => {
+		// Construimos el objeto que se guardara en BD
+		const reticulaJson = this.getReticula();
+
+		const reticualJsonSave = {
+			name: reticulaJson.name,
+		};
+		const semestres = Object.keys(reticulaJson).filter((key) =>
+			key.startsWith('semestre'),
+		);
+
+		// Creamos el objeto que se guardara en BD
+		for (const semestre of semestres) {
+			if (Object.keys(reticulaJson[semestre]).length === 0) {
+				reticualJsonSave[semestre] = {};
+				continue;
+			}
+			const clavesMateriasBySemestre = Object.keys(
+				reticulaJson[semestre].materias,
+			);
+			reticualJsonSave[semestre] = clavesMateriasBySemestre;
+		}
+
+		return reticualJsonSave;
+	};
 }

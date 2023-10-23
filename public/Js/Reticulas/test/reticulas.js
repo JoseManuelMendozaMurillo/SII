@@ -1,4 +1,4 @@
-import Reticulas from './HerramientaReticulas/reticulas.js';
+import Reticulas from '../HerramientaReticulas/reticulas.js';
 
 $(document).ready(async function () {
 	const idRet = 1;

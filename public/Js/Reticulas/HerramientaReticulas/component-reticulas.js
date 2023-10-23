@@ -2,6 +2,7 @@ import SelectorMaterias from '../HerramientaSeleccionarMaterias/selector-materia
 import CreateHtmlElements from '../../Tools/create-html-elements.js';
 import AlertModal from '../../Tools/alert-modal.js';
 import Asignaturas from '../../Services/Reticulas/asignaturas.js';
+import config from '../../config.js';
 
 /**
  * @class
@@ -200,8 +201,10 @@ export default class ComponentReticulas {
 			id: 'footer',
 			class: 'footer',
 		});
-
-		footer.append(this.getBtnGoBack('https://localhost/public/auth/login'));
+		const idCarrera = this.reticulas.getReticula().idCarrera;
+		footer.append(
+			this.getBtnGoBack(config.BASE_URL(`reticulas/by-carrera/${idCarrera}`)),
+		);
 
 		// Si la reticula esta en estado de borrador agregamos los botones para guardar y publicar
 		if (this.reticulas.getStatus() === 'borrador') {
@@ -298,7 +301,7 @@ export default class ComponentReticulas {
 			class: 'item add',
 			name: 'row',
 			'data-row': numRow,
-			htmlContent: this.getIconAdd('icon icon-add-materia'),
+			htmlContent: this.getIconAdd('icon-custom icon-add-materia'),
 		});
 
 		// Agregamos la acción para agregar materias
@@ -375,7 +378,7 @@ export default class ComponentReticulas {
 		const itemAddColumn = this.htmlElements.getContainer({
 			id: 'addColumn',
 			class: 'item add-semestre',
-			htmlContent: this.getIconAdd('icon add-semestre-icon'),
+			htmlContent: this.getIconAdd('icon-custom add-semestre-icon'),
 		});
 
 		// Agregamos el evento click para agregar una nueva columna (Semestre)
@@ -461,9 +464,8 @@ export default class ComponentReticulas {
 	 * @param {Event} e	- Evento click del boton
 	 */
 	actionBtnPost = (e) => {
-		// TO DO
 		// Publicar la reticula
-		console.log('Publicar la reticula');
+		this.reticulas.publicate();
 	};
 
 	/**

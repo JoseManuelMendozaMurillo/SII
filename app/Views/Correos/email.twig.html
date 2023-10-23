@@ -67,47 +67,15 @@
 {% endblock %}
 
 {% block social_media %}
-<div class="social_media">
-    <div class="text-center pt-5">
-        <h6 class="pt-3">Únete al grupo de WhatsApp</h6>
-        <a href="https://www.google.com/">
-            <img src="{{base_url('Vendor/Template/assets/images/brands/qr.png')}}" alt="" class="img-fluid p-1"
-                style="height: 170px; width: auto;"></a>
-    </div>
-    <div class="text-center pt-5">
-        <h6 class="pt-3">Únete a nuestras redes sociales</h6>
+<div class="text-center pt-5">
+    <h6 class="pt-3">Únete al grupo de WhatsApp</h6>
+    <a href="https://www.google.com/">
+        <img src="{{base_url('Vendor/Template/assets/images/brands/qr.png')}}" alt="" class="img-fluid p-1"
+            style="height: 170px; width: auto;"></a>
+</div>
+{{parent()}}
+{% endblock %}
 
-        <div class="d-flex justify-content-center align-items-center">
-            <a href="https://www.facebook.com/InstitutoTecnologicodeOcotlanOFICIAL">
-                <img src="{{base_url('Vendor/Template/assets/images/imagenescorrecaminos/facebook.svg')}}" alt=""
-                    class="img-fluid p-1" style="height: 120px; width: auto;"></a>
-
-            <a href="https://www.instagram.com/tecnmcampusocotlan/">
-                <img src="{{base_url('Vendor/Template/assets/images/imagenescorrecaminos/instagram.svg')}}" alt=""
-                    class="img-fluid p-1" style="height: 120px; width: auto;" /></a>
-
-            <a href="https://www.linkedin.com/in/tecnm-campus-ocotl%C3%A1n-ito-a7b163214/">
-                <img src="{{base_url('Vendor/Template/assets/images/imagenescorrecaminos/linkedin.svg')}}" alt=""
-                    class="img-fluid p-1" style="height: 120px; width: auto;" /></a>
-
-            <a href="https://www.tiktok.com/@tecnmcampusocotlan" class="ms-3">
-                <img src="{{base_url('Vendor/Template/assets/images/imagenescorrecaminos/tiktok.svg')}}" alt=""
-                    class="img-fluid p-1" style="height: 90px; width: auto;" /></a>
-
-            <a href="https://twitter.com/TECOcotlan" class="ms-4">
-                <img src="{{base_url('Vendor/Template/assets/images/imagenescorrecaminos/twitter.svg')}}" alt=""
-                    class="img-fluid p-1 " style="margin-left: 2px; height: 90px; width: auto;" /></a>
-        </div>
-
-
-    </div>
-
-    <p class="pt-5 fs-6">
-        Si tienes alguna duda escríbenos:<br />
-        Correo: tecocotlan@itococotlan.org.mx WhatsApp: 56-3388-9253
-    </p>
-    {% endblock %}
-
-    {% block footer %}
-    {{parent()}}
-    {% endblock %}
+{% block footer %}
+{{parent()}}
+{% endblock %}
