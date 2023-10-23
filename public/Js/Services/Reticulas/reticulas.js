@@ -6,7 +6,23 @@ import Requests from '../../Tools/request.js';
  * Servicio para hacer operaciones con las reticulas
  */
 export default class Reticulas {
-	// TO DO
+	/**
+	 * Url para crear una reticula
+	 * @type {String}
+	 */
+	urlCreate;
+
+	/**
+	 * Url para eliminar una reticula
+	 * @type {String}
+	 */
+	urlDelete;
+
+	/**
+	 * Url para publicar una reticula
+	 * @type {String}
+	 */
+	urlPublish;
 
 	/**
 	 * Url para guardar el JSON de una reticula
@@ -29,9 +45,71 @@ export default class Reticulas {
 	constructor() {
 		this.urlSaveJson = config.BASE_URL('reticulas/save-json-reticula');
 		this.urlGetJsonRendered = config.BASE_URL('reticulas/get-json-rendered');
+		this.urlCreate = config.BASE_URL('reticulas/create');
+		this.urlDelete = config.BASE_URL('reticulas/delete');
+		this.urlPublish = config.BASE_URL('reticulas/publish');
 
 		this.requests = new Requests();
 	}
+
+	/**
+	 * @description Función para crear una nueva reticula
+	 *
+	 * @param {string} name - Nombre de la reticula
+	 * @param {string|Int8Array} idCarrera - Id de la carrera de la nueva reticula
+	 * @param {string|Int8Array} idEspecialidad - Id de la especialidad para la nueva reticula
+	 * @param {boolean} useReticula - Parametro para saber si se debe utilizar una reticula anterior como base para la nueva
+	 * @param {string|null} idUseReticula - Id de la reticula que se usara como base (null si no se usuara una reticula como base)
+	 * @returns {string|boolean} Retorna la url a la nueva reticula si la operacion fue exitosa, de lo contrario retorna false
+	 */
+	create = async (
+		name,
+		idCarrera,
+		idEspecialidad,
+		useReticula,
+		idUseReticula,
+	) => {
+		const params = {
+			nombre_reticula: name,
+			id_carrera: idCarrera,
+			id_especialidad: idEspecialidad,
+			newReticula: useReticula,
+			useReticula: idUseReticula,
+		};
+		const res = await this.requests.request(this.urlCreate, params);
+		// Si la operacion fue exitosa
+		if ('success' in res) {
+			return res.urlNewReticula;
+		}
+		// Si no lo fue
+		return false;
+	};
+
+	/**
+	 * @description Función para eliminar una reticula
+	 *
+	 * @param {string|Int8Array} idReticula - Id de la reticula a eliminar
+	 * @returns {boolean}
+	 */
+	delete = async (idReticula) => {
+		const res = await this.requests.request(this.urlDelete, {
+			id_reticula: idReticula,
+		});
+		return res.success;
+	};
+
+	/**
+	 * @description Función para publicar una reticula
+	 *
+	 * @param {string|Int8Array} idReticula - Id de la reticula a publicar
+	 * @returns {boolean}
+	 */
+	publish = async (idReticula) => {
+		const res = await this.requests.request(this.urlPublish, {
+			id_reticula: idReticula,
+		});
+		return res.success;
+	};
 
 	/**
 	 * @description Función para guardar el JSON de una reticula

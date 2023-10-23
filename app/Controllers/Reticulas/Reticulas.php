@@ -2,12 +2,13 @@
 
 namespace App\Controllers\Reticulas;
 
-use App\Entities\Reticulas\Reticula;
+use App\Controllers\Test\Validate\CustomValidations;
 use App\Models\Reticulas\AsignaturaModel;
 use App\Models\Reticulas\CarreraModel;
 use App\Models\Reticulas\EspecialidadModel;
 use App\Models\Reticulas\EstatusModel;
 use App\Models\Reticulas\ReticulaModel;
+use App\Validations\CustomRules;
 use Exception;
 
 class Reticulas extends CrudController
@@ -18,6 +19,7 @@ class Reticulas extends CrudController
     protected $estatusModel;
     protected $reticulaModel;
     protected $reticulasAux;
+    protected $db;
 
     public function __construct()
     {
@@ -34,67 +36,43 @@ class Reticulas extends CrudController
         $this->especialidadModel = new EspecialidadModel();
         $this->reticulaModel = new ReticulaModel();
         $this->reticulasAux = new ReticulasAux();
+        $this->db = db_connect();
     }
 
+    /**
+     * Funcion AJAX para publicar una reticula
+     */
     public function publishReticula()
     {
-        // TODO: Quitar comentatio para comprobar que sea request AJAX
-        // TODO: Poner el JSON enviado por post en la variable $json
+        $this->db->transStart();
+
         try {
-            // if (!$this->request->isAJAX()) {
-            //     throw new Exception('No se encontró el recurso', 404);
-            // }
-
-            $json = '
-            {"name":"ISIC-DESARROLLO PARA LA WEB Y APLICACIONES PARA DISPOSITIVOS MOVILES","idCarrera":1,"idEspecialidad":5,"status":"Borrador","semestre1":["AED-1285","ACA-0907","AEF-1041","SCH-1024","ACC-0906","ACF-0901"],"semestre2":["ACF-0902","AED-1286","AEC-1008","AEC-1058","ACF-0903","AEF-1052"],"semestre3":["SCC-1005","SCF-1006","ACD-0908","SCC-1013","AED-1026","ACF-0904"],"semestre4":["ACF-0905","SCC-1017","SCD-1027","AEF-1031","SCD-1022","SCD-1018","SCD-1003"],"semestre5":["SCC-1010","SCC-1007","SCA-1025","AEC-1061","SCC-1019","SCD-1015","AEC-1034"],"semestre6":["SCD-1016","SCD-1021","SCA-1026","SCB-1001","SCD-1011","SCC-1014","ADD-2301"],"semestre7":["SCD-1004","ADF-2305","SCC-1023","SCG-1009","ACA-0909","AEB-1055","SCC-1012"],"semestre8":["SCA-1002","ACA-0910","DWD-2002","DWD-2001","DWD-2004"]}
-            ';
-
-            // dd($json);
-            $reticulaData = json_decode($json);
-            // dd($reticulaData);
-            $idCarrera = $reticulaData->idCarrera;
-            $idEspecialidad = $reticulaData->idEspecialidad;
-
-            // Da de alta la carrera
-            $carrera = $this->carreraModel->find($idCarrera);
-            if ($carrera->estatus == 1) {
-                $carrera->estatus = 2;
-                $this->carreraModel->save($carrera);
-                $message = 'Cambio de estatus en carrera: {"id_carrera": "' . $carrera->id_carrera . '", "estatus": "2"}';
-                log_message('info', $message);
+            // Validar que sea una peticion AJAX
+            if (!$this->request->isAJAX()) {
+                throw new Exception('No se encontró el recurso', 404);
             }
 
-            // Da de alta la especialidad
-            $especialidad = $this->especialidadModel->find($idEspecialidad);
-            if ($especialidad->estatus == 1) {
-                $especialidad->estatus = 2;
-                $this->especialidadModel->save($especialidad);
-                $message = 'Cambio de estatus en especialidad: {"id_especialidad": "' . $especialidad->id_especialidad . '", "estatus": "2"}';
-                log_message('info', $message);
+            // Validamos los datos
+            $data = $this->request->getPost();
+            if (!$this->validation->run($data, 'requestPublishReticula')) {
+                $errors = $this->validation->getErrors();
+
+                throw new Exception($errors[array_key_first($errors)], 400);
             }
 
-            $num = 1;
-            $semestre = 'semestre' . $num;
+            // Publicamos la reticula
+            $idReticula = $this->request->getPost('id_reticula');
+            $this->reticulasAux->publishReticula($idReticula);
 
-            // Da de alta las materias
-            while (isset($reticulaData->$semestre)) {
-                foreach ($reticulaData->$semestre as $asignaturaClave) {
-                    $asignatura = $this->asignaturaModel->where('clave_asignatura', $asignaturaClave)->find()[0];
-                    if ($asignatura->estatus != 1) {
-                        continue;
-                    }
+            $this->db->transRollback(); // Cambiar por un trasncommit
 
-                    $asignatura->estatus = '2';
-
-                    $this->asignaturaModel->save($asignatura);
-                    $message = 'Cambio de estatus en asignatura: {"id_asignatura": "' . $asignatura->id_asignatura . '", "estatus": "2"}';
-                    log_message('info', $message);
-                }
-                $num++;
-                $semestre = 'semestre' . $num;
-            }
+            return $this->response
+                        ->setStatusCode(200)
+                        ->setJSON(['success' => true]);
         } catch (Exception $e) {
-            return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
+            $this->db->transRollback();
+
+            return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage(), 'success' => false]);
         }
     }
 
@@ -126,21 +104,17 @@ class Reticulas extends CrudController
 
             /* Validamos los datos de la reticula */
             $dataJsonRet = json_decode((string) $jsonRet);
-            // Validamos el estatus
-            $estatus = $dataJsonRet->status;
-            $idEstatus = $this->estatusModel->getIdByEstatus($estatus);
-            if ($idEstatus === null) {
-                throw new Exception('El estatus de la reticula no es invalido', 400);
-            }
-            // Validamos el nombre de la reticula
-            $name = $dataJsonRet->name;
+
             // TO DO: Hacer la validacion del nombre
+            $name = $dataJsonRet->name;
+
+            // Eliminamos la propiedad name del json
+            unset($dataJsonRet->name);
 
             // Hacemos la actualizacion
             $dataUpdateReticula = [
                 'nombre_reticula' => $name,
-                'estatus' => $idEstatus,
-                'reticula_json' => $jsonRet,
+                'reticula_json' => json_encode($dataJsonRet),
             ];
             $isUpdated = $this->reticulaModel->update($idRet, $dataUpdateReticula);
             if (!$isUpdated) {
@@ -164,6 +138,7 @@ class Reticulas extends CrudController
     {
         // TODO: Quitar comentatio para comprobar que sea request AJAX
         // TODO: Poner el JSON enviado por post en la variable $json
+        // TODO: Verificar que la reticula no este eliminada
 
         try {
             // Validar que sea una peticion AJAX
@@ -229,7 +204,7 @@ class Reticulas extends CrudController
                 $num++;
                 $semestre = 'semestre' . $num;
             }
-            
+
             return $this->response->setStatusCode(200)->setJSON(['success' => true, 'reticula' => $data]);
         } catch (Exception $e) {
             return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
@@ -256,40 +231,50 @@ class Reticulas extends CrudController
         }
     }
 
-    public function rectifyReticula()
+    /**
+     * Función para mostrar una lista de carreras para reticulas
+     */
+    public function index()
     {
-        // TODO: Quitar comentatio para comprobar que sea request AJAX
-        // TODO: Poner el JSON enviado por post en la variable $json
-        try {
-            // if (!$this->request->isAJAX()) {
-            //     throw new Exception('No se encontró el recurso', 404);
-            // }
-            $json = '
-            {"name":"ISIC-DESARROLLO PARA LA WEB Y APLICACIONES PARA DISPOSITIVOS MOVILES","idCarrera":1,"idEspecialidad":5,"status":"Borrador","semestre1":["AEX-1285","ACx-0907","AEx-1041","SCH-1024","ACC-0906","ACF-0901"],"semestre2":["ACF-0902","AED-1286","AEC-1008","AEC-1058","ACF-0903","AEF-1052"],"semestre3":["SCC-1005","SCF-1006","ACD-0908","SCC-1013","AED-1026","ACF-0904"],"semestre4":["ACF-0905","SCC-1017","SCD-1027","AEF-1031","SCD-1022","SCD-1018","SCD-1003"],"semestre5":["SCC-1010","SCC-1007","SCA-1025","AEC-1061","SCC-1019","SCD-1015","AEC-1034"],"semestre6":["SCD-1016","SCD-1021","SCA-1026","SCB-1001","SCD-1011","SCC-1014","ADD-2301"],"semestre7":["SCD-1004","ADF-2305","SCC-1023","SCG-1009","ACA-0909","AEB-1055","SCC-1012"],"semestre8":["SCA-1002","ACA-0910","DWD-2002","DWD-2001","DWD-2004"]}
-            ';
-
-            // // TODO: Guardar reticula en DB
-
-            dd($this->reticulasAux->rectifyReticula($json));
-        } catch (Exception $e) {
-            return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
+        // Obtenemos la lista de carreras
+        $carreras = $this->carreraModel->findAll();
+        for ($i = 0; $i < count($carreras); $i++) {
+            $carrera = $carreras[$i];
+            $carreras[$i] = $carrera->toArray();
         }
+
+        $data = [
+            'nombreModulo' => 'Reticulas',
+            'carreras' => $carreras,
+        ];
+        $this->twig->display('ServiciosEscolares/reticulas_carreras', $data);
     }
 
+    /**
+     * Funcion para mostrar la vista de las reticulas por carrera
+     */
     public function getByCarrera($id_carrera)
     {
-        // TODO: Quitar comentatio para comprobar que sea request AJAX
-        // TODO: Poner el el ID de la carrera enviado por post en la variable $id_carrera
-        // try {
-        //     // if (!$this->request->isAJAX()) {
-        //     //     throw new Exception('No se encontró el recurso', 404);
-        //     // }
+        // Obtener los datos de las carrera
+        $carrera = $this->carreraModel->find($id_carrera)->toArray();
+        $nameCarrera = $carrera['nombre_carrera'];
 
-        // $id_carrera = 1;
+        $especialidades = $this->especialidadModel->getWithoutReticula($id_carrera);
+        for ($i = 0; $i < count($especialidades); $i++) {
+            // Trasformamos en array los resultados
+            $especialidades[$i] = json_encode($especialidades[$i]);
+            $especialidades[$i] = json_decode($especialidades[$i], true);
+        }
 
+        $data = [
+            'nombreModulo' => $nameCarrera,
+            'idCarrera' => $id_carrera,
+            'especialidades' => $especialidades,
+            'reticulas' => [],
+        ];
+
+        // Obtenemos los datos de las reticulas
         $reticulas = $this->model->where('id_carrera', $id_carrera)->find();
-        $data = [];
-        $data['reticulas'] = [];
         foreach ($reticulas as $reticula) {
             $reticulaData = [];
             $reticulaData['id_reticula'] = $reticula->id_reticula;
@@ -299,12 +284,157 @@ class Reticulas extends CrudController
             $reticulaData['estatus'] = $reticula->estatus;
             array_push($data['reticulas'], $reticulaData);
         }
-        // TODO: Cambiar dd a return
 
-        // dd($data);
         $this->twig->display('ServiciosEscolares/reticula_carrera', $data);
-        // } catch (Exception $e) {
-        //     return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
-        // }
+    }
+
+    /**
+     * Función para mostrar una reticula
+     */
+    public function show($id_reticula)
+    {
+        // renderizamos la reticula (le agregamos la informacion de las asignaturas)
+        $jsonReticulaRendered = $this->reticulasAux->getReticulaJSON($id_reticula);
+
+        $data = [
+            'nombreModulo' => 'Visor de reticulas',
+            'jsonReticula' => $jsonReticulaRendered,
+        ];
+
+        $this->twig->display('ServiciosEscolares/reticulas', $data);
+    }
+
+    /**
+     * Función para crear una reticula
+     */
+    public function create()
+    {
+        $this->db->transStart();
+
+        try {
+            // Validar que sea una peticion AJAX
+            if (!$this->request->isAJAX()) {
+                throw new Exception('No se encontró el recurso', 404);
+            }
+
+            // Validamos los datos
+            $data = $this->request->getPost();
+
+            if (!$this->validation->run($data, 'reticula')) {
+                $errors = $this->validation->getErrors();
+
+                throw new Exception($errors[array_key_first($errors)], 400);
+            }
+
+            // Obtenemos los datos de la nueva reticula
+            $name = $this->request->getPost('nombre_reticula');
+            $idCarrera = $this->request->getPost('id_carrera');
+            $idEspecialidad = $this->request->getPost('id_especialidad');
+            $idStatus = $this->estatusModel->getIdByEstatus('Borrador');
+
+            // Creamos la nueva reticula
+            $data = [
+                'nombre_reticula' => $name,
+                'id_carrera' => $idCarrera,
+                'id_especialidad' => $idEspecialidad,
+                'estatus' => $idStatus,
+            ];
+            $entity = new $this->entity();
+            $entity->fill($data);
+            $isSaved = $this->model->save($entity);
+
+            if (!$isSaved) {
+                throw new Exception('Error al crear la reticula en la BD', 500);
+            }
+
+            // Obtenemos el id de la nueva reticula
+            $idReticula = $this->model->insertID();
+
+            // Creamos el JSON que representa la reticula
+            $newReticula = filter_var($this->request->getPost('newReticula'), FILTER_VALIDATE_BOOLEAN);
+
+            if ($newReticula) {
+                // Creamos una reticula en blanco
+                $jsonReticula = $this->reticulasAux->createBlankReticula();
+            } else {
+                // Creamos una reticula a partir de otra
+                $idBaseReticula = $this->request->getPost('useReticula');
+                $baseReticula = $this->model->find($idBaseReticula)->toArray();
+                $baseJson = $baseReticula['reticula_json'];
+                // Removemos las materias de especialidad de la reticula base
+                $jsonReticula = $this->reticulasAux->removeAsignaturasEspFromJson($baseJson);
+            }
+
+            // Guardamos el json de la reticula en BD
+            $isUpdated = $this->model->update($idReticula, ['reticula_json' => json_encode($jsonReticula)]);
+
+            if (!$isUpdated) {
+                throw new Exception('Error al crear el JSON reticula en la BD', 500);
+            }
+
+            $urlNewReticulaAcces = base_url('reticulas/show/' . $idReticula);
+
+            $this->db->transCommit();
+
+            return $this->response
+                        ->setStatusCode(200)
+                        ->setJSON(['success' => true, 'urlNewReticula' => $urlNewReticulaAcces]);
+        } catch (Exception $e) {
+            $this->db->transRollback();
+
+            return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Función para eliminar una reticula
+     */
+    public function delete()
+    {
+        $this->db->transStart();
+
+        try {
+            // Validar que sea una peticion AJAX
+            if (!$this->request->isAJAX()) {
+                throw new Exception('No se encontró el recurso', 404);
+            }
+
+            // Validamos los datos
+            $data = $this->request->getPost();
+            if (!$this->validation->run($data, 'requestDeleteReticula')) {
+                $errors = $this->validation->getErrors();
+
+                throw new Exception($errors[array_key_first($errors)], 400);
+            }
+
+            // Eliminamos la reticula
+            $idReticula = $this->request->getPost('id_reticula');
+            $isDeleted = $this->reticulaModel->delete($idReticula);
+            if (!$isDeleted) {
+                throw new Exception('Hubo un error al eliminar la reticula', 500);
+            }
+
+            $this->db->transCommit();
+
+            return $this->response
+                        ->setStatusCode(200)
+                        ->setJSON(['success' => true]);
+        } catch (Exception $e) {
+            $this->db->transRollback();
+
+            return $this->response
+                        ->setStatusCode($e->getCode())
+                        ->setJSON(['error' => $e->getMessage(), 'success' => false]);
+        }
+    }
+
+    public function reticulas()
+    {
+        // Funcion de test para ver una reticula con la herramienta de reticulas
+        $this->twig->display('Test/Reticulas/reticulas');
+    }
+
+    public function testNumReticulas($value)
+    {
     }
 }

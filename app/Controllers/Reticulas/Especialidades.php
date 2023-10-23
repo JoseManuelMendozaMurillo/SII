@@ -15,4 +15,8 @@ class Especialidades extends CrudController
             'App\OperationValidators\Reticulas\EspecialidadValidator',
         );
     }
+
+    public function getEspecialidadesNoReticula()
+    {
+    }
 }

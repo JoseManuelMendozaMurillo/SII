@@ -145,6 +145,7 @@ $routes->group(
     ['namespace' => 'App\Controllers\Test'],
     function ($routes) {
         $routes->get('correos', 'Pruebas::correo');
+        $routes->get('correo-alu', 'Pruebas::correoAlumno');
         $routes->post('sendEmail', 'Pruebas::sendEmail');
         $routes->get('imagenes', 'Pruebas::img');
         $routes->post('thumb', 'Pruebas::thumb');
@@ -186,7 +187,6 @@ $routes->group(
     function ($routes) {
         $routes->get('carreras', 'Carreras::listCarreras');
         $routes->get('materias', 'Asignaturas::listMaterias');
-        $routes->get('reticulas', 'Reticulas::index');
         $routes->get('especialidades', 'Asignaturas::listEspecialidades');
     }
 );
@@ -196,10 +196,17 @@ $routes->group(
     'reticulas',
     ['namespace' => 'App\Controllers\Reticulas'],
     function ($routes) {
-        $routes->get('reticula', 'Reticulas::reticulas');
+        $routes->get('', 'Reticulas::index');
+        $routes->get('by-carrera/(:num)', 'Reticulas::getByCarrera/$1');
+        $routes->post('create', 'Reticulas::create');
+        $routes->post('delete', 'Reticulas::delete');
+        $routes->get('show/(:num)', 'Reticulas::show/$1');
         $routes->post('save-json-reticula', 'Reticulas::saveJsonReticula');
+        $routes->post('publish', 'Reticulas::publishReticula');
+
+        $routes->get('reticula', 'Reticulas::reticulas');
+
         $routes->post('get-json-rendered', 'Reticulas::getReticulaJSON');
-        $routes->get('publish', 'Reticulas::publishReticula');
         $routes->get('rectify', 'Reticulas::rectifyReticula');
 
         // ASIGNTATURAS
@@ -273,7 +280,7 @@ $routes->group(
                 $routes->get('testid', 'Reticulas::testID');
                 $routes->get('get/(:num)', 'Reticulas::getByID/$1');
                 $routes->get('no-especialidad', 'Reticulas::getNoEspecialidadJSON');
-                $routes->get('by-carrera/(:num)', 'Reticulas::getByCarrera/$1');
+                $routes->get('test/(:num)', 'Reticulas::testNumReticulas/$1');
             }
         );
     }

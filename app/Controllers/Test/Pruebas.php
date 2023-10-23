@@ -285,4 +285,17 @@ class Pruebas extends BaseController
     {
         $this->twig->display('Test/Reticulas/reticulas');
     }
+
+    public function correoAlumno()
+    {
+        $datos = [
+            'nombre' => 'Cesar',
+            'apellido_paterno' => 'God',
+            'apellido_materno' => 'Cau',
+            'correo_institucional' => 'correo',
+            'password' => 'pass',
+        ];
+
+        $this->twig->display('Correos/correo_alumno', $datos);
+    }
 }
