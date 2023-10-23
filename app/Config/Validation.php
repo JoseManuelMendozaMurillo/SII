@@ -72,6 +72,7 @@ class Validation extends BaseConfig
 
     // Reticulas
     public $reticula;
+    public $existReticula;
     public $requestDeleteReticula;
     public $requestPublishReticula;
     public $requestSaveJsonReticula;
@@ -93,6 +94,7 @@ class Validation extends BaseConfig
         $this->carrera = (new CarreraValidation())->rules;
         $this->especialidad = (new EspecialidadValidation())->rules;
         $this->reticula = (new ReticulaValidation())->rules;
+        $this->existReticula = (new ReticulaValidation())->existReticula;
         $this->requestPublishReticula = (new ReticulaValidation())->requestPublishReticula;
         $this->requestDeleteReticula = (new ReticulaValidation())->requestDeleteReticula;
         $this->requestSaveJsonReticula = (new ReticulaValidation())->requestSaveJsonReticula;

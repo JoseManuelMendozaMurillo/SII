@@ -110,20 +110,38 @@ class CustomRulesReticulas
         return $isValid;
     }
 
+    /**
+     * Regla para validar que no se exceda el número de maximo de reticulas publicadas (maximo 3)
+     */
     public function maxNumReticulas($value, string $params = null, array $data = null, string &$error = null): bool
     {
         $modelReticulas = new ReticulaModel();
+        $modelStatus = new EstatusModel();
 
         $reticula = $modelReticulas->find($value);
 
         $idCarrera = $reticula->id_carrera;
 
-        $numReticulas = sizeof($modelReticulas->where('id_carrera', $idCarrera)->find());
+        $filters = [
+            'id_carrera' => $idCarrera,
+            'estatus' => $modelStatus->getIdByEstatus('Activo'),
+        ];
+
+        $numReticulas = sizeof($modelReticulas->where($filters)->find());
 
         if ($numReticulas < 3) {
             return true;
         }
 
         return false;
+    }
+
+    /**
+     * Regla para validar si un alumno aun esta cursando una reticula
+     */
+    public function hasActiveAlumnos($value, string $params = null, array $data = null, string &$error = null): bool
+    {
+        // TO DO: Se debe validar si existen alumnos activos cursando esta reticula
+        return true;
     }
 }

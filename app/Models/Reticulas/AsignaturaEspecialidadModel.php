@@ -53,4 +53,20 @@ class AsignaturaEspecialidadModel extends Model
 
         return $array;
     }
+
+    /**
+     * Función para obtener los id de las asignaturas que pertenecen a una especialidad
+     *
+     * @param string|int id_especialidad Id de la especialidad a consultar
+     *
+     * @return array<stdClass>
+     */
+    public function getByIdEspecialidad($id_especialidad)
+    {
+        $select = ['id_asignatura', 'semestre_recomendado'];
+        $where = ['id_especialidad' => $id_especialidad];
+        $data = $this->select($select)->where($where)->get()->getResult();
+
+        return $data;
+    }
 }

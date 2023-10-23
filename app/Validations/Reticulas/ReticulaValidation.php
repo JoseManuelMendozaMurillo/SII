@@ -67,7 +67,7 @@ class ReticulaValidation
                 'required' => 'El id de la reticula es obligatorio',
                 'is_not_unique' => 'El id de la reticula no existe',
                 'validateCreditsReticula' => 'La reticula no puede publicar porque no cumple con las reglas de creditos',
-                'maxNumReticulas' => 'La reticula no se puede publicar porque ya se alcanzó el límite de reticulas publicadas para una especialidad (3)',
+                'maxNumReticulas' => 'La reticula no se puede publicar porque ya se alcanzó el límite de reticulas publicadas para una carrera (3)',
             ],
         ],
     ];
@@ -86,6 +86,16 @@ class ReticulaValidation
             'errors' => [
                 'required' => 'El Json de la reticula es obligatorio',
                 'valid_json' => 'El Json de la reticula no es valido',
+            ],
+        ],
+    ];
+    public array $existReticula = [
+        'id_reticula' => [
+            'label' => 'Id reticula',
+            'rules' => 'required|is_not_unique[reticulas.id_reticula]',
+            'errors' => [
+                'required' => 'El id de la reticula es obligatorio',
+                'is_not_unique' => 'El id de la reticula no existe',
             ],
         ],
     ];
