@@ -109,4 +109,21 @@ class CustomRulesReticulas
 
         return $isValid;
     }
+
+    public function maxNumReticulas($value, string $params = null, array $data = null, string &$error = null): bool
+    {
+        $modelReticulas = new ReticulaModel();
+
+        $reticula = $modelReticulas->find($value);
+
+        $idCarrera = $reticula->id_carrera;
+
+        $numReticulas = sizeof($modelReticulas->where('id_carrera', $idCarrera)->find());
+
+        if ($numReticulas < 3) {
+            return true;
+        }
+
+        return false;
+    }
 }
