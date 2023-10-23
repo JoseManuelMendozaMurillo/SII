@@ -19,7 +19,7 @@ const selectEsp = document.getElementById('selectEspecialidad');
 const selectRet = document.getElementById('selectReticula');
 const reticulaAntiguaSiRadio = document.getElementById('reticulaAntiguaSi');
 const reticulaAntiguaNoRadio = document.getElementById('reticulaAntiguaNo');
-const btnsActions = document.querySelectorAll('.icon');
+const btnsActions = document.querySelectorAll('.icon-custom');
 // Variables globales
 let newRet = true;
 let useRet = null;

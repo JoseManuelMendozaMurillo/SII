@@ -10,7 +10,7 @@
         --bgcolor-icon-delete-hover: rgba(255, 0, 0, 1);
     }
 
-    .icon {
+    .icon-custom {
         width: 2rem;
         height: 2rem;
         padding: 0.3rem;
@@ -19,7 +19,7 @@
         transition: transform 0.2s ease;
     }
 
-    .icon:hover {
+    .icon-custom:hover {
         transform: scale(1.1);
     }
 
@@ -64,7 +64,7 @@
                                     <h6 class="text-white">Borrador</h6>
                                 </div>
 
-                                <svg class="icon icon-delete" viewBox="0 0 16 16" name="Borrador"
+                                <svg class="icon-custom icon-delete" viewBox="0 0 16 16" name="Borrador"
                                     id='{{reticula.id_reticula}}' data-name-reticula='{{reticula.nombre_reticula}}'>
                                     <path
                                         d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
@@ -213,16 +213,6 @@
     const idCarrera = '{{idCarrera | raw}}';
     const jsonDataReticulas = '{{reticulas|json_encode|raw}}';
 
-    $(document).ready(function () {
-        // Ocultar el SideBar
-        const iconSidebar = document.getElementById('iconSidebar');
-
-        iconSidebar.addEventListener('click', function (e) {
-            console.log(this);
-            //e.stopPropagation();
-            //e.preventDefault();
-        });
-    });
 </script>
 
 <script type="module" src="{{base_url('Js/Reticulas/reticula-carrera.js')}}"></script>

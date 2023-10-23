@@ -301,7 +301,7 @@ export default class ComponentReticulas {
 			class: 'item add',
 			name: 'row',
 			'data-row': numRow,
-			htmlContent: this.getIconAdd('icon icon-add-materia'),
+			htmlContent: this.getIconAdd('icon-custom icon-add-materia'),
 		});
 
 		// Agregamos la acción para agregar materias
@@ -378,7 +378,7 @@ export default class ComponentReticulas {
 		const itemAddColumn = this.htmlElements.getContainer({
 			id: 'addColumn',
 			class: 'item add-semestre',
-			htmlContent: this.getIconAdd('icon add-semestre-icon'),
+			htmlContent: this.getIconAdd('icon-custom add-semestre-icon'),
 		});
 
 		// Agregamos el evento click para agregar una nueva columna (Semestre)
