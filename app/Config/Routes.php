@@ -280,6 +280,7 @@ $routes->group(
                 $routes->get('testid', 'Reticulas::testID');
                 $routes->get('get/(:num)', 'Reticulas::getByID/$1');
                 $routes->get('no-especialidad', 'Reticulas::getNoEspecialidadJSON');
+                $routes->get('test/(:num)', 'Reticulas::testNumReticulas/$1');
             }
         );
     }

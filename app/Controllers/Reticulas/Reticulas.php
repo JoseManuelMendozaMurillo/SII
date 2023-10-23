@@ -2,11 +2,13 @@
 
 namespace App\Controllers\Reticulas;
 
+use App\Controllers\Test\Validate\CustomValidations;
 use App\Models\Reticulas\AsignaturaModel;
 use App\Models\Reticulas\CarreraModel;
 use App\Models\Reticulas\EspecialidadModel;
 use App\Models\Reticulas\EstatusModel;
 use App\Models\Reticulas\ReticulaModel;
+use App\Validations\CustomRules;
 use Exception;
 
 class Reticulas extends CrudController
@@ -430,5 +432,9 @@ class Reticulas extends CrudController
     {
         // Funcion de test para ver una reticula con la herramienta de reticulas
         $this->twig->display('Test/Reticulas/reticulas');
+    }
+
+    public function testNumReticulas($value)
+    {
     }
 }
