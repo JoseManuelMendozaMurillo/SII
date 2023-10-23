@@ -461,9 +461,8 @@ export default class ComponentReticulas {
 	 * @param {Event} e	- Evento click del boton
 	 */
 	actionBtnPost = (e) => {
-		// TO DO
 		// Publicar la reticula
-		console.log('Publicar la reticula');
+		this.reticulas.publicate();
 	};
 
 	/**

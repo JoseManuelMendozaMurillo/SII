@@ -13,6 +13,7 @@ use App\Validations\Reticulas\CarreraValidation;
 use App\Validations\Reticulas\EspecialidadValidation;
 use App\Validations\Reticulas\ReticulaValidation;
 use App\Validations\CustomRules;
+use App\Validations\Reticulas\CustomRulesReticulas;
 
 class Validation extends BaseConfig
 {
@@ -33,6 +34,8 @@ class Validation extends BaseConfig
         CreditCardRules::class,
         // Reglas personalizadas
         CustomRules::class,
+        // Reglas personalizadas para reticulas
+        CustomRulesReticulas::class,
     ];
 
     /**
@@ -69,6 +72,8 @@ class Validation extends BaseConfig
 
     // Reticulas
     public $reticula;
+    public $requestDeleteReticula;
+    public $requestPublishReticula;
     public $requestSaveJsonReticula;
     public $requestGetReticulaJson;
 
@@ -88,6 +93,8 @@ class Validation extends BaseConfig
         $this->carrera = (new CarreraValidation())->rules;
         $this->especialidad = (new EspecialidadValidation())->rules;
         $this->reticula = (new ReticulaValidation())->rules;
+        $this->requestPublishReticula = (new ReticulaValidation())->requestPublishReticula;
+        $this->requestDeleteReticula = (new ReticulaValidation())->requestDeleteReticula;
         $this->requestSaveJsonReticula = (new ReticulaValidation())->requestSaveJsonReticula;
         $this->requestGetReticulaJson = (new ReticulaValidation())->requestGetReticulaJson;
     }

@@ -4,6 +4,35 @@
 
 {% block styles %}
 
+<style>
+    :root {
+        --bgcolor-icon-delete: rgba(255, 0, 0, 0.8);
+        --bgcolor-icon-delete-hover: rgba(255, 0, 0, 1);
+    }
+
+    .icon {
+        width: 2rem;
+        height: 2rem;
+        padding: 0.3rem;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+    }
+
+    .icon:hover {
+        transform: scale(1.1);
+    }
+
+    .icon-delete {
+        fill: #fff;
+        background-color: var(--bgcolor-icon-delete);
+    }
+
+    .icon-delete:hover {
+        background-color: var(--bgcolor-icon-delete-hover);
+    }
+</style>
+
 {% endblock %}
 
 {% block content %}
@@ -20,7 +49,7 @@
                         <button id="guardar" type="button" class="btn btn-primary ms-3" data-bs-toggle="modal"
                             data-bs-target="#crearReticula">Crear reticula</button>
                     </div>
-                    <div class="list-group pt-4">
+                    <div class="list-group pt-4" id="listReticulas">
 
                         {% for reticula in reticulas %}
                         <a href="{{base_url('reticulas/show/')}}{{reticula.id_reticula}}"
@@ -28,9 +57,20 @@
                             {{ reticula.nombre_reticula }}
 
                             {% if reticula.estatus == 1 %}
-                            <div class="bg-secondary p-2 d-flex align-items-center justify-content-center"
-                                style="border-radius: 10px; width: 80px; height: 35px;">
-                                <h6 class="text-white">Borrador</h6>
+                            <div class="d-flex align-items-center justify-content-between gap-2">
+
+                                <div class="bg-secondary p-2 d-flex align-items-center justify-content-center"
+                                    style="border-radius: 10px; width: 80px; height: 35px;">
+                                    <h6 class="text-white">Borrador</h6>
+                                </div>
+
+                                <svg class="icon icon-delete" viewBox="0 0 16 16" name="Borrador"
+                                    id='{{reticula.id_reticula}}' data-name-reticula='{{reticula.nombre_reticula}}'>
+                                    <path
+                                        d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
+                                    <path
+                                        d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
+                                </svg>
                             </div>
                             {% endif %}
 
@@ -88,47 +128,65 @@
                             <div class="col-12">
                                 <label for="selectEspecialidad" class="form-label h6">Especialidades</label>
                                 <select class="form-select" id="selectEspecialidad" name="selectEspecialidad" required>
+                                    <!-- Evaluamos si hay especialidades -->
+                                    {% if especialidades is empty %}
+                                    <option value="-1">
+                                        No hay especilidades nuevas creadas
+                                    </option>
+                                    {% else %}
+                                    <!-- Si sí hay especialidades  -->
                                     {% for esp in especialidades %}
                                     <option value="{{esp.id_especialidad}}">
                                         {{ esp.nombre_especialidad }}
                                     </option>
                                     {% endfor %}
+
+                                    {% endif %}
                                 </select>
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <div class="col-12">
-                                <h6>¿Desea utilizar una reticula antigua?</h6>
-                                <div class="d-flex gap-3 mt-3">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="reticulaAntigua"
-                                            id="reticulaAntiguaSi">
-                                        <label class="form-check-label" for="reticulaAntiguaSi">
-                                            Si
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="reticulaAntigua"
-                                            id="reticulaAntiguaNo" checked>
-                                        <label class="form-check-label" for="reticulaAntiguaNo">
-                                            No
-                                        </label>
+                        <!-- Si no existen reticulas no mostramos las opciones para crear una reticulas a partir de otra -->
+                        {% set showOptions = '' %}
+
+                        {% if reticulas is empty %}
+                        {% set showOptions = 'd-none' %}
+                        {% endif %}
+
+                        <div id="optionsCreateReticula" class="{{ showOptions }}">
+                            <div class="row mb-3">
+                                <div class="col-12">
+                                    <h6>¿Desea utilizar una reticula antigua?</h6>
+                                    <div class="d-flex gap-3 mt-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="reticulaAntigua"
+                                                id="reticulaAntiguaSi">
+                                            <label class="form-check-label" for="reticulaAntiguaSi">
+                                                Si
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="reticulaAntigua"
+                                                id="reticulaAntiguaNo" checked>
+                                            <label class="form-check-label" for="reticulaAntiguaNo">
+                                                No
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="row" id="reticulaSi" style="display: none;">
-                            <div class="col-12">
+                            <div class="row" id="reticulaSi" style="display: none;">
+                                <div class="col-12">
 
-                                <select class="form-select mt-2" id="selectReticula" name="selectReticula" required>
-                                    {% for reticula in reticulas %}
-                                    <option value="{{ reticula.id_reticula }}">{{ reticula.nombre_reticula }}
-                                    </option>
-                                    {% endfor %}
-                                </select>
+                                    <select class="form-select mt-2" id="selectReticula" name="selectReticula" required>
+                                        {% for reticula in reticulas %}
+                                        <option value="{{ reticula.id_reticula }}">{{ reticula.nombre_reticula }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
 
+                                </div>
                             </div>
                         </div>
 
@@ -148,60 +206,14 @@
 {% endblock %}
 
 {% block script %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<script type="module">
-
-    import Reticulas from '{{base_url("Js/Services/Reticulas/reticulas.js")}}';
-    const reticulas = new Reticulas();
-    const idCar = '{{idCarrera | raw}}';
-
-    const reticulaSiDiv = document.getElementById('reticulaSi');
-    // Buttons
-    const btnCreate = document.getElementById('createButton');
-    // Inputs
-    const nombre = document.getElementById('name');
-    const selectEsp = document.getElementById('selectEspecialidad');
-    const selectRet = document.getElementById('selectReticula');
-    const reticulaAntiguaSiRadio = document.getElementById('reticulaAntiguaSi');
-    const reticulaAntiguaNoRadio = document.getElementById('reticulaAntiguaNo');
-
-    let newRet = true;
-    let useRet = null;
-
-    reticulaAntiguaSiRadio.addEventListener('change', function () {
-        if (this.checked) {
-            reticulaSiDiv.style.display = 'block';
-            newRet = false;
-            useRet = selectRet.value;
-        }
-    });
-
-    reticulaAntiguaNoRadio.addEventListener('change', function () {
-        if (this.checked) {
-            reticulaSiDiv.style.display = 'none';
-            newRet = true;
-            useRet = null;
-        }
-    });
-
-    selectRet.addEventListener('change', () => {
-        useRet = selectRet.value;
-    });
-
-
-    btnCreate.addEventListener('click', async () => {
-        // Creamos la reticula
-        const name = nombre.value;
-        const idCarrera = idCar;
-        const idEspecialidad = selectEsp.value;
-        const useReticula = newRet;
-        const idUseReticula = useRet;
-
-        const urlNewReticula = await reticulas.create(name, idCarrera, idEspecialidad, useReticula, idUseReticula);
-        console.log(typeof (urlNewReticula));
-        if (typeof (urlNewReticula) === 'string') window.location.href = urlNewReticula;
-
-    });
+<script>
+    // Variables globales
+    const idCarrera = '{{idCarrera | raw}}';
+    const jsonDataReticulas = '{{reticulas|json_encode|raw}}';
 </script>
+
+<script type="module" src="{{base_url('Js/Reticulas/reticula-carrera.js')}}"></script>
 
 {% endblock %}

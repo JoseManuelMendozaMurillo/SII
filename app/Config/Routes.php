@@ -198,14 +198,15 @@ $routes->group(
     function ($routes) {
         $routes->get('', 'Reticulas::index');
         $routes->get('by-carrera/(:num)', 'Reticulas::getByCarrera/$1');
-        $routes->post('create', 'Reticulas::createReticula');
+        $routes->post('create', 'Reticulas::create');
+        $routes->post('delete', 'Reticulas::delete');
         $routes->get('show/(:num)', 'Reticulas::show/$1');
+        $routes->post('save-json-reticula', 'Reticulas::saveJsonReticula');
+        $routes->post('publish', 'Reticulas::publishReticula');
 
         $routes->get('reticula', 'Reticulas::reticulas');
 
-        $routes->post('save-json-reticula', 'Reticulas::saveJsonReticula');
         $routes->post('get-json-rendered', 'Reticulas::getReticulaJSON');
-        $routes->get('publish', 'Reticulas::publishReticula');
         $routes->get('rectify', 'Reticulas::rectifyReticula');
 
         // ASIGNTATURAS

@@ -48,6 +48,28 @@ class ReticulaValidation
             ],
         ],
     ];
+    public array $requestDeleteReticula = [
+        'id_reticula' => [
+            'label' => 'Id reticula',
+            'rules' => 'required|is_not_unique[reticulas.id_reticula]|isCanDeleteReticula[id_reticula]',
+            'errors' => [
+                'required' => 'El id de la reticula es obligatorio',
+                'is_not_unique' => 'El id de la reticula no existe',
+                'isCanDeleteReticula' => 'La reticula no puede ser eliminada porque ya fue activada',
+            ],
+        ],
+    ];
+    public array $requestPublishReticula = [
+        'id_reticula' => [
+            'label' => 'Id reticula',
+            'rules' => 'required|is_not_unique[reticulas.id_reticula]|validateCreditsReticula[id_reticula]',
+            'errors' => [
+                'required' => 'El id de la reticula es obligatorio',
+                'is_not_unique' => 'El id de la reticula no existe',
+                'validateCreditsReticula' => 'La reticula no puede publicar porque no cumple con las reglas de creditos',
+            ],
+        ],
+    ];
     public array $requestSaveJsonReticula = [
         'idReticula' => [
             'label' => 'Id reticula',
