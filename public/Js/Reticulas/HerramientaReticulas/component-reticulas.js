@@ -2,6 +2,7 @@ import SelectorMaterias from '../HerramientaSeleccionarMaterias/selector-materia
 import CreateHtmlElements from '../../Tools/create-html-elements.js';
 import AlertModal from '../../Tools/alert-modal.js';
 import Asignaturas from '../../Services/Reticulas/asignaturas.js';
+import config from '../../config.js';
 
 /**
  * @class
@@ -200,8 +201,10 @@ export default class ComponentReticulas {
 			id: 'footer',
 			class: 'footer',
 		});
-
-		footer.append(this.getBtnGoBack('https://localhost/public/auth/login'));
+		const idCarrera = this.reticulas.getReticula().idCarrera;
+		footer.append(
+			this.getBtnGoBack(config.BASE_URL(`reticulas/by-carrera/${idCarrera}`)),
+		);
 
 		// Si la reticula esta en estado de borrador agregamos los botones para guardar y publicar
 		if (this.reticulas.getStatus() === 'borrador') {
