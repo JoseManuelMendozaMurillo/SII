@@ -31,6 +31,12 @@ export default class Reticulas {
 	urlInactive;
 
 	/**
+	 * Url para enviar a historial una reticula
+	 * @type {String}
+	 */
+	urlHistorial;
+
+	/**
 	 * Url para guardar el JSON de una reticula
 	 * @type {String}
 	 */
@@ -55,6 +61,7 @@ export default class Reticulas {
 		this.urlDelete = config.BASE_URL('reticulas/delete');
 		this.urlPublish = config.BASE_URL('reticulas/publish');
 		this.urlInactive = config.BASE_URL('reticulas/inactive');
+		this.urlHistorial = config.BASE_URL('reticulas/historial');
 
 		this.requests = new Requests();
 	}
@@ -96,13 +103,13 @@ export default class Reticulas {
 	 * @description Función para eliminar una reticula
 	 *
 	 * @param {string|Int8Array} idReticula - Id de la reticula a eliminar
-	 * @returns {boolean}
+	 * @returns {object}
 	 */
 	delete = async (idReticula) => {
 		const res = await this.requests.request(this.urlDelete, {
 			id_reticula: idReticula,
 		});
-		return res.success;
+		return res;
 	};
 
 	/**
@@ -126,6 +133,19 @@ export default class Reticulas {
 	 */
 	inactive = async (idReticula) => {
 		const res = await this.requests.request(this.urlInactive, {
+			id_reticula: idReticula,
+		});
+		return res.success;
+	};
+
+	/**
+	 * @description Función para enviar a historal una reticula
+	 *
+	 * @param {string|Int8Array} idReticula - Id de la reticula a enviar a historial
+	 * @returns {boolean}
+	 */
+	historial = async (idReticula) => {
+		const res = await this.requests.request(this.urlHistorial, {
 			id_reticula: idReticula,
 		});
 		return res.success;

@@ -204,6 +204,8 @@ $routes->group(
         $routes->post('save-json-reticula', 'Reticulas::saveJsonReticula');
         $routes->post('publish', 'Reticulas::publishReticula');
         $routes->post('inactive', 'Reticulas::changeStatusToInactive');
+        $routes->post('historial', 'Reticulas::changeStatusToHistorial');
+
         $routes->get('test/(:num)', 'Reticulas::test/$1');
 
         $routes->get('reticula', 'Reticulas::reticulas');

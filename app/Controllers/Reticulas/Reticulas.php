@@ -256,11 +256,6 @@ class Reticulas extends CrudController
         $nameCarrera = $carrera['nombre_carrera'];
 
         $especialidades = $this->especialidadModel->getWithoutReticula($id_carrera);
-        for ($i = 0; $i < count($especialidades); $i++) {
-            // Trasformamos en array los resultados
-            $especialidades[$i] = json_encode($especialidades[$i]);
-            $especialidades[$i] = json_decode($especialidades[$i], true);
-        }
 
         $data = [
             'nombreModulo' => $nameCarrera,
@@ -404,18 +399,22 @@ class Reticulas extends CrudController
                 throw new Exception($errors[array_key_first($errors)], 400);
             }
 
-            // Eliminamos la reticula
+            // Eliminamos la reticula fisicamente
             $idReticula = $this->request->getPost('id_reticula');
-            $isDeleted = $this->model->delete($idReticula);
+            $reticula = $this->model->find($idReticula);
+            $isDeleted = $this->model->delete($idReticula, true);
             if (!$isDeleted) {
                 throw new Exception('Hubo un error al eliminar la reticula', 500);
             }
 
             $this->db->transCommit();
 
+            // Retornamos las nuevas especialidades disponibles
+            $especialidades = $this->especialidadModel->getWithoutReticula($reticula->id_carrera);
+
             return $this->response
                         ->setStatusCode(200)
-                        ->setJSON(['success' => true]);
+                        ->setJSON(['success' => true, 'especialidades' => $especialidades]);
         } catch (Exception $e) {
             $this->db->transRollback();
 
@@ -509,7 +508,7 @@ class Reticulas extends CrudController
             $idStatusHistorial = $this->estatusModel->getIdByEstatus($nameNewStatus);
 
             // Actualizamos el estatus de la reticula
-            $isUpdated = $this->model->update('id_reticula', $idReticula, ['estatus' => $idStatusHistorial]);
+            $isUpdated = $this->model->update($idReticula, ['estatus' => $idStatusHistorial]);
             if (!$isUpdated) {
                 throw new Exception('Hubo un error al actualizar el estatus la reticula', 500);
             }
@@ -527,7 +526,7 @@ class Reticulas extends CrudController
             }
 
             // Eliminamos la especialidad de manera logica
-            $isDeleted = $this->especialidadModel->delete($idEspecialidad);
+            $isDeleted = $this->especialidadModel->deleteWithAsignaturas($idEspecialidad);
             if (!$isDeleted) {
                 throw new Exception('Hubo un error al eliminar la especialidad de la reticula', 500);
             }
@@ -539,6 +538,7 @@ class Reticulas extends CrudController
                         ->setJSON(['success' => true]);
         } catch (Exception $e) {
             $this->db->transRollback();
+            log_message('error', $e->getMessage());
 
             return $this->response
                         ->setStatusCode($e->getCode())
