@@ -18,7 +18,7 @@ class CustomRulesasignaturas
      * (Una asignatura solo puede ser eliminada si esta en el estado de borrador)
      *
      */
-    public function isCanDeleteasignatura($value, string $params = null, array $data = null, string &$error = null): bool
+    public function isCanDeleteAsignatura($value, string $params = null, array $data = null, string &$error = null): bool
     {
         $nameStatusForDelete = 'Borrador';
         $modelAsignaturas = new AsignaturaModel();
@@ -68,7 +68,7 @@ class CustomRulesasignaturas
 
         $modelCarrera = new CarreraModel();
         foreach ($asignaturasCarrera as $data) {
-            $carrera = $modelCarrera->find($data->id_carrera);
+            $carrera = $modelCarrera->find($data['id_carrera']);
             if ($carrera->estatus == 2) {
                 return false;
             }
@@ -84,11 +84,11 @@ class CustomRulesasignaturas
         $asignatura = $modelAsignaturas->find($value);
 
         $asignaturasCarreraModel = new AsignaturaCarreraModel();
-        $asignaturasCarrera = $asignaturasCarreraModel->where('id_asignatura', $asignatura->id_asignatura)->find();
+        $asignaturasCarrera = $asignaturasCarreraModel->where('id_asignatura', $asignatura['id_asignatura'])->find();
         $numCarrera = sizeof($asignaturasCarrera);
 
         $asignaturaEspecialidadModel = new AsignaturaEspecialidadModel();
-        $asignaturasEspecialidad = $asignaturaEspecialidadModel->where('id_asignatura', $asignatura->id_asignatura)->find();
+        $asignaturasEspecialidad = $asignaturaEspecialidadModel->where('id_asignatura', $asignatura['id_asignatura'])->find();
         $numEspecialidad = sizeof($asignaturasEspecialidad);
         if (($numCarrera + $numEspecialidad) == 0) {
             return true;

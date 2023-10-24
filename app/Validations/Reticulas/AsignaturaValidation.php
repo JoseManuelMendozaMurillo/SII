@@ -94,4 +94,37 @@ class AsignaturaValidation
             ],
         ],
     ];
+    public array $requestDeleteAsignatura = [
+        'id' => [
+            'label' => 'id_asignatura',
+            'rules' => 'required|is_not_unique[asignaturas.id_asignatura]|isCanDeleteAsignatura[id_asignatura]',
+            'errors' => [
+                'required' => 'El id de la asignatura es obligatorio',
+                'is_not_unique' => 'El id de la asignatura no existe',
+                'isCanDeleteReticula' => 'La asignatura no puede ser eliminada porque ya fue activada',
+            ],
+        ],
+    ];
+    public array $requestUpdateAsignaturaBasica = [
+        'id' => [
+            'label' => 'Id asigantura',
+            'rules' => 'required|is_not_unique[asignaturas.id_asignatura]|canUpdateStatusGeneral[asignaturas.id_asignatura]',
+            'errors' => [
+                'required' => 'El id de la asignatura es obligatorio',
+                'is_not_unique' => 'El id de la asignatura no existe',
+                'canUpdateStatusGeneral' => 'No se puede cambiar el estatus de la materia porque no es de tipo basica o porque pertenece a una reticula activa',
+            ],
+        ],
+    ];
+    public array $requestArchiveAsignatura = [
+        'id' => [
+            'label' => 'Id asigantura',
+            'rules' => 'required|is_not_unique[asignaturas.id_asignatura]|canUpdateStatusToArchive[asignaturas.id_asignatura]',
+            'errors' => [
+                'required' => 'El id de la asignatura es obligatorio',
+                'is_not_unique' => 'El id de la asignatura no existe',
+                'canUpdateStatusGeneral' => 'No se puede cambiar el estatus de la materia porque no es de tipo basica o porque pertenece a una reticula activa',
+            ],
+        ],
+    ];
 }
