@@ -19,7 +19,7 @@ const selectEsp = document.getElementById('selectEspecialidad');
 const selectRet = document.getElementById('selectReticula');
 const reticulaAntiguaSiRadio = document.getElementById('reticulaAntiguaSi');
 const reticulaAntiguaNoRadio = document.getElementById('reticulaAntiguaNo');
-const btnsActions = document.querySelectorAll('.icon-custom');
+const btnsActions = document.querySelectorAll('button[name="btnChangeStatus"]');
 // Variables globales
 let newRet = true;
 let useRet = null;
@@ -72,16 +72,19 @@ btnCreate.addEventListener('click', async () => {
 
 // Agregamos las opciones para gestionar estados
 if (btnsActions !== null) {
-	btnsActions.forEach((icon) => {
-		icon.addEventListener('click', async function (e) {
+	btnsActions.forEach((btn) => {
+		btn.addEventListener('click', async function (e) {
 			e.stopPropagation();
 			e.preventDefault();
-			const idReticula = this.getAttribute('id');
+			const idReticula = this.getAttribute('data-id-reticula');
 			const nameReticula = this.getAttribute('data-name-reticula');
-			const status = this.getAttribute('name');
+			const status = this.getAttribute('data-estatus-reticula');
 			switch (status) {
 				case 'Borrador':
 					deleteReticula(this, idReticula, nameReticula);
+					break;
+				case 'Activo':
+					inactiveReticula(this, idReticula, nameReticula);
 					break;
 				default:
 					break;
@@ -91,16 +94,58 @@ if (btnsActions !== null) {
 }
 
 /**
- * @description Método para eliminar una reticula
+ * @description Método para inactivar una reticula
  *
- * @param {Node} iconBtn - Boton html que fue presionado
+ * @param {Node} btn - Boton html que fue presionado
  * @param {string|Int8Array} idReticula - Id de la reticula a eliminar
  * @param {string} nameReticula - Nombre de la reticula a eliminar
  */
-async function deleteReticula(iconBtn, idReticula, nameReticula) {
+async function inactiveReticula(btn, idReticula, nameReticula) {
+	const res = await AlertModal.showWarning(
+		'Inactivar reticula',
+		`¿Estas seguro de que quieres inactivar la reticula '${nameReticula}'?`,
+		true,
+		'Inactivar',
+		true,
+		'Cancelar',
+	);
+
+	if (!res) {
+		return;
+	}
+
+	// Inactivar la reticula
+	const isInactive = await reticulas.inactive(idReticula);
+	if (!isInactive) {
+		AlertModal.showError(
+			'No se puedo inactivar la reticula',
+			'Hubo un error al inactivar la reticula',
+		);
+		return;
+	}
+
+	// Cambiamos el estado de la reticula en la interfaz
+	btn.classList.replace('btn-warning', 'btn-dark');
+	btn.setAttribute('data-estatus-reticula', 'Inactivo');
+	btn.textContent = 'Historial';
+	const divContentStatus = btn.parentNode.children[0];
+	divContentStatus.classList.replace('bg-success', 'bg-warning');
+	divContentStatus.children[0].textContent = 'Inactivo';
+
+	AlertModal.showSuccess('Reticula inactivada', 'La reticula se inactivo');
+}
+
+/**
+ * @description Método para eliminar una reticula
+ *
+ * @param {Node} btn - Boton html que fue presionado
+ * @param {string|Int8Array} idReticula - Id de la reticula a eliminar
+ * @param {string} nameReticula - Nombre de la reticula a eliminar
+ */
+async function deleteReticula(btn, idReticula, nameReticula) {
 	const res = await AlertModal.showWarning(
 		'Eliminar reticula',
-		`¿Estas seguro de que quieres eliminar la reticula '${nameReticula}'`,
+		`¿Estas seguro de que quieres eliminar la reticula '${nameReticula}'?`,
 		true,
 		'Eliminar',
 		true,
@@ -121,7 +166,7 @@ async function deleteReticula(iconBtn, idReticula, nameReticula) {
 		}
 
 		// Eliminamos el item que muestra esta reticula del html
-		const deletedReticula = iconBtn.parentNode.parentNode;
+		const deletedReticula = btn.parentNode.parentNode;
 		listReticulas.removeChild(deletedReticula);
 		// Eliminamos los datos de la reticula del arreglo que contienes todas las reticulas
 		deleteDataReticulas(idReticula);

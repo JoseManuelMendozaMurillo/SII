@@ -203,6 +203,7 @@ $routes->group(
         $routes->get('show/(:num)', 'Reticulas::show/$1');
         $routes->post('save-json-reticula', 'Reticulas::saveJsonReticula');
         $routes->post('publish', 'Reticulas::publishReticula');
+        $routes->post('inactive', 'Reticulas::changeStatusToInactive');
         $routes->get('test/(:num)', 'Reticulas::test/$1');
 
         $routes->get('reticula', 'Reticulas::reticulas');

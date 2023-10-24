@@ -65,7 +65,9 @@
                                     <h6 class="text-white">Borrador</h6>
                                 </div>
 
-                                <button type="button" class="btn btn-danger ms-3">
+                                <button type="button" class="btn btn-danger ms-3" name="btnChangeStatus"
+                                    data-id-reticula="{{reticula.id_reticula}}"
+                                    data-name-reticula="{{reticula.nombre_reticula}}" data-estatus-reticula="Borrador">
                                     Borrar
                                 </button>
                             </div>
@@ -77,7 +79,9 @@
                                     style="border-radius: 10px; width: 80px; height: 35px;">
                                     <h6 class="text-white">Activo</h6>
                                 </div>
-                                <button type="button" class="btn btn-warning ms-3">
+                                <button type="button" class="btn btn-warning ms-3" name="btnChangeStatus"
+                                    data-id-reticula="{{reticula.id_reticula}}"
+                                    data-name-reticula="{{reticula.nombre_reticula}}" data-estatus-reticula="Activo">
                                     Inactivar
                                 </button>
                             </div>
@@ -89,7 +93,9 @@
                                     style="border-radius: 10px; width: 80px; height: 35px;">
                                     <h6 class="text-white">Inactivo</h6>
                                 </div>
-                                <button type="button" class="btn btn-dark ms-3">
+                                <button type="button" class="btn btn-dark ms-3" name="btnChangeStatus"
+                                    data-id-reticula="{{reticula.id_reticula}}"
+                                    data-name-reticula="{{reticula.nombre_reticula}}" data-estatus-reticula="Inactivo">
                                     Historial
                                 </button>
                             </div>

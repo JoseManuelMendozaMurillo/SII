@@ -4,7 +4,6 @@ namespace App\Models\Reticulas;
 
 // Especialidad Model
 
-use App\Models\ServiciosEscolares\CarrerasModel;
 use CodeIgniter\Model;
 use Exception;
 
@@ -53,7 +52,7 @@ class EspecialidadModel extends Model
 
     protected function initialize()
     {
-        $this->carreraModel = new CarrerasModel();
+        $this->carreraModel = new CarreraModel();
         $this->asignaturasModel = new AsignaturaModel();
         $this->asignaturasEspecialidadModel = new AsignaturaEspecialidadModel();
         $this->estatusModel = new EstatusModel();
@@ -116,17 +115,15 @@ class EspecialidadModel extends Model
             }
 
             // Actualizamos el estatus de la especialidad
-            $isUpdated = $this->update('id_especialidad', $id_especialidad, ['estatus' => $idStatus]);
+            $isUpdated = $this->update($id_especialidad, ['estatus' => $idStatus]);
             if (!$isUpdated) {
                 throw new Exception('Hubo un error al intenta actualizar el estatus de la especialidad', 500);
             }
 
             // Actualizamos el estatus de las materias de la especialidad
             $asignaturasEspcialidad = $this->asignaturasEspecialidadModel->getByIdEspecialidad($id_especialidad);
-            foreach ($asignaturasEspcialidad as $idAsignatura) {
-                $asignatura = $this->asignaturasModel->find($idAsignatura);
-                $asignatura->estatus = $idStatus;
-                $isUpdated = $this->asignaturasModel->save($asignatura);
+            for ($i = 0; $i < count($asignaturasEspcialidad); $i++) {
+                $isUpdated = $this->asignaturasModel->update($asignaturasEspcialidad[$i]->id_asignatura, ['estatus' => $idStatus]);
                 if (!$isUpdated) {
                     throw new Exception('Error al actualizar el estatus de una materia de la especialidad', 500);
 
@@ -139,6 +136,7 @@ class EspecialidadModel extends Model
             return true;
         } catch (Exception $e) {
             $this->db->transRollback();
+            log_message('error', $e->getMessage());
 
             return false;
         }

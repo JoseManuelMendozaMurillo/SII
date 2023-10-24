@@ -38,6 +38,7 @@ class ReticulasAux
             $reticula = $this->reticulaModel->find($id_reticula);
 
             $idCarrera = $reticula->id_carrera;
+            $idEspecialidad = $reticula->id_especialidad;
             $jsonReticula = $reticula->reticula_json;
 
             // Cambiamos el estatus de la reticula
@@ -57,7 +58,7 @@ class ReticulasAux
             }
 
             // Da de alta la especialidad
-            $especialidad = $this->especialidadModel->find($idCarrera);
+            $especialidad = $this->especialidadModel->find($idEspecialidad);
             if ($especialidad->estatus == 1) {
                 $especialidad->estatus = 2;
                 $this->especialidadModel->save($especialidad);

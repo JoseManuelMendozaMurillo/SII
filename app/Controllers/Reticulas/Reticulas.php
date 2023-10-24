@@ -2,16 +2,12 @@
 
 namespace App\Controllers\Reticulas;
 
-use App\Controllers\Test\Validate\CustomValidations;
 use App\Models\Reticulas\AsignaturaEspecialidadModel;
 use App\Models\Reticulas\AsignaturaModel;
 use App\Models\Reticulas\CarreraModel;
 use App\Models\Reticulas\EspecialidadModel;
 use App\Models\Reticulas\EstatusModel;
-use App\Models\Reticulas\ReticulaModel;
-use App\Validations\CustomRules;
 use Exception;
-use PhpParser\Node\Expr\Throw_;
 
 class Reticulas extends CrudController
 {
@@ -19,7 +15,6 @@ class Reticulas extends CrudController
     protected $carreraModel;
     protected $especialidadModel;
     protected $estatusModel;
-    protected $reticulaModel;
     protected $reticulasAux;
     protected $db;
 
@@ -36,7 +31,6 @@ class Reticulas extends CrudController
         $this->carreraModel = new CarreraModel();
         $this->estatusModel = new EstatusModel();
         $this->especialidadModel = new EspecialidadModel();
-        $this->reticulaModel = new ReticulaModel();
         $this->reticulasAux = new ReticulasAux();
         $this->db = db_connect();
     }
@@ -66,7 +60,7 @@ class Reticulas extends CrudController
             $idReticula = $this->request->getPost('id_reticula');
             $this->reticulasAux->publishReticula($idReticula);
 
-            $this->db->transRollback(); // Cambiar por un trasncommit
+            $this->db->transCommit();
 
             return $this->response
                         ->setStatusCode(200)
@@ -118,7 +112,7 @@ class Reticulas extends CrudController
                 'nombre_reticula' => $name,
                 'reticula_json' => json_encode($dataJsonRet),
             ];
-            $isUpdated = $this->reticulaModel->update($idRet, $dataUpdateReticula);
+            $isUpdated = $this->model->update($idRet, $dataUpdateReticula);
             if (!$isUpdated) {
                 throw new Exception('Hubo un error al actualizar el JSON de la reticula', 500);
             }
@@ -412,7 +406,7 @@ class Reticulas extends CrudController
 
             // Eliminamos la reticula
             $idReticula = $this->request->getPost('id_reticula');
-            $isDeleted = $this->reticulaModel->delete($idReticula);
+            $isDeleted = $this->model->delete($idReticula);
             if (!$isDeleted) {
                 throw new Exception('Hubo un error al eliminar la reticula', 500);
             }
@@ -459,7 +453,8 @@ class Reticulas extends CrudController
             $idStatusInactive = $this->estatusModel->getIdByEstatus($nameNewStatus);
 
             // Actualizamos el estatus de la reticula
-            $isUpdated = $this->reticulaModel->update('id_reticula', $idReticula, ['estatus' => $idStatusInactive]);
+            $reticula->estatus = $idStatusInactive;
+            $isUpdated = $this->model->save($reticula);
             if (!$isUpdated) {
                 throw new Exception('Hubo un error al actualizar el estatus la reticula', 500);
             }
@@ -469,6 +464,8 @@ class Reticulas extends CrudController
             if (!$isUpdated) {
                 throw new Exception('Hubo un error al actualizar el estatus la especialidad de la reticula', 500);
             }
+
+            // TODO: Actualizar el estado de la carrera tambien si no existe otra reticula activa
 
             $this->db->transCommit();
 
@@ -512,7 +509,7 @@ class Reticulas extends CrudController
             $idStatusHistorial = $this->estatusModel->getIdByEstatus($nameNewStatus);
 
             // Actualizamos el estatus de la reticula
-            $isUpdated = $this->reticulaModel->update('id_reticula', $idReticula, ['estatus' => $idStatusHistorial]);
+            $isUpdated = $this->model->update('id_reticula', $idReticula, ['estatus' => $idStatusHistorial]);
             if (!$isUpdated) {
                 throw new Exception('Hubo un error al actualizar el estatus la reticula', 500);
             }

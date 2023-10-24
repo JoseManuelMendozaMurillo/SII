@@ -25,6 +25,12 @@ export default class Reticulas {
 	urlPublish;
 
 	/**
+	 * Url para inactivar una reticula
+	 * @type {String}
+	 */
+	urlInactive;
+
+	/**
 	 * Url para guardar el JSON de una reticula
 	 * @type {String}
 	 */
@@ -48,6 +54,7 @@ export default class Reticulas {
 		this.urlCreate = config.BASE_URL('reticulas/create');
 		this.urlDelete = config.BASE_URL('reticulas/delete');
 		this.urlPublish = config.BASE_URL('reticulas/publish');
+		this.urlInactive = config.BASE_URL('reticulas/inactive');
 
 		this.requests = new Requests();
 	}
@@ -106,6 +113,19 @@ export default class Reticulas {
 	 */
 	publish = async (idReticula) => {
 		const res = await this.requests.request(this.urlPublish, {
+			id_reticula: idReticula,
+		});
+		return res.success;
+	};
+
+	/**
+	 * @description Función para inactivar una reticula
+	 *
+	 * @param {string|Int8Array} idReticula - Id de la reticula a inactivar
+	 * @returns {boolean}
+	 */
+	inactive = async (idReticula) => {
+		const res = await this.requests.request(this.urlInactive, {
 			id_reticula: idReticula,
 		});
 		return res.success;

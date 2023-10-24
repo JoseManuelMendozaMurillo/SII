@@ -7,8 +7,8 @@ use CodeIgniter\Model;
 class AsignaturaEspecialidadModel extends Model
 {
     // members
-    protected $especialidadModel;
-    protected $asignaturaModel;
+    // protected $especialidadModel;
+    // protected $asignaturaModel;
 
     // db
     protected $table = 'asignaturas_especialidad';
@@ -39,8 +39,8 @@ class AsignaturaEspecialidadModel extends Model
 
     protected function initialize()
     {
-        $this->especialidadModel = new EspecialidadModel();
-        $this->asignaturaModel = new AsignaturaModel();
+        // $this->especialidadModel = new EspecialidadModel();
+        // $this->asignaturaModel = new AsignaturaModel();
     }
 
     public function getAsArray()
