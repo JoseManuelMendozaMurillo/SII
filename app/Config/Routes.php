@@ -233,6 +233,7 @@ $routes->group(
                 // TEST routes
                 $routes->get('testid', 'Asignaturas::testID');
                 $routes->get('show', 'Asignaturas::show');
+                $routes->get('test/(:num)', 'Asignaturas::test/$1');
             }
         );
 
