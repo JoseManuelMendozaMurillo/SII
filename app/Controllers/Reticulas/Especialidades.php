@@ -59,4 +59,8 @@ class Especialidades extends CrudController
             'total' => $total,
         ]);
     }
+
+    public function getEspecialidadesNoReticula()
+    {
+    }
 }

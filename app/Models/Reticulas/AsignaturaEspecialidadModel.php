@@ -7,11 +7,12 @@ use CodeIgniter\Model;
 class AsignaturaEspecialidadModel extends Model
 {
     // members
-    protected $especialidadModel;
-    protected $asignaturaModel;
+    // protected $especialidadModel;
+    // protected $asignaturaModel;
 
     // db
     protected $table = 'asignaturas_especialidad';
+    protected $useSoftDeletes = true;
     protected $allowedFields = [
         'id_especialidad',
         'id_asignatura',
@@ -38,8 +39,8 @@ class AsignaturaEspecialidadModel extends Model
 
     protected function initialize()
     {
-        $this->especialidadModel = new EspecialidadModel();
-        $this->asignaturaModel = new AsignaturaModel();
+        // $this->especialidadModel = new EspecialidadModel();
+        // $this->asignaturaModel = new AsignaturaModel();
     }
 
     public function getAsArray()
@@ -52,5 +53,21 @@ class AsignaturaEspecialidadModel extends Model
         }
 
         return $array;
+    }
+
+    /**
+     * Función para obtener los id de las asignaturas que pertenecen a una especialidad
+     *
+     * @param string|int id_especialidad Id de la especialidad a consultar
+     *
+     * @return array<stdClass>
+     */
+    public function getByIdEspecialidad($id_especialidad)
+    {
+        $select = ['id_asignatura', 'semestre_recomendado'];
+        $where = ['id_especialidad' => $id_especialidad];
+        $data = $this->select($select)->where($where)->get()->getResult();
+
+        return $data;
     }
 }

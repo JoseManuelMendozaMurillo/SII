@@ -48,6 +48,29 @@ class ReticulaValidation
             ],
         ],
     ];
+    public array $requestDeleteReticula = [
+        'id_reticula' => [
+            'label' => 'Id reticula',
+            'rules' => 'required|is_not_unique[reticulas.id_reticula]|isCanDeleteReticula[id_reticula]',
+            'errors' => [
+                'required' => 'El id de la reticula es obligatorio',
+                'is_not_unique' => 'El id de la reticula no existe',
+                'isCanDeleteReticula' => 'La reticula no puede ser eliminada porque ya fue activada',
+            ],
+        ],
+    ];
+    public array $requestPublishReticula = [
+        'id_reticula' => [
+            'label' => 'Id reticula',
+            'rules' => 'required|is_not_unique[reticulas.id_reticula]|validateCreditsReticula[id_reticula]|maxNumReticulas[id_reticula]',
+            'errors' => [
+                'required' => 'El id de la reticula es obligatorio',
+                'is_not_unique' => 'El id de la reticula no existe',
+                'validateCreditsReticula' => 'La reticula no puede publicar porque no cumple con las reglas de creditos',
+                'maxNumReticulas' => 'La reticula no se puede publicar porque ya se alcanzó el límite de reticulas publicadas para una carrera (3)',
+            ],
+        ],
+    ];
     public array $requestSaveJsonReticula = [
         'idReticula' => [
             'label' => 'Id reticula',
@@ -63,6 +86,27 @@ class ReticulaValidation
             'errors' => [
                 'required' => 'El Json de la reticula es obligatorio',
                 'valid_json' => 'El Json de la reticula no es valido',
+            ],
+        ],
+    ];
+    public array $existReticula = [
+        'id_reticula' => [
+            'label' => 'Id reticula',
+            'rules' => 'required|is_not_unique[reticulas.id_reticula]',
+            'errors' => [
+                'required' => 'El id de la reticula es obligatorio',
+                'is_not_unique' => 'El id de la reticula no existe',
+            ],
+        ],
+    ];
+    public array $requestChangeStatusToHistorial = [
+        'id_reticula' => [
+            'label' => 'Id reticula',
+            'rules' => 'required|is_not_unique[reticulas.id_reticula]|hasntActiveAlumnos[id_reticula]',
+            'errors' => [
+                'required' => 'El id de la reticula es obligatorio',
+                'is_not_unique' => 'El id de la reticula no existe',
+                'hasntActiveAlumnos' => 'La reticula no puede pasar a historial porque aun tiene alumnos activos cursandola',
             ],
         ],
     ];

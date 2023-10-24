@@ -198,14 +198,17 @@ $routes->group(
     function ($routes) {
         $routes->get('', 'Reticulas::index');
         $routes->get('by-carrera/(:num)', 'Reticulas::getByCarrera/$1');
-        $routes->post('create', 'Reticulas::createReticula');
+        $routes->post('create', 'Reticulas::create');
+        $routes->post('delete', 'Reticulas::delete');
         $routes->get('show/(:num)', 'Reticulas::show/$1');
+        $routes->post('save-json-reticula', 'Reticulas::saveJsonReticula');
+        $routes->post('publish', 'Reticulas::publishReticula');
+        $routes->post('inactive', 'Reticulas::changeStatusToInactive');
+        $routes->get('test/(:num)', 'Reticulas::test/$1');
 
         $routes->get('reticula', 'Reticulas::reticulas');
 
-        $routes->post('save-json-reticula', 'Reticulas::saveJsonReticula');
         $routes->post('get-json-rendered', 'Reticulas::getReticulaJSON');
-        $routes->get('publish', 'Reticulas::publishReticula');
         $routes->get('rectify', 'Reticulas::rectifyReticula');
 
         // ASIGNTATURAS
@@ -228,6 +231,7 @@ $routes->group(
                 // TEST routes
                 $routes->get('testid', 'Asignaturas::testID');
                 $routes->get('show', 'Asignaturas::show');
+                $routes->get('test/(:num)', 'Asignaturas::test/$1');
             }
         );
 
@@ -280,6 +284,7 @@ $routes->group(
                 $routes->get('testid', 'Reticulas::testID');
                 $routes->get('get/(:num)', 'Reticulas::getByID/$1');
                 $routes->get('no-especialidad', 'Reticulas::getNoEspecialidadJSON');
+                $routes->get('test/(:num)', 'Reticulas::testNumReticulas/$1');
             }
         );
     }

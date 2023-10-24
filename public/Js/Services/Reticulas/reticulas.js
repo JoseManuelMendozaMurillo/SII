@@ -13,6 +13,24 @@ export default class Reticulas {
 	urlCreate;
 
 	/**
+	 * Url para eliminar una reticula
+	 * @type {String}
+	 */
+	urlDelete;
+
+	/**
+	 * Url para publicar una reticula
+	 * @type {String}
+	 */
+	urlPublish;
+
+	/**
+	 * Url para inactivar una reticula
+	 * @type {String}
+	 */
+	urlInactive;
+
+	/**
 	 * Url para guardar el JSON de una reticula
 	 * @type {String}
 	 */
@@ -34,6 +52,9 @@ export default class Reticulas {
 		this.urlSaveJson = config.BASE_URL('reticulas/save-json-reticula');
 		this.urlGetJsonRendered = config.BASE_URL('reticulas/get-json-rendered');
 		this.urlCreate = config.BASE_URL('reticulas/create');
+		this.urlDelete = config.BASE_URL('reticulas/delete');
+		this.urlPublish = config.BASE_URL('reticulas/publish');
+		this.urlInactive = config.BASE_URL('reticulas/inactive');
 
 		this.requests = new Requests();
 	}
@@ -69,6 +90,45 @@ export default class Reticulas {
 		}
 		// Si no lo fue
 		return false;
+	};
+
+	/**
+	 * @description Función para eliminar una reticula
+	 *
+	 * @param {string|Int8Array} idReticula - Id de la reticula a eliminar
+	 * @returns {boolean}
+	 */
+	delete = async (idReticula) => {
+		const res = await this.requests.request(this.urlDelete, {
+			id_reticula: idReticula,
+		});
+		return res.success;
+	};
+
+	/**
+	 * @description Función para publicar una reticula
+	 *
+	 * @param {string|Int8Array} idReticula - Id de la reticula a publicar
+	 * @returns {boolean}
+	 */
+	publish = async (idReticula) => {
+		const res = await this.requests.request(this.urlPublish, {
+			id_reticula: idReticula,
+		});
+		return res.success;
+	};
+
+	/**
+	 * @description Función para inactivar una reticula
+	 *
+	 * @param {string|Int8Array} idReticula - Id de la reticula a inactivar
+	 * @returns {boolean}
+	 */
+	inactive = async (idReticula) => {
+		const res = await this.requests.request(this.urlInactive, {
+			id_reticula: idReticula,
+		});
+		return res.success;
 	};
 
 	/**

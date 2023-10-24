@@ -2,8 +2,11 @@
 
 namespace App\Controllers\Reticulas;
 
+use App\Models\Reticulas\AsignaturaCarreraModel;
 use CodeIgniter\HTTP\Response;
 use App\Models\Reticulas\AsignaturaModel;
+use App\Models\Reticulas\AsignaturaEspecialidadModel;
+use App\Models\Reticulas\CarreraModel;
 use Exception;
 
 // Asignaturas controller
@@ -206,5 +209,39 @@ class Asignaturas extends CrudController
         } catch (Exception $e) {
             return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
         }
+    }
+
+    public function test($value)
+    {
+        // TODO: Comprobar funcionamiento
+        $modelAsignaturas = new AsignaturaModel();
+        $asignatura = $modelAsignaturas->find($value);
+
+        $type = $asignatura->id_tipo_asignatura;
+
+        if ($type != 1) {
+            throw new Exception('La asignatura no es de tipo "Básica"');
+        }
+
+        $asignaturasCarreraModel = new AsignaturaCarreraModel();
+        $asignaturasCarrera = $asignaturasCarreraModel->where('id_asignatura', $asignatura->id_asignatura)->find();
+        $num = sizeof($asignaturasCarrera);
+
+        d($asignaturasCarrera);
+
+        if ($num == 0) {
+            dd(true);
+        }
+
+        $modelCarrera = new CarreraModel();
+        foreach ($asignaturasCarrera as $data) {
+            d($data);
+            $carrera = $modelCarrera->find($data['id_carrera']);
+            if ($carrera->estatus == 2) {
+                dd(false);
+            }
+        }
+
+        dd(true);
     }
 }

@@ -169,7 +169,7 @@
     height: 2.2rem;
 }
 
-.icon {
+.icon-custom {
     width: var(--width-icon);
     height: var(--height-icon);
 }

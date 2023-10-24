@@ -1,0 +1,1 @@
+alter table reticulas change reticula_json json json;
