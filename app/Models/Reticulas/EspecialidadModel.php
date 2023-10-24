@@ -143,4 +143,54 @@ class EspecialidadModel extends Model
             return false;
         }
     }
+
+    /**
+      * delete
+      * Función para eliminar una especialidad y sus asignaturas
+      *
+       * @param ?string $id    Id de la especialidad a eliminar
+       * @param bool    $purge Opción para eliminar fisicamente una especialidad (por defecto es false)
+       *
+       * @return bool True -> Se elimino la especialidad, False -> No se elimino la especialidad
+      */
+    public function delete($id = null, bool $purge = false): bool
+    {
+        $this->db->transStart();
+
+        try {
+            if ($id === null) {
+                $this->db->transCommit();
+
+                return true;
+            }
+
+            // Eliminamos la especialidad
+            $isDeleted = $this->parent::delete($id, $purge);
+            if (!$isDeleted) {
+                throw new Exception('No se puedo eliminar la especialidad', 500);
+            }
+
+            // Eliminamos las asignaturas
+            $asignaturasEspcialidad = $this->asignaturasEspecialidadModel->getByIdEspecialidad($id);
+            foreach ($asignaturasEspcialidad as $idAsignatura) {
+                $isDeleted = $this->asignaturasModel->delete($idAsignatura, $purge);
+                if (!$isDeleted) {
+                    throw new Exception('Error al eliminar una asignatura de la especialidad', 500);
+
+                    break;
+                }
+            }
+
+            // Eliminamos la relacion de las asignaturas con la especialidad
+            $this->asignaturasEspecialidadModel->where('id_especialidad', $id)->delete(null, $purge);
+
+            $this->db->transCommit();
+
+            return true;
+        } catch (Exception $e) {
+            $this->db->transRollback();
+
+            return false;
+        }
+    }
 }

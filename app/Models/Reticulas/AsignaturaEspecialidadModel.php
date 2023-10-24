@@ -12,6 +12,7 @@ class AsignaturaEspecialidadModel extends Model
 
     // db
     protected $table = 'asignaturas_especialidad';
+    protected $useSoftDeletes = true;
     protected $allowedFields = [
         'id_especialidad',
         'id_asignatura',

@@ -11,6 +11,7 @@ use App\Models\Reticulas\EstatusModel;
 use App\Models\Reticulas\ReticulaModel;
 use App\Validations\CustomRules;
 use Exception;
+use PhpParser\Node\Expr\Throw_;
 
 class Reticulas extends CrudController
 {
@@ -466,6 +467,71 @@ class Reticulas extends CrudController
             $isUpdated = $this->especialidadModel->changeStatus($idEspecialidad, $nameNewStatus);
             if (!$isUpdated) {
                 throw new Exception('Hubo un error al actualizar el estatus la especialidad de la reticula', 500);
+            }
+
+            $this->db->transCommit();
+
+            return $this->response
+                        ->setStatusCode(200)
+                        ->setJSON(['success' => true]);
+        } catch (Exception $e) {
+            $this->db->transRollback();
+
+            return $this->response
+                        ->setStatusCode($e->getCode())
+                        ->setJSON(['error' => $e->getMessage(), 'success' => false]);
+        }
+    }
+
+    /**
+     * Función para cambiar el estatus de una reticula de inactivo -> historial
+     */
+    public function changeStatusToHistorial()
+    {
+        $this->db->transStart();
+
+        try {
+            // Validar que sea una peticion AJAX
+            if (!$this->request->isAJAX()) {
+                throw new Exception('No se encontró el recurso', 404);
+            }
+
+            // Validamos los datos
+            $data = $this->request->getPost();
+            if (!$this->validation->run($data, 'requestChangeStatusToHistorial')) {
+                $errors = $this->validation->getErrors();
+
+                throw new Exception($errors[array_key_first($errors)], 400);
+            }
+
+            $nameNewStatus = 'Historial';
+            $idReticula = $this->request->getPost('id_reticula');
+            $reticula = $this->model->find($idReticula);
+            $idEspecialidad = $reticula->id_especialidad;
+            $idStatusHistorial = $this->estatusModel->getIdByEstatus($nameNewStatus);
+
+            // Actualizamos el estatus de la reticula
+            $isUpdated = $this->reticulaModel->update('id_reticula', $idReticula, ['estatus' => $idStatusHistorial]);
+            if (!$isUpdated) {
+                throw new Exception('Hubo un error al actualizar el estatus la reticula', 500);
+            }
+
+            // Eliminamos la reticula de manera logica
+            $isDeleted = $this->model->delete($idReticula);
+            if (!$isDeleted) {
+                throw new Exception('Hubo un error al eliminar la reticula', 500);
+            }
+
+            // Actualizamos el estatus de la especialidad
+            $isUpdated = $this->especialidadModel->changeStatus($idEspecialidad, $nameNewStatus);
+            if (!$isUpdated) {
+                throw new Exception('Hubo un error al actualizar el estatus de la especialidad de la reticula', 500);
+            }
+
+            // Eliminamos la especialidad de manera logica
+            $isDeleted = $this->especialidadModel->delete($idEspecialidad);
+            if (!$isDeleted) {
+                throw new Exception('Hubo un error al eliminar la especialidad de la reticula', 500);
             }
 
             $this->db->transCommit();

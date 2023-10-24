@@ -99,6 +99,17 @@ class ReticulaValidation
             ],
         ],
     ];
+    public array $requestChangeStatusToHistorial = [
+        'id_reticula' => [
+            'label' => 'Id reticula',
+            'rules' => 'required|is_not_unique[reticulas.id_reticula]|hasntActiveAlumnos[id_reticula]',
+            'errors' => [
+                'required' => 'El id de la reticula es obligatorio',
+                'is_not_unique' => 'El id de la reticula no existe',
+                'hasntActiveAlumnos' => 'La reticula no puede pasar a historial porque aun tiene alumnos activos cursandola',
+            ],
+        ],
+    ];
     public array $requestGetReticulaJson = [
         'idReticula' => [
             'label' => 'Id reticula',
