@@ -273,6 +273,7 @@ class Reticulas extends CrudController
             'idCarrera' => $id_carrera,
             'especialidades' => $especialidades,
             'reticulas' => [],
+            'botonAtras' => true,
         ];
 
         // Obtenemos los datos de las reticulas

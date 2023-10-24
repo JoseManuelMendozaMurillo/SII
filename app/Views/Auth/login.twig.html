@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 <style>
    .iq-navbar-header {
-      height: 260px;
+      height: 240px;
       /* Altura predeterminada para pantallas más grandes */
    }
 
@@ -26,7 +26,7 @@
 
       /* Modifica la clase para pantallas más pequeñas con un ancho máximo de 520px */
       .container-fluid .iq-container {
-         height: 150px;
+         height: 130px;
       }
 
       .colum {
@@ -38,10 +38,18 @@
       }
    }
 
+   @media (max-width: 1230px) {
+
+      .iq-navbar-header {
+         height: 260px;
+         /* Altura predeterminada para pantallas más grandes */
+      }
+   }
+
    @media (max-width: 1000px) {
 
       .iq-navbar-header {
-         height: 160px;
+         height: 140px;
          /* Altura predeterminada para pantallas más grandes */
       }
 
@@ -54,10 +62,33 @@
       }
    }
 
+   @media (max-width: 920px) {
+
+      .iq-navbar-header {
+         height: 260px;
+         /* Altura predeterminada para pantallas más grandes */
+      }
+
+      .colum {
+         -webkit-box-flex: 0;
+         -webkit-flex: 0 0 auto;
+         -ms-flex: 0 0 auto;
+         flex: 0 0 auto;
+         width: 58.33333333%;
+      }
+   }
+
+   @media (max-width: 820px) {
+      .iq-navbar-header {
+         height: 260px;
+         /* Altura predeterminada para pantallas más grandes */
+      }
+   }
+
    @media (max-width: 767px) {
 
       .iq-navbar-header {
-         height: 160px;
+         height: 140px;
          /* Altura predeterminada para pantallas más grandes */
       }
 
@@ -67,6 +98,14 @@
          -ms-flex: 0 0 auto;
          flex: 0 0 auto;
          width: 100%;
+      }
+   }
+
+   @media (max-width: 540px) {
+
+      .iq-navbar-header {
+         height: 190px;
+         /* Altura predeterminada para pantallas más grandes */
       }
    }
 
@@ -91,11 +130,13 @@
                               src="{{base_url('Vendor/Template/assets/images/imagenescorrecaminos/tecnologiconacionamexico.png')}}"
                               alt="" style="width: 290px; height: 180px;"></div>
                         <div class="text-center">
-                           <h2>INSTITUTO TECNOLÓGICO DE OCOTLÁN</h2>
+                           <h2> TECNOLÓGICO NACIONAL DE MEXICO </h2>
+                           <h2>CAMPUS OCOTLÁN</h2>
+                           <h4 class="pt-2" style="color: yellow;">SISTEMA INTEGRAL DE INFORMACIÓN</h4>
                         </div>
                         <div class="d-none d-md-block" style="width: 290px;"><img class="img-fluid"
                               src="{{base_url('Vendor/Template/assets/images/imagenescorrecaminos/logotecocotlan.png')}}"
-                              alt="" style="width: 220px; height: 200px;"></div>
+                              alt="" style="width: 200px; height: 180px;"></div>
                      </div>
                   </div>
                </div>
@@ -103,17 +144,17 @@
          </div>
          <div class="iq-header-img">
             <img src="{{base_url('Vendor/Template/assets/images/dashboard/top-header.png')}}" alt="header"
-               class="theme-color-default-img img-fluid w-100 h-100 animated-scaleX" />
+               class="theme-color-default-img img-fluid w-100 animated-scaleX" style="height: 85%;" />
             <img src="{{base_url('Vendor/Template/assets/images/dashboard/top-header1.png')}}" alt="header"
-               class="theme-color-purple-img img-fluid w-100 h-100 animated-scaleX" />
+               class="theme-color-purple-img img-fluid w-100 animated-scaleX" style="height: 85%;" />
             <img src="{{base_url('Vendor/Template/assets/images/dashboard/top-header2.png')}}" alt="header"
-               class="theme-color-blue-img img-fluid w-100 h-100 animated-scaleX" />
+               class="theme-color-blue-img img-fluid w-100 animated-scaleX" style="height: 85%;" />
             <img src="{{base_url('Vendor/Template/assets/images/dashboard/top-header3.png')}}" alt="header"
-               class="theme-color-green-img img-fluid w-100 h-100 animated-scaleX" />
+               class="theme-color-green-img img-fluid w-100 animated-scaleX" style="height: 85%;" />
             <img src="{{base_url('Vendor/Template/assets/images/dashboard/top-header6.png')}}" alt="header"
-               class="theme-color-yellow-img img-fluid w-100 h-100 animated-scaleX" />
+               class="theme-color-yellow-img img-fluid w-100 animated-scaleX" style="height: 85%;" />
             <img src="{{base_url('Vendor/Template/assets/images/dashboard/top-header5.png')}}" alt="header"
-               class="theme-color-pink-img img-fluid w-100 h-100 animated-scaleX" />
+               class="theme-color-pink-img img-fluid w-100 animated-scaleX" style="height: 85%;" />
          </div>
       </div>
       <div class="conatiner-fluid content-inner mt-n5 py-0">
@@ -164,11 +205,9 @@
                                     <a href="#">¿Olvidaste tu contraseña?</a>
                                  </div>
                               </div>
-                              <br>
                               <div class="d-flex justify-content-center">
                                  <button type="submit" class="btn btn-primary">Iniciar sesión</button>
                               </div>
-                              <br>
                               <p class="text-center my-3">Síguenos en nuestras redes sociales</p>
                               <div class="d-flex justify-content-center">
                                  <ul class="list-group list-group-horizontal list-group-flush">
