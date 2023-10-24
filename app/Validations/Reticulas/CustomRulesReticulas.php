@@ -139,7 +139,7 @@ class CustomRulesReticulas
     /**
      * Regla para validar si un alumno aun esta cursando una reticula
      */
-    public function hasActiveAlumnos($value, string $params = null, array $data = null, string &$error = null): bool
+    public function hasntActiveAlumnos($value, string $params = null, array $data = null, string &$error = null): bool
     {
         // TO DO: Se debe validar si existen alumnos activos cursando esta reticula
         return true;
