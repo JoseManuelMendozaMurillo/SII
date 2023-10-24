@@ -1,6 +1,6 @@
 {% extends "Layout/Template/servicios_escolares.twig.html" %}
 
-{% block title %} Gestionar Especialidades {% endblock %}
+{% block title %} Gestionar Materias {% endblock %}
 
 {% block styles %}
 
@@ -90,14 +90,14 @@
                         <div class="container">
                             <div class="row justify-content-between">
                                 <div class="col-md-4">
-                                    <select id="estadoCarrera" class="form-select">
-                                        <option value="activo">Activo</option>
-                                        <option value="inactivo">Inactivo</option>
-                                        <option value="borrador">Borrador</option>
+                                    <select id="estadoFilter" class="form-select">
+                                        <option value="1">Borrador</option>
+                                        <option value="2">Activo</option>
+                                        <option value="3">Inactivo</option>
                                     </select>
                                 </div>
                                 <div class="col-md-3 align-self-end">
-                                    <button class="btn btn-primary" onclick="formCarrera()">Crear Materia</button>
+                                    <button class="btn btn-primary" onclick="formCarrera()">Crear Especialidad</button>
                                 </div>
                             </div>
                         </div>
@@ -107,10 +107,14 @@
                             <table id="datatable" class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th data-column-id="id_asignatura" data-identifier="true" data-visible="false">
+                                        <th data-column-id="id_especialidad" data-identifier="true"
+                                            data-visible="false">
                                             id</th>
-                                        <th data-column-id="clave_asignatura" data-sortable="false">Clave</th>
-                                        <th data-column-id="nombre_asignatura">Nombre</th>
+                                        <th data-column-id="id_carrera" data-identifier="true" data-visible="false">
+                                            Carrera</th>
+                                        <th data-column-id="nombre_especialidad">Nombre</th>
+                                        <th data-column-id="clave_especialidad" data-sortable="false">Clave</th>
+                                        <th data-column-id="fecha_inicio" data-sortable="false">Fecha de inicio</th>
                                         <th data-column-id="estatus" data-searchable="false" data-sortable="false"
                                             data-formatter="button_status">
                                             Estatus</th>
@@ -144,32 +148,23 @@
     <div class="d-flex flex-column justify-content-center align-items-center">
     <div class="d-flex form-row justify-content-center">
     <div class="col-md-10 mb-3">
-    <label for="nombre">Nombre</label>
-    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="MATEMÁTICAS" required>
-    <label for="tipo-asignatura">Tipo de asignatura</label>
-    <select class="form-select" id="tipo-asignatura" name="tipo-asignatura" required>
-    <option value="1">Básica</option>
-    <option value="2">Genérica</option>
-    <option value="3">Específica</option>
+    <label for="nombre_especialidad">Nombre de la especialidad</label>
+    <input type="text" class="form-control" id="nombre_especialidad" name="nombre_especialidad" placeholder="DESARROLLO PARA LA WEB Y APLICACIONES PARA DISPOSITIVOS MOVILES" required>
+    <label for="id_carrera">¿A qué carrera pertenece?</label>
+    <select class="form-select" id="id_carrera" name="id_carrera" required>
+    {% for carrera in carreras %}
+    <option value="{{ carrera['id_carrera'] }}">{{ carrera['nombre_carrera'] }}</option>
+    {% endfor %}
     </select>
-    <label for="nivel-escolar">Tipo de asignatura</label>
+    <label for="clave_especialidad">Clave de la especialidad</label>
+    <input type="text" class="form-control" id="clave_especialidad" name="clave_especialidad" placeholder="ISIE-DWA-2020-01" required>
+    <label for="fechaInicio">Fecha de Inicio</label>
+    <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" required>
+    <label for="nivel-escolar">¿A qué nivel escolar pertenece?</label>
     <select class="form-select" id="nivel-escolar" name="nivel-escolar" required>
     <option value="1">Licenciatura</option>
     <option value="2">Maestría</option>
     </select>
-    <label for="clave">Clave</label>
-    <input type="text" class="form-control" id="clave" name="clave" required>
-    </div>
-    </div>
-
-    <div class="d-flex form-row justify-content-center">
-    <div class="col-md-6 mb-3">
-    <label for="horasTeoricas">Horas teóricas</label>
-    <input type="number" class="form-control" id="horasTeoricas" name="horasTeoricas" required>
-    </div>
-    <div class="col-md-6 mb-3">
-    <label for="horasPracticas">Horas prácticas</label>
-    <input type="number" class="form-control" id="horasPracticas" name="horasPracticas" required>
     </div>
     </div>
     </div>
@@ -187,48 +182,48 @@
                 confirmButtonText: 'Crear',
                 cancelButtonText: 'Cancelar',
                 preConfirm: () => {
-                    const nombreAsignatura = document.getElementById('nombre').value;
-                    const tipoAsignatura = document.getElementById('tipo-asignatura').value;
+                    const nombreEspecialidad = document.getElementById('nombre_especialidad').value;
+                    const idCarrera = document.getElementById('id_carrera').value;
+                    const claveEspecialidad = document.getElementById('clave_especialidad').value;
+                    const fechaInicio = document.getElementById('fechaInicio').value;
                     const nivelEscolar = document.getElementById('nivel-escolar').value;
-                    const claveValue = document.getElementById('clave').value;
-                    const horasTeoricas = document.getElementById('horasTeoricas').value;
-                    const horasPracticas = document.getElementById('horasPracticas').value;
 
-                    if (nombreAsignatura === "" || tipoAsignatura === "" || nivelEscolar === ""
-                        || claveValue === "" || horasTeoricas === "" || horasPracticas === "") {
+                    if (nombreEspecialidad === "" || idCarrera === "" || claveEspecialidad === ""
+                        || fechaInicio === "" || nivelEscolar === "") {
                         Swal.showValidationMessage('Todos los campos son obligatorios');
                     }
 
-                    return [nombreAsignatura, tipoAsignatura, nivelEscolar, claveValue, horasTeoricas, horasPracticas];
+                    return [idCarrera, nombreEspecialidad, claveEspecialidad, fechaInicio, nivelEscolar];
                 }
 
             })
             if (formValues) {
+
                 $.ajax({
                     type: 'POST',
                     dataType: 'json',
-                    url: '{{base_url("reticulas/asignaturas/create")}}',
+                    url: '{{base_url("reticulas/especialidades/create")}}',
                     data: {
-                        'nombre_asignatura': formValues[0],
-                        'id_tipo_asignatura': formValues[1],
-                        'id_nivel_escolar': formValues[2],
-                        'clave_asignatura': formValues[3],
-                        'horas_teoricas': formValues[4],
-                        'horas_practicas': formValues[5],
+                        'id_carrera': formValues[0],
+                        'nombre_especialidad': formValues[1],
+                        'clave_especialidad': formValues[2],
+                        'fecha_inicio': formValues[3],
+                        'id_nivel_escolar': formValues[4],
                     },
                     success: function (response) {
 
                         if (response.success) {
-                            Swal.fire('¡Materia creada!', 'La materia ha sido creada correctamente.', 'success');
+                            Swal.fire('Especialidad creada!', 'La especialidad ha sido creada correctamente.', 'success');
 
                             $('#datatable').bootgrid('reload');
+
                         } else {
-                            Swal.fire('¡Error!', 'La materia no ha sido creada.', 'error');
+                            Swal.fire('¡Error!', 'La especialidad no ha sido creada.', 'error');
                         }
 
                     },
                     error: function (error) {
-                        console.error("Datos no enviados" + error)
+                        console.error("Datos no enviados" + error.responseText)
                     }
                 });
 
@@ -246,7 +241,7 @@
         $.ajax({
             type: 'GET',
             dataType: 'json',
-            url: '{{base_url("reticulas/asignaturas/get/")}}' + id,
+            url: '{{base_url("reticulas/especialidades/get/")}}' + id,
             data: {
                 'id': id,
             },
@@ -264,27 +259,25 @@
                         cancelButtonText: 'Cancelar',
                         didOpen: () => {
                             // Llena los campos del formulario después de que se muestre el modal
-                            const nombreAsignatura = document.getElementById('nombre').value = responseData.nombre_asignatura;
-                            const tipoAsignatura = document.getElementById('tipo-asignatura').value = responseData.id_tipo_asignatura;
+                            const nombreEspecialidad = document.getElementById('nombre_especialidad').value = responseData.nombre_especialidad;
+                            const idCarrera = document.getElementById('id_carrera').value = responseData.id_carrera;
+                            const claveEspecialidad = document.getElementById('clave_especialidad').value = responseData.clave_especialidad;
+                            const fechaInicio = document.getElementById('fechaInicio').value = responseData.fecha_inicio;
                             const nivelEscolar = document.getElementById('nivel-escolar').value = responseData.id_nivel_escolar;
-                            const claveValue = document.getElementById('clave').value = responseData.clave_asignatura;
-                            const horasTeoricas = document.getElementById('horasTeoricas').value = responseData.horas_teoricas;
-                            const horasPracticas = document.getElementById('horasPracticas').value = responseData.horas_practicas;
                         },
                         preConfirm: () => {
-                            const nombreAsignatura = document.getElementById('nombre').value;
-                            const tipoAsignatura = document.getElementById('tipo-asignatura').value;
+                            const nombreEspecialidad = document.getElementById('nombre_especialidad').value;
+                            const idCarrera = document.getElementById('id_carrera').value;
+                            const claveEspecialidad = document.getElementById('clave_especialidad').value;
+                            const fechaInicio = document.getElementById('fechaInicio').value;
                             const nivelEscolar = document.getElementById('nivel-escolar').value;
-                            const claveValue = document.getElementById('clave').value;
-                            const horasTeoricas = document.getElementById('horasTeoricas').value;
-                            const horasPracticas = document.getElementById('horasPracticas').value;
 
-                            if (nombreAsignatura === "" || tipoAsignatura === "" || nivelEscolar === ""
-                                || claveValue === "" || horasTeoricas === "" || horasPracticas === "") {
+                            if (nombreEspecialidad === "" || idCarrera === "" || claveEspecialidad === ""
+                                || fechaInicio === "" || nivelEscolar === "") {
                                 Swal.showValidationMessage('Todos los campos son obligatorios');
                             }
 
-                            return [nombreAsignatura, tipoAsignatura, nivelEscolar, claveValue, horasTeoricas, horasPracticas];
+                            return [idCarrera, nombreEspecialidad, claveEspecialidad, fechaInicio, nivelEscolar];
                         }
 
                     })
@@ -293,24 +286,23 @@
                         $.ajax({
                             type: 'POST',
                             dataType: 'json',
-                            url: '{{base_url("reticulas/asignaturas/update")}}',
+                            url: '{{base_url("reticulas/especialidades/update")}}',
                             data: {
-                                'id_asignatura': id,
-                                'nombre_asignatura': formValues[0],
-                                'id_tipo_asignatura': formValues[1],
-                                'id_nivel_escolar': formValues[2],
-                                'clave_asignatura': formValues[3],
-                                'horas_teoricas': formValues[4],
-                                'horas_practicas': formValues[5],
+                                'id_especialidad': id,
+                                'id_carrera': formValues[0],
+                                'nombre_especialidad': formValues[1],
+                                'clave_especialidad': formValues[2],
+                                'fecha_inicio': formValues[3],
+                                'id_nivel_escolar': formValues[4],
                             },
                             success: function (response) {
 
                                 if (response.success) {
-                                    Swal.fire('¡Materia actualizada!', 'La materia ha sido actualizada correctamente.', 'success');
+                                    Swal.fire('Especialidad actualizada!', 'La especialidad ha sido actualizada correctamente.', 'success');
 
                                     $('#datatable').bootgrid('reload');
                                 } else {
-                                    Swal.fire('¡Error!', 'La materia no ha sido creada.', 'error');
+                                    Swal.fire('¡Error!', 'La especialidad no ha sido creada.', 'error');
                                 }
 
                             },
@@ -350,18 +342,18 @@
                 $.ajax({
                     type: 'POST',
                     dataType: 'json',
-                    url: '{{base_url("reticulas/asignaturas/delete")}}',
+                    url: '{{base_url("reticulas/especialidades/delete")}}',
                     data: {
                         'id': id,
                     },
                     success: function (response) {
 
                         if (response.success) {
-                            Swal.fire('¡Materia eliminada!', 'La materia ha sido eliminada correctamente.', 'success');
+                            Swal.fire('Especialidad eliminada!', 'La especialidad ha sido eliminada correctamente.', 'success');
 
                             $('#datatable').bootgrid('reload');
                         } else {
-                            Swal.fire('¡Error!', 'La materia no ha sido eliminada.', 'error');
+                            Swal.fire('¡Error!', 'La especialidad no ha sido eliminada.', 'error');
                         }
 
                     },
@@ -379,6 +371,12 @@
 
 <script>
     $(document).ready(function () {
+        $('#estadoFilter').on('change', function () {
+            var selectedEstado = $(this).val();
+            $tabla.bootgrid('reload', {
+                estadoFilter: selectedEstado
+            });
+        });
         var $tabla = $("#datatable").bootgrid({
             caseSensitive: false,
             ajax: true, // Activamos la solicitud AJAX
@@ -386,10 +384,12 @@
                 // To populate your AJAX request data, if needed
                 return {
                     current: $('#datatable').bootgrid('getCurrentPage'), // Current page number
-                    rowCount: 10 // Number of rows per page
+                    rowCount: 10, // Number of rows per page
+                    searchPhrase: $('#datatable').bootgrid('getSearchPhrase'),
+                    selectedEstado: $('#estadoFilter').val() // Get the selected value from the <select> // Get the search phrase
                 };
             },
-            url: '{{base_url("/reticulas/asignaturas/get-all")}}',
+            url: '{{base_url("/reticulas/especialidades/get-all")}}',
             labels: {
                 noResults: "No hay resultados",
                 loading: "Cargando...",
@@ -415,11 +415,11 @@
                     switch (estado) {
                         case '1':
                             buttonHTML = `
-                     <a class="btn btn-primary" onclick="editar(${row.id_asignatura})"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                     <a class="btn btn-primary" onclick="editar(${row.id_especialidad})"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                      </svg></a>
-                        <a class="btn btn-danger" onclick="eliminar(${row.id_asignatura})"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                        <a class="btn btn-danger" onclick="eliminar(${row.id_especialidad})"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
                      </svg></a>
                      `

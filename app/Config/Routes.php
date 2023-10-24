@@ -264,10 +264,11 @@ $routes->group(
             function ($routes) {
                 $routes->get('show', 'Especialidades::show');
                 $routes->get('new', 'Especialidades::form');
-                $routes->post('update', 'Especialidades::form');
-                $routes->post('save', 'Especialidades::save');
+                $routes->post('update', 'Especialidades::update');
+                $routes->post('create', 'Especialidades::create');
                 $routes->post('delete', 'Especialidades::delete');
                 $routes->get('testid', 'Especialidades::testID');
+                $routes->post('get-all', 'Especialidades::getAllEspecialidades');
                 $routes->get('get/(:num)', 'Especialidades::getByID/$1');
             }
         );

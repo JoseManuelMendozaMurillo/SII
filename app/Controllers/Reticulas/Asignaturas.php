@@ -50,7 +50,7 @@ class Asignaturas extends CrudController
         }
     }
 
-    //Function to get all asignaturas paginated
+    // Function to get all asignaturas paginated
     public function getAll()
     {
         $current = $this->request->getPost('current');
