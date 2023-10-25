@@ -179,6 +179,11 @@
                                  <label class="btn btn-outline-primary" for="btnradio3">Aspirante</label>
                               </div>
                            </div>
+                           {% if error is defined %}
+                           <div class="alert alert-danger">
+                              {{ error }}
+                           </div>
+                           {% endif %}
                            <br>
                            <form id="form-login" action="{{base_url('auth/sing-in')}}" enctype="multipart/form-data"
                               method="post">
@@ -282,27 +287,6 @@
    })();
 </script>
 
-
-<!-- Modo oscuro -->
-<!-- <script>
-   const switchInput = document.getElementById('checkbox');
-   const bodyElement = document.body;
-   switchInput.addEventListener('change', function () {
-      if (this.checked) {
-         // Modo oscuro activado
-         bodyElement.classList.remove('light');
-         bodyElement.classList.add('dark');
-         console.log('Switch activado');
-      } else {
-         // Modo claro activado
-         bodyElement.classList.remove('dark');
-         bodyElement.classList.add('light');
-         console.log('Switch desactivado');
-      }
-   });
-</script> -->
-
-
 <!-- Validaciones -->
 <script>
    $(document).ready(function () {
@@ -321,21 +305,4 @@
       });
    });
 </script>
-
-<!-- <script>
-   window.addEventListener('resize', function () {
-      const responsiveColumn = document.getElementById('responsive-column');
-      const windowWidth = window.innerWidth;
-
-      // Lógica para cambiar la clase basándote en el tamaño de la pantalla
-      if (windowWidth >= 500 && windowWidth < 1500) {
-         responsiveColumn.classList.remove('col-md-4');
-         responsiveColumn.classList.add('col-md-6');
-      } else {
-         responsiveColumn.classList.remove('col-md-4', 'col-md-6');
-         responsiveColumn.classList.add('col-md-4');
-      }
-   });
-</script> -->
-
 {% endblock %}

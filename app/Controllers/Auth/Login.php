@@ -38,8 +38,12 @@ class Login extends ShieldLogin
 
         // Attempt to login
         $result = $authenticator->remember($remember)->attempt($credentials);
-        if (!$result->isOK()) {
-            return redirect()->route('auth/login')->withInput()->with('error', $result->reason());
+        if ($result->isOK()) {
+            return redirect()->to(config(Auth::class)->loginRedirect())->withCookies();
+        } else {
+            $error_message = 'Credenciales inválidas. Por favor, verifica tu correo y contraseña.';
+
+            return redirect()->route('auth/login')->withInput()->with('error', $result->reason(), $error_message);
         }
 
         // If an action has been defined for login, start it up.
