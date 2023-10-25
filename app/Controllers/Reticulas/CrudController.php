@@ -17,7 +17,7 @@ class CrudController extends BaseController
         $this->model = new $model();
         $this->entity = $entity;
         $this->name = $name;
-        $this->operationValidator = new $operationValidator();
+        //$this->operationValidator = new $operationValidator();
     }
 
     ////////////////////////////////////
@@ -54,7 +54,11 @@ class CrudController extends BaseController
 
             $this->model->save($entity);
 
-            return $this->response->setStatusCode(201)->setJSON(['success' => true]);
+            // Get the ID of the newly inserted record
+            $insertedId = $this->model->insertID(); // Assuming $this->model is your database model instance
+
+            return $this->response->setStatusCode(201)->setJSON(['success' => true, 'data' => $entity->toArray(),
+                'id_asignatura' => $insertedId]);
         } catch (Exception $e) {
             return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
         }

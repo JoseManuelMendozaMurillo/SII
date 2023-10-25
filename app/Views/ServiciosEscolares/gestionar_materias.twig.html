@@ -219,9 +219,19 @@
                     success: function (response) {
 
                         if (response.success) {
-                            Swal.fire('¡Materia creada!', 'La materia ha sido creada correctamente.', 'success');
 
-                            $('#datatable').bootgrid('reload');
+                            if (formValues[1] === "1") {
+                                //tipoAsignatura = "Básica";
+                            } else if (formValues[1] === "2") {
+                                asignarUnaCarrera(response.id_asignatura);
+                            } else if (formValues[1] === "3") {
+                                asignarUnaEspecialidad(response.id_asignatura);
+                                //tipoAsignatura = "Específica";
+                            }
+
+                            //Swal.fire('¡Materia creada!', 'La materia ha sido creada correctamente.', 'success');
+
+                            //$('#datatable').bootgrid('reload');
                         } else {
                             Swal.fire('¡Error!', 'La materia no ha sido creada.', 'error');
                         }
@@ -235,10 +245,6 @@
             }
 
         })()
-    }
-
-    function mostrarConfirmacion(id, estatus) {
-
     }
     function editar(id) {
 
@@ -374,6 +380,173 @@
         })
 
     }
+
+    function asignarUnaCarrera(idAsignatura) {
+
+        $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            url: '{{base_url("reticulas/asignaturas/getCarreras")}}',
+            success: function (response) {
+                if (response.success) {
+
+                    const carreras = response.carreras;
+
+                    const formularioAssignCarrera = `
+                    <div class="container">
+                        <select class="form-select" id="id_carrera" name="id_carrera" required>
+                        ${carreras.map(carrera => `<option value="${carrera.id_carrera}">${carrera.nombre_carrera}</option>`)}
+                        </select>
+                    </div>
+                    `;
+
+                    (async () => {
+                        const { value: formValues } = await Swal.fire({
+                            title: 'Asignar la materia a una carrera',
+                            icon: 'info',
+                            html: formularioAssignCarrera,
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Guardar',
+                            cancelButtonText: 'Cancelar',
+                            preConfirm: () => {
+                                const idCarrera = document.getElementById('id_carrera').value;
+
+                                if (idCarrera === "") {
+                                    Swal.showValidationMessage('Todos los campos son obligatorios');
+                                }
+
+                                return [idCarrera];
+                            }
+
+                        })
+
+                        if (formValues) {
+                            $.ajax({
+                                type: 'POST',
+                                dataType: 'json',
+                                url: '{{base_url("reticulas/asignaturas/assignCarrera")}}',
+                                data: {
+                                    'id_asignatura': idAsignatura,
+                                    'id_carrera': formValues[0],
+                                },
+                                success: function (response) {
+
+                                    if (response.success) {
+                                        Swal.fire('¡Materia asignada!', 'La materia ha sido asignada correctamente.', 'success');
+
+                                        $('#datatable').bootgrid('reload');
+                                    } else {
+                                        Swal.fire('¡Error!', 'La materia no ha sido asignada.', 'error');
+                                    }
+
+                                },
+                                error: function (error) {
+                                    console.error("Datos no enviados" + error.responseText)
+                                }
+                            });
+
+                        }
+
+                    })()
+
+
+                } else {
+                    Swal.fire('¡Error!', 'No se pudieron obtener las carreras.', 'error');
+                }
+
+            },
+            error: function (error) {
+                console.error("No se pudieron obtener las carreras" + error)
+            }
+        });
+
+    }
+
+    function asignarUnaEspecialidad(idAsignatura) {
+
+        $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            url: '{{base_url("reticulas/asignaturas/getEspecialidades")}}',
+            success: function (response) {
+                if (response.success) {
+
+                    const especialidades = response.especialidades;
+
+                    const formularioAssignEspecialidad = `
+                    <div class="container">
+                        <select class="form-select" id="id_especialidad" name="id_especialidad" required>
+                        ${especialidades.map(especialidad => `<option value="${especialidad.id_especialidad}">${especialidad.nombre_especialidad}</option>`)}
+                        </select>
+                    </div>
+                    `;
+
+                    (async () => {
+                        const { value: formValues } = await Swal.fire({
+                            title: 'Asignar la materia a una especialidad',
+                            icon: 'info',
+                            html: formularioAssignEspecialidad,
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Guardar',
+                            cancelButtonText: 'Cancelar',
+                            preConfirm: () => {
+                                const idEspecialidad = document.getElementById('id_especialidad').value;
+
+                                if (idEspecialidad === "") {
+                                    Swal.showValidationMessage('Todos los campos son obligatorios');
+                                }
+
+                                return [idEspecialidad];
+                            }
+
+                        })
+
+                        if (formValues) {
+                            $.ajax({
+                                type: 'POST',
+                                dataType: 'json',
+                                url: '{{base_url("reticulas/asignaturas/assignEspecialidad")}}',
+                                data: {
+                                    'id_asignatura': idAsignatura,
+                                    'id_especialidad': formValues[0],
+                                },
+                                success: function (response) {
+
+                                    if (response.success) {
+                                        Swal.fire('¡Materia asignada!', 'La materia ha sido asignada correctamente.', 'success');
+
+                                        $('#datatable').bootgrid('reload');
+                                    } else {
+                                        Swal.fire('¡Error!', 'La materia no ha sido asignada.', 'error');
+                                    }
+
+                                },
+                                error: function (error) {
+                                    console.error("Datos no enviados" + error.responseText)
+                                }
+                            });
+
+                        }
+
+                    })()
+
+
+                } else {
+                    Swal.fire('¡Error!', 'No se pudieron obtener las carreras.', 'error');
+                }
+
+            },
+            error: function (error) {
+                console.error("No se pudieron obtener las especialidades" + error.responseText)
+            }
+        });
+
+}
+
 </script>
 
 

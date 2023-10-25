@@ -229,6 +229,10 @@ $routes->group(
                 $routes->post('get-by-carrera', 'Asignaturas::getAsignaturasByCarrera');
                 $routes->post('get-by-especialidad', 'Asignaturas::getAsignaturasByEspecialidad');
                 $routes->post('get-by-clave', 'Asignaturas::getByClave');
+                $routes->get('getCarreras', 'Asignaturas::getCarreras');
+                $routes->get('getEspecialidades', 'Asignaturas::getEspecialidades');
+                $routes->post('assignCarrera', 'Asignaturas::assignAsignaturaToCarrera');
+                $routes->post('assignEspecialidad', 'Asignaturas::assignAsignaturaToEspecialidad');
 
                 // TEST routes
                 $routes->get('testid', 'Asignaturas::testID');
