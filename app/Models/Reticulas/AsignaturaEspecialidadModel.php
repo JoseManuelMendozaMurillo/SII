@@ -7,8 +7,6 @@ use CodeIgniter\Model;
 class AsignaturaEspecialidadModel extends Model
 {
     // members
-    // protected $especialidadModel;
-    // protected $asignaturaModel;
 
     // db
     protected $table = 'asignaturas_especialidad';
@@ -39,8 +37,6 @@ class AsignaturaEspecialidadModel extends Model
 
     protected function initialize()
     {
-        // $this->especialidadModel = new EspecialidadModel();
-        // $this->asignaturaModel = new AsignaturaModel();
     }
 
     public function getAsArray()
@@ -53,6 +49,24 @@ class AsignaturaEspecialidadModel extends Model
         }
 
         return $array;
+    }
+
+    /**
+     * Función para buscar una asignatura
+     *
+     * @return array
+     */
+    public function getByAsignatura($id_asignatura, $id_especialidad = -1)
+    {
+        if ($id_especialidad != -1) {
+            $data = $this->where(['id_asignatura' => $id_asignatura, 'id_especialidad' => $id_especialidad])->findAll();
+
+            return $data;
+        }
+
+        $data = $this->where('id_asignatura', $id_asignatura)->findAll();
+
+        return $data;
     }
 
     /**

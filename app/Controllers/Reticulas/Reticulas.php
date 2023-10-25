@@ -2,7 +2,6 @@
 
 namespace App\Controllers\Reticulas;
 
-use App\Models\Reticulas\AsignaturaEspecialidadModel;
 use App\Models\Reticulas\AsignaturaModel;
 use App\Models\Reticulas\CarreraModel;
 use App\Models\Reticulas\EspecialidadModel;
@@ -68,7 +67,15 @@ class Reticulas extends CrudController
         } catch (Exception $e) {
             $this->db->transRollback();
 
-            return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage(), 'success' => false]);
+            log_message('error', $e->getMessage());
+
+            $errorCode = $e->getCode();
+            if ($errorCode === 0) {
+                $errorCode = 500;
+            }
+
+            return $this->response->setStatusCode($errorCode)
+                                  ->setJSON(['error' => $e->getMessage(), 'success' => false]);
         }
     }
 
@@ -285,15 +292,36 @@ class Reticulas extends CrudController
      */
     public function show($id_reticula)
     {
-        // renderizamos la reticula (le agregamos la informacion de las asignaturas)
-        $jsonReticulaRendered = $this->reticulasAux->getReticulaJSON($id_reticula);
+        $this->db->transStart();
 
-        $data = [
-            'nombreModulo' => 'Visor de reticulas',
-            'jsonReticula' => $jsonReticulaRendered,
-        ];
+        try {
+            // Rectificamos la reticula (por si se elimino alguna materia)
+            $reticula = $this->model->find($id_reticula);
+            $jsonRectifyReticula = $this->reticulasAux->rectifyReticula($reticula->reticula_json);
+            $reticula->reticula_json = $jsonRectifyReticula;
+            $isUpdated = $this->model->save($reticula);
+            if (!$isUpdated) {
+                throw new Exception('Hubo un error al rectificar la reticula', 500);
+            }
 
-        $this->twig->display('ServiciosEscolares/reticulas', $data);
+            // renderizamos la reticula (le agregamos la informacion de las asignaturas)
+            $jsonReticulaRendered = $this->reticulasAux->getReticulaJSON($id_reticula);
+
+            $data = [
+                'nombreModulo' => 'Visor de reticulas',
+                'jsonReticula' => $jsonReticulaRendered,
+            ];
+
+            $this->db->transCommit();
+
+            $this->twig->display('ServiciosEscolares/reticulas', $data);
+        } catch (Exception $e) {
+            $this->db->transRollback();
+            log_message('error', $e->getMessage());
+
+            // Devolver la vista 500;
+            $this->twig->display('errors/error500');
+        }
     }
 
     /**
@@ -548,9 +576,9 @@ class Reticulas extends CrudController
 
     public function test($id)
     {
-        $model = new AsignaturaEspecialidadModel();
-        $res = $model->getByIdEspecialidad($id);
-        dd($res);
+        //dd('Hola');
+        $data = $this->reticulasAux->testing($id);
+        dd($data);
     }
 
     public function reticulas()

@@ -515,6 +515,20 @@ export default class Reticulas {
 			);
 		}
 
+		// Preguntamos si esta seguro de querer publicar
+		const res = await AlertModal.showInfo(
+			'¿Estas seguro de publicar la reticula?',
+			'Una vez que la reticula haya sido publicada no podra ser editada',
+			true,
+			'Publicar',
+			true,
+			'Cancelar',
+		);
+
+		if (!res) {
+			return;
+		}
+
 		// Guardamos posibles cambios de la reticula
 		const idReticula = this.getReticula().id;
 		const reticualJsonSave = this.__constructJsonSaveable();

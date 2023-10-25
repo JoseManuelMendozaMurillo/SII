@@ -62,4 +62,52 @@ class AsignaturaModel extends Model
 
         return $array;
     }
+
+    public function isBasica($id_asignatura)
+    {
+        $typeAsignatura = $this->select('id_tipo_asignatura')->find($id_asignatura);
+
+        // Si la asignatura no existe retornamos null
+        if ($typeAsignatura === null) {
+            return null;
+        }
+
+        if ($typeAsignatura->id_tipo_asignatura === $this->tipoAsignaturaModel->getIdAsignaturaBasica()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function isGenerica($id_asignatura)
+    {
+        $typeAsignatura = $this->select('id_tipo_asignatura')->find($id_asignatura);
+
+        // Si la asignatura no existe retornamos null
+        if ($typeAsignatura === null) {
+            return null;
+        }
+
+        if ($typeAsignatura->id_tipo_asignatura === $this->tipoAsignaturaModel->getIdAsignaturaGenerica()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function isEspecifica($id_asignatura)
+    {
+        $typeAsignatura = $this->select('id_tipo_asignatura')->find($id_asignatura);
+
+        // Si la asignatura no existe retornamos null
+        if ($typeAsignatura === null) {
+            return null;
+        }
+
+        if ($typeAsignatura->id_tipo_asignatura === $this->tipoAsignaturaModel->getIdAsignaturaEspecifica()) {
+            return true;
+        }
+
+        return false;
+    }
 }
