@@ -1,1 +1,1 @@
-TRUNCATE table aspirantes_datos_complementarios ; 
+TRUNCATE TABLE datos_complementarios;

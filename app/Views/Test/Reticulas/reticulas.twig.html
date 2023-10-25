@@ -3,20 +3,14 @@
 
 {% block styles %}
 
+<link rel="stylesheet" href="{{base_url('Css/Reticulas/HerramientaReticulas/reticulas.css')}}">
+<link rel="stylesheet"
+    href="{{base_url('Css/Reticulas/HerramientaSeleccionarMaterias/herramienta-seleccionar-materias.css')}}">
+
 <style>
-    .space {
-        height: 10vh;
-        background-color: rgba(255, 255, 255, 0.1);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        transition: border 0.1s ease;
-        border: 2px solid none;
-    }
-
-    .space:hover {
-        border: 2px solid blue;
+    /* Utilidades */
+    .hidden {
+        display: none;
     }
 </style>
 
@@ -25,84 +19,7 @@
 {% block body %}
 
 <main class="container-fluid bg-dark vh-100">
-    <div id="reticula" class="d-flex justify-content-center flex-column ">
-        <div class="row bg-primary">
-            <div class="col-1">Semestre 1</div>
-            <div class="col-1">Semestre 2</div>
-            <div class="col-1">Semestre 3</div>
-            <div class="col-1">Semestre 4</div>
-            <div class="col-1">Semestre 5</div>
-            <div class="col-1">Semestre 6</div>
-            <div class="col-1">Semestre 7</div>
-            <div class="col-1">Semestre 8</div>
-            <div class="col-1">Semestre 9</div>
-        </div>
-        <div class="row" id="1">
-            <!-- name es fila, id es columna -->
-            <div class="materia col-1 space" name="1">
-                <svg class="materia-icon" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="white"
-                    class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
-                    <path
-                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
-                </svg>
-            </div>
-            <div class="materia col-1 space" name="2">
-                <svg class="materia-icon" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="white"
-                    class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
-                    <path
-                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
-                </svg>
-            </div>
-            <div class="materia col-1 space" name="3">
-                <svg class="materia-icon" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="white"
-                    class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
-                    <path
-                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
-                </svg>
-            </div>
-            <div class="materia col-1 space" name="4">
-                <svg class="materia-icon" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="white"
-                    class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
-                    <path
-                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
-                </svg>
-            </div>
-            <div class="materia col-1 space" name="5">
-                <svg class="materia-icon" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="white"
-                    class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
-                    <path
-                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
-                </svg>
-            </div>
-            <div class="materia col-1 space" name="6">
-                <svg class="materia-icon" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="white"
-                    class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
-                    <path
-                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
-                </svg>
-            </div>
-            <div class="materia col-1 space" name="7">
-                <svg class="materia-icon" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="white"
-                    class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
-                    <path
-                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
-                </svg>
-            </div>
-            <div class="materia col-1 space" name="8">
-                <svg class="materia-icon" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="white"
-                    class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
-                    <path
-                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
-                </svg>
-            </div>
-            <div class="materia col-1 space" name="9">
-                <svg class="materia-icon" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="white"
-                    class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
-                    <path
-                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
-                </svg>
-            </div>
-        </div>
+    <div id="reticula" class="bg-dark">
     </div>
 </main>
 
@@ -111,149 +28,8 @@
 
 {% block script %}
 
-<script>
-    $(document).ready(function () {
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-        $(".materia").click(function (e) {
-            col = $(e.target).attr("name");
-            row = e.target.parentElement.id;
-            const celda = $('#reticula').find(`#${row}`).find(`div[name="${col}"]`)[0];
-
-            // En caso de que la celda no este activa
-            if (!$(celda).hasClass('space')) {
-                return;
-            }
-
-            // En caso de que se quiera eliminar la celda
-            if (celda.childElementCount === 0) {
-                removeSpace(col, row);
-                return;
-            }
-
-            const nameMateria = prompt("Introduce el nombre de la materia:");
-            $(celda).html(nameMateria);
-
-            addSpace(col, row);
-        });
-
-        $(".materia-icon").click(function (e) {
-            e.stopPropagation();
-            const tag = e.target.tagName;
-            let materia = '';
-            if (tag === 'path') {
-                materia = e.target.parentElement.parentElement;
-            } else if (tag === 'svg') {
-                materia = e.target.parentElement;
-            }
-            $(materia).click();
-        });
-
-        function addSpace(col, row) {
-
-            const celda = $('#reticula').find(`#${row}`).find(`div[name="${col}"]`)[0];
-            if (!$(celda).hasClass('space')) {
-                return;
-            }
-
-            const numCol = 9;
-            const numNewRow = parseInt(row) + 1;
-
-            const isExistRow = $('#reticula').find(`#${numNewRow}`).length;
-
-            if (isExistRow) {
-                const materia = $('#reticula').find(`#${numNewRow}`).find(`div[name="${col}"]`)[0];
-                const iconMateria = materia.children[0];
-                $(materia).addClass('space');
-                $(iconMateria).removeClass('d-none');
-                return;
-            }
-
-            let newCol = ``;
-            for (let index = 1; index <= numCol; index++) {
-                newCol += `
-                    <div class="materia col-1 ${col == index ? 'space' : ''}" name="${index}">
-                        <svg class="materia-icon ${col == index ? '' : 'd-none'}" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="white" viewBox="0 0 16 16">
-                            <path
-                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"
-                            />
-                        </svg>
-                    </div>
-                `;
-            }
-            const newRow = `<div class="row" id="${numNewRow}"> ${newCol} </div>`;
-
-            $("#reticula").append(newRow);
-
-            $(".materia").unbind('click');
-            $(".materia-icon").unbind('click');
-
-            $(".materia").click(function (e) {
-                col = $(e.target).attr("name");
-                row = e.target.parentElement.id;
-                const celda = $('#reticula').find(`#${row}`).find(`div[name="${col}"]`)[0];
-
-                // En caso de que la celda no este activa
-                if (!$(celda).hasClass('space')) {
-                    return;
-                }
-
-                // En caso de que se quiera eliminar la celda
-                if (celda.childElementCount === 0) {
-                    removeSpace(col, row);
-                    return;
-                }
-
-                const nameMateria = prompt("Introduce el nombre de la materia:");
-                $(celda).html(nameMateria);
-
-                addSpace(col, row);
-            });
-
-            $(".materia-icon").click(function (e) {
-                e.stopPropagation();
-                const tag = e.target.tagName;
-                let materia = '';
-                if (tag === 'path') {
-                    materia = e.target.parentElement.parentElement;
-                } else if (tag === 'svg') {
-                    materia = e.target.parentElement;
-                }
-                $(materia).click();
-            });
-        }
-
-        function removeSpace(col, row) {
-            row = parseInt(row);
-            col = parseInt(col);
-
-            // Obtenemos un arreglo con todas las filas
-            const rows = $('#reticula').find('[id]');
-
-            // Reacomodamos las materias
-            for (let index = row; index < rows.length; index++) {
-                let content = $(rows[index]).find(`div[name="${col}"]`)[0];
-                let newMateria = $(rows[index - 1]).find(`div[name="${col}"]`)[0];
-                $(newMateria).html($(content).html());
-            }
-
-            // Eliminamos la materia
-            for (let index = rows.length - 1; index >= 0; index--) {
-                const colDelete = $(rows[index]).find(`div[name="${col}"]`)[0];
-                if ($(colDelete).hasClass('space')) {
-                    $(colDelete).html(`
-                        <svg class="materia-icon d-none" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="white" viewBox="0 0 16 16">
-                                <path
-                                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"
-                                />
-                        </svg>
-                    `);
-                    $(colDelete).removeClass('space');
-                    index = -1; // Terminamos el bucle
-                }
-            }
-
-        }
-    });
-</script>
+<script type="module" src="{{base_url('Js/Reticulas/test/reticulas.js')}}"></script>
 
 {% endblock %}

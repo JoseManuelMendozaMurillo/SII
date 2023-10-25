@@ -1,0 +1,77 @@
+{% extends "Correos/base_email.twig.html" %}
+
+{% block head %}
+{{parent()}}
+{% endblock %}
+
+{% block user_info %}
+<div class="text-md-end text-center pt-5">
+    <h6>Instituto Tecnológico de Ocotlán</h6>
+</div>
+<div class="text-center pt-5">
+    <h4><strong> Alumno </strong></h4>
+</div>
+
+<div class="d-flex justify-content-around align-items-center flex-wrap gap-3 pt-5">
+    <div class="">
+
+        <div class="d-flex flex-wrap pb-2 justify-content-md-start justify-content-center">
+            <h6 class="text-dark"><strong>Nombre del alumno: </strong></h6>
+            <h6 class="text-gray ps-2">{{ nombre }} {{ apellido_paterno }} {{
+                apellido_materno }}</h6>
+        </div>
+
+        <div class="d-flex pb-2 justify-content-md-start justify-content-center">
+            <h6 class="text-dark"><strong>Correo institucional: </strong></h6>
+            <h6 class="text-gray ps-2">{{ correo_institucional }}</h6>
+        </div>
+
+        <div class="d-flex pb-2 justify-content-md-start justify-content-center">
+            <h6 class="text-dark"><strong>Contraseña provisional: </strong></h6>
+            <h6 class="text-gray ps-2">{{ password }}</h6>
+        </div>
+
+    </div>
+
+</div>
+{% endblock%}
+
+{% block content %}
+<div class="pt-5">
+    <p class="text-dark" style="text-align: justify;">
+    <h6 class="text-dark"><strong>Instrucciones para iniciar sesión en el Sistema de Información Institucional
+            (SII):</strong>
+        <h6 class="text-dark"><strong>1:</strong> Abre un navegador web en tu dispositivo.
+            <h6 class="text-dark"><strong>2:</strong> Dirígete al sitio web del de la institución <a
+                    href="{{base_url('auth/login')}}">Sistema de Información Institucional
+                    (SII)</a>.
+
+                <h6 class="text-dark"><strong>3:</strong> En la página de inicio de sesión, busca las casillas de
+                    'Nombre de Usuario' y
+                    'Contraseña'.
+                    <h6 class="text-dark"><strong>4:</strong> Ingresa tu nombre de usuario proporcionado por la
+                        institución en el campo 'Nombre de Usuario'.
+                        <h6 class="text-dark"><strong>5:</strong> Luego, ingresa tu contraseña proporcionada. Asegúrate
+                            de utilizar la contraseña correspondiente a tu cuenta
+                            institucional.
+                            <h6 class="text-dark"><strong>6:</strong> Haz clic en el botón 'Iniciar sesión' o 'Acceder'.
+                                <h6 class="text-dark"><strong>7:</strong> Espera a que el sistema verifique tus
+                                    credenciales. Una vez que tus credenciales sean confirmadas,
+                                    habrás iniciado sesión en el Sistema de Información Institucional.
+                                    </p>
+                                    <div class="pt-5">
+                                        <h5 class="pb-1">ATENTAMENTE</h5>
+                                        <h6 class="pb-1">Excelencia en Educación Tecnológica</h6>
+                                        <h6 class="fw-lighter">"Unidos con Espiritu de Triunfo y Tecnológica Propia"
+                                        </h6>
+                                    </div>
+</div>
+{% endblock %}
+
+{% block social_media %}
+{{parent()}}
+{% endblock %}
+
+{% block footer %}
+{{parent()}}
+{% endblock %}

@@ -1,0 +1,271 @@
+:root {
+    --width-item: 7.5rem;
+    --height-item-small: 3.5rem;
+    --height-item-big: 7.5rem;
+    --height-icon: 2rem;
+    --width-icon: 2rem;
+    --color-icons: rgb(0, 0, 0);
+    --bgcolor-icons: #FFFFFF 0% 0% no-repeat padding-box;
+    --bgcolor-icon-delete-hover: rgb(255, 0, 0);
+    --bgcolor-icon-update-hover: rgb(43, 114, 207);
+}
+
+/* Estilos para el header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    height: auto;
+}
+
+.item-header {
+    width: auto;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.justify-align-end {
+    justify-content: flex-end;
+    align-items: end;
+}
+
+.container-input-name-reticula {
+    width: 100%;
+}
+
+.input-name-reticula {
+    min-width: 100%;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #707070;
+    border-radius: 0.63rem;
+    color: rgba(0, 0, 0, 0.8);
+}
+
+.label-input-name-reticula {
+    min-width: 100%;
+    /* UI Properties */
+    font: normal normal normal 1.1rem/0.8rem Inter;
+    margin-bottom: 1rem;
+    color: #000000;
+}
+
+
+.label-reticula {
+    width: 12.12rem;
+    height: 3.5rem;
+    /* UI Properties */
+    background: #FEC400 0% 0% no-repeat padding-box;
+    border-radius: 0.63rem;
+    color: #000;
+    font-size: 1.1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Estilos para el body */
+
+.reticula {
+    display: flex;
+    align-items: stretch;
+    gap: 0.5rem;
+    margin-top: 2rem;
+    width: 100%;
+    overflow: auto;
+    overflow-y: hidden;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap: 0.3rem;
+    min-height: 100%;
+}
+
+
+/* Items */
+.item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.title {
+    height: var(--height-item-small);
+    width: var(--width-item);
+    z-index: 1;
+    background: #F3B1CD 0% 0% no-repeat padding-box;
+    border-radius: 0.63rem;
+    opacity: 1;
+    font-size: 1.12rem;
+    color: #000;
+    margin-bottom: 0.6rem;
+    /* transition: background ease 0.1s, opacity ease 0.1s; */
+}
+
+.title:hover {
+    background: #707070 0% 0% no-repeat padding-box;
+    opacity: 0.7;
+}
+
+.materia {
+    width: var(--width-item);
+    height: var(--height-item-big);
+    z-index: 1;
+    background: #F3B1CD 0% 0% no-repeat padding-box;
+    border-radius: 0.63rem;
+    padding: 0.3rem;
+    text-align: center;
+    font-size: 0.75rem;
+    color: #000;
+    overflow: hidden;
+}
+
+.add {
+    width: var(--width-item);
+    height: var(--height-item-small);
+    z-index: 1;
+    background: #3A57E8 0% 0% no-repeat padding-box;
+    border-radius: 0.63rem;
+}
+
+.add-semestre {
+    height: var(--height-item-small);
+    width: var(--width-item);
+    background: #3A57E8 0% 0% no-repeat padding-box;
+    border-radius: 0.63rem;
+    z-index: 1;
+}
+
+/* Icons */
+.icon-delete-semestre {
+    cursor: pointer;
+    width: var(--width-icon);
+    height: var(--height-icon);
+    padding: 0.4rem;
+    border-radius: 50%;
+    fill: var(--color-icons);
+    background: var(--bgcolor-icons);
+    display: none;
+    z-index: 2;
+    position: absolute;
+    /* Centrar el elemento horizontalmente */
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: background-color ease-in 0.2s, width ease-in 0.2s, height ease-in 0.2s;
+}
+
+.icon-delete-semestre:hover {
+    background-color: var(--bgcolor-icon-delete-hover);
+    width: 2.2rem;
+    height: 2.2rem;
+}
+
+.icon-custom {
+    width: var(--width-icon);
+    height: var(--height-icon);
+}
+
+.container-action-materia {
+    width: 100%;
+    height: 100%;
+    background: rgba(112, 112, 112, 0.7) 0% 0% no-repeat padding-box;
+    z-index: 2;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    position: absolute;
+}
+
+.icon-action-materia {
+    width: var(--width-icon);
+    height: var(--height-icon);
+    fill: var(--color-icons);
+    cursor: pointer;
+    padding: 0.4rem;
+    border-radius: 50%;
+    z-index: 3;
+    transition: background-color ease-in 0.2s, width ease-in 0.2s, height ease-in 0.2s;
+}
+
+.icon-action-materia:hover {
+    width: 2.3rem;
+    height: 2.3rem;
+}
+
+.icon-update-materia {
+    background: var(--bgcolor-icons);
+}
+
+.icon-update-materia:hover {
+    background-color: var(--bgcolor-icon-update-hover);
+}
+
+.icon-delete-materia {
+    background: var(--bgcolor-icons);
+}
+
+.icon-delete-materia:hover {
+    background-color: var(--bgcolor-icon-delete-hover);
+}
+
+.icon-add-materia {
+    fill: #fff;
+}
+
+.add-semestre-icon {
+    fill: #fff;
+}
+
+
+/* Efectos sobre iconos */
+.title:hover>.icon-delete-semestre {
+    display: block;
+}
+
+.materia:hover>.container-action-materia {
+    display: flex;
+}
+
+
+/* Estilos del footer */
+.footer {
+    min-width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.btns {
+    width: 7.5rem;
+    height: 3.13rem;
+    border-radius: 0.63rem;
+    font-size: 1.125rem;
+    color: #FFFFFF;
+    border: none;
+    outline: none;
+}
+
+.btn-cancel {
+    background: #EB3434 0% 0% no-repeat padding-box;
+}
+
+.btn-save {
+    background: #3A57E8 0% 0% no-repeat padding-box;
+}
+
+.btn-publicate {
+    background: #1AA053 0% 0% no-repeat padding-box;
+}

@@ -48,6 +48,7 @@ $routes->group(
         $routes->get('login', 'Login::loginView');
         $routes->post('sing-in', 'Login::loginAction');
         $routes->get('logout', 'Login::logoutAction');
+        $routes->get('passwordreset', 'Login::passwordResetView');
     }
 );
 
@@ -105,8 +106,6 @@ $routes->group(
         'filter' => 'group:recursos_financieros'],  // LINEA COMENTADA PARA PERMITIR EL ACCESO
     function ($routes) {
         $routes->get('aspirantes', 'Financieros::listAspirantes');
-        $routes->get('aspirantes-pagados', 'Financieros::listAspirantesPagados');
-        $routes->get('aspirantes-pendientes', 'Financieros::listAspirantesPendientes');
     }
 );
 
@@ -146,6 +145,7 @@ $routes->group(
     ['namespace' => 'App\Controllers\Test'],
     function ($routes) {
         $routes->get('correos', 'Pruebas::correo');
+        $routes->get('correo-alu', 'Pruebas::correoAlumno');
         $routes->post('sendEmail', 'Pruebas::sendEmail');
         $routes->get('imagenes', 'Pruebas::img');
         $routes->post('thumb', 'Pruebas::thumb');
@@ -167,6 +167,7 @@ $routes->group(
 
         $routes->get('testpost', 'Pruebas::testpost');
         $routes->get('reticulas', 'Pruebas::reticulas');
+        $routes->get('admin', 'Pruebas::admin');
     }
 );
 
@@ -184,10 +185,122 @@ $routes->group(
     'servicios',
     ['namespace' => 'App\Controllers\ServiciosEscolares'],
     function ($routes) {
-        $routes->get('crear', 'ServiciosEscolares::crearReticula');
+        $routes->get('carreras', 'Carreras::listCarreras');
+        $routes->get('materias', 'Asignaturas::listMaterias');
+        $routes->get('especialidades', 'Asignaturas::listEspecialidades');
     }
 );
 
+// Rutas para modulo de reticulas (test, dev)
+$routes->group(
+    'reticulas',
+    ['namespace' => 'App\Controllers\Reticulas'],
+    function ($routes) {
+        $routes->get('', 'Reticulas::index');
+        $routes->get('by-carrera/(:num)', 'Reticulas::getByCarrera/$1');
+        $routes->post('create', 'Reticulas::create');
+        $routes->post('delete', 'Reticulas::delete');
+        $routes->get('show/(:num)', 'Reticulas::show/$1');
+        $routes->post('save-json-reticula', 'Reticulas::saveJsonReticula');
+        $routes->post('publish', 'Reticulas::publishReticula');
+        $routes->post('inactive', 'Reticulas::changeStatusToInactive');
+        $routes->post('historial', 'Reticulas::changeStatusToHistorial');
+
+        $routes->get('test/(:num)', 'Reticulas::test/$1');
+
+        $routes->get('reticula', 'Reticulas::reticulas');
+
+        $routes->post('get-json-rendered', 'Reticulas::getReticulaJSON');
+        $routes->get('rectify', 'Reticulas::rectifyReticula');
+
+        // ASIGNTATURAS
+        $routes->group(
+            'asignaturas',
+            ['namespace' => 'App\Controllers\Reticulas'],
+            function ($routes) {
+                // CRUD endpoints
+                $routes->post('create', 'Asignaturas::create');
+                $routes->post('update', 'Asignaturas::update');
+                $routes->post('delete', 'Asignaturas::delete');
+                $routes->get('get/(:num)', 'Asignaturas::getByID/$1');
+                $routes->post('get-all', 'Asignaturas::getAll');
+                // Agregadas por werin
+                $routes->post('get-basicas', 'Asignaturas::getAsignaturasBasicas');
+                $routes->post('get-by-carrera', 'Asignaturas::getAsignaturasByCarrera');
+                $routes->post('get-by-especialidad', 'Asignaturas::getAsignaturasByEspecialidad');
+                $routes->post('get-by-clave', 'Asignaturas::getByClave');
+
+                // TEST routes
+                $routes->get('testid', 'Asignaturas::testID');
+                $routes->get('show', 'Asignaturas::show');
+                $routes->get('test/(:num)', 'Asignaturas::test/$1');
+            }
+        );
+
+        // CARRERAS
+        $routes->group(
+            'carreras',
+            ['namespace' => 'App\Controllers\Reticulas'],
+            function ($routes) {
+                $routes->get('show', 'Carreras::show');
+                $routes->get('new', 'Carreras::form');
+                $routes->post('update', 'Carreras::update');
+                $routes->post('create', 'Carreras::create');
+                $routes->post('delete', 'Carreras::delete');
+                $routes->get('testid', 'Carreras::testID');
+                $routes->get('get/(:num)', 'Carreras::getByID/$1');
+                $routes->post('get-all', 'Carreras::getCarrerasAll');
+                $routes->post('upt-records', 'Carreras::updateCarrerasAll');
+                $routes->post('activar', 'Carreras::changeStatusActive');
+
+                $routes->post('inactivate', 'Carreras::changeStatusToInactive');
+            }
+        );
+
+        //ESPECIALIDADES
+        $routes->group(
+            'especialidades',
+            ['namespace' => 'App\Controllers\Reticulas'],
+            function ($routes) {
+                $routes->get('show', 'Especialidades::show');
+                $routes->get('new', 'Especialidades::form');
+                $routes->post('update', 'Especialidades::update');
+                $routes->post('create', 'Especialidades::create');
+                $routes->post('delete', 'Especialidades::delete');
+                $routes->get('testid', 'Especialidades::testID');
+                $routes->post('get-all', 'Especialidades::getAllEspecialidades');
+                $routes->get('get/(:num)', 'Especialidades::getByID/$1');
+            }
+        );
+
+        // RETICULAS
+        $routes->group(
+            'reticulas',
+            ['namespace' => 'App\Controllers\Reticulas'],
+            function ($routes) {
+                $routes->get('show', 'Reticulas::show');
+                $routes->get('new', 'Reticulas::form');
+                $routes->post('update', 'Reticulas::form');
+                $routes->post('save', 'Reticulas::save');
+                $routes->post('delete', 'Reticulas::delete');
+                $routes->get('testid', 'Reticulas::testID');
+                $routes->get('get/(:num)', 'Reticulas::getByID/$1');
+                $routes->get('no-especialidad', 'Reticulas::getNoEspecialidadJSON');
+                $routes->get('test/(:num)', 'Reticulas::testNumReticulas/$1');
+            }
+        );
+    }
+
+    // RUTAS DE ALUMNOS
+);
+
+$routes->group(
+    'alumnos',
+    ['namespace' => 'App\Controllers\Alumnos'],
+    function ($routes) {
+        $routes->get('', 'Alumnos::alumno');
+    }
+);
 /*
  * --------------------------------------------------------------------
  * Additional Routing

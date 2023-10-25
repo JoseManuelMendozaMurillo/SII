@@ -1,5 +1,10 @@
 # CodeIgniter 4 Framework
-
+# Borrar Migraciones:
+php spark migrate:rollback -b 0
+# Ejcutar migraciones:
+php spark migrate
+# Seeder Maestro:
+php spark db:seed LlenaTodo
 ## What is CodeIgniter?
 
 CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.

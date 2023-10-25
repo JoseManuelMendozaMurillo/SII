@@ -182,47 +182,48 @@
                             <!-- Barra de búsqueda y filtro -->
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <div class="d-flex">
-
-                                    <!-- <div class="input-group me-2">
-                                        <div class="input-group search-input">
-                                            <span class="input-group-text" id="search-input">
-                                                <svg class="icon-18" width="18" viewBox="0 0 24 24" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <circle cx="11.7669" cy="11.7666" r="8.98856" stroke="currentColor"
-                                                        stroke-width="1.5" stroke-linecap="round"
-                                                        stroke-linejoin="round"></circle>
-                                                    <path d="M18.0186 18.4851L21.5426 22" stroke="currentColor"
-                                                        stroke-width="1.5" stroke-linecap="round"
-                                                        stroke-linejoin="round"></path>
-                                                </svg>
-                                            </span>
-                                            <input id="searchInput" type="search" class="form-control"
-                                                placeholder="Buscar...">
-                                        </div>
-                                        <select id="filterSelect" class="form-select">
-                                            <option value="numero_solicitud">Número de Solicitud</option>
-                                            <option value="nombre">Nombre</option>
-                                        </select>
-                                        <button id="searchButton" class="btn btn-primary">Buscar</button>
-                                    </div>-->
-
-
-
                                 </div>
-                                <!-- <div class="col-lg-4 text-end p-2 filtro-estatus">
-
-                                    <select id="filtroSelect" class="form-select ">
-                                        <option value="" selected>Todos</option>
-                                        <option value="Pagado">Pagado</option>
-                                        <option value="Pendiente">Pendiente</option>
-                                    </select>
-                                </div> -->
-
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="mb-3" for="estadoPago">Filtrar por Estado de Pago:</label>
+                                <select id="estadoPago" class="form-control">
+                                    <option value="todos">Todos</option>
+                                    <option value="pagados">Pagados</option>
+                                    <option value="pendientes">Pendientes</option>
+                                </select>
                             </div>
 
                             <!-- Tabla de datos -->
-                            {%block table%}
-                            {% endblock %}
+                            <div class="table-responsive">
+                                <table id="datatable" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th data-column-id="id" data-identifier="true" data-visible="false"
+                                                data-sortable="false">id</th>
+                                            <th data-column-id="noSolicitude" data-sortable="false">Número de
+                                                Solicitud</th>
+                                            <th data-column-id="name" data-sortable="false">Nombre</th>
+                                            <th data-column-id="email" data-searchable="false" data-sortable="false">
+                                                Correo electronico</th>
+                                            <th data-column-id="status_pago" data-searchable="false"
+                                                data-formatter="button_status">Estado de pago
+                                            </th>
+                                            <!-- Otros encabezados de columna -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for aspirante in aspirantesTodos%}
+                                        <tr data-row-id="{{ aspirante.id}}">
+                                            <td>{{ aspirante.id}}</td>
+                                            <td>{{ aspirante.noSolicitude }}</td>
+                                            <td>{{ aspirante.name }}</td>
+                                            <td>{{ aspirante.email }}</td>
+                                            <td>{{ aspirante.status_pago }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -234,8 +235,6 @@
 
     {% block script %}
 
-    <script src="{{ base_url('Js/RecursosFinancieros/RecursosFinancieros.js')}}" type="module"></script>
-
     <!-- JQuery -->
     <script src="{{base_url('Vendor/Parsley/jquery-3.7.0.min.js')}}"></script>
     <!-- SweetAlert -->
@@ -245,7 +244,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.min.js"
         integrity="sha512-ut+jq2MDKjyWKK7rpEbyHjJ2kDBDO58DLFw4xJobqvS2kUgx4DJbj3OLjwk4F0pKtcxUoUIRS6esQVhh4fmWNA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
 
     <script>
         function mostrarConfirmacion(user_id, status_pago) {
@@ -260,7 +258,9 @@
                 cancelButtonText: 'Cancelar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    nuevo_estado = status_pago === '1' ? '0' : '1';
+                    // 0 = Pendiente
+                    // 1 = Pagado
+                    nuevo_estado = status_pago === '1' ? '0' : status_pago === 'true' ? '0' : '1';
                     cambiarEstado(user_id, nuevo_estado);
                 }
             });
@@ -268,6 +268,11 @@
     </script>
 
     <script>
+        var $tabla;
+        var aspirantesTodos = {{ aspirantesTodos| json_encode | raw}};
+        var aspirantesPago = {{ aspirantesPago| json_encode | raw }};
+        var aspirantesNoPago = {{ aspirantesNoPago| json_encode | raw }};
+
         function cambiarEstado(user_id, status_pago) {
             // Realiza una llamada AJAX para actualizar el estado de pago en el servidor
             $.ajax({
@@ -280,13 +285,66 @@
                 },
                 success: function (response) {
                     if (response.success) {
-                        var btn = $('.btn[data-user-id="' + user_id + '"]');
-                        if (response.nuevo_estado === 'Pendiente') {
-                            btn.removeClass('btn-success').addClass('btn-warning').text('Pendiente');
-                        } else {
-                            btn.removeClass('btn-warning').addClass('btn-success').text('Pagado');
+                        var estadoPagoSelect = $('#estadoPago').val();
+                        switch (estadoPagoSelect) {
+                            case 'todos':
+                                var btn = $('.btn[data-user-id="' + user_id + '"]');
+
+                                var aspirante;
+                                aspirantesTodos.forEach(element => {
+                                    if (element.id == user_id) {
+                                        aspirante = element;
+                                    }
+                                });
+                                if (status_pago === '0') {
+                                    btn.removeClass('btn-success').addClass('btn-warning').text('Pendiente');
+                                    aspirantesPago.splice(aspirantesPago.indexOf(aspirante), 1);
+                                    aspirante.status_pago = false;
+                                    aspirantesNoPago.unshift(aspirante);
+                                } else {
+                                    btn.removeClass('btn-warning').addClass('btn-success').text('Pagado');
+                                    aspirantesNoPago.splice(aspirantesNoPago.indexOf(aspirante), 1);
+                                    aspirante.status_pago = true;
+                                    aspirantesPago.unshift(aspirante);
+                                }
+                                $tabla.bootgrid('clear');
+                                $tabla.bootgrid('append', aspirantesTodos);
+                                Swal.fire('¡Listo!', 'El estado de pago ha sido cambiado.', 'success');
+
+                                break;
+                            case 'pagados':
+                                var aspirante;
+                                aspirantesPago.forEach(element => {
+                                    if (element.id == user_id) {
+                                        aspirante = element;
+                                    }
+                                });
+                                aspirantesPago.splice(aspirantesPago.indexOf(aspirante), 1);
+                                aspirante.status_pago = false;
+                                aspirantesNoPago.unshift(aspirante);
+
+                                $tabla.bootgrid('clear');
+                                $tabla.bootgrid('append', aspirantesPago);
+                                Swal.fire('¡Listo!', 'El estado de pago ha sido cambiado.', 'success');
+                                break;
+                            case 'pendientes':
+                                var aspirante;
+                                aspirantesNoPago.forEach(element => {
+                                    if (element.id == user_id) {
+                                        aspirante = element;
+                                    }
+                                });
+                                aspirantesNoPago.splice(aspirantesNoPago.indexOf(aspirante), 1);
+                                aspirante.status_pago = true;
+                                aspirantesPago.unshift(aspirante);
+
+                                $tabla.bootgrid('clear');
+                                $tabla.bootgrid('append', aspirantesNoPago);
+                                Swal.fire('¡Listo!', 'El estado de pago ha sido cambiado.', 'success');
+                                break;
+                            default:
+                                break;
                         }
-                        Swal.fire('¡Listo!', 'El estado de pago ha sido cambiado.', 'success');
                     } else {
                         Swal.fire('Error', 'Hubo un problema al cambiar el estado de pago.', 'error');
                     }
@@ -300,13 +358,14 @@
 
     <script>
         $(document).ready(function () {
-            var $tabla = $("#datatable").bootgrid({
+            var estadoPagoSelect = $('#estadoPago');
+            $tabla = $("#datatable").bootgrid({
                 caseSensitive: false,
                 ajax: false, // Desactivamos la solicitud AJAX
                 labels: {
                     noResults: "No hay resultados",
                     loading: "Cargando...",
-                    infos: "Mostrando {{ctx.start}} al {{'{{ctx.end}}'}} de {{'{{ctx.total}}'}} registros",
+                    infos: "Mostrando {{ ctx.start }} al {{ '{{ctx.end}}'}} de {{ '{{ctx.total}}'}} registros",
                     search: "Buscar",
                     refresh: "Recarga",
 
@@ -314,6 +373,7 @@
                 pagination: true,
                 rowCount: 10,
                 sort: true,
+                filter: true,
                 searchSettings: {
                     delay: 100,
                     characters: 3,
@@ -322,25 +382,34 @@
                 },
                 formatters: {
                     'button_status': function (col, row) {
-                        const estado = row.estatus_pago;
-                        return ` 
+                        const estado = row.status_pago;
+                        return `
                     <button
                         class="custom-button btn ${estado ? 'btn-success' : 'btn-warning'}"
+                        data-user-id="${row.id}" 
                         onclick="mostrarConfirmacion('${row.id}','${estado}')">
                         ${estado ? 'Pagado' : 'Pendiente'}
-                    </button>
-                    `
+                    </button>`
                     }
-
                 },
+            });
 
+            estadoPagoSelect.on('change', function () {
+                var estadoPago = estadoPagoSelect.val();
+                // Actualizar los datos de la tabla según el estado de pago seleccionado
+                if (estadoPago === 'todos') {
+                    $tabla.bootgrid('clear');
+                    $tabla.bootgrid('append', aspirantesTodos);
+                } else if (estadoPago === 'pagados') {
+                    $tabla.bootgrid('clear');
+                    $tabla.bootgrid('append', aspirantesPago);
+                } else if (estadoPago === 'pendientes') {
+                    $tabla.bootgrid('clear');
+                    $tabla.bootgrid('append', aspirantesNoPago);
+                }
 
             });
 
-
         });
-
     </script>
-
-
     {% endblock %}

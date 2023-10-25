@@ -33,7 +33,7 @@ class LlenadoReticulas extends Seeder
         $sqlFileContent = file_get_contents($sqlFilePath);
         $this->db->query($sqlFileContent);
 
-        $sqlFilePath = __DIR__ . '/ScriptsReticulas/insert_especialidades.sql';
+        $sqlFilePath = __DIR__ . '/ScriptsReticulas/insert_asignaturas_especialidad.sql';
         $sqlFileContent = file_get_contents($sqlFilePath);
         $this->db->query($sqlFileContent);
 

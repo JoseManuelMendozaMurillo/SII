@@ -1,4 +1,13 @@
-insert into reticulas
+insert into reticulas(id_reticula,
+nombre_reticula,
+id_carrera,
+id_especialidad,
+created_at,
+updated_at,
+deleted_at,
+created_by,
+updated_by,
+deleted_by)
 values
 (0,'ISIC-DESARROLLO PARA LA WEB Y APLICACIONES PARA DISPOSITIVOS MOVILES',1,5,SYSDATE(),SYSDATE(),NULL, 'mike', 'mike',NULL),
 (0,'ILOG-LOGÍSTICA INTEGRAL',2,4,SYSDATE(),SYSDATE(),NULL, 'mike', 'mike',NULL),
