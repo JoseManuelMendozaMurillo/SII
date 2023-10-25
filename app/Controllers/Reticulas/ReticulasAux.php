@@ -197,29 +197,40 @@ class ReticulasAux
         return json_encode($data);
     }
 
+    /**
+     * Función para retificar el JSON de una reticula
+     */
     public function rectifyReticula($json)
     {
-        $reticulaData = json_decode($json);
+        try {
+            $reticulaData = json_decode($json);
 
-        $num = 1;
-        $semestre = 'semestre' . $num;
-
-        while (isset($reticulaData->$semestre)) {
-            foreach ($reticulaData->$semestre as $asignaturaClave) {
-                try {
-                    $this->asignaturaModel->where('clave_asignatura', $asignaturaClave)->find()[0];
-                } catch (Exception) {
-                    $index = array_search($asignaturaClave, $reticulaData->$semestre);
-
-                    unset($reticulaData->$semestre[$index]);
-                }
-            }
-            $reticulaData->$semestre = array_values($reticulaData->$semestre);
-            $num++;
+            $num = 1;
             $semestre = 'semestre' . $num;
-        }
 
-        return json_encode($reticulaData);
+            while (isset($reticulaData->$semestre)) {
+                if (is_array(($reticulaData->$semestre))) {
+                    foreach ($reticulaData->$semestre as $asignaturaClave) {
+                        try {
+                            $this->asignaturaModel->where('clave_asignatura', $asignaturaClave)->find()[0];
+                        } catch (Exception) {
+                            $index = array_search($asignaturaClave, $reticulaData->$semestre);
+
+                            unset($reticulaData->$semestre[$index]);
+                        }
+                    }
+                    $reticulaData->$semestre = array_values($reticulaData->$semestre);
+                }
+                $num++;
+                $semestre = 'semestre' . $num;
+            }
+
+            return json_encode($reticulaData);
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+
+            throw new Exception('Error al rectificar la reticula: ' . $e->getMessage());
+        }
     }
 
     /**
