@@ -70,6 +70,20 @@ class EspecialidadModel extends Model
         return $array;
     }
 
+    // Get with estatus != 3 and estatus != 4
+
+    public function getAsArrayValidate()
+    {
+        $data = $this->where('estatus !=', 3)->where('estatus !=', 4)->findAll();
+
+        $array = [];
+        foreach ($data as $obj) {
+            array_push($array, $obj->toArray());
+        }
+
+        return $array;
+    }
+
     /**
      * Función para obtener las especialidades que no pertencen a una reticula
      *

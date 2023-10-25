@@ -129,4 +129,11 @@ class AuxAsignaturas
     {
         return $this->asignaturaModel->where('clave_asignatura', $clave)->find()[0]->toArray();
     }
+
+    public function assignToCarrera($idCarrera, $idAsignatura)
+    {
+
+        
+
+    }
 }

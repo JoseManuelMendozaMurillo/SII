@@ -7,6 +7,7 @@ use CodeIgniter\HTTP\Response;
 use App\Models\Reticulas\AsignaturaModel;
 use App\Models\Reticulas\AsignaturaEspecialidadModel;
 use App\Models\Reticulas\CarreraModel;
+use App\Models\Reticulas\EspecialidadModel;
 use Exception;
 
 // Asignaturas controller
@@ -244,4 +245,97 @@ class Asignaturas extends CrudController
 
         dd(true);
     }
+
+    // Get Carreras
+    public function getCarreras()
+    {
+        $carreraModel = new CarreraModel();
+
+        try {
+            $datos = $carreraModel->getAsArrayValidate();
+
+            return $this->response->setStatusCode(200)->setJSON([
+                'success' => true,
+                'carreras' => $datos]);
+        } catch (Exception $e) {
+            return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
+        }
+    }
+
+    // Assign asignatura to carrera
+    public function assignAsignaturaToCarrera()
+    {
+        try {
+            // Retrieve data from the request (assuming you are using CodeIgniter 4)
+            $idCarrera = $this->request->getPost('id_carrera');
+            $idAsignatura = $this->request->getPost('id_asignatura');
+    
+            // Validate data if necessary
+    
+            // Create a new instance of your model
+            $asignaturaCarreraModel = new AsignaturaCarreraModel();
+    
+            // Prepare data for insertion
+            $data = [
+                'id_carrera' => $idCarrera,
+                'id_asignatura' => $idAsignatura,
+            ];
+    
+            // Insert data into the database
+            $asignaturaCarreraModel->insert($data);
+    
+            return $this->response->setStatusCode(201)->setJSON(['success' => true, 'message' => 'Data inserted successfully']);
+        } catch (Exception $e) {
+            return $this->response->setStatusCode(500)->setJSON(['error' => $e->getMessage()]);
+        }
+    }
+
+    // Get Especialidades
+    public function getEspecialidades()
+    {
+
+
+        $especialidadModel = new EspecialidadModel();
+
+        try {
+            $datos = $especialidadModel->getAsArrayValidate();
+
+            return $this->response->setStatusCode(200)->setJSON([
+                'success' => true,
+                'especialidades' => $datos]);
+        } catch (Exception $e) {
+            return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
+        }
+
+    }
+
+    // Assign asignatura to especialidad
+    public function assignAsignaturaToEspecialidad()
+    {
+        try {
+            // Retrieve data from the request (assuming you are using CodeIgniter 4)
+            $idEspecialidad = $this->request->getPost('id_especialidad');
+            $idAsignatura = $this->request->getPost('id_asignatura');
+    
+            // Validate data if necessary
+    
+            // Create a new instance of your model
+            $asignaturaCarreraModel = new AsignaturaEspecialidadModel();
+    
+            // Prepare data for insertion
+            $data = [
+                'id_especialidad' => $idEspecialidad,
+                'id_asignatura' => $idAsignatura,
+            ];
+    
+            // Insert data into the database
+            $asignaturaCarreraModel->insert($data);
+    
+            return $this->response->setStatusCode(201)->setJSON(['success' => true, 'message' => 'Data inserted successfully']);
+        } catch (Exception $e) {
+            return $this->response->setStatusCode(500)->setJSON(['error' => $e->getMessage()]);
+        }
+    }
+
+
 }
