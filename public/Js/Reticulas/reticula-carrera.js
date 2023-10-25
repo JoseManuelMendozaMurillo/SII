@@ -7,10 +7,14 @@ const idCar = idCarrera;
 
 const reticulas = new Reticulas();
 
+// Modals
+const modal = document.getElementById('crearReticula');
+const modalBootstrap = new bootstrap.Modal(modal);
 // Containers
 const optionsCreateReticulas = document.getElementById('optionsCreateReticula');
 const reticulaSiDiv = document.getElementById('reticulaSi');
 const listReticulas = document.getElementById('listReticulas');
+const validationName = document.getElementById('validationName');
 // Buttons
 const btnCreate = document.getElementById('createButton');
 // Inputs
@@ -44,7 +48,13 @@ selectRet.addEventListener('change', () => {
 	useRet = selectRet.value;
 });
 
-btnCreate.addEventListener('click', async () => {
+modal.addEventListener('show.bs.modal', function () {
+	// Cuando se abre el modal para crear reticulas
+	nombre.value = '';
+	validationName.classList.add('d-none');
+});
+
+btnCreate.addEventListener('click', async (e) => {
 	// Creamos la reticula
 	const name = nombre.value;
 	const idCarrera = idCar;
@@ -52,6 +62,14 @@ btnCreate.addEventListener('click', async () => {
 	const useReticula = newRet;
 	const idUseReticula = useRet;
 
+	// Validamos que se haya ingresado un nombre para la reticula
+	if (name === '') {
+		validationName.textContent = 'Debe ingresar un nombre para la reticula';
+		validationName.classList.remove('d-none');
+		return;
+	}
+
+	// Validamos la especialdad seleccionada
 	if (parseInt(idEspecialidad) === -1) {
 		AlertModal.showError(
 			'Debe crear una nueva especialidad',
@@ -86,11 +104,64 @@ if (btnsActions !== null) {
 				case 'Activo':
 					inactiveReticula(this, idReticula, nameReticula);
 					break;
+				case 'Inactivo':
+					historialReticula(this, idReticula, nameReticula);
+					break;
 				default:
 					break;
 			}
 		});
 	});
+}
+
+/**
+ * @description Método para enviar a historial una reticula
+ *
+ * @param {Node} btn - Boton html que fue presionado
+ * @param {string|Int8Array} idReticula - Id de la reticula a enviar a historial
+ * @param {string} nameReticula - Nombre de la reticula a enviar a historial
+ */
+async function historialReticula(btn, idReticula, nameReticula) {
+	const res = await AlertModal.showWarning(
+		'Enviar a historial la reticula',
+		`Si envias al historial la reticula '${nameReticula}' ya no aparecera en los listados`,
+		true,
+		'Historial',
+		true,
+		'Cancelar',
+	);
+
+	if (!res) {
+		return;
+	}
+
+	// Enviar a historial la reticula
+	const isHistorial = await reticulas.historial(idReticula);
+	if (!isHistorial) {
+		AlertModal.showError(
+			'No se puedo inactivar la reticula',
+			'Hubo un error al inactivar la reticula',
+		);
+		return;
+	}
+
+	/* Reflejamos el cambio en la interfaz */
+	// Eliminamos el item que muestra esta reticula del html
+	const deletedReticula = btn.parentNode.parentNode;
+	listReticulas.removeChild(deletedReticula);
+	// Eliminamos los datos de la reticula del arreglo que contienes todas las reticulas
+	deleteDataReticulas(idReticula);
+	// Eliminamos la reticula del selector de reticulas para crear una nueva
+	deleteOptionSelectReticulas(idReticula);
+	// Dependiendo de la cantidad de reticulas mostramo o ocultamos las opciones para crear reticulas a partir de otras
+	const lengthReticulas = dataReticulas.length;
+	if (lengthReticulas === 0) showOptionsCreateReticula(false);
+	else showOptionsCreateReticula(true);
+
+	AlertModal.showSuccess(
+		'Reticula en el historial',
+		'La reticula se envio al historial',
+	);
 }
 
 /**
@@ -154,8 +225,8 @@ async function deleteReticula(btn, idReticula, nameReticula) {
 
 	if (res) {
 		// Eliminar la reticula
-		const isDeleted = await reticulas.delete(idReticula);
-		if (!isDeleted) {
+		const response = await reticulas.delete(idReticula);
+		if (!response.success) {
 			AlertModal.showError(
 				'No se puedo eliminar la reticula',
 				'Hubo un error al eliminar la reticula',
@@ -168,6 +239,7 @@ async function deleteReticula(btn, idReticula, nameReticula) {
 		// Eliminamos el item que muestra esta reticula del html
 		const deletedReticula = btn.parentNode.parentNode;
 		listReticulas.removeChild(deletedReticula);
+
 		// Eliminamos los datos de la reticula del arreglo que contienes todas las reticulas
 		deleteDataReticulas(idReticula);
 		// Eliminamos la reticula del selector de reticulas para crear una nueva
@@ -176,13 +248,10 @@ async function deleteReticula(btn, idReticula, nameReticula) {
 		const lengthReticulas = dataReticulas.length;
 		if (lengthReticulas === 0) showOptionsCreateReticula(false);
 		else showOptionsCreateReticula(true);
+		// Insertamos las nuevas opciones al selector de especialidades
+		insertOptionsSelectEsp(response.especialidades);
 
-		AlertModal.showSuccess(
-			'Reticula eliminada',
-			'La reticula se elimino',
-			true,
-			'ok',
-		);
+		AlertModal.showSuccess('Reticula eliminada', 'La reticula se elimino');
 	}
 }
 
@@ -210,6 +279,28 @@ function deleteOptionSelectReticulas(idReticula) {
 	const optionDelete = selectRet.querySelector(`option[value="${idReticula}"]`);
 	if (optionDelete !== null) {
 		selectRet.removeChild(optionDelete); // Eliminar la opcion
+	}
+}
+
+/**
+ * @description Función para inserta las especialidades al selector de especialidades
+ *
+ * @param {Array} especialidades
+ */
+function insertOptionsSelectEsp(especialidades) {
+	// Limpiamos el selector
+	selectEsp.innerHTML = '';
+
+	// Agregamos las opciones
+	for (let index = 0; index < especialidades.length; index++) {
+		const esp = especialidades[index];
+		const newOption = document.createElement('option');
+		newOption.setAttribute('value', esp.id_especialidad);
+		newOption.textContent = esp.nombre_especialidad;
+		if (index === 0) {
+			newOption.setAttribute('Selected', true);
+		}
+		selectEsp.appendChild(newOption);
 	}
 }
 

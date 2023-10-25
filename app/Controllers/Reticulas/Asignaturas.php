@@ -139,12 +139,21 @@ class Asignaturas extends CrudController
 
             // Obtenemos las asignaturas de la carrera
             $asignaturasByCarrera = $this->auxAsignaturas->getAsignaturasByCarrera($idCarrera, $onlyGenericas);
+            if ($asignaturasByCarrera === null) {
+                throw new Exception('Hubo un error al obtener las materias de las carrera', 500);
+            }
 
             return $this->response->setStatusCode(200)->setJSON([
                 'success' => true,
                 'data' => $asignaturasByCarrera, ]);
         } catch (Exception $e) {
-            return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
+            log_message('error', $e->getMessage());
+            $codeError = $e->getCode();
+            if ($codeError === 0) {
+                $codeError = 500;
+            }
+
+            return $this->response->setStatusCode($codeError)->setJSON(['error' => $e->getMessage()]);
         }
     }
 
@@ -174,12 +183,21 @@ class Asignaturas extends CrudController
 
             // Obtenemos las asignaturas de la especialidad
             $asignaturasByEspecialidad = $this->auxAsignaturas->getAsignaturasByEspecialidad($idEspecialidad);
+            if ($asignaturasByEspecialidad === null) {
+                throw new Exception('Hubo un error al obtener las asignaturas de especialidad', 500);
+            }
 
             return $this->response->setStatusCode(200)->setJSON([
                 'success' => true,
                 'data' => $asignaturasByEspecialidad, ]);
         } catch (Exception $e) {
-            return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
+            log_message('error', $e->getMessage());
+            $codeError = $e->getCode();
+            if ($codeError === 0) {
+                $codeError = 500;
+            }
+
+            return $this->response->setStatusCode($codeError)->setJSON(['error' => $e->getMessage()]);
         }
     }
 

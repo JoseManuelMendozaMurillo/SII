@@ -2,6 +2,8 @@
 
 namespace App\Controllers\Reticulas;
 
+use App\Models\Reticulas\AsignaturaCarreraModel;
+use App\Models\Reticulas\AsignaturaEspecialidadModel;
 use App\Models\Reticulas\AsignaturaModel;
 use App\Models\Reticulas\CarreraModel;
 use App\Models\Reticulas\EspecialidadModel;
@@ -13,7 +15,9 @@ class ReticulasAux
 {
     protected $asignaturaModel;
     protected $carreraModel;
+    protected $asigCarreraModel;
     protected $especialidadModel;
+    protected $asigEspecialidadModel;
     protected $reticulaModel;
     protected $estatusModel;
 
@@ -24,6 +28,8 @@ class ReticulasAux
         $this->especialidadModel = new EspecialidadModel();
         $this->reticulaModel = new ReticulaModel();
         $this->estatusModel = new EstatusModel();
+        $this->asigCarreraModel = new AsignaturaCarreraModel();
+        $this->asigEspecialidadModel = new AsignaturaEspecialidadModel();
     }
 
     /**
@@ -73,23 +79,61 @@ class ReticulasAux
             // Da de alta las materias
             while (isset($reticulaData->$semestre)) {
                 foreach ($reticulaData->$semestre as $asignaturaClave) {
+                    // Obtenemos la asignatura
                     $asignatura = $this->asignaturaModel->where('clave_asignatura', $asignaturaClave)->find()[0];
+                    $idAsignatura = $asignatura->id_asignatura;
+                    $isUpdated = true;
+
+                    // Actualizamos el campo semestre recomendado
+                    if (
+                        $this->asignaturaModel->isBasica($idAsignatura) ||
+                        $this->asignaturaModel->isGenerica($idAsignatura)
+                    ) {
+                        $isUpdated = $this->asigCarreraModel
+                                          ->where(['id_asignatura' => $idAsignatura, 'id_carrera' => $idCarrera])
+                                          ->set(['semestre_recomendado' => $num])
+                                          ->update();
+                    }
+                    if ($this->asignaturaModel->isEspecifica($idAsignatura)) {
+                        $isUpdated = $this->asigEspecialidadModel
+                                          ->where(['id_asignatura' => $idAsignatura, 'id_especialidad' => $idEspecialidad])
+                                          ->set(['semestre_recomendado' => $num])
+                                          ->update();
+                    }
+
+                    if (!$isUpdated) {
+                        throw new Exception('Hubo un error al actualizar el campo semestre recomendado', 500);
+                    }
+
+                    // Actualizamos el estatus de la asignatura
                     if ($asignatura->estatus != 1) {
                         continue;
                     }
-
                     $asignatura->estatus = '2';
+                    $isUpdated = $this->asignaturaModel->save($asignatura);
 
-                    $this->asignaturaModel->save($asignatura);
-                    $message = 'Cambio de estatus en asignatura: {"id_asignatura": "' . $asignatura->id_asignatura . '", "estatus": "2"}';
+                    if (!$isUpdated) {
+                        throw new Exception('Hubo un error al actualizar el estatus de la asignatura', 500);
+                    }
+
+                    $message = 'Cambio de estatus en asignatura: {"id_asignatura": "' . $idAsignatura . '", "estatus": "2"}';
                     log_message('info', $message);
                 }
                 $num++;
                 $semestre = 'semestre' . $num;
             }
         } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+
             throw new Exception('Error al publicar la reticula: ' . $e->getMessage(), 500);
         }
+    }
+
+    public function testing($id)
+    {
+        $data = $this->asignaturaModel->isBasica($id);
+
+        return $data;
     }
 
     /**
@@ -174,8 +218,6 @@ class ReticulasAux
             $num++;
             $semestre = 'semestre' . $num;
         }
-
-        // TODO: Guardar reticula en DB
 
         return json_encode($reticulaData);
     }

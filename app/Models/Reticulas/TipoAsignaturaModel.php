@@ -41,4 +41,52 @@ class TipoAsignaturaModel extends Model
 
         return $array;
     }
+
+    /**
+     * Funcion para devolver el id de la asignaturas basicas (materias que se le imparten a mas de una carrera)
+     *
+     * @return string|null - Retorna null si no encuentra el tipo de asignatura
+     */
+    public function getIdAsignaturaBasica()
+    {
+        $idBasicas = $this->select('id_tipo_asignatura')->where('tipo_asignatura', 'Basica')->findAll();
+
+        if (count($idBasicas) === 0) {
+            return null;
+        }
+
+        return $idBasicas[0]['id_tipo_asignatura'];
+    }
+
+    /**
+     * Funcion para devolver el id de la asignaturas genericas (materias de carrera)
+     *
+     * @return string|null - Retorna null si no encuentra el tipo de asignatura
+     */
+    public function getIdAsignaturaGenerica()
+    {
+        $idGenericas = $this->select('id_tipo_asignatura')->where('tipo_asignatura', 'Generica')->findAll();
+
+        if (count($idGenericas) === 0) {
+            return null;
+        }
+
+        return $idGenericas[0]['id_tipo_asignatura'];
+    }
+
+    /**
+     * Funcion para devolver el id de la asignaturas especificas (materias de especialidad)
+     *
+     * @return string|null - Retorna null si no encuentra el tipo de asignatura
+     */
+    public function getIdAsignaturaEspecifica()
+    {
+        $idEspecifica = $this->select('id_tipo_asignatura')->where('tipo_asignatura', 'Especifica')->findAll();
+
+        if (count($idEspecifica) === 0) {
+            return null;
+        }
+
+        return $idEspecifica[0]['id_tipo_asignatura'];
+    }
 }

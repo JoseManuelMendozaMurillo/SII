@@ -5,31 +5,20 @@
 {% block styles %}
 
 <style>
-    :root {
-        --bgcolor-icon-delete: rgba(255, 0, 0, 0.8);
-        --bgcolor-icon-delete-hover: rgba(255, 0, 0, 1);
+    .btns-change-status {
+        width: 7.2rem;
+        font-size: 1rem;
     }
 
-    .icon-custom {
-        width: 2rem;
-        height: 2rem;
-        padding: 0.3rem;
-        border-radius: 50%;
-        cursor: pointer;
-        transition: transform 0.2s ease;
+    .label-status {
+        width: 5.5rem;
+        height: 2.3rem;
+        border-radius: 10px;
+        font-size: 1rem;
     }
 
-    .icon-custom:hover {
-        transform: scale(1.1);
-    }
-
-    .icon-delete {
-        fill: #fff;
-        background-color: var(--bgcolor-icon-delete);
-    }
-
-    .icon-delete:hover {
-        background-color: var(--bgcolor-icon-delete-hover);
+    .name-reticula {
+        font-size: 1rem;
     }
 </style>
 
@@ -53,33 +42,35 @@
 
                         {% for reticula in reticulas %}
                         <a href="{{base_url('reticulas/show/')}}{{reticula.id_reticula}}"
-                            class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
+                            class="list-group-item list-group-item-action d-flex align-items-center justify-content-between gap-2">
                             {% if reticula.estatus != 4 %}
-                            {{ reticula.nombre_reticula }}
+                            <div class="w-50 name-reticula">
+                                {{ reticula.nombre_reticula }}
+                            </div>
 
                             {% if reticula.estatus == 1 %}
-                            <div class="d-flex align-items-center justify-content-between">
+                            <div class="w-50 d-flex align-items-center justify-content-end flex-wrap gap-2">
 
-                                <div class="bg-secondary p-2 d-flex align-items-center justify-content-center"
-                                    style="border-radius: 10px; width: 80px; height: 35px;">
+                                <div
+                                    class="bg-secondary p-2 d-flex align-items-center justify-content-center label-status">
                                     <h6 class="text-white">Borrador</h6>
                                 </div>
 
-                                <button type="button" class="btn btn-danger ms-3" name="btnChangeStatus"
+                                <button type="button" class="btn btn-danger btns-change-status" name="btnChangeStatus"
                                     data-id-reticula="{{reticula.id_reticula}}"
                                     data-name-reticula="{{reticula.nombre_reticula}}" data-estatus-reticula="Borrador">
-                                    Borrar
+                                    Eliminar
                                 </button>
                             </div>
                             {% endif %}
 
                             {% if reticula.estatus == 2 %}
-                            <div class="d-flex justify-content-center align-items-center">
-                                <div class="bg-success p-2 d-flex align-items-center justify-content-center"
-                                    style="border-radius: 10px; width: 80px; height: 35px;">
+                            <div class="d-flex align-items-center justify-content-center flex-wrap gap-2">
+                                <div
+                                    class="bg-success p-2 d-flex align-items-center justify-content-center label-status">
                                     <h6 class="text-white">Activo</h6>
                                 </div>
-                                <button type="button" class="btn btn-warning ms-3" name="btnChangeStatus"
+                                <button type="button" class="btn btn-warning btns-change-status" name="btnChangeStatus"
                                     data-id-reticula="{{reticula.id_reticula}}"
                                     data-name-reticula="{{reticula.nombre_reticula}}" data-estatus-reticula="Activo">
                                     Inactivar
@@ -88,12 +79,12 @@
                             {% endif %}
 
                             {% if reticula.estatus == 3 %}
-                            <div class="d-flex justify-content-center align-items-center">
-                                <div class="bg-warning p-2 d-flex align-items-center justify-content-center"
-                                    style="border-radius: 10px; width: 80px; height: 35px;">
+                            <div class="d-flex align-items-center justify-content-center flex-wrap gap-2">
+                                <div
+                                    class="bg-warning p-2 d-flex align-items-center justify-content-center label-status">
                                     <h6 class="text-white">Inactivo</h6>
                                 </div>
-                                <button type="button" class="btn btn-dark ms-3" name="btnChangeStatus"
+                                <button type="button" class="btn btn-dark btns-change-status" name="btnChangeStatus"
                                     data-id-reticula="{{reticula.id_reticula}}"
                                     data-name-reticula="{{reticula.nombre_reticula}}" data-estatus-reticula="Inactivo">
                                     Historial
@@ -103,8 +94,6 @@
                             {% endif %}
                         </a>
                         {% endfor %}
-
-
 
                     </div>
                 </div>
@@ -128,6 +117,7 @@
                             <div class="col-12">
                                 <label for="name" class="form-label h6">Nombre de la reticula</label>
                                 <input type="text" class="form-control" id="name" name="name" placeholder="Nombre">
+                                <div class="d-none text-danger ps-3 pt-1" id="validationName">Error</div>
                             </div>
                         </div>
 
@@ -200,8 +190,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-primary" id="createButton"
-                            data-bs-dismiss="modal">Craer</button>
+                        <button type="button" class="btn btn-primary" id="createButton">Craer</button>
                     </div>
                 </div>
             </div>

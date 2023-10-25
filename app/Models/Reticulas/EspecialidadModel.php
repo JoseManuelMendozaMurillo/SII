@@ -88,23 +88,34 @@ class EspecialidadModel extends Model
      * Función para obtener las especialidades que no pertencen a una reticula
      *
      * @param id_carrera Id de la carrera a obtener sus especialdades
+     *
+     * @return array
      */
     public function getWithoutReticula($id_carrera)
     {
+        // COnstruimos la subconsulta
+        $subquery = $this->db->table('reticulas')
+                             ->select('id_especialidad')
+                             ->where('deleted_at', null);
+
         // Construimos la consulta
-        $builder = $this->db->table('especialidades as esp')
-                        ->select('esp.id_especialidad, 
-                                  esp.id_carrera, 
-                                  esp.nombre_especialidad,
-                                  esp.clave_especialidad,
-                                  fecha_inicio, 
-                                  esp.estatus')
-                        ->join('reticulas as ret', 'esp.id_carrera = ret.id_carrera')
-                        ->where('esp.id_especialidad <> ret.id_especialidad')
-                        ->where('esp.id_carrera', $id_carrera);
+        $query = $this->db->table('especialidades')
+                            ->select('id_especialidad, id_carrera, 
+                                      nombre_especialidad, clave_especialidad, 
+                                      fecha_inicio, estatus')
+                            ->where('id_carrera', $id_carrera)
+                            ->where('deleted_at', null)
+                            ->whereNotIn('id_especialidad', $subquery)
+                            ->get();
+
         // Ejecuta la consulta y obtén los resultados
-        $query = $builder->get();
         $results = $query->getResult();
+
+        // Trasformamos en array los resultados
+        for ($i = 0; $i < count($results); $i++) {
+            $results[$i] = json_encode($results[$i]);
+            $results[$i] = json_decode($results[$i], true);
+        }
 
         return $results;
     }
@@ -157,7 +168,7 @@ class EspecialidadModel extends Model
     }
 
     /**
-      * delete
+      * deleteWithAsignaturas
       * Función para eliminar una especialidad y sus asignaturas
       *
        * @param ?string $id    Id de la especialidad a eliminar
@@ -165,27 +176,25 @@ class EspecialidadModel extends Model
        *
        * @return bool True -> Se elimino la especialidad, False -> No se elimino la especialidad
       */
-    public function delete($id = null, bool $purge = false): bool
+    public function deleteWithAsignaturas($id = null, bool $purge = false): bool
     {
         $this->db->transStart();
 
         try {
             if ($id === null) {
-                $this->db->transCommit();
-
-                return true;
+                throw new Exception('El id de la especialidad en nulo', 500);
             }
 
             // Eliminamos la especialidad
-            $isDeleted = $this->parent::delete($id, $purge);
+            $isDeleted = $this->delete($id, $purge);
             if (!$isDeleted) {
                 throw new Exception('No se puedo eliminar la especialidad', 500);
             }
 
             // Eliminamos las asignaturas
             $asignaturasEspcialidad = $this->asignaturasEspecialidadModel->getByIdEspecialidad($id);
-            foreach ($asignaturasEspcialidad as $idAsignatura) {
-                $isDeleted = $this->asignaturasModel->delete($idAsignatura, $purge);
+            for ($i = 0; $i < count($asignaturasEspcialidad); $i++) {
+                $isDeleted = $this->asignaturasModel->delete($asignaturasEspcialidad[$i]->id_asignatura, $purge);
                 if (!$isDeleted) {
                     throw new Exception('Error al eliminar una asignatura de la especialidad', 500);
 
@@ -201,6 +210,7 @@ class EspecialidadModel extends Model
             return true;
         } catch (Exception $e) {
             $this->db->transRollback();
+            log_message('error', $e->getMessage());
 
             return false;
         }

@@ -7,11 +7,10 @@ use CodeIgniter\Model;
 class AsignaturaCarreraModel extends Model
 {
     // members
-    protected $carreraModel;
-    protected $asignaturaModel;
 
     // db
     protected $table = 'asignaturas_carrera';
+    protected $useSoftDeletes = true;
     protected $allowedFields = [
         'id_carrera',
         'id_asignatura',
@@ -38,13 +37,29 @@ class AsignaturaCarreraModel extends Model
 
     protected function initialize()
     {
-        $this->carreraModel = new CarreraModel();
-        $this->asignaturaModel = new AsignaturaModel();
     }
 
     public function getByCarrera($id_carrera)
     {
         $data = $this->where('id_carrera', $id_carrera)->findAll();
+
+        return $data;
+    }
+
+    /**
+       * Función para buscar una asignatura
+       *
+       * @return array
+       */
+    public function getByAsignatura($id_asignatura, $id_carrera = -1)
+    {
+        if ($id_carrera != -1) {
+            $data = $this->where(['id_asignatura' => $id_asignatura, 'id_carrera' => $id_carrera])->findAll();
+
+            return $data;
+        }
+
+        $data = $this->where('id_asignatura', $id_asignatura)->findAll();
 
         return $data;
     }
