@@ -54,9 +54,9 @@ class CustomRulesReticulas
         $reticulasAux = new ReticulasAux();
 
         // Reglas de validación
-        $maxCreditsBySemestre = 45;
-        $minCreditsBySemestre = 10;
-        $maxCreditsByReticula = 270;
+        $maxCreditsBySemestre = 1000;
+        $minCreditsBySemestre = 1;
+        $maxCreditsByReticula = 1000;
 
         // Obtenemos la reticula
         $reticula = $modelReticulas->find($value);
