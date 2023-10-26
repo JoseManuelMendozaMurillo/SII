@@ -5,6 +5,7 @@ namespace App\Models\Reticulas;
 // Carrera model
 
 use CodeIgniter\Model;
+use Exception;
 
 class CarreraModel extends Model
 {
@@ -103,5 +104,44 @@ class CarreraModel extends Model
         }
 
         return $query->countAllResults();
+    }
+
+    public function deleteAllCarrera($id_carrera)
+    {
+        $this->db->transStart();
+
+        //$id_carrera = $this->request->getPost('id');
+
+        // Elimina las asignaturas asociadas a la carrera.
+        $this->asignaturaModel->deleteAsignaturasByCarrera($id_carrera);
+
+        // Elimina las especialidades asociadas a la carrera.
+        $this->especialidadModel->deleteEspecialidadesByCarrera($id_carrera);
+
+        // Elimina la carrera.
+        $this->carreraModel->delete($id_carrera);
+
+        $this->db->transComplete();
+    }
+    // AsignaturaModel.php
+
+    public function deleteAsignaturasByCarrera($id_carrera)
+    {
+        $this->db->table('asignaturas_carrera')->where('id_carrera', $id_carrera)->delete();
+        $this->db->table('asignaturas_especialidad')->whereIn('id_asignatura', function ($builder) use ($id_carrera) {
+            $builder->select('id_asignatura')->from('asignaturas_carrera')->where('id_carrera', $id_carrera);
+        })->delete();
+        $this->db->table('asignaturas')->whereIn('id_asignatura', function ($builder) use ($id_carrera) {
+            $builder->select('id_asignatura')->from('asignaturas_carrera')->where('id_carrera', $id_carrera);
+        })->delete();
+    }
+    // EspecialidadModel.php
+
+    public function deleteEspecialidadesByCarrera($id_carrera)
+    {
+        $this->db->table('especialidades')->where('id_carrera', $id_carrera)->delete();
+        $this->db->table('asignaturas_especialidad')->whereIn('id_especialidad', function ($builder) use ($id_carrera) {
+            $builder->select('id_especialidad')->from('especialidades')->where('id_carrera', $id_carrera);
+        })->delete();
     }
 }

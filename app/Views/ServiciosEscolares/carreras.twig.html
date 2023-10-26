@@ -120,7 +120,7 @@
                            </select>
                         </div>
                         <div class="col-md-3 align-self-end">
-                           <button class="btn btn-primary" onclick="formCarrera()">Crear Carrera</button>
+                           <button class="btn btn-primary" onclick="crearCarrera()">Crear Carrera</button>
                         </div>
                      </div>
                   </div>
@@ -193,7 +193,7 @@
       '</div>' +
       '</div>' +
       ' </div>';
-   function formCarrera() {
+   function crearCarrera() {
       (async () => {
          const { value: formValues } = await Swal.fire({
             title: 'Crear carrera',
@@ -209,9 +209,15 @@
                const nombreValue = document.getElementById('nombreForm').value;
                const nivelValue = document.getElementById('nivel').value;
                const fechaInicioValue = document.getElementById('fechaInicio').value;
+               // Validación para claveValue: letras, números y guiones
+               if (!/^[a-zA-Z0-9-]+$/.test(claveValue)) {
+                  Swal.showValidationMessage('La clave solo puede contener letras, números o guiones');
+               }
 
-               //ToDO: Validaciones Parsley
-
+               // Validación para nombreValue: letras y espacios
+               if (!/^[a-zA-Z\s]+$/.test(nombreValue)) {
+                  Swal.showValidationMessage('El nombre solo puede contener letras y espacios');
+               }
                if (claveValue === "" || nombreValue === "" || nivelValue === "" || fechaInicioValue === "") {
                   Swal.showValidationMessage('Todos los campos son obligatorios');
                }
@@ -236,7 +242,7 @@
                   $('#datatable').bootgrid('reload');
                },
                error: function (error) {
-                  Swal.fire('Error', 'Hubo un problema', 'error');
+                  Swal.fire('Error', 'Hubo un problema' + error.responseText, 'error');
                }
 
             });
@@ -399,10 +405,6 @@
             });
          }
       })
-   }
-
-   function Guardar(id, formValues) {
-
    }
 </script>
 
