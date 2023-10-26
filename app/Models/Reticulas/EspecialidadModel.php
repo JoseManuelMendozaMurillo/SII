@@ -120,6 +120,34 @@ class EspecialidadModel extends Model
         return $results;
     }
 
+    public function getEspecialidadesWithoutReticula()
+    {
+        // COnstruimos la subconsulta
+        $subquery = $this->db->table('reticulas')
+                             ->select('id_especialidad')
+                             ->where('deleted_at', null);
+
+        // Construimos la consulta
+        $query = $this->db->table('especialidades')
+                            ->select('id_especialidad, id_carrera, 
+                                      nombre_especialidad, clave_especialidad, 
+                                      fecha_inicio, estatus')
+                            ->where('deleted_at', null)
+                            ->whereNotIn('id_especialidad', $subquery)
+                            ->get();
+
+        // Ejecuta la consulta y obtén los resultados
+        $results = $query->getResult();
+
+        // Trasformamos en array los resultados
+        for ($i = 0; $i < count($results); $i++) {
+            $results[$i] = json_encode($results[$i]);
+            $results[$i] = json_decode($results[$i], true);
+        }
+
+        return $results;
+    }
+
     /**
      * Función para cambiar el estatus de una especialidad
      *

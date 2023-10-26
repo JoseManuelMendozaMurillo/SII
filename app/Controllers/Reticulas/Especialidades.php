@@ -60,7 +60,36 @@ class Especialidades extends CrudController
         ]);
     }
 
-    public function getEspecialidadesNoReticula()
+    // Eliminate only especialidad without reticula
+    public function deleteEspecialidadWithoutReticula()
     {
+        $id_especialidad = $this->request->getPost('id_especialidad');
+        $id_carrera = $this->request->getPost('id_carrera');
+
+        try {
+            // Get especialidades without Reticulas
+            $especialidadesWithoutReticula = $this->especialidadesModel->getWithoutReticula($id_carrera);
+
+            // Validate if especialidad is in especialidadesWithoutReticula
+            $especialidad = $this->especialidadesModel->find($id_especialidad);
+
+            if (in_array($especialidad, $especialidadesWithoutReticula)) {
+                return $this->response->setStatusCode(500)->setJSON([
+                    'message' => 'La especialidad no se puede eliminar porque tiene reticulas asignadas',
+                ]);
+            }
+
+            // Delete especialidad
+            $this->especialidadesModel->deleteWithAsignaturas($id_especialidad);
+
+            return $this->response->setStatusCode(200)->setJSON([
+                'message' => 'Se eliminó la especialidad correctamente',
+                'success' => true,
+            ]);
+        } catch (\Exception $e) {
+            return $this->response->setStatusCode(500)->setJSON([
+                'message' => 'Ocurrió un error al eliminar la especialidad' + $e->getMessage(),
+            ]);
+        }
     }
 }

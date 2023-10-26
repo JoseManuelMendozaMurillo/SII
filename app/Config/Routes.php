@@ -270,7 +270,7 @@ $routes->group(
                 $routes->get('new', 'Especialidades::form');
                 $routes->post('update', 'Especialidades::update');
                 $routes->post('create', 'Especialidades::create');
-                $routes->post('delete', 'Especialidades::delete');
+                $routes->post('delete', 'Especialidades::deleteEspecialidadWithoutReticula');
                 $routes->get('testid', 'Especialidades::testID');
                 $routes->post('get-all', 'Especialidades::getAllEspecialidades');
                 $routes->get('get/(:num)', 'Especialidades::getByID/$1');

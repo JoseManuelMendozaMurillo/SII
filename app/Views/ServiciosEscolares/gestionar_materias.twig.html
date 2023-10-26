@@ -222,6 +222,10 @@
 
                             if (formValues[1] === "1") {
                                 //tipoAsignatura = "Básica";
+                                Swal.fire('¡Materia asignada!', 'La materia ha sido asignada correctamente.', 'success');
+
+                                $('#datatable').bootgrid('reload');
+
                             } else if (formValues[1] === "2") {
                                 asignarUnaCarrera(response.id_asignatura);
                             } else if (formValues[1] === "3") {
@@ -545,7 +549,7 @@
             }
         });
 
-}
+    }
 
 </script>
 
