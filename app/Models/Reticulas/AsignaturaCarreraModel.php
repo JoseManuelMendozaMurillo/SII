@@ -64,15 +64,12 @@ class AsignaturaCarreraModel extends Model
         return $data;
     }
 
-    // public function getAsArray()
-    // {
-    //     $data = $this->find();
+    public function getByIdCarrera($id_carrera)
+    {
+        $select = ['id_asignatura'];
+        $where = ['id_carrera' => $id_carrera];
+        $data = $this->select($select)->where($where)->get()->getResult();
 
-    //     $array = [];
-    //     foreach ($data as $obj) {
-    //         array_push($array, $obj->toArray());
-    //     }
-
-    //     return $array;
-    // }
+        return $data;
+    }
 }

@@ -250,7 +250,7 @@ $routes->group(
                 $routes->get('new', 'Carreras::form');
                 $routes->post('update', 'Carreras::update');
                 $routes->post('create', 'Carreras::create');
-                $routes->post('delete', 'Carreras::delete');
+                $routes->post('delete', 'Carreras::deleteCarrera');
                 $routes->get('testid', 'Carreras::testID');
                 $routes->get('get/(:num)', 'Carreras::getByID/$1');
                 $routes->post('get-all', 'Carreras::getCarrerasAll');

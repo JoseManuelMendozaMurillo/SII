@@ -2,7 +2,9 @@
 
 namespace App\Controllers\Reticulas;
 
+use App\Models\Reticulas\AsignaturaCarreraModel;
 use App\Models\Reticulas\AsignaturaEspecialidadModel;
+use App\Models\Reticulas\AsignaturaModel;
 use App\Models\Reticulas\CarreraModel;
 use App\Models\Reticulas\EspecialidadModel;
 use App\Models\Reticulas\ReticulaModel;
@@ -15,7 +17,9 @@ class Carreras extends CrudController
     private $carreraModel;
     private $reticulaModel;
     private $especialidadModel;
+    private $asignaturaModel;
     private $asignaturaEspecialidadModel;
+    private $asignaturaCarreraModel;
 
     public function __construct()
     {
@@ -29,7 +33,9 @@ class Carreras extends CrudController
         $this->carreraModel = new CarreraModel();
         $this->reticulaModel = new ReticulaModel();
         $this->especialidadModel = new EspecialidadModel();
+        $this->asignaturaModel = new AsignaturaModel();
         $this->asignaturaEspecialidadModel = new AsignaturaEspecialidadModel();
+        $this->asignaturaCarreraModel = new AsignaturaCarreraModel();
     }
 
     public function getCarrerasAll()
@@ -111,28 +117,54 @@ class Carreras extends CrudController
         }
     }
 
-    public function deleteEspecialidad()
-    {
-        $id_carrera = $this->request->getPost('id_carrera');
-        //$carrera = $this->model->find($id_carrera);
-        $especialidad = $this->especialidadModel->where('id_carrera', $id_carrera)->find();
-        $id_especialidad = $especialidad['id_especialidad'];
-        $asignaturasEspecialidad = $this->asignaturaEspecialidadModel->
-            where('id_especialidad', $id_especialidad)->find();
-        foreach ($asignaturasEspecialidad as $asignaturaEspecialidad) {
-        }
-    }
-
     public function deleteCarrera()
     {
         try {
             if (!$this->request->isAJAX()) {
                 throw new Exception('No se encontró el recurso', 404);
             }
+            $id_carrera = $this->request->getPost('id');
 
-            $id = $this->request->getPost('id_carrera');
+            // 1. Obtén las especialidades relacionadas con la carrera.
+            $especialidades = $this->especialidadModel->where('id_carrera', $id_carrera)->findAll();
 
-            $this->model->delete($id, true);
+            // 2. Elimina las asignaturas de las especialidades relacionadas.
+            foreach ($especialidades as $especialidad) {
+                $id_especialidad = $especialidad->id_especialidad;
+                $this->asignaturaEspecialidadModel->where('id_especialidad', $id_especialidad)->delete(null, false);
+            }
+
+            // 3. Elimina las especialidades.
+            $this->especialidadModel->where('id_carrera', $id_carrera)->delete(null, false);
+
+            // 4. Elimina las asignaturas de carrera (genéricas).
+            $this->asignaturaCarreraModel->where('id_carrera', $id_carrera)->delete(null, false);
+
+            // 5. Elimina las asignaturas relacionadas con la carrera a través de las especialidades y
+            // asignaturas de carrera.
+            $asignaturasCarrera = $this->asignaturaCarreraModel->where('id_carrera', $id_carrera)->findAll();
+
+            foreach ($asignaturasCarrera as $asignaturaCarrera) {
+                $id_asignatura = $asignaturaCarrera->id_asignatura;
+                $this->asignaturaModel->delete($id_asignatura);
+            }
+            $asignaturas = $this->asignaturaModel->whereIn('id_asignatura', function ($builder) use ($id_carrera) {
+                $builder->select('id_asignatura')
+                    ->from('asignaturas_especialidad')
+                    ->whereIn('id_especialidad', function ($builder) use ($id_carrera) {
+                        $builder->select('id_especialidad')
+                            ->from('especialidades')
+                            ->where('id_carrera', $id_carrera);
+                    });
+            })->findAll();
+
+            foreach ($asignaturas as $asignatura) {
+                $id_asignatura = $asignatura->id_asignatura;
+                $this->asignaturaModel->delete($id_asignatura);
+            }
+
+            // 6. Elimina la carrera.
+            $this->carreraModel->delete($id_carrera);
 
             return $this->response->setStatusCode(200)->setJSON(['success' => true]);
         } catch (Exception $e) {
