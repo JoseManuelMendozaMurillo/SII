@@ -10,7 +10,7 @@ class EspecialidadValidation
             'rules' => 'required|is_not_unique[carreras.id_carrera]',
             'errors' => [
                 'required' => 'El ID carrera es obligatorio',
-                'in_list' => 'No se selecciono un ID carrera existente',
+                'is_not_unique' => 'No se selecciono un ID carrera existente',
             ],
         ],                   // Uses ID, CarrerasModel neede => []d
         'nombre_especialidad' => [
