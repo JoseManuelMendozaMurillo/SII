@@ -140,12 +140,18 @@ class Carreras extends CrudController
             // 4. Elimina las asignaturas de carrera (genéricas) de la relacion.
             $this->asignaturaCarreraModel->where('id_carrera', $id_carrera)->delete(null, false);
 
-            // Obtiene las asignaturas relacionadas con la carrera
-            $asignaturasCarrera = $this->asignaturaCarreraModel->where('id_carrera', $id_carrera)->findAll();
+            $asignaturasCarrera = $this->asignaturaModel->whereIn('id_asignatura', function ($builder) use ($id_carrera) {
+                $builder->select('id_asignatura')
+                    ->from('asignaturas_carrera')
+                    ->whereIn('id_carrera', function ($builder) use ($id_carrera) {
+                        $builder->select('id_carrera')
+                            ->from('carreras')
+                            ->where('id_carrera', $id_carrera);
+                    });
+            })->findAll();
 
-            //Las elimina de la tabla asignaturas
-            foreach ($asignaturasCarrera as $asignaturaCarrera) {
-                $id_asignatura = $asignaturaCarrera->id_asignatura;
+            foreach ($asignaturasCarrera as $asignatura) {
+                $id_asignatura = $asignatura->id_asignatura;
                 $this->asignaturaModel->delete($id_asignatura);
             }
 
