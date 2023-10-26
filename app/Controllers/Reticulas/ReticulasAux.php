@@ -85,16 +85,33 @@ class ReticulasAux
                     $isUpdated = true;
 
                     // Actualizamos el campo semestre recomendado
-                    if (
-                        $this->asignaturaModel->isBasica($idAsignatura) ||
-                        $this->asignaturaModel->isGenerica($idAsignatura)
-                    ) {
+                    if ($this->asignaturaModel->isBasica($idAsignatura)) {
+                        $isExistRelationship = $this->asigCarreraModel->getByAsignatura($idAsignatura, $idCarrera);
+                        if (count($isExistRelationship) === 0) {
+                            // Si no existe una relacion, la creamos
+                            $data = [
+                                'id_asignatura' => $idAsignatura,
+                                'id_carrera' => $idCarrera,
+                                'semestre_recomendado' => $num,
+                            ];
+                            $isUpdated = $this->asigCarreraModel->insert($data, false);
+                        } else {
+                            // Si ya existe, actualizamos el campo semestre recomendado
+                            $isUpdated = $this->asigCarreraModel
+                                              ->where(['id_asignatura' => $idAsignatura, 'id_carrera' => $idCarrera])
+                                              ->set(['semestre_recomendado' => $num])
+                                              ->update();
+                        }
+                    }
+                    if ($this->asignaturaModel->isGenerica($idAsignatura)) {
+                        // Actualizamos el campo semestre recomendado
                         $isUpdated = $this->asigCarreraModel
                                           ->where(['id_asignatura' => $idAsignatura, 'id_carrera' => $idCarrera])
                                           ->set(['semestre_recomendado' => $num])
                                           ->update();
                     }
                     if ($this->asignaturaModel->isEspecifica($idAsignatura)) {
+                        // Actualizamos el campo semestre recomendado
                         $isUpdated = $this->asigEspecialidadModel
                                           ->where(['id_asignatura' => $idAsignatura, 'id_especialidad' => $idEspecialidad])
                                           ->set(['semestre_recomendado' => $num])

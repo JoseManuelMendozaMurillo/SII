@@ -508,7 +508,9 @@ export default class Reticulas {
 	 */
 	publicate = async () => {
 		// Validamos si la reticula puede ser publicada
-		if (!this.validateReticulas.isCanPublicate()) {
+		const isCanPublised = this.validateReticulas.isCanPublicate();
+		console.log(isCanPublised);
+		if (!isCanPublised) {
 			AlertModal.showError(
 				'La reticula no se puede publicar',
 				'La reticula no puede publicarse porque no cumple con las reglas de validacion',
