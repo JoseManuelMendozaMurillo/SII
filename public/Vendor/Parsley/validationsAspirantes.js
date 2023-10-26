@@ -7,29 +7,8 @@ export function customValidation() {
      
       switch ($inputType) {
         case 'curp':
-          $.validator.addValidator('fechaNacimiento', function (value, element) {
-            var dia = parseInt(value.substr(10, 2), 10);
-            var mes = parseInt(value.substr(12, 2), 10);
-            
-            if (mes < 1 || mes > 12) {
-            return false;
-            }
-            
-            if (dia < 1 || dia > 31) {
-            return false;
-            }
-            
-            return true;
-            }, 'La fecha de nacimiento no es válida.');
-            
-            // Agrega el validador a la CURP
-            
-            $.validator.addConstraints('curp', {
-            fechaNacimiento: true
-            });
-
           $input.attr('data-parsley-length', '[18, 18]');
-          $input.attr('ata-parsley-lengthpattern','[A-Z]4[0-9]6[A-Z]6[0-9A-Z]2');
+          $input.attr('data-parsley-pattern', '^[A-Z]{4}[0-9]{6}[HM][A-Z]{5}[0-9]{2}$')
           $input.attr('data-parsley-length-message', 'Este campo debe tener exactamente 18 caracteres.');
           $input.attr('data-parsley-error-message', 'Ingresa una CURP válida.');
           $input.attr('data-parsley-required','');
