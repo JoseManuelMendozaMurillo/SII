@@ -128,7 +128,7 @@ class Carreras extends CrudController
             // 1. Obtén las especialidades relacionadas con la carrera.
             $especialidades = $this->especialidadModel->where('id_carrera', $id_carrera)->findAll();
 
-            // 2. Elimina las asignaturas de las especialidades relacionadas.
+            // 2. Elimina las asignaturas de las especialidades de la relacion.
             foreach ($especialidades as $especialidad) {
                 $id_especialidad = $especialidad->id_especialidad;
                 $this->asignaturaEspecialidadModel->where('id_especialidad', $id_especialidad)->delete(null, false);
@@ -137,17 +137,19 @@ class Carreras extends CrudController
             // 3. Elimina las especialidades.
             $this->especialidadModel->where('id_carrera', $id_carrera)->delete(null, false);
 
-            // 4. Elimina las asignaturas de carrera (genéricas).
+            // 4. Elimina las asignaturas de carrera (genéricas) de la relacion.
             $this->asignaturaCarreraModel->where('id_carrera', $id_carrera)->delete(null, false);
 
-            // 5. Elimina las asignaturas relacionadas con la carrera a través de las especialidades y
-            // asignaturas de carrera.
+            // Obtiene las asignaturas relacionadas con la carrera
             $asignaturasCarrera = $this->asignaturaCarreraModel->where('id_carrera', $id_carrera)->findAll();
 
+            //Las elimina de la tabla asignaturas
             foreach ($asignaturasCarrera as $asignaturaCarrera) {
                 $id_asignatura = $asignaturaCarrera->id_asignatura;
                 $this->asignaturaModel->delete($id_asignatura);
             }
+
+            // 5. Elimina las asignaturas relacionadas con la carrera a través de las especialidades
             $asignaturas = $this->asignaturaModel->whereIn('id_asignatura', function ($builder) use ($id_carrera) {
                 $builder->select('id_asignatura')
                     ->from('asignaturas_especialidad')
@@ -163,7 +165,10 @@ class Carreras extends CrudController
                 $this->asignaturaModel->delete($id_asignatura);
             }
 
-            // 6. Elimina la carrera.
+            // 6. Elimina las retículas asociadas a la carrera.
+            $this->reticulaModel->where('id_carrera', $id_carrera)->delete(null, false);
+
+            // 7. Elimina la carrera.
             $this->carreraModel->delete($id_carrera);
 
             return $this->response->setStatusCode(200)->setJSON(['success' => true]);
