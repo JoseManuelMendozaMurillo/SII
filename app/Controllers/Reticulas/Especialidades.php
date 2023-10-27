@@ -73,17 +73,18 @@ class Especialidades extends CrudController
             $especialidad = $this->especialidadesModel->find($id_especialidad);
 
             if (in_array($especialidad, $especialidadesWithoutReticula)) {
+                // Delete especialidad
+                $this->especialidadesModel->deleteWithAsignaturas($id_especialidad);
+
                 return $this->response->setStatusCode(500)->setJSON([
-                    'message' => 'La especialidad no se puede eliminar porque tiene reticulas asignadas',
+                    'message' => 'Se eliminó la especialidad correctamente',
+                    'success' => true,
                 ]);
             }
 
-            // Delete especialidad
-            $this->especialidadesModel->deleteWithAsignaturas($id_especialidad);
-
-            return $this->response->setStatusCode(200)->setJSON([
-                'message' => 'Se eliminó la especialidad correctamente',
-                'success' => true,
+            return $this->response->setStatusCode(500)->setJSON([
+                'message' => 'No se puede eliminar la especialidad porque tiene retícula',
+                'success' => false,
             ]);
         } catch (\Exception $e) {
             return $this->response->setStatusCode(500)->setJSON([
