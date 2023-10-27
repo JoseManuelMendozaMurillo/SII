@@ -97,7 +97,7 @@ class Carreras extends CrudController
 
             foreach ($reticulas as $reticula) {
                 if ($reticula->estatus == 2) {
-                    return $this->response->setStatusCode(304)->setJSON([
+                    return $this->response->setStatusCode(422)->setJSON([
                         'success' => true,
                         'data' => 'Estatus de carrera no modificado', ]);
                 }
