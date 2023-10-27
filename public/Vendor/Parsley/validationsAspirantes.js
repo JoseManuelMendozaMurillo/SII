@@ -8,7 +8,7 @@ export function customValidation() {
       switch ($inputType) {
         case 'curp':
           $input.attr('data-parsley-length', '[18, 18]');
-          $input.attr('data-parsley-pattern', '^[A-Z]{4}[0-9]{6}[HM][A-Z]{5}[0-9]{2}$')
+          $input.attr('data-parsley-pattern', '^[A-Z]{4}[0-9]{6}[HM][A-Z]{5}[0-9A-Z]{2}$')
           $input.attr('data-parsley-length-message', 'Este campo debe tener exactamente 18 caracteres.');
           $input.attr('data-parsley-error-message', 'Ingresa una CURP válida.');
           $input.attr('data-parsley-required','');

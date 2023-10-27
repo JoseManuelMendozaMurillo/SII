@@ -15,9 +15,9 @@ export default class ValidateReticulas {
 	reticulas;
 
 	constructor(reticulas) {
-		this.maxCreditsBySemestre = 45;
-		this.minCreditsBySemestre = 10;
-		this.maxCreditsByReticula = 270;
+		this.maxCreditsBySemestre = 1000;
+		this.minCreditsBySemestre = 1;
+		this.maxCreditsByReticula = 1000;
 		this.reticulas = reticulas;
 	}
 

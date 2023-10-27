@@ -4,7 +4,6 @@ namespace App\Controllers\Reticulas;
 
 use App\Controllers\Reticulas\CrudController;
 use App\Models\Reticulas\EspecialidadModel;
-use CodeIgniter\HTTP\Response;
 
 class Especialidades extends CrudController
 {

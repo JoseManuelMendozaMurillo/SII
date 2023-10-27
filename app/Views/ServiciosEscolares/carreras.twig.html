@@ -277,17 +277,20 @@
 
                      $('#datatable').bootgrid('reload');
                   } else {
-                     Swal.fire('¡Error!', 'La carrera no se ha podido desactivar' + error.responseText, 'error');
+                     if (response.error) {
+                        Swal.fire('¡Error!', 'La carrera no se ha podido desactivar: ' + response.error, 'error');
+                     } else {
+                        Swal.fire('¡Error!', 'La carrera no se ha podido desactivar', 'error');
+                     }
                   }
 
                },
                error: function (error) {
-                  console.error("Datos no enviados" + error.responseText)
+                  Swal.fire('¡Error!', 'La carrera no se ha podido desactivar: ', 'error');
                }
             });
          }
       })
-
    }
    function editar(id) {
       $.ajax({
@@ -352,7 +355,7 @@
                      },
                      error: function (error) {
                         Swal.fire('Error', 'Hubo un problema: ' + error.responseText, 'error');
-                        console.log(error);
+
                      }
 
                   });
@@ -365,7 +368,7 @@
          },
          error: function (error, response) {
             Swal.fire('Error', 'Hubo un problema: ' + error.responseText, 'error');
-            console.log(error);
+
          }
       });
    }
@@ -400,7 +403,7 @@
 
                },
                error: function (error) {
-                  console.error("Datos no enviados" + error.responseText)
+                  Swal.fire('¡Error!', 'La carrera no ha sido eliminada.', 'error');
                }
             });
          }

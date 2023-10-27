@@ -2762,7 +2762,7 @@ progress {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #8A92A6;
+  color: #000000;
   background-color: #ffffff;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
@@ -2798,7 +2798,7 @@ progress {
 }
 
 .form-control:focus {
-  color: #8A92A6;
+  color: #000000;
   background-color: #ffffff;
   border-color: #9dabf4;
   outline: 0;
@@ -2979,7 +2979,7 @@ textarea.form-control-lg {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #8A92A6;
+  color: #000000;
   background-color: #ffffff;
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
   background-repeat: no-repeat;
