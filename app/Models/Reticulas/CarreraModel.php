@@ -77,6 +77,18 @@ class CarreraModel extends Model
         return $array;
     }
 
+    public function getAsArrayValidation()
+    {
+        $data = $this->where('estatus !=', 4)->findAll();
+
+        $array = [];
+        foreach ($data as $obj) {
+            array_push($array, $obj->toArray());
+        }
+
+        return $array;
+    }
+
     public function searchAndPaginate($searchPhrase, $rowCount, $start, $current)
     {
         $query = $this->db->table($this->table);

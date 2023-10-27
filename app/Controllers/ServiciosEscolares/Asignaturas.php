@@ -24,7 +24,7 @@ class Asignaturas extends BaseController
 
         $datos = [
             'nombreModulo' => 'Especialidades',
-            'carreras' => $carrera->getAsArrayValidate(),
+            'carreras' => $carrera->getAsArrayValidation(),
         ];
 
         $this->twig->display('ServiciosEscolares/gestionar_especialidades', $datos);
