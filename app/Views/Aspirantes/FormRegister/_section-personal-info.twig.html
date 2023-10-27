@@ -1,12 +1,11 @@
-<!-- Sección donde se pide la información personal del aspirante -->
 <fieldset id="sectionPersonalInfo">
     <div class="card-body" style="border-radius: 10px; box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.2);">
         <div class="form-card text-start">
             <div class="row">
-                <div class="col-7">
+                <div class="col-lg-7">
                     <h3 class="mb-4">INFORMACIÓN DEL ASPIRANTE:</h3>
                 </div>
-                <div class="col-5"></div>
+                <div class="col-lg-5"></div>
             </div>
             <div class="row">
                 <div class="col-md-4">
@@ -24,7 +23,8 @@
                                 <button type="button" id="btnSearchImg" class="browse btn btn-primary">Buscar</button>
                             </div>
                         </div>
-                        <input type="file" name="foto" id="foto" class="file" accept=".png, .jpg, .jpeg" required>
+                        <input type="file" name="foto" id="foto" class="file d-none" accept=".png, .jpg, .jpeg"
+                            required>
                     </div>
                     <div class="w-100 ps-1 pe-1 mb-3" id="containerErrorInputImg">
                         <span class="parsley-errors-list filled p-0 m-0" id="txtErrorInputImg">
@@ -76,7 +76,7 @@
                                 MASCULINO
                             </option>
                             <option {{old('genero')=='FEMENINO' ? 'selected' : '' }}>FEMENINO</option>
-                            <option {{old('genero')=='OTRO' ? 'selected' : '' }}>OTRO</option>
+                            <option {{old('genero')=='OTRO' ? 'selected' : '>' }}OTRO</option>
                         </select>
                         <p class="parsley-errors-list filled">{{session('errors.genero')}}</p>
                     </div>
@@ -131,10 +131,10 @@
     <div class="card-body" style="border-radius: 10px; box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.2);">
         <div class="form-card text-start">
             <div class="row">
-                <div class="col-7">
+                <div class="col-lg-7">
                     <h3 class="mb-4">DOMICILIO ACTUAL:</h3>
                 </div>
-                <div class="col-5"></div>
+                <div class="col-lg-5"></div>
             </div>
             <div class="row">
                 <div class="col-md-4">
@@ -223,10 +223,10 @@
     <div class="card-body" style="border-radius: 10px; box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.2);">
         <div class="form-card text-start">
             <div class="row">
-                <div class="col-7">
+                <div class="col-lg-7">
                     <h3 class="mb-4">DATOS COMPLEMENTARIOS:</h3>
                 </div>
-                <div class="col-5"></div>
+                <div class="col-lg-5"></div>
             </div>
             <div class="row">
                 <div class="col-md-4">
@@ -309,10 +309,10 @@
     <div class="card-body" style="border-radius: 10px; box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.2);">
         <div class="form-card text-start">
             <div class="row">
-                <div class="col-7">
+                <div class="col-lg-7">
                     <h3 class="mb-4">ESCUELA DE PROCEDENCIA:</h3>
                 </div>
-                <div class="col-5"></div>
+                <div class="col-lg-5"></div>
             </div>
             <div class="row">
                 <div class="col-md-3">
