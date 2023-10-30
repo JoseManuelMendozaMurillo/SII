@@ -233,6 +233,9 @@ $routes->group(
                 $routes->get('getEspecialidades', 'Asignaturas::getEspecialidades');
                 $routes->post('assignCarrera', 'Asignaturas::assignAsignaturaToCarrera');
                 $routes->post('assignEspecialidad', 'Asignaturas::assignAsignaturaToEspecialidad');
+                $routes->post('getAsignation', 'Asignaturas::checkAsignaturaExists');
+                $routes->post('updateAsignaturaCarrera', 'Asignaturas::updateAsignaturaCarrera');
+                $routes->post('updateAsignaturaEspecialidad', 'Asignaturas::updateAsignaturaEspecialidad');
 
                 // TEST routes
                 $routes->get('testid', 'Asignaturas::testID');

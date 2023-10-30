@@ -300,6 +300,7 @@
                     })
 
                     if (formValues) {
+
                         $.ajax({
                             type: 'POST',
                             dataType: 'json',
@@ -316,9 +317,7 @@
                             success: function (response) {
 
                                 if (response.success) {
-                                    Swal.fire('¡Materia actualizada!', 'La materia ha sido actualizada correctamente.', 'success');
-
-                                    $('#datatable').bootgrid('reload');
+                                    EditarAsignacionCarrera(id);
                                 } else {
                                     Swal.fire('¡Error!', 'La materia no ha sido creada.', 'error');
                                 }
@@ -550,6 +549,141 @@
         });
 
     }
+
+    function EditarAsignacionCarrera(idAsignatura) {
+
+        //Get asignatura by id
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            url: '{{base_url("reticulas/asignaturas/getAsignation")}}',
+            data: {
+                'id_asignatura': idAsignatura,
+            },
+            success: function (response) {
+                let singleValue = null;
+
+                if (response.carrera) {
+                    singleValue = response.carrera;
+                } else {
+                    singleValue = response.especialidad;
+                }
+
+                const allData = response.data;
+
+                const formularioAssignCarrera = `
+                    <div class="container">
+                        <select class="form-select" id="id_carrera" name="id_carrera" required>
+                        ${response.carrera ? allData.map(carrera => `<option value="${carrera.id_carrera}">${carrera.nombre_carrera}</option>`) : allData.map(especialidad => `<option value="${especialidad.id_especialidad}">${especialidad.nombre_especialidad}</option>`)}
+                        </select>
+                    </div>
+                    `;
+
+                (async () => {
+                    const { value: formValues } = await Swal.fire({
+                        title: 'Editar asignación de la materia',
+                        icon: 'info',
+                        html: formularioAssignCarrera,
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Guardar',
+                        cancelButtonText: 'Cancelar',
+                        didOpen: () => {
+                            // Llena los campos del formulario después de que se muestre el modal
+                            if (response.carrera) {
+                                const idCarrera = document.getElementById('id_carrera').value = singleValue.id_carrera;
+                            } else {
+                                const idEspecialidad = document.getElementById('id_carrera').value = singleValue.id_especialidad;
+                            }
+                        },
+                        preConfirm: () => {
+
+                            if (response.carrera) {
+                                const idCarrera = document.getElementById('id_carrera').value;
+                                if (idCarrera === "") {
+                                    Swal.showValidationMessage('Todos los campos son obligatorios');
+                                }
+                                return [idCarrera];
+                            } else {
+                                const idEspecialidad = document.getElementById('id_carrera').value;
+                                if (idEspecialidad === "") {
+                                    Swal.showValidationMessage('Todos los campos son obligatorios');
+                                }
+                                return [idEspecialidad];
+                            }
+
+                        }
+
+                    })
+
+                    if (formValues) {
+
+                        if (response.carrera) {
+                            $.ajax({
+                                type: 'POST',
+                                dataType: 'json',
+                                url: '{{base_url("reticulas/asignaturas/updateAsignaturaCarrera")}}',
+                                data: {
+                                    'id_asignatura': idAsignatura,
+                                    'id_carrera': formValues[0],
+                                },
+                                success: function (response) {
+
+                                    if (response.success) {
+                                        Swal.fire('¡Materia actualizada!', 'La materia ha sido actualizada correctamente.', 'success');
+
+                                        $('#datatable').bootgrid('reload');
+                                    } else {
+                                        Swal.fire('¡Error!', 'La materia no ha sido creada.', 'error');
+                                    }
+
+                                },
+                                error: function (error) {
+                                    Swal.fire('Error', 'Hubo un problema: ' + error.responseText, 'error');
+                                    console.error("Datos no enviados" + error.responseText)
+                                }
+                            });
+                        } else {
+                            $.ajax({
+                                type: 'POST',
+                                dataType: 'json',
+                                url: '{{base_url("reticulas/asignaturas/updateAsignaturaEspecialidad")}}',
+                                data: {
+                                    'id_asignatura': idAsignatura,
+                                    'id_especialidad': formValues[0],
+                                },
+                                success: function (response) {
+
+                                    if (response.success) {
+                                        Swal.fire('¡Materia actualizada!', 'La materia ha sido actualizada correctamente.', 'success');
+
+                                        $('#datatable').bootgrid('reload');
+                                    } else {
+                                        Swal.fire('¡Error!', 'La materia no ha sido creada.', 'error');
+                                    }
+
+                                },
+                                error: function (error) {
+                                    Swal.fire('Error', 'Hubo un problema: ' + error.responseText, 'error');
+                                    console.error("Datos no enviados" + error.responseText)
+                                }
+                            });
+                        }
+
+                    }
+
+                })()
+
+            },
+            error: function (error, response) {
+                Swal.fire('Error', 'Hubo un problema: ' + error.responseText, 'error');
+                console.log(error);
+            }
+        })
+
+    }
+
 
 </script>
 
