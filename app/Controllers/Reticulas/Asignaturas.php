@@ -280,6 +280,62 @@ class Asignaturas extends CrudController
         }
     }
 
+    public function checkAsignaturaExists()
+    {
+        $idAsignatura = $this->request->getPost('id_asignatura');
+
+        $asignaturaCarreraModel = new AsignaturaCarreraModel();
+        $asignaturaEspecialidadModel = new AsignaturaEspecialidadModel();
+
+        // Check if id_asignatura exists in asignaturas_carrera table
+        $asignaturaCarrera = $asignaturaCarreraModel->where('id_asignatura', $idAsignatura)->first();
+        if ($asignaturaCarrera !== null) {
+            // Get the id_carrera from asignaturas_carrera table
+            $idCarrera = $asignaturaCarrera['id_carrera'];
+
+            // Get the carrera from carreras table
+            $carreraModel = new CarreraModel();
+
+            // Get a specific carrera based on id_carrera
+            $carrera = $carreraModel->where('id_carrera', $idCarrera)->first();
+
+            // Get all the carreras
+            $carreras = $carreraModel->findAll();
+
+            return $this->response->setStatusCode(200)->setJSON([
+                'success' => true,
+                'carrera' => $carrera,
+                'data' => $carreras,
+            ]);
+        }
+
+        // Check if id_asignatura exists in asignaturas_especialidad table
+        $asignaturaEspecialidad = $asignaturaEspecialidadModel->where('id_asignatura', $idAsignatura)->first();
+
+        if ($asignaturaEspecialidad !== null) {
+            // Get the id_especialidad from asignaturas_especialidad table
+            $idEspecialidad = $asignaturaEspecialidad['id_especialidad'];
+
+            // Get the especialidad from especialidades table
+            $especialidadModel = new EspecialidadModel();
+            $especialidad = $especialidadModel->where('id_especialidad', $idEspecialidad)->first();
+
+            // Get all the especialidades
+            $especialidades = $especialidadModel->findAll();
+
+            return $this->response->setStatusCode(200)->setJSON([
+                'success' => true,
+                'especialidad' => $especialidad,
+                'data' => $especialidades,
+            ]);
+        }
+
+        return $this->response->setStatusCode(404)->setJSON([
+            'success' => false,
+            'message' => 'Asignatura not found',
+        ]);
+    }
+
     // Assign asignatura to carrera
     public function assignAsignaturaToCarrera()
     {
@@ -287,21 +343,21 @@ class Asignaturas extends CrudController
             // Retrieve data from the request (assuming you are using CodeIgniter 4)
             $idCarrera = $this->request->getPost('id_carrera');
             $idAsignatura = $this->request->getPost('id_asignatura');
-    
+
             // Validate data if necessary
-    
+
             // Create a new instance of your model
             $asignaturaCarreraModel = new AsignaturaCarreraModel();
-    
+
             // Prepare data for insertion
             $data = [
                 'id_carrera' => $idCarrera,
                 'id_asignatura' => $idAsignatura,
             ];
-    
+
             // Insert data into the database
             $asignaturaCarreraModel->insert($data);
-    
+
             return $this->response->setStatusCode(201)->setJSON(['success' => true, 'message' => 'Data inserted successfully']);
         } catch (Exception $e) {
             return $this->response->setStatusCode(500)->setJSON(['error' => $e->getMessage()]);
@@ -311,8 +367,6 @@ class Asignaturas extends CrudController
     // Get Especialidades
     public function getEspecialidades()
     {
-
-
         $especialidadModel = new EspecialidadModel();
 
         try {
@@ -324,7 +378,6 @@ class Asignaturas extends CrudController
         } catch (Exception $e) {
             return $this->response->setStatusCode($e->getCode())->setJSON(['error' => $e->getMessage()]);
         }
-
     }
 
     // Assign asignatura to especialidad
@@ -334,26 +387,86 @@ class Asignaturas extends CrudController
             // Retrieve data from the request (assuming you are using CodeIgniter 4)
             $idEspecialidad = $this->request->getPost('id_especialidad');
             $idAsignatura = $this->request->getPost('id_asignatura');
-    
+
             // Validate data if necessary
-    
+
             // Create a new instance of your model
             $asignaturaCarreraModel = new AsignaturaEspecialidadModel();
-    
+
             // Prepare data for insertion
             $data = [
                 'id_especialidad' => $idEspecialidad,
                 'id_asignatura' => $idAsignatura,
             ];
-    
+
             // Insert data into the database
             $asignaturaCarreraModel->insert($data);
-    
+
             return $this->response->setStatusCode(201)->setJSON(['success' => true, 'message' => 'Data inserted successfully']);
         } catch (Exception $e) {
             return $this->response->setStatusCode(500)->setJSON(['error' => $e->getMessage()]);
         }
     }
 
+    // Update AsignaturaCarrera by id_asignatura
+    public function updateAsignaturaCarrera()
+    {
+        try {
+            // Retrieve data from the request (assuming you are using CodeIgniter 4)
+            $idAsignatura = $this->request->getPost('id_asignatura');
+            $idCarrera = $this->request->getPost('id_carrera');
 
+            // Validate data if necessary
+
+            // Create a new instance of your model
+            $asignaturaCarreraModel = new AsignaturaCarreraModel();
+
+            // Prepare data for insertion
+            $data = [
+                'id_carrera' => $idCarrera,
+            ];
+
+            // Update data into the database
+            $asignaturaCarreraModel->where('id_asignatura', $idAsignatura)->set($data)->update();
+
+            return $this->response->setStatusCode(200)->setJSON([
+                'success' => true, 'message' => 'Data updated successfully',
+            ]);
+        } catch (Exception $e) {
+            return $this->response->setStatusCode(500)->setJSON([
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    // Update AsignaturaEspecialidad by id_asignatura
+    public function updateAsignaturaEspecialidad()
+    {
+        try {
+            // Retrieve data from the request (assuming you are using CodeIgniter 4)
+            $idAsignatura = $this->request->getPost('id_asignatura');
+            $idEspecialidad = $this->request->getPost('id_especialidad');
+
+            // Validate data if necessary
+
+            // Create a new instance of your model
+            $asignaturaEspecialidadModel = new AsignaturaEspecialidadModel();
+
+            // Prepare data for insertion
+            $data = [
+                'id_especialidad' => $idEspecialidad,
+            ];
+
+            // Update data into the database
+            $asignaturaEspecialidadModel->where('id_asignatura', $idAsignatura)->set($data)->update();
+
+            return $this->response->setStatusCode(200)->setJSON([
+                'success' => true, 'message' => 'Data updated successfully',
+            ]);
+        } catch (Exception $e) {
+            return $this->response->setStatusCode(500)->setJSON([
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
 }
