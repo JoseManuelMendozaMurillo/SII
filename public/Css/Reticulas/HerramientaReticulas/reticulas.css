@@ -101,7 +101,7 @@
     height: var(--height-item-small);
     width: var(--width-item);
     z-index: 1;
-    background: #F3B1CD 0% 0% no-repeat padding-box;
+    background: #c0d9db 0% 0% no-repeat padding-box;
     border-radius: 0.63rem;
     opacity: 1;
     font-size: 1.12rem;
@@ -119,7 +119,7 @@
     width: var(--width-item);
     height: var(--height-item-big);
     z-index: 1;
-    background: #F3B1CD 0% 0% no-repeat padding-box;
+    background: #9bd1c8 0% 0% no-repeat padding-box;
     border-radius: 0.63rem;
     padding: 0.3rem;
     text-align: center;

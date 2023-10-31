@@ -223,7 +223,8 @@
 
                     },
                     error: function (error) {
-                        console.error("Datos no enviados" + error.responseText)
+                        Swal.fire('¡Error!', 'La especialidad no ha sido creada.' + error.responseText, 'error');
+                        //console.error("Datos no enviados" + error.responseText)
                     }
                 });
 
