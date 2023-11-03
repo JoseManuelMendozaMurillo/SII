@@ -206,12 +206,12 @@
             cancelButtonText: 'Cancelar',
             preConfirm: () => {
                const claveValue = document.getElementById('clave').value;
-               const nombreValue = document.getElementById('nombreForm').value;
+               const nombreValue = document.getElementById('nombreForm').value.toUpperCase();
                const nivelValue = document.getElementById('nivel').value;
                const fechaInicioValue = document.getElementById('fechaInicio').value;
                // Validación para claveValue: letras, números y guiones
-               if (!/^[a-zA-Z0-9-]+$/.test(claveValue)) {
-                  Swal.showValidationMessage('La clave solo puede contener letras, números o guiones');
+               if (!/^[A-Z]{3}-\d{4}$/.test(claveValue)) {
+                  Swal.showValidationMessage('La clave debe tener el formato: XXX-0000');
                }
 
                // Validación para nombreValue: letras y espacios
@@ -323,11 +323,19 @@
                   },
                   preConfirm: () => {
                      const claveValue = document.getElementById('clave').value;
-                     const nombreValue = document.getElementById('nombreForm').value;
+                     const nombreValue = document.getElementById('nombreForm').toUpperCase();
                      const nivelValue = document.getElementById('nivel').value;
                      const fechaInicioValue = document.getElementById('fechaInicio').value;
 
-                     //ToDO: Validaciones Parsley
+                     // Validación para claveValue: letras, números y guiones
+                     if (!/^[A-Z]{3}-\d{4}$/.test(claveValue)) {
+                        Swal.showValidationMessage('La clave debe tener el formato: XXX-0000');
+                     }
+
+                     // Validación para nombreValue: letras y espacios
+                     if (!/^[a-zA-Z\s]+$/.test(nombreValue)) {
+                        Swal.showValidationMessage('El nombre solo puede contener letras y espacios');
+                     }
 
                      if (claveValue === "" || nombreValue === "" || nivelValue === "" || fechaInicioValue === "") {
                         Swal.showValidationMessage('Todos los campos son obligatorios');

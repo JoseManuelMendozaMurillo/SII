@@ -16,10 +16,11 @@ class CarreraValidation
         ],
         'clave_carrera' => [
             'label' => 'Clave oficial',
-            'rules' => 'required|max_length[255]',
+            'rules' => 'required|max_length[255]|is_unique[carreras.clave_carrera]',
             'errors' => [
-                'required' => 'La clave oficial es obligatoria',
-                'max_length' => 'La clave oficial no puede ser mayor a 255 caracteres',
+                'required' => 'La clave de la asignatura es obligatoria',
+                'max_length' => 'La clave de la asignatura no puede exceder 255 caracteres',
+                'is_unique' => 'La clave ya está en uso',
             ],
         ],
         'id_nivel_escolar' => [

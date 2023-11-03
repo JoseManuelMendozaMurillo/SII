@@ -32,15 +32,16 @@ class AsignaturaValidation
         ],
         'clave_asignatura' => [
             'label' => 'Clave asignatura',
-            'rules' => 'required|max_length[255]|alpha_numeric_punct',
+            'rules' => 'required|max_length[255]|is_unique[asignaturas.clave_asignatura]',
             'errors' => [
                 'required' => 'La clave de la asignatura es obligatoria',
                 'max_length' => 'La clave de la asignatura no puede exceder 255 caracteres',
+                'is_unique' => 'La clave ya está en uso',
             ],
         ],
         'horas_teoricas' => [
             'label' => 'Horas teoricas',
-            'rules' => 'required|is_natural_no_zero|less_than[10]',
+            'rules' => 'required|is_natural_no_zero|less_than[5]',
             'errors' => [
                 'required' => 'El numero de horas teoricas es obligatorio',
                 'is_natural_no_zero' => 'El numero de horas teoricas debe ser un numero natural, no menor a 2',

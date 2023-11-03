@@ -24,10 +24,11 @@ class EspecialidadValidation
         ],
         'clave_especialidad' => [
             'label' => 'Clave especialidad',
-            'rules' => 'required|max_length[255]|alpha_numeric_punct',
+            'rules' => 'required|max_length[255]|is_unique[especialidades.clave_especialidad]',
             'errors' => [
-                'required' => 'La clave de la especialidad es obligatoria',
-                'max_length' => 'La clave de la especialidad no puede exceder 255 caracteres',
+                'required' => 'La clave de la asignatura es obligatoria',
+                'max_length' => 'La clave de la asignatura no puede exceder 255 caracteres',
+                'is_unique' => 'La clave ya está en uso',
             ],
         ],
         'fecha_inicio' => [

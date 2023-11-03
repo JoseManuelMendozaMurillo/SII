@@ -187,12 +187,28 @@
                 confirmButtonText: 'Crear',
                 cancelButtonText: 'Cancelar',
                 preConfirm: () => {
-                    const nombreAsignatura = document.getElementById('nombre').value;
+                    const nombreAsignatura = document.getElementById('nombre').value.toUpperCase();
                     const tipoAsignatura = document.getElementById('tipo-asignatura').value;
                     const nivelEscolar = document.getElementById('nivel-escolar').value;
                     const claveValue = document.getElementById('clave').value;
-                    const horasTeoricas = document.getElementById('horasTeoricas').value;
-                    const horasPracticas = document.getElementById('horasPracticas').value;
+                    const horasTeoricas = parseFloat(document.getElementById('horasTeoricas').value);
+                    const horasPracticas = parseFloat(document.getElementById('horasPracticas').value);
+
+                    // Validación para horasTeoricas y horasPracticas
+                    if (isNaN(horasTeoricas) || isNaN(horasPracticas)) {
+                        Swal.showValidationMessage('Las horas deben ser números válidos');
+                    } else if (horasTeoricas + horasPracticas > 10) {
+                        Swal.showValidationMessage('La suma de horas teóricas y prácticas no puede exceder 10');
+                    }
+                    // Validación para clave: letras, números y guiones
+                    if (!/^[A-Z]{3}-\d{4}$/.test(claveValue)) {
+                        Swal.showValidationMessage('La clave debe tener el formato: XXX-0000');
+                    }
+
+                    // Validación para nombre: letras y espacios
+                    if (!/^[a-zA-Z\s]+$/.test(nombreAsignatura)) {
+                        Swal.showValidationMessage('El nombre solo puede contener letras y espacios');
+                    }
 
                     if (nombreAsignatura === "" || tipoAsignatura === "" || nivelEscolar === ""
                         || claveValue === "" || horasTeoricas === "" || horasPracticas === "") {
@@ -237,12 +253,12 @@
 
                             //$('#datatable').bootgrid('reload');
                         } else {
-                            Swal.fire('¡Error!', 'La materia no ha sido creada.', 'error');
+                            Swal.fire('¡Error!', 'La materia no ha sido creada.' + error.responseText, 'error');
                         }
 
                     },
                     error: function (error) {
-                        Swal.fire('¡Error!', 'La materia no ha sido creada.', 'error');
+                        Swal.fire('¡Error!', 'La materia no ha sido creada ' + error.responseText, 'error');
                         //console.error("Datos no enviados" + error)
                     }
                 });
@@ -283,12 +299,29 @@
                             const horasPracticas = document.getElementById('horasPracticas').value = responseData.horas_practicas;
                         },
                         preConfirm: () => {
-                            const nombreAsignatura = document.getElementById('nombre').value;
+                            const nombreAsignatura = document.getElementById('nombre').value.toUpperCase();
                             const tipoAsignatura = document.getElementById('tipo-asignatura').value;
                             const nivelEscolar = document.getElementById('nivel-escolar').value;
                             const claveValue = document.getElementById('clave').value;
-                            const horasTeoricas = document.getElementById('horasTeoricas').value;
-                            const horasPracticas = document.getElementById('horasPracticas').value;
+                            const horasTeoricas = parseFloat(document.getElementById('horasTeoricas').value);
+                            const horasPracticas = parseFloat(document.getElementById('horasPracticas').value);
+
+                            // Validación para horasTeoricas y horasPracticas
+                            if (isNaN(horasTeoricas) || isNaN(horasPracticas)) {
+                                Swal.showValidationMessage('Las horas deben ser números válidos');
+                            } else if (horasTeoricas + horasPracticas > 10) {
+                                Swal.showValidationMessage('La suma de horas teóricas y prácticas no puede exceder 10');
+                            }
+
+                            // Validación para clave: letras, números y guiones
+                            if (!/^[A-Z]{3}-\d{4}$/.test(claveValue)) {
+                                Swal.showValidationMessage('La clave debe tener el formato: XXX-0000');
+                            }
+
+                            // Validación para nombre: letras y espacios
+                            if (!/^[a-zA-Z\s]+$/.test(nombreAsignatura)) {
+                                Swal.showValidationMessage('El nombre solo puede contener letras y espacios');
+                            }
 
                             if (nombreAsignatura === "" || tipoAsignatura === "" || nivelEscolar === ""
                                 || claveValue === "" || horasTeoricas === "" || horasPracticas === "") {
@@ -320,7 +353,7 @@
                                 if (response.success) {
                                     EditarAsignacionCarrera(id);
                                 } else {
-                                    Swal.fire('¡Error!', 'La materia no ha sido creada.', 'error');
+                                    Swal.fire('¡Error!', 'La materia no ha sido creada.' + error.responseText, 'error');
                                 }
 
                             },

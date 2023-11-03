@@ -157,7 +157,7 @@
     {% endfor %}
     </select>
     <label for="clave_especialidad">Clave de la especialidad</label>
-    <input type="text" class="form-control" id="clave_especialidad" name="clave_especialidad" placeholder="ISIE-DWA-2020-01" required>
+    <input type="text" class="form-control" id="clave_especialidad" name="clave_especialidad" placeholder="XXX-0000" required>
     <label for="fechaInicio">Fecha de Inicio</label>
     <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" required>
     <label for="nivel-escolar">¿A qué nivel escolar pertenece?</label>
@@ -182,11 +182,21 @@
                 confirmButtonText: 'Crear',
                 cancelButtonText: 'Cancelar',
                 preConfirm: () => {
-                    const nombreEspecialidad = document.getElementById('nombre_especialidad').value;
+                    const nombreEspecialidad = document.getElementById('nombre_especialidad').value.toUpperCase();
                     const idCarrera = document.getElementById('id_carrera').value;
                     const claveEspecialidad = document.getElementById('clave_especialidad').value;
                     const fechaInicio = document.getElementById('fechaInicio').value;
                     const nivelEscolar = document.getElementById('nivel-escolar').value;
+
+                    // Validación para clave: letras, números y guiones
+                    if (!/^[A-Z]{3}-\d{4}$/.test(claveEspecialidad)) {
+                        Swal.showValidationMessage('La clave debe tener el formato: XXX-0000');
+                    }
+
+                    // Validación para nombre: letras y espacios
+                    if (!/^[a-zA-Z\s]+$/.test(nombreEspecialidad)) {
+                        Swal.showValidationMessage('El nombre solo puede contener letras y espacios');
+                    }
 
                     if (nombreEspecialidad === "" || idCarrera === "" || claveEspecialidad === ""
                         || fechaInicio === "" || nivelEscolar === "") {
@@ -267,11 +277,21 @@
                             const nivelEscolar = document.getElementById('nivel-escolar').value = responseData.id_nivel_escolar;
                         },
                         preConfirm: () => {
-                            const nombreEspecialidad = document.getElementById('nombre_especialidad').value;
+                            const nombreEspecialidad = document.getElementById('nombre_especialidad').value.toUpperCase();
                             const idCarrera = document.getElementById('id_carrera').value;
                             const claveEspecialidad = document.getElementById('clave_especialidad').value;
                             const fechaInicio = document.getElementById('fechaInicio').value;
                             const nivelEscolar = document.getElementById('nivel-escolar').value;
+
+                            // Validación para clave: letras, números y guiones
+                            if (!/^[A-Z]{3}-\d{4}$/.test(claveEspecialidad)) {
+                                Swal.showValidationMessage('La clave debe tener el formato: XXX-0000');
+                            }
+
+                            // Validación para nombre: letras y espacios
+                            if (!/^[a-zA-Z\s]+$/.test(nombreEspecialidad)) {
+                                Swal.showValidationMessage('El nombre solo puede contener letras y espacios');
+                            }
 
                             if (nombreEspecialidad === "" || idCarrera === "" || claveEspecialidad === ""
                                 || fechaInicio === "" || nivelEscolar === "") {
@@ -309,7 +329,7 @@
                             },
                             error: function (error) {
                                 Swal.fire('Error', 'Hubo un problema: ' + error.responseText, 'error');
-                                console.error("Datos no enviados" + error.responseText)
+                                //console.error("Datos no enviados" + error.responseText)
                             }
                         });
 
@@ -320,7 +340,7 @@
             },
             error: function (error, response) {
                 Swal.fire('Error', 'Hubo un problema: ' + error.responseText, 'error');
-                console.log(error);
+                //console.log(error);
             }
         })
 
@@ -360,7 +380,8 @@
 
                     },
                     error: function (error) {
-                        console.error("Datos no enviados" + error.responseText)
+                        Swal.fire('Error', 'Hubo un problema: ' + error.responseText, 'error');
+                        //console.error("Datos no enviados" + error.responseText)
                     }
 
                 });
