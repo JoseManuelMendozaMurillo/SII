@@ -83,12 +83,12 @@ class CrudController extends BaseController
                 throw new Exception('No se encontró el recurso', 404);
             }
 
-            if (!$this->validation->run($data, $this->name)) {
-                // The validation failed.
-                $errors = $this->validation->getErrors();
+            // if (!$this->validation->run($data, $this->name)) {
+            //     // The validation failed.
+            //     $errors = $this->validation->getErrors();
 
-                throw new Exception($errors[array_key_first($errors)], 400);
-            }
+            //     throw new Exception($errors[array_key_first($errors)], 400);
+            // }
 
             $entity = new $this->entity();
             $entity->fill($data);

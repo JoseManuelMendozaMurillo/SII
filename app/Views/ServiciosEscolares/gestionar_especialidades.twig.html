@@ -258,6 +258,7 @@
             },
             success: function (response) {
                 const responseData = response.data;
+                const fechaInicioFormateada = new Date(responseData.fecha_inicio).toISOString().split('T')[0];
                 (async () => {
                     const { value: formValues } = await Swal.fire({
                         title: 'Editar especialidad',
@@ -273,7 +274,7 @@
                             const nombreEspecialidad = document.getElementById('nombre_especialidad').value = responseData.nombre_especialidad;
                             const idCarrera = document.getElementById('id_carrera').value = responseData.id_carrera;
                             const claveEspecialidad = document.getElementById('clave_especialidad').value = responseData.clave_especialidad;
-                            const fechaInicio = document.getElementById('fechaInicio').value = responseData.fecha_inicio;
+                            const fechaInicio = document.getElementById('fechaInicio').value = fechaInicioFormateada;
                             const nivelEscolar = document.getElementById('nivel-escolar').value = responseData.id_nivel_escolar;
                         },
                         preConfirm: () => {
