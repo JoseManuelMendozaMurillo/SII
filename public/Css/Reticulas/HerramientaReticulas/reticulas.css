@@ -126,6 +126,19 @@
     font-size: 0.75rem;
     color: #000;
     overflow: hidden;
+
+    display: grid;
+    grid-template-rows: 4fr 1fr 1fr;
+    grid-gap: 0.5rem;
+}
+
+.materia>div {
+    max-height: 100%;
+    overflow: hidden;
+}
+
+.materia div:nth-last-child(-n+2) {
+    color: #343434;
 }
 
 .add {

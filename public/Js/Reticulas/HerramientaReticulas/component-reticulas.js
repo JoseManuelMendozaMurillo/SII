@@ -317,17 +317,26 @@ export default class ComponentReticulas {
 	 * @name getItemMateria
 	 * @description Función para obtener el componente donde se mostrar una materia
 	 *
-	 * @param {String} nameMateria - Nombre de la materia
+	 * @param {String} clave - Clave de la materia
+	 * @param {object} dataMateria - Nombre de la materia
 	 * @param {Int} numRow - Número de fila en la que se agregara
 	 * @returns {HTMLElement}
 	 */
-	getItemMateria = (clave = '', nameMateria = '', numRow = 1) => {
+	getItemMateria = (clave = '', dataMateria = {}, numRow = 1) => {
+		const credits = `${dataMateria.horasTeoricas}/${dataMateria.horasPracticas}`;
+
+		const infoMateria =
+			this.htmlElements.getContainer({ textContent: dataMateria.name })
+				.outerHTML +
+			this.htmlElements.getContainer({ textContent: clave }).outerHTML +
+			this.htmlElements.getContainer({ textContent: credits }).outerHTML;
+
 		const itemMateria = this.htmlElements.getContainer({
 			class: 'item materia',
 			name: 'row',
 			'data-row': numRow,
 			'data-clave': clave,
-			htmlContent: this.htmlElements.getSpan({ textContent: nameMateria }),
+			htmlContent: infoMateria,
 		});
 
 		// Si el estatus esta en borrador, damos la opción para actualizar o eliminar la materia

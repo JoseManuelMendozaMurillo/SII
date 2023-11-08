@@ -122,10 +122,9 @@ export default class RenderReticulas {
 			if (materias !== undefined) {
 				const clavesMaterias = Object.keys(materias);
 				clavesMaterias.forEach((clave) => {
-					const nameMateria = materias[clave].name;
 					const itemMateria = this.components.getItemMateria(
 						clave,
-						nameMateria,
+						materias[clave],
 						numRow,
 					);
 					numRow++;
@@ -286,10 +285,9 @@ export default class RenderReticulas {
 		// Agregamos las materias al semestre
 		const clavesAsignaturas = Object.keys(asignaturas);
 		clavesAsignaturas.forEach((clave) => {
-			const nameAsig = asignaturas[clave].name;
 			const itemMateria = this.components.getItemMateria(
 				clave,
-				nameAsig,
+				asignaturas[clave],
 				numRow,
 			);
 			numRow++;
@@ -314,10 +312,13 @@ export default class RenderReticulas {
 		);
 
 		// Cambiamos los datos
+		const credits = `${newAsignatura.horas_teoricas}/${newAsignatura.horas_practicas}`;
 		itemMateriaChange.setAttribute(
 			'data-clave',
 			newAsignatura.clave_asignatura,
 		);
-		itemMateriaChange.firstChild.textContent = newAsignatura.nombre_asignatura;
+		itemMateriaChange.children[0].textContent = newAsignatura.nombre_asignatura;
+		itemMateriaChange.children[1].textContent = newAsignatura.clave_asignatura;
+		itemMateriaChange.children[2].textContent = credits;
 	}
 }
