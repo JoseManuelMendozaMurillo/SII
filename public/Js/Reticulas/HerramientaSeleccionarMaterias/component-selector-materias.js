@@ -224,6 +224,18 @@ export default class ComponentSelectorMaterias {
 			textContent: name,
 		});
 
+		// Creamos la etiqueta para la clave de la materia
+		const claveMateria = this.htmlElements.getSpan({
+			class: 'item-materia-name',
+			textContent: clave,
+		});
+
+		// Creamos el contenedor para la informacion de la materia
+		const containerMateria = this.htmlElements.getContainer({
+			class: 'container-materia',
+			htmlContent: nameMateria.outerHTML + claveMateria.outerHTML,
+		});
+
 		// Creamos el icono para el item de la materia
 		const stringIconRowRight = this.getIconRowRight('item-materia-icon');
 
@@ -232,7 +244,7 @@ export default class ComponentSelectorMaterias {
 			class: 'item-materia available',
 			'type-asignatura': type,
 			'clave-asignatura': clave,
-			htmlContent: nameMateria.outerHTML + stringIconRowRight,
+			htmlContent: containerMateria.outerHTML + stringIconRowRight,
 		});
 
 		// Agregamos el evento click para pasar al estado de seleccion una materia
@@ -246,7 +258,7 @@ export default class ComponentSelectorMaterias {
 	};
 
 	/**
-	 * @name getItemMateriasAvailable
+	 * @name getItemMateriasSelected
 	 * @description Función para crear un item de una materia seleccionada
 	 *
 	 * @param {String} type - Tipo de materia
@@ -261,6 +273,18 @@ export default class ComponentSelectorMaterias {
 			textContent: name,
 		});
 
+		// Creamos la etiqueta para la clave de la materia
+		const claveMateria = this.htmlElements.getSpan({
+			class: 'item-materia-name',
+			textContent: clave,
+		});
+
+		// Creamos el contenedor con la informacion de la materia
+		const containerMateria = this.htmlElements.getContainer({
+			class: 'container-materia',
+			htmlContent: nameMateria.outerHTML + claveMateria.outerHTML,
+		});
+
 		// Creamos el icono para el item de la materia
 		const stringIconRowLeft = this.getIconRowLeft('item-materia-icon');
 
@@ -269,11 +293,11 @@ export default class ComponentSelectorMaterias {
 			class: 'item-materia selected',
 			'type-asignatura': type,
 			'clave-asignatura': clave,
-			htmlContent: nameMateria.outerHTML + stringIconRowLeft,
+			htmlContent: stringIconRowLeft + containerMateria.outerHTML,
 		});
 
 		// Agregamos el evento click para pasar al estado de seleccion una materia
-		const iconRowLeft = containerItemMateria.lastChild;
+		const iconRowLeft = containerItemMateria.firstChild;
 		const self = this;
 		iconRowLeft.addEventListener('click', function (e) {
 			self.selectorMaterias.removeMateria(this.parentNode);
@@ -505,14 +529,14 @@ export default class ComponentSelectorMaterias {
 		// Realizamos la busqueda del parametro sobre cada asignatura y vamos filtrando resultados
 		for (let i = 0; i < namesAsig.length; i++) {
 			if (param === '') {
-				namesAsig[i].parentNode.classList.remove('hidden');
+				namesAsig[i].parentNode.parentNode.classList.remove('hidden');
 				continue;
 			}
 			const nameAsig = namesAsig[i].textContent;
 			if (normalizeText(nameAsig).includes(normalizeText(param))) {
-				namesAsig[i].parentNode.classList.remove('hidden');
+				namesAsig[i].parentNode.parentNode.classList.remove('hidden');
 			} else {
-				namesAsig[i].parentNode.classList.add('hidden');
+				namesAsig[i].parentNode.parentNode.classList.add('hidden');
 			}
 		}
 	}

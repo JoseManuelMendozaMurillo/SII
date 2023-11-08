@@ -61,7 +61,7 @@
     background-color: rgba(39, 39, 39, 0.8);
 }
 
-.item-materia:hover>.item-materia-name {
+.item-materia:hover>.container-materia {
     color: #fff;
 }
 
@@ -70,18 +70,38 @@
 }
 
 .available {
-    display: flex;
-    justify-content: space-between;
+    min-width: 100%;
+    min-height: 100%;
+    display: grid;
+    grid-template-columns: 10fr 1fr;
+    justify-items: center;
     align-items: center;
-    gap: 0.5rem;
+    grid-gap: 0.5rem;
+    overflow: hidden;
+}
+
+.container-materia {
+    min-width: 100%;
+    min-height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 0.3rem;
+    overflow: hidden;
+}
+
+.container-materia>span {
+    min-width: 100%;
 }
 
 .selected {
-    display: flex;
-    flex-direction: row-reverse;
+    display: grid;
+    grid-template-columns: 1fr 10fr;
     justify-content: start;
     align-items: center;
-    gap: 1rem;
+    grid-gap: 0.5rem;
+    overflow: hidden;
 }
 
 .item-materia-name {

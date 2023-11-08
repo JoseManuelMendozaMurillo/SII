@@ -137,7 +137,7 @@
     overflow: hidden;
 }
 
-.materia div:nth-last-child(-n+2) {
+.materia div:nth-last-child(-n+3) {
     color: #343434;
 }
 

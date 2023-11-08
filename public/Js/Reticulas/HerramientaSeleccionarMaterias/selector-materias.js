@@ -93,7 +93,7 @@ export default class SelectorMaterias {
 		// Agregamos los datos de la materia al arreglo
 		const type = itemMateria.getAttribute('type-asignatura');
 		const clave = itemMateria.getAttribute('clave-asignatura');
-		const name = itemMateria.children[0].textContent;
+		const name = itemMateria.children[0].children[0].textContent;
 		const materia = this.materias[type].find(
 			(materia) => materia.clave_asignatura === clave,
 		);
@@ -130,7 +130,7 @@ export default class SelectorMaterias {
 
 		// Construimos el objeto itemMateriaAvailable
 		const type = itemMateria.getAttribute('type-asignatura');
-		const name = itemMateria.children[0].textContent;
+		const name = itemMateria.children[1].children[0].textContent;
 		const clave = itemMateria.getAttribute('clave-asignatura');
 		const newItemMateriaAvailable = this.components.getItemMateriasAvailable(
 			type,
